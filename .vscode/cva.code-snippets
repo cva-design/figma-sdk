@@ -1,0 +1,82 @@
+{
+	// Place your webapp workspace snippets here. Each snippet is defined under a snippet name and has a scope, prefix, body and
+	// description. Add comma separated ids of the languages where the snippet is applicable in the scope field. If scope
+	// is left empty or omitted, the snippet gets applied to all languages. The prefix is what is
+	// used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
+	// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders.
+	// Placeholders with the same ids are connected.
+	// Example:
+  // "Print to console": {
+  //   "scope": "javascript,typescript",
+  //   "prefix": "log",
+  //   "body": ["console.log('$1');", "$2"],
+  //   "description": "Log output to console"
+  // }
+	"Auto-index Components Folder": {
+		"scope": "javascript,typescript",
+		"prefix": "cva-index",
+		"body": [
+      "/**",
+      " * Automatic Index (vscode snippet: cva-index)",
+      " * 1. Install the extension: JayFong.generate-index",
+      " * 2. Open VS Commands [ ⌘-⇧-P ] and select 'Generate Index'",
+      " * 3. Edit the @index() function call to do what you want",
+      " *",
+      " * ## Cheat Sheet",
+      " *",
+      " * @index(",
+      " *    patterns: string | string[],",
+      " *    codeGenerator: (",
+      " *      parsedPath: {path, name, ext}, // path and name do NOT include the extension",
+      " *      changeCase: { noCase, pathCase, camelCase, ...}, // all props are `fn(string) => string` (see change-case lib link below)",
+      " *      extraInfo: { total: number, index: number, isFirst: boolean, isLast: boolean, isDir: boolean, isFile: boolean }",
+      " *     ) => string,",
+      " *    globbyOptions?: GlobbyOptions,",
+      " * ) => string",
+      " *",
+      " * @example Fill the blank below with the name of a file in this folder to see the output",
+      " *",
+      " * @index('./______________', (patterns,changeCase,extraInfo) => '*\\n' + JSON.stringify({patterns,changeCase,extraInfo}, null, 2).split('\\n').map(s => ` * \\${s}`).join('\\n') + '\\n *')",
+      " *",
+      " * @endindex",
+      " *",
+      " * @see {@link https://github.com/fjc0k/vscode-generate-index | vscode-generate-index}",
+      " *  For `@index` function documentation.",
+      " * @see {@link https://github.com/blakeembrey/change-case/tree/main/packages/change-case | change-case}",
+      " *  For `changeCase` object documentation.",
+      " */",
+      "",
+      "//@index(['./*.ts', './*/index.*'${1}], f => `export * from '${f.path}${f.ext}';`)",
+      "//@endindex",
+      "",
+		],
+		"description": "Creates an index file that automatically updates itself"
+	},
+
+  "Generate a Components Registry": {
+		"scope": "javascript,typescript",
+		"prefix": "cva-registry",
+    "description": "Creates an index file that automatically updates itself",
+		"body": [
+      "/**",
+      " * Automatic COMPONENTS_REGISTRY (vscode snippet: cva-registry)",
+      " * 1. Install the extension: JayFong.generate-index",
+      " * 2. Press [ ${1:⌘-K + I} ] to generate the code (or invoke command 'Generate Index')",
+      " * ",
+      " * @see vscode-generate-index https://github.com/fjc0k/vscode-generate-index",
+      " */",
+      "//@index('./*.svelte', f => `import {${f.name}} from '${f.path}';`)",
+      "//@endindex",
+      "",
+      "//@index('*/index.ts', f => `import {COMPONENTS as ${f.path.split('/').at(-2)}COMPONENTS} from '${f.path.replace('/index', '')}';`)",
+      "//@endindex",
+      "",
+      "export const COMPONENTS = [",
+      "  //@index('./*.svelte', (f,_,i) => `{name: '${f.name}', component: ${f.name}},`)",
+      "  //@endindex",
+      "  //@index('./*/index.ts', (f,_,i) =>  `...${f.path.split('/').at(-2)}COMPONENTS,`)",
+      "  //@endindex",
+      "];",
+    ]
+  }
+}

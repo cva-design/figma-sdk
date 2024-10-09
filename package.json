@@ -1,6 +1,7 @@
 {
-  "name": "figma-ui",
+  "name": "@cva.design/figma-sdk",
   "version": "0.0.1",
+  "description": "An SDK for creating Figma plugins in Svelte SDK",
   "scripts": {
     "dev": "vite dev",
     "build": "vite build && npm run package",
@@ -10,24 +11,27 @@
     "test": "npm run test:integration && npm run test:unit",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
-    "lint": "prettier --check . && eslint .",
     "format": "prettier --write .",
     "test:integration": "playwright test",
     "test:unit": "vitest",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "---- lint -----------------------------------------": "",
+    "lint": "pnpm biome check .",
+    "lint:fix": "pnpm biome check --fix .",
+    "lint:unsafe-fix": "pnpm biome check --unsafe-fix .",
+    "svelte-check": "svelte-check --tsconfig ./tsconfig.json"
   },
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
       "svelte": "./dist/index.js"
+    },
+    "./ui/*": {
+      "svelte": "./dist/index.js"
     }
   },
-  "files": [
-    "dist",
-    "!dist/**/*.test.*",
-    "!dist/**/*.spec.*"
-  ],
+  "files": ["dist", "!dist/**/*.test.*", "!dist/**/*.spec.*"],
   "peerDependencies": {
     "svelte": "^4.0.0"
   },
@@ -48,6 +52,7 @@
     "@sveltejs/package": "^2.0.0",
     "@sveltejs/vite-plugin-svelte": "^3.0.0",
     "@types/eslint": "^9.6.0",
+    "@typescript-eslint/utils": "^8.8.1",
     "eslint": "^9.0.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-storybook": "^0.9.0",
@@ -60,6 +65,7 @@
     "storybook": "^8.3.5",
     "svelte": "^4.2.7",
     "svelte-check": "^4.0.0",
+    "tsx": "^4.19.1",
     "typescript": "^5.0.0",
     "typescript-eslint": "^8.0.0",
     "vite": "^5.0.11",
@@ -69,8 +75,11 @@
   "types": "./dist/index.d.ts",
   "type": "module",
   "eslintConfig": {
-    "extends": [
-      "plugin:storybook/recommended"
-    ]
+    "extends": ["plugin:storybook/recommended"]
+  },
+  "dependencies": {
+    "@biomejs/biome": "^1.9.3",
+    "@poppanator/sveltekit-svg": "^4.2.1",
+    "svelte-click-outside": "^1.0.0"
   }
 }
