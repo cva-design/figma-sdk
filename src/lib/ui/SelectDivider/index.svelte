@@ -1,5 +1,5 @@
 <script>
-export const label = false;
+export let label = false;
 </script>
 
 {#if label===true}

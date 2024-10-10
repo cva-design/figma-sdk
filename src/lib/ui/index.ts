@@ -46,4 +46,5 @@ export { default as SelectMenu } from './SelectMenu/index.svelte';
 export { default as Switch } from './Switch/index.svelte';
 export { default as Textarea } from './Textarea/index.svelte';
 export { default as Type } from './Type/index.svelte';
+export { Label };
 //@endindex

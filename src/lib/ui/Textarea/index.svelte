@@ -1,18 +1,18 @@
 <script>
-export const id = null;
-export const value = null;
-export const rows = 2;
-export const name = null;
-export const disabled = false;
-export const placeholder = 'Input something here...';
+export let id = null;
+export let value = null;
+export let rows = 2;
+export let name = null;
+export let disabled = false;
+export let placeholder = 'Input something here...';
 export { className as class };
 
-const className = '';
+let className = '';
 </script>
 
 <div class="textarea {className}">
     <textarea 
-        type="input"
+
         on:input
         on:change
         on:keydown

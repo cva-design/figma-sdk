@@ -1,7 +1,7 @@
 <script>
-	import { disclosure } from '$ui/DisclosureItem/index.svelte';
-	import { createEventDispatcher, setContext } from 'svelte';
+	import { createEventDispatcher, onMount, setContext } from 'svelte';
 	import { writable } from 'svelte/store';
+	import DisclosureItem, { disclosure } from './../DisclosureItem/index.svelte';
 
 	const dispatch = createEventDispatcher();
 	const selected = writable(null);
@@ -12,10 +12,10 @@
 		const currentVal = getValue(selected);
 		if (currentVal != itemId) {
 			selected.set(itemId);
-			dispatch('change', itemId);
+			dispatch('change', { detail: itemId });
 		} else {
 			selected.set(null);
-			dispatch('change', null);
+			dispatch('change', { detail: null });
 		}
 	};
 

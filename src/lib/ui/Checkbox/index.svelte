@@ -1,14 +1,18 @@
 <script>
-export let checked = false;
-export let mixed = false;
-export let value = '';
-export let disabled = false;
-export let tabindex = 0;
+	export let checked = false;
+	export let mixed = false;
+	export let value = '';
+	export let disabled = false;
+	export let tabindex = 0;
 
-let className = '';
-export { className as class };
+	let className = '';
+	export { className as class };
 
-const uniqueId = `checkbox--${(Math.random() * 10000000).toFixed(0).toString()}`;
+	const uniqueId = `checkbox--${(Math.random() * 10000000).toFixed(0).toString()}`;
+
+	function handleClick(event) {
+		event.currentTarget.blur();
+	}
 </script>
 
 <div class={className}>
@@ -20,10 +24,11 @@ const uniqueId = `checkbox--${(Math.random() * 10000000).toFixed(0).toString()}`
 		bind:value
 		{disabled}
 		{tabindex}
-		onclick="this.blur();"
+		on:click={handleClick}
 		on:change
 		on:focus
 		on:blur
+		{...$$restProps}
 	/>
 	<label for={uniqueId}>
 		<slot />

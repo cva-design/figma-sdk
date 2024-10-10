@@ -1,47 +1,70 @@
 <script lang="ts">
-import Icon from './../Icon/index.svelte';
+	import Icon from './../Icon/index.svelte';
+	import { createEventDispatcher } from 'svelte';
 
-export const id: string | null = null;
-export let value: string | null = null;
-export const name: string | null = null;
-export const iconText: string | null = null;
-export const borders = false;
-export const disabled = false;
-export const iconName: string | null = null;
-export const spin = false;
-export const type = 'text';
-export const invalid = false;
-export const errorMessage = 'Error message';
-export const placeholder = 'Input something here...';
-export { className as class };
+	export let id: string | null = null;
+	export let value: string | null = null;
+	export let name: string | null = null;
+	export let iconText: string | null = null;
+	export let borders = false;
+	export let disabled = false;
+	export let iconName: string | null = null;
+	export let spin: boolean = false;
+	export let type = 'text';
+	export let invalid = false;
+	export let errorMessage = 'Error message';
+	export let placeholder = 'Input something here...';
+	export { className as class };
 
-const className = '';
-const typeAction = (node: HTMLInputElement) => {
-  node.type = type;
-};
+	let className = '';
+	const dispatch = createEventDispatcher();
+
+	const typeAction = (node: HTMLInputElement) => {
+		node.type = type;
+	};
+
+	function handleInput(event: Event) {
+		dispatch('input', event);
+	}
+
+	function handleChange(event: Event) {
+		dispatch('change', event);
+	}
+
+	function handleKeydown(event: KeyboardEvent) {
+		dispatch('keydown', event);
+	}
+
+	function handleFocus(event: FocusEvent) {
+		dispatch('focus', event);
+	}
+
+	function handleBlur(event: FocusEvent) {
+		dispatch('blur', event);
+	}
 </script>
 
 {#if iconName || iconText}
 	<div class="input {className}">
 		<div class="icon">
-			<Icon {iconName} {iconText} {spin} color="--figma-color-icon" />
+			<Icon iconUrl={iconName} {iconText} {spin} color="--figma-color-icon" />
 		</div>
 		<input
 			use:typeAction
-			on:input
-			on:change
-			on:keydown
-			on:focus
-			on:blur
+			on:input={handleInput}
+			on:change={handleChange}
+			on:keydown={handleKeydown}
+			on:focus={handleFocus}
+			on:blur={handleBlur}
 			bind:value
 			{id}
 			{name}
 			{disabled}
 			{placeholder}
-			{errorMessage}
 			class="indent"
 			class:borders
 			class:invalid
+			data-error-message={errorMessage}
 		/>
 		{#if invalid}
 			<div class="error">
@@ -53,19 +76,19 @@ const typeAction = (node: HTMLInputElement) => {
 	<div class="input {className}">
 		<input
 			use:typeAction
-			on:input
-			on:change
-			on:keydown
-			on:focus
-			on:blur
+			on:input={handleInput}
+			on:change={handleChange}
+			on:keydown={handleKeydown}
+			on:focus={handleFocus}
+			on:blur={handleBlur}
 			bind:value
 			{id}
 			{name}
 			{disabled}
 			{placeholder}
-			{errorMessage}
 			class:borders
 			class:invalid
+			data-error-message={errorMessage}
 		/>
 		{#if invalid}
 			<div class="error">

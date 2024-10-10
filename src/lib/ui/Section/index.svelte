@@ -1,8 +1,8 @@
 <script>
-const className = '';
+let className = '';
 </script>
 
-<div>
+<div class={className}>
     <slot></slot>
 </div>
 

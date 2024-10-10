@@ -11,7 +11,7 @@
     "test": "npm run test:integration && npm run test:unit",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
-    "format": "prettier --write .",
+    "format": "dprint fmt .",
     "test:integration": "playwright test",
     "test:unit": "vitest",
     "storybook": "storybook dev -p 6006",

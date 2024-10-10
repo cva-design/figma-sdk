@@ -1,24 +1,22 @@
 <script lang="ts">
-export let checked = false;
-export let name = '';
-export let value = '';
-export let disabled = false;
-export { className as class };
+	export let checked = false;
+	export let name = '';
+	export let value = '';
+	export let disabled = false;
+	export { className as class };
 
-let className = '';
-let uniqueId = `switch--${(Math.random() * 100000000).toFixed(0)}`;
+	let className = '';
+	let uniqueId = `switch--${(Math.random() * 100000000).toFixed(0)}`;
 </script>
 
-<div class={className}>
+<div class={`switch ${className}`}>
 	<input
 		type="checkbox"
 		{disabled}
 		{name}
 		bind:checked
-		bind:value
+		{value}
 		id={uniqueId}
-		on:mousedown|preventDefault
-		on:click
 		on:change
 		on:focus
 		on:blur
@@ -26,84 +24,77 @@ let uniqueId = `switch--${(Math.random() * 100000000).toFixed(0)}`;
 		on:mouseenter
 		on:mouseleave
 	/>
-	<label for={uniqueId}><slot /></label>
+	<label for={uniqueId}>
+		<span class="switch-track" />
+		<span class="switch-thumb" />
+		<span class="switch-text"><slot /></span>
+	</label>
 </div>
 
 <style>
-	div {
-		display: flex;
+	.switch {
+		display: inline-flex;
 		align-items: center;
-		cursor: default;
 		position: relative;
+		cursor: pointer;
 	}
 
 	input {
+		position: absolute;
 		opacity: 0;
+		width: 0;
+		height: 0;
 	}
 
-	input:checked + label::before {
-		color: var(--figma-color-icon);
+	label {
+		display: inline-flex;
+		align-items: center;
+		cursor: pointer;
+		user-select: none;
+	}
+
+	.switch-track {
+		width: 28px;
+		height: 16px;
+		background-color: var(--figma-color-icon-tertiary);
+		border-radius: 8px;
+		transition: background-color 0.2s;
+	}
+
+	.switch-thumb {
+		position: absolute;
+		left: 2px;
+		width: 12px;
+		height: 12px;
+		background-color: var(--figma-color-icon-onbrand);
+		border-radius: 50%;
+		transition: transform 0.2s;
+	}
+
+	input:checked + label .switch-track {
 		background-color: var(--figma-color-bg-brand);
 	}
 
-	input:checked + label::after {
+	input:checked + label .switch-thumb {
 		transform: translateX(12px);
 	}
 
 	input:disabled + label {
-		color: var(--figma-color-icon-disabled);
+		opacity: 0.5;
+		cursor: not-allowed;
 	}
 
-	input:checked:disabled + label::before {
-		background-color: var(--figma-color-icon);
-	}
-
-	input:focus + label::before {
+	input:focus + label .switch-track {
 		box-shadow: 0 0 0 2px var(--figma-color-border-selected);
 	}
 
-	label {
-		display: flex;
-		color: var(--figma-color-text);
+	.switch-text {
+		margin-left: 8px;
 		font-family: var(--font-stack);
 		font-weight: var(--font-weight-normal);
 		font-size: var(--font-size-small);
 		line-height: var(--font-lineHeight);
 		letter-spacing: var(--font-letter-spacing-pos-xsmall);
-		user-select: none;
-		padding: var(--figma-size-xxsmall) var(--figma-size-xsmall) var(--figma-size-xxsmall)
-			var(--figma-size-medium);
-	}
-
-	label::before {
-		content: '';
-		width: var(--figma-size-small);
-		height: 12px;
-		display: block;
-		position: absolute;
-		top: 10px;
-		left: 8px;
-		background-color: var(--figma-color-icon-tertiary);
-		border-radius: var(--border-radius-large);
-		transition: background-color 0.2s 0.1s;
-	}
-	input:disabled + label::before {
-		opacity: 0.3;
-	}
-
-	label::after {
-		content: '';
-		width: 10px;
-		height: 10px;
-		display: block;
-		position: absolute;
-		top: 11px;
-		left: 9px;
-		border-radius: 50%;
-		background-color: var(--figma-color-icon-onbrand);
-		transition: transform 0.2s;
-	}
-	input:disabled + label::after {
-		opacity: 0.3;
+		color: var(--figma-color-text);
 	}
 </style>

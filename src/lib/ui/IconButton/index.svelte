@@ -1,38 +1,38 @@
 <script lang="ts">
-import Icon from './../Icon/index.svelte';
+	import Icon from './../Icon/index.svelte';
 
-/**
- * iconName: The name of the icon to be displayed.
- */
-export const iconName = '';
+	/**
+	 * iconName: The name of the icon to be displayed.
+	 */
+	export let iconName = '';
 
-/**
- * iconText: The text to be displayed as the icon's content.
- */
-export const iconText: string | null = null;
+	/**
+	 * iconText: The text to be displayed as the icon's content.
+	 */
+	export let iconText: string | null = null;
 
-/**
- * selected: Indicates whether the icon is selected.
- */
-export const selected = false;
+	/**
+	 * selected: Indicates whether the icon is selected.
+	 */
+	export let selected = false;
 
-/**
- * spin: Indicates whether the icon should have a spinning animation.
- */
-export const spin = false;
+	/**
+	 * spin: Indicates whether the icon should have a spinning animation.
+	 */
+	export let spin = false;
 
-/**
- * class: Additional CSS classes that can be applied to the icon.
- */
-const className = '';
-export { className as class };
+	/**
+	 * class: Additional CSS classes that can be applied to the icon.
+	 */
+	const className = '';
+	export { className as class };
 </script>
 
-<div on:click on:keypress class:selected class={className}>
+<div role="button" tabindex="0" on:keypress class:selected class={className}>
 	{#if selected === true}
-		<Icon {iconName} {iconText} {spin} color="--figma-color-icon-onbrand" />
+		<Icon iconUrl={iconName} {iconText} {spin} color="--figma-color-icon-onbrand" />
 	{:else}
-		<Icon {iconName} {iconText} {spin} color="--figma-color-icon" />
+		<Icon iconUrl={iconName} {iconText} {spin} color="--figma-color-icon" />
 	{/if}
 </div>
 

@@ -9,23 +9,23 @@
 	/**
 	 * spin: A boolean that, when true, applies a spinning animation to the icon.
 	 */
-	export const spin = false;
+	export let spin: boolean = false;
 
 	/**
 	 * iconText: A string that will be displayed as the icon's text.
 	 * If this prop is provided, it will be used instead of the iconName prop.
 	 */
-	export const iconText: string | null = null;
+	export let iconText: string | null = null;
 
 	/**
 	 * color: The color of the icon. This should be a CSS color variable.
 	 */
-	export const color: '--figma-color-icon' | string = '--figma-color-icon';
+	export let color: '--figma-color-icon' | string = '--figma-color-icon';
 
 	/**
 	 * className: Additional CSS classes that can be applied to the icon.
 	 */
-	const className = '';
+	let className = '';
 	export { className as class };
 </script>
 

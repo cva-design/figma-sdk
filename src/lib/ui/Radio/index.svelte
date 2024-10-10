@@ -1,13 +1,19 @@
-<script>
-export let group = null;
-export const value = null;
-export const disabled = false;
-export const tabindex = 0;
-export { className as class };
+<script lang="ts">
+	export let group: any = null;
+	export let value: any = null;
+	export let disabled = false;
+	export let tabindex = 0;
+	export let className = '';
+	export let checked = false;
+	let uniqueId = `radio--${(Math.random() * 10000000).toFixed(0).toString()}`;
+	$: checked = group === value;
 
-const uniqueId = `radio--${(Math.random() * 10000000).toFixed(0).toString()}`;
-const className = '';
-$: checked = group === value;
+	function handleClick(event: MouseEvent) {
+		const target = event.target as HTMLInputElement;
+		group = target.value;
+
+		target.blur();
+	}
 </script>
 
 <div class={className}>
@@ -19,7 +25,7 @@ $: checked = group === value;
 		{tabindex}
 		id={uniqueId}
 		bind:group
-		onclick="this.blur();"
+		on:click={handleClick}
 		on:change
 		on:focus
 		on:blur

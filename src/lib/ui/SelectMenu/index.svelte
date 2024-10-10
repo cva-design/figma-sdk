@@ -17,9 +17,9 @@
 	export let showGroupLabels: boolean = false; //default prop, true will show option group labels
 	export { className as class };
 
-	const dispatch = createEventDispatcher();
-	const className = '';
-	const groups = checkGroups();
+	let dispatch = createEventDispatcher();
+	let className = '';
+	let groups = checkGroups();
 	let menuWrapper: HTMLDivElement, menuButton: HTMLButtonElement, menuList: HTMLUListElement;
 	$: updateSelectedAndIds();
 
@@ -48,7 +48,7 @@
 		if (menuItems.length <= 0) {
 			// placeholder = 'There are no items to select';
 			disabled = true;
-		} else {
+		} else if (!disabled) {
 			// placeholder = 'Please make a selection';
 			disabled = false;
 		}
@@ -89,14 +89,14 @@
 		if (!event.target) {
 			menuList.classList.add('hidden');
 		} else if ((event.target as HTMLElement).contains(menuButton)) {
-			const topPos = 0;
+			let topPos = 0;
 
 			if (value) {
 				//toggle menu
 				menuList.classList.remove('hidden');
 
-				const id = value.id!;
-				const selectedItem = menuList.querySelector(`[itemId="${id}"]`) as HTMLElement;
+				let id = value.id!;
+				let selectedItem = menuList.querySelector(`[itemId="${id}"]`) as HTMLElement;
 				selectedItem.focus(); //set focus to the currently selected item
 
 				// calculate distance from top so that we can position the dropdown menu
@@ -125,6 +125,7 @@
 				menuItems[value.id!].selected = false;
 			}
 			menuItems[itemId].selected = true; //select current item
+			value = menuItems[itemId]; // Update the value property
 			updateSelectedAndIds();
 			dispatch('change', menuItems[itemId]);
 
@@ -245,7 +246,7 @@
 					<SelectItem
 						on:click={menuClick}
 						on:mouseenter={removeHighlight}
-						itemId={item.id}
+						itemId={item.id ?? 0}
 						bind:selected={item.selected}>{item.label}</SelectItem
 					>
 				{/each}

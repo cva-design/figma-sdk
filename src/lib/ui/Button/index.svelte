@@ -2,19 +2,18 @@
 	export let variant: 'primary' | 'secondary' | 'tertiary' = 'primary';
 	export let disabled = false;
 	export let destructive = false;
-	export { className as class };
+	export let className: string = '';
 
-	let className = '';
+	function handleClick(event: MouseEvent) {
+		(event.target as HTMLButtonElement).blur();
+	}
 </script>
 
 <button
-	on:click
+	on:click={handleClick}
 	on:submit|preventDefault
-	onclick="this.blur();"
-	{variant}
 	{disabled}
-	class:destructive
-	class="{variant} {className}"
+	class="{variant} {destructive ? 'destructive' : ''} {className}"
 >
 	<slot />
 </button>
