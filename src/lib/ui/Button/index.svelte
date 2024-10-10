@@ -1,10 +1,10 @@
 <script lang="ts">
-export const variant: 'primary' | 'secondary' | 'tertiary' = 'primary';
-export const disabled = false;
-export const destructive = false;
-export { className as class };
+	export let variant: 'primary' | 'secondary' | 'tertiary' = 'primary';
+	export let disabled = false;
+	export let destructive = false;
+	export { className as class };
 
-const className = '';
+	let className = '';
 </script>
 
 <button

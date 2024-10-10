@@ -4,7 +4,7 @@
 	 * If you have an SVG you'd like to use, import it in the parent component
 	 * and pass the data into this prop.
 	 */
-	export const iconUrl: string | null = null;
+	export let iconUrl: string | null = null;
 
 	/**
 	 * spin: A boolean that, when true, applies a spinning animation to the icon.

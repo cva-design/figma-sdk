@@ -259,6 +259,10 @@
 		position: relative;
 	}
 
+	.hidden {
+		display: none;
+	}
+
 	button {
 		display: flex;
 		align-items: center;
@@ -273,7 +277,7 @@
 	}
 	button:hover,
 	button:active {
-		border-color: var(--black1);
+		border-color: var(--figma-color-border-onselected-strong);
 	}
 	button:hover .placeholder {
 		color: var(--black8);
@@ -287,8 +291,8 @@
 		margin-left: auto;
 	}
 	button:focus {
-		border: 1px solid var(--blue);
-		outline: 1px solid var(--blue);
+		border: 1px solid var(--figma-color-bg-brand);
+		outline: 1px solid var(--figma-color-bg-brand);
 		outline-offset: -2px;
 		padding-left: calc(var(--size-xxsmall) + 1px);
 	}
@@ -296,17 +300,17 @@
 		color: var(--black8);
 	}
 	button:disabled .label {
-		color: var(--black3);
+		color: var(--figma-color-text-secondary);
 	}
 	button:disabled:hover {
 		justify-content: flex-start;
 		border-color: transparent;
 	}
 	button:disabled:hover .placeholder {
-		color: var(--black3);
+		color: var(--figma-color-text-secondary);
 	}
 	button:disabled:hover .caret svg path {
-		fill: var(--black3);
+		fill: var(--figma-color-text-secondary);
 	}
 	button * {
 		pointer-events: none;

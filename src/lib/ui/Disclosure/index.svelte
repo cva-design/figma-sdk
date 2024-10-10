@@ -1,45 +1,43 @@
 <script>
-import { createEventDispatcher, onMount, setContext } from 'svelte';
-import { writable } from 'svelte/store';
-import DisclosureItem, { disclosure } from './../DisclosureItem/index.svelte';
+	import { disclosure } from '$ui/DisclosureItem/index.svelte';
+	import { createEventDispatcher, setContext } from 'svelte';
+	import { writable } from 'svelte/store';
 
-const dispatch = createEventDispatcher();
-const selected = writable(null);
-const className = '';
-let disclosureWrapper;
+	const dispatch = createEventDispatcher();
+	const selected = writable(null);
+	const className = '';
+	let disclosureWrapper;
 
-const clickHandler = (itemId) => {
-  const currentVal = getValue(selected);
-  if (currentVal != itemId) {
-    selected.set(itemId);
-    dispatch('change', itemId);
-  } else {
-    selected.set(null);
-    dispatch('change', null);
-  }
-};
+	const clickHandler = (itemId) => {
+		const currentVal = getValue(selected);
+		if (currentVal != itemId) {
+			selected.set(itemId);
+			dispatch('change', itemId);
+		} else {
+			selected.set(null);
+			dispatch('change', null);
+		}
+	};
 
-setContext(disclosure, { clickHandler, selected });
+	setContext(disclosure, { clickHandler, selected });
 
-function getValue(store) {
-  let $val;
-  store.subscribe(($) => ($val = $))();
-  return $val;
-}
+	function getValue(store) {
+		let $val;
+		store.subscribe(($) => ($val = $))();
+		return $val;
+	}
 </script>
 
 <ul class={className} bind:this={disclosureWrapper}>
-    <slot></slot>
+	<slot></slot>
 </ul>
 
 <style>
-
-    ul {
-        position: relative;
-        width: 100%;
-        margin: 0;
-        padding: 0;
-        list-style-type: none;
-    }
-
+	ul {
+		position: relative;
+		width: 100%;
+		margin: 0;
+		padding: 0;
+		list-style-type: none;
+	}
 </style>

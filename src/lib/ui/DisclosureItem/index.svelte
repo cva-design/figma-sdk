@@ -1,12 +1,12 @@
 <script context="module">
-export const disclosure = {};
+	export const disclosure = {};
 </script>
 
 <script lang="ts">
+	import CaretDown from '$icons/ui2/caret-down.svg';
+	import CaretRight from '$icons/ui2/caret-right.svg';
 	import { getContext } from 'svelte';
 	import Icon from './../Icon/index.svelte';
-	import CaretRight from './../../icons/caret-right.svg';
-	import CaretDown from './../../icons/caret-down.svg';
 
 	export let uniqueId = 'disclosureItem--' + (Math.random() * 10000000).toFixed(0).toString();
 	export let title: string | null = null;
@@ -24,16 +24,16 @@ export const disclosure = {};
 </script>
 
 <li {open} {title} id={uniqueId} class:expanded>
-	<div on:click={clickHandler.bind(null, uniqueId)} on:keypress class="header" class:section>
+	<button on:click={clickHandler.bind(null, uniqueId)} on:keypress class="header" class:section>
 		<div class="icon">
 			{#if expanded}
-				<Icon iconName={CaretDown} color="black" />
+				<Icon iconUrl={CaretDown} color="black" />
 			{:else}
-				<Icon iconName={CaretRight} color="black" />
+				<Icon iconUrl={CaretRight} color="black" />
 			{/if}
 		</div>
 		<div class="title">{title}</div>
-	</div>
+	</button>
 	<div class="content">
 		<slot />
 	</div>

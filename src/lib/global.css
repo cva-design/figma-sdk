@@ -1,0 +1,137 @@
+/*
+ * ❗❗❗ This file came from figma-plugin-ds 
+ * ❗❗❗ snd we should remove it when we get a chance
+ */
+
+/* Vars */
+:root {
+  /* COLORS */
+
+  /*
+  This has been updated to work with Figma's color tokens.
+  The following variables are included for legacy support, 
+  where they may be referenced in your own custom components.
+
+  All of these variables (where possible) will now map to 
+  Figma's color variables.
+
+  Components part of this package will directly consume
+  Figma's variables to support light and dark mode.
+  */
+
+  /* Accent */
+  --red: var(--figma-color-bg-danger);
+  --yellow: var(--figma-color-bg-warning);
+
+  /* Basic foreground */
+  --black: #000000;
+  --black8: var(--figma-color-text);
+
+  --black3: var(--figma-color-text-secondary);
+  --white: var(--figma-color-bg);
+  --white8: var(--figma-color-text-onbrand-secondary);
+  --white4: var(--figma-color-text-onbrand-tertiary);
+
+  /* Basic background */
+
+  --silver: var(--figma-color-border);
+  --toolbar: var(--figma-color-bg-inverse);
+
+  /* Special */
+  --figma-color-bg-brand3: rgba(24, 145, 251, 0.3);
+  --purple4: var(--figma-color-text-component-secondary);
+  --hover-fill: var(--figma-color-bg-hover);
+  --selection-a: var(--figma-color-bg-selected);
+  --selection-b: var(--figma-color-bg-selected-secondary);
+  --white2: var(--figma-color-text-onbrand-tertiary);
+
+  /* SHIM */
+  --color-bg-menu: #1e1e1e; /* to update */
+  --color-text-menu-text: #ffffff;
+  --color-text-menu-secondary: rgba(255, 255, 255, 0.7);
+  --color-border-menu: #383838;
+  --text-highlight: rgba(13, 153, 255, 0.4);
+
+  /* TYPOGRAPHY */
+  /* Pos = positive applications (black on white) */
+  /* Neg = negative applications (white on black) */
+
+  /* Font stack */
+  --font-stack: "Inter", sans-serif;
+
+  /* Font sizes */
+  --font-size-xsmall: 11px;
+  --font-size-small: 12px;
+  --font-size-large: 13px;
+  --font-size-xlarge: 14px;
+
+  /* Font weights */
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 600;
+
+  /* Lineheight */
+  --font-line-height: 16px; /* Use For xsmall, small font sizes */
+  --font-line-height-large: 24px; /* Use For large, xlarge font sizes */
+
+  /* Letterspacing */
+  --font-letter-spacing-pos-xsmall: 0.005em;
+  --font-letter-spacing-neg-xsmall: 0.01em;
+  --font-letter-spacing-pos-small: 0;
+  --font-letter-spacing-neg-small: 0.005em;
+  --font-letter-spacing-pos-large: -0.0025em;
+  --font-letter-spacing-neg-large: 0.0025em;
+  --font-letter-spacing-pos-xlarge: -0.001em;
+  --font-letter-spacing-neg-xlarge: -0.001em;
+
+  /* BORDER RADIUS */
+  --border-radius-small: 2px;
+  --border-radius-med: 5px;
+  --border-radius-large: 6px;
+
+  /* SHADOWS */
+  --shadow-hud: 0 5px 17px rgba(0, 0, 0, 0.2), 0 2px 7px rgba(0, 0, 0, 0.15);
+  --shadow-floating-window: 0 2px 14px rgba(0, 0, 0, 0.15);
+
+  /* SPACING + SIZING */
+  --size-xxxsmall: 4px;
+  --size-xxsmall: 8px;
+  --size-xsmall: 16px;
+  --size-small: 24px;
+  --size-medium: 32px;
+  --size-large: 40px;
+  --size-xlarge: 48px;
+  --size-xxlarge: 64px;
+  --size-huge: 80px;
+}
+
+/* Global styles */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  position: relative;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/*  FONTS */
+/* Hyperlink styling */
+a {
+  color: var(--figma-color-bg-brand);
+  text-decoration: none;
+  cursor: pointer;
+}
+a:hover {
+  color: var(--figma-color-bg-brand);
+}
+a:active {
+  color: var(--figma-color-bg-brand);
+}
+a:focus {
+  text-decoration: underline;
+}

@@ -28,22 +28,22 @@
  *  For `changeCase` object documentation.
  */
 
-//@index(['*/index.svelte'], f => `export * as ${f.path.split('/').at(-2)} from '${f.path}${f.ext}';`)
-export * as Button from './Button/index.svelte';
-export * as Checkbox from './Checkbox/index.svelte';
-export * as Disclosure from './Disclosure/index.svelte';
-export * as DisclosureItem from './DisclosureItem/index.svelte';
-export * as Icon from './Icon/index.svelte';
-export * as IconButton from './IconButton/index.svelte';
-export * as Input from './Input/index.svelte';
-export * as Label from './Label/index.svelte';
-export * as OnboardingTip from './OnboardingTip/index.svelte';
-export * as Radio from './Radio/index.svelte';
-export * as Section from './Section/index.svelte';
-export * as SelectDivider from './SelectDivider/index.svelte';
-export * as SelectItem from './SelectItem/index.svelte';
-export * as SelectMenu from './SelectMenu/index.svelte';
-export * as Switch from './Switch/index.svelte';
-export * as Textarea from './Textarea/index.svelte';
-export * as Type from './Type/index.svelte';
+//@index(['*/index.svelte'], f => `export { default as ${f.path.split('/').at(-2)} } from '${f.path}${f.ext}';`)
+export { default as Button } from './Button/index.svelte';
+export { default as Checkbox } from './Checkbox/index.svelte';
+export { default as Disclosure } from './Disclosure/index.svelte';
+export { default as DisclosureItem } from './DisclosureItem/index.svelte';
+export { default as Icon } from './Icon/index.svelte';
+export { default as IconButton } from './IconButton/index.svelte';
+export { default as Input } from './Input/index.svelte';
+export { default as Label } from './Label/index.svelte';
+export { default as OnboardingTip } from './OnboardingTip/index.svelte';
+export { default as Radio } from './Radio/index.svelte';
+export { default as Section } from './Section/index.svelte';
+export { default as SelectDivider } from './SelectDivider/index.svelte';
+export { default as SelectItem } from './SelectItem/index.svelte';
+export { default as SelectMenu } from './SelectMenu/index.svelte';
+export { default as Switch } from './Switch/index.svelte';
+export { default as Textarea } from './Textarea/index.svelte';
+export { default as Type } from './Type/index.svelte';
 //@endindex
