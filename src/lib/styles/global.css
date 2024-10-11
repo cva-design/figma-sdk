@@ -1,0 +1,31 @@
+@import "../tokens/index.css";
+
+/* Global styles */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  position: relative;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/*  FONTS */
+/* Hyperlink styling */
+a {
+  color: var(--figma-color-bg-brand);
+  text-decoration: none;
+  cursor: pointer;
+}
+a:hover {
+  color: var(--figma-color-bg-brand);
+}
+a:active {
+  color: var(--figma-color-bg-brand);
+}
+a:focus {
+  text-decoration: underline;
+}

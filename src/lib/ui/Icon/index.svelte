@@ -50,10 +50,10 @@
 		align-items: center;
 		justify-content: center;
 		cursor: default;
-		width: var(--size-medium);
-		height: var(--size-medium);
-		font-family: var(--font-stack);
-		font-size: var(--font-size-xsmall);
+		width: var(--spacer-5);
+		height: var(--spacer-5);
+		font-family: var(--font-family-default);
+		font-size: var(--text-body-medium-font-size);
 		user-select: none;
 	}
 

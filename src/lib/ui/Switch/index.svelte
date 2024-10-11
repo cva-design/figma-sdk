@@ -90,9 +90,9 @@
 
 	.switch-text {
 		margin-left: 8px;
-		font-family: var(--font-stack);
-		font-weight: var(--font-weight-normal);
-		font-size: var(--font-size-small);
+		font-family: var(--font-family-default);
+		font-weight: var(--font-weight-default);
+		font-size: var(--text-body-medium-font-size);
 		line-height: var(--font-lineHeight);
 		letter-spacing: var(--font-letter-spacing-pos-xsmall);
 		color: var(--figma-color-text);

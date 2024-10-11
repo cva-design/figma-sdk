@@ -12,13 +12,6 @@
     "sourceMap": true,
     "strict": true,
     "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "baseUrl": "./",
-    "paths": {
-      "$ui": ["src/lib/ui/index.ts"],
-      "$ui/*": ["src/lib/ui/*"],
-      "$icons": ["src/lib/icons/index.ts"],
-      "$icons/*": ["src/lib/icons/*"]
-    }
+    "moduleResolution": "NodeNext"
   }
 }

@@ -1,6 +1,6 @@
 <script lang="ts">
-	import Icon from './../Icon/index.svelte';
 	import { createEventDispatcher } from 'svelte';
+	import Icon from './../Icon/index.svelte';
 
 	export let id: string | null = null;
 	export let value: string | null = null;
@@ -105,8 +105,8 @@
 	}
 
 	input {
-		font-size: var(--font-size-xsmall);
-		font-weight: var(--font-weight-normal);
+		font-size: var(--text-body-medium-font-size);
+		font-weight: var(--font-weight-default);
 		letter-spacing: var(--font-letter-spacing-neg-xsmall);
 		line-height: var(--line-height);
 		position: relative;
@@ -116,7 +116,7 @@
 		width: 100%;
 		height: 30px;
 		margin: 1px 0 1px 0;
-		padding: var(--size-xxsmall) var(--size-xxxsmall) var(--size-xxsmall) var(--size-xxsmall);
+		padding: var(--spacer-2) var(--spacer-1) var(--spacer-2) var(--spacer-2);
 		color: var(--figma-color-text);
 		border: 1px solid transparent;
 		border-radius: var(--border-radius-small);
@@ -131,7 +131,7 @@
 	}
 	input::selection {
 		color: var(--figma-color-text);
-		background-color: var(--text-highlight);
+		background-color: var(--color-texthighlight);
 	}
 	input::placeholder {
 		color: var(--figma-color-text-tertiary);
@@ -203,18 +203,18 @@
 		position: absolute;
 		top: -1px;
 		left: 0;
-		width: var(--size-medium);
-		height: var(--size-medium);
+		width: var(--spacer-5);
+		height: var(--spacer-5);
 		z-index: 1;
 	}
 
 	.error {
 		color: var(--figma-color-text-danger);
-		font-size: var(--font-size-xsmall);
-		font-weight: var(--font-weight-normal);
+		font-size: var(--text-body-medium-font-size);
+		font-weight: var(--font-weight-default);
 		letter-spacing: var(--font-letter-spacing-neg-xsmall);
 		line-height: var(--line-height);
-		padding-top: var(--size-xxxsmall);
-		padding-left: var(--size-xxsmall);
+		padding-top: var(--spacer-1);
+		padding-left: var(--spacer-2);
 	}
 </style>

@@ -1,0 +1,12 @@
+body:not([data-fpl-version="ui3"]) {
+  --text-body-medium-font-family: var(--font-family-default);
+  --text-body-medium-font-size: 0.6875rem;
+  --text-body-medium-font-weight: 400;
+  --text-body-medium-letter-spacing: 0.00344rem;
+  --text-body-medium-line-height: 1rem;
+  --text-body-medium-strong-font-family: var(--font-family-default);
+  --text-body-medium-strong-font-size: 0.6875rem;
+  --text-body-medium-strong-font-weight: 500;
+  --text-body-medium-strong-letter-spacing: 0.00344rem;
+  --text-body-medium-strong-line-height: 1rem;
+}

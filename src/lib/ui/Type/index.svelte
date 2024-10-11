@@ -31,35 +31,36 @@
 
 <style>
 	.type {
-		font-family: var(--font-stack);
-		font-size: var(--font-size-xsmall);
-		font-weight: var(--font-weight-normal);
+		font-family: var(--font-family-default);
+		font-size: var(--text-body-medium-font-size);
+		font-weight: var(--font-weight-default);
 		line-height: var(--font-line-height);
 		letter-spacing: var(--font-letter-spacing-pos-xsmall);
 	}
 
 	/* sizes */
 	.small {
-		font-size: var(--font-size-small);
+		font-size: var(--text-body-medium-font-size);
 		letter-spacing: var(--font-letter-spacing-pos-small);
 	}
+
 	.large {
-		font-size: var(--font-size-large);
+		font-size: var(--text-body-large-font-size);
 		line-height: var(--font-line-height-large);
 		letter-spacing: var(--font-letter-spacing-pos-large);
 	}
 	.xlarge {
-		font-size: var(--font-size-xlarge);
+		font-size: var(--text-heading-medium-font-size);
 		line-height: var(--font-line-height-large);
 		letter-spacing: var(--font-letter-spacing-pos-xlarge);
 	}
 
 	/* weights */
 	.medium {
-		font-weight: var(--font-weight-medium);
+		font-weight: var(--font-weight-default);
 	}
 	.bold {
-		font-weight: var(--font-weight-bold);
+		font-weight: var(--font-weight-strong);
 	}
 
 	/* letter spacing adjustments based pos/neg application */

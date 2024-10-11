@@ -25,13 +25,13 @@
 		border-radius: var(--border-radius-large);
 		color: var(--figma-color-text-onbrand);
 		flex-shrink: 0;
-		font-family: var(--font-stack);
-		font-size: var(--font-size-xsmall);
-		font-weight: var(--font-weight-medium);
+		font-family: var(--font-family-default);
+		font-size: var(--text-body-medium-font-size);
+		font-weight: var(--font-weight-default);
 		letter-spacing: var(--font-letter-spacing-neg-small);
 		line-height: var(--font-line-height);
-		height: var(--size-medium);
-		padding: 0 var(--size-xsmall) 0 var(--size-xsmall);
+		height: var(--spacer-5);
+		padding: 0 var(--spacer-3) 0 var(--spacer-3);
 		text-decoration: none;
 		outline: none;
 		border: 2px solid transparent;
@@ -66,13 +66,13 @@
 		background-color: transparent;
 		border: 1px solid var(--figma-color-border-strong);
 		color: var(--figma-color-text);
-		padding: 0 calc(var(--size-xsmall) + 1px) 0 calc(var(--size-xsmall) + 1px);
+		padding: 0 calc(var(--spacer-3) + 1px) 0 calc(var(--spacer-3) + 1px);
 		letter-spacing: var(--font-letter-spacing-pos-small);
 	}
 	.secondary:enabled:active,
 	.secondary:enabled:focus {
 		border: 2px solid var(--figma-color-border-selected);
-		padding: 0 var(--size-xsmall) 0 var(--size-xsmall);
+		padding: 0 var(--spacer-3) 0 var(--spacer-3);
 	}
 	.secondary:disabled {
 		border: 1px solid var(--figma-color-border-disabled-strong);
@@ -86,7 +86,7 @@
 	.secondary.destructive:enabled:active,
 	.secondary.destructive:enabled:focus {
 		border: 2px solid var(--figma-color-border-danger-strong);
-		padding: 0 var(--size-xsmall) 0 var(--size-xsmall);
+		padding: 0 var(--spacer-3) 0 var(--spacer-3);
 	}
 	.secondary.destructive:disabled {
 		opacity: 0.4;
@@ -98,7 +98,7 @@
 		color: var(--figma-color-text-brand);
 		background: initial;
 		padding: 0;
-		font-weight: var(--font-weight-normal);
+		font-weight: var(--font-weight-default);
 		letter-spacing: var(--font-letter-spacing-pos-small);
 		cursor: pointer;
 	}

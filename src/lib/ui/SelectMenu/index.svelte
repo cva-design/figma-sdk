@@ -271,21 +271,21 @@
 		height: 30px;
 		width: 100%;
 		margin: 1px 0 1px 0;
-		padding: 4px var(--size-xxsmall) 0px var(--size-xxsmall);
+		padding: 4px var(--spacer-2) 0px var(--spacer-2);
 		overflow-y: hidden;
 		border-radius: var(--border-radius-small);
-		background-color: var(--white);
+		background-color: var(--figma-color-bg);
 	}
 	button:hover,
 	button:active {
 		border-color: var(--figma-color-border-onselected-strong);
 	}
 	button:hover .placeholder {
-		color: var(--black8);
+		color: var(--figma-color-text);
 	}
 	button:hover .caret svg path,
 	button:focus .caret svg path {
-		fill: var(--black8);
+		fill: var(--figma-color-text);
 	}
 	button:hover .caret,
 	button:focus .caret {
@@ -295,10 +295,10 @@
 		border: 1px solid var(--figma-color-bg-brand);
 		outline: 1px solid var(--figma-color-bg-brand);
 		outline-offset: -2px;
-		padding-left: calc(var(--size-xxsmall) + 1px);
+		padding-left: calc(var(--spacer-2) + 1px);
 	}
 	button:focus .placeholder {
-		color: var(--black8);
+		color: var(--figma-color-text);
 	}
 	button:disabled .label {
 		color: var(--figma-color-text-secondary);
@@ -319,8 +319,8 @@
 
 	.label,
 	.placeholder {
-		font-size: var(--font-size-xsmall);
-		font-weight: var(--font-weight-normal);
+		font-size: var(--text-body-medium-font-size);
+		font-weight: var(--font-weight-default);
 		letter-spacing: var(--font-letter-spacing-neg-xsmall);
 		line-height: var(--line-height);
 		color: var(--figma-color-text);
@@ -357,7 +357,7 @@
 		width: 100%;
 		background-color: var(--color-bg-menu);
 		box-shadow: var(--shadow-hud);
-		padding: var(--size-xxsmall) 0 var(--size-xxsmall) 0;
+		padding: var(--spacer-2) 0 var(--spacer-2) 0;
 		border-radius: var(--border-radius-small);
 		margin: 0;
 		z-index: 50;

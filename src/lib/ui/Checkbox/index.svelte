@@ -70,13 +70,13 @@
 	label {
 		color: var(--figma-color-text);
 		display: flex;
-		font-family: var(--font-stack);
-		font-size: var(--font-size-xsmall);
-		font-weight: var(--font-weight-normal);
+		font-family: var(--font-family-default);
+		font-size: var(--text-body-medium-font-size);
+		font-weight: var(--font-weight-default);
 		line-height: var(--font-line-height);
 		letter-spacing: var(--font-letter-spacing-pos-xsmall);
 		margin-left: -16px;
-		/* padding: var(--size-xxsmall) var(--size-xsmall) var(--size-xxsmall) var(--size-small); */
+		/* padding: var(--spacer-2) var(--spacer-3) var(--spacer-2) var(--spacer-4); */
 		user-select: none;
 	}
 	label:before {

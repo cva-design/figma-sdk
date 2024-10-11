@@ -1,0 +1,53 @@
+/*
+ * ❗❗❗ This file came from figma-plugin-ds 
+ * ❗❗❗ snd we should remove it when we get a chance
+ */
+
+/* Vars */
+:root {
+  /* COLORS */
+
+  /*
+  This has been updated to work with Figma's color tokens.
+  The following variables are included for legacy support, 
+  where they may be referenced in your own custom components.
+
+  All of these variables (where possible) will now map to 
+  Figma's color variables.
+
+  Components part of this package will directly consume
+  Figma's variables to support light and dark mode.
+  */
+
+  /* Basic foreground */
+
+  /* Basic background */
+
+  /* SHIM */
+
+  /* Lineheight */
+  --font-line-height: 16px; /* Use For xsmall, small font sizes */
+  --font-line-height-large: 24px; /* Use For large, xlarge font sizes */
+
+  /* Letterspacing */
+  --font-letter-spacing-neg-xsmall: 0.01em;
+  --font-letter-spacing-pos-xsmall: 0.005em;
+
+  --font-letter-spacing-neg-small: 0.005em;
+  --font-letter-spacing-pos-small: 0;
+
+  --font-letter-spacing-neg-large: 0.0025em;
+  --font-letter-spacing-pos-large: -0.0025em;
+
+  --font-letter-spacing-pos-xlarge: -0.001em;
+  --font-letter-spacing-neg-xlarge: -0.001em;
+
+  /* BORDER RADIUS */
+  --border-radius-small: 2px;
+  --border-radius-med: 5px;
+  --border-radius-large: 6px;
+
+  /* SHADOWS */
+  --shadow-hud: 0 5px 17px rgba(0, 0, 0, 0.2), 0 2px 7px rgba(0, 0, 0, 0.15);
+  --shadow-floating-window: 0 2px 14px rgba(0, 0, 0, 0.15);
+}

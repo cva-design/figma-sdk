@@ -10,13 +10,13 @@ export default defineConfig({
     include: ['src/**/*.{test,spec}.{js,ts}'],
   },
 
-  resolve: {
-    alias: [
-      // tsConfig.compilerOptions.paths,
-      {
-        find: /\$(ui|icons)(.*)?/,
-        replacement: `${baseUrl}/lib/$1$2`,
-      },
-    ],
-  },
+  // resolve: {
+  //   alias: [
+  //     // tsConfig.compilerOptions.paths,
+  //     {
+  //       find: /\$(ui|icons)(.*)?/,
+  //       replacement: `${baseUrl}/lib/$1$2`,
+  //     },
+  //   ],
+  // },
 });

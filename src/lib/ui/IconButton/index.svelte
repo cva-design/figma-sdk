@@ -42,8 +42,8 @@
 		align-items: center;
 		justify-content: center;
 		cursor: pointer;
-		width: var(--size-medium);
-		height: var(--size-medium);
+		width: var(--spacer-5);
+		height: var(--spacer-5);
 		border-radius: var(--border-radius-small);
 		border: 2px solid transparent;
 	}

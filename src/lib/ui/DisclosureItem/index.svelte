@@ -31,7 +31,13 @@
 </script>
 
 <li id={uniqueId} class:expanded class:open class:section>
-	<div role="button" tabindex="0" on:click={() => clickHandler(uniqueId)} on:keypress class="header">
+	<div
+		role="button"
+		tabindex="0"
+		on:click={() => clickHandler(uniqueId)}
+		on:keypress
+		class="header"
+	>
 		<div class="icon">
 			{#if expanded}
 				<Icon iconUrl={CaretDown} color="black" />
@@ -64,9 +70,9 @@
 	.header {
 		display: flex;
 		align-items: center;
-		height: var(--size-medium);
-		font-size: var(--font-size-xsmall);
-		font-weight: var(--font-weight-normal);
+		height: var(--spacer-5);
+		font-size: var(--text-body-medium-font-size);
+		font-weight: var(--font-weight-default);
 		letter-spacing: var(--font-letter-spacing-pos-xsmall);
 		line-height: var(--line-height);
 		color: var(--figma-color-text);
@@ -89,16 +95,16 @@
 	}
 
 	.section {
-		font-weight: var(--font-weight-bold);
+		font-weight: var(--font-weight-strong);
 	}
 
 	.content {
-		font-size: var(--font-size-xsmall);
-		font-weight: var(--font-weight-normal);
+		font-size: var(--text-body-medium-font-size);
+		font-weight: var(--font-weight-default);
 		letter-spacing: var(--font-letter-spacing-pos-xsmall);
 		line-height: var(--line-height);
 		color: var(--figma-color-text);
-		padding: var(--size-xxsmall) var(--size-xxsmall) var(--size-xxsmall) var(--size-small);
+		padding: var(--spacer-2) var(--spacer-2) var(--spacer-2) var(--spacer-4);
 		display: none;
 		user-select: none;
 		pointer-events: none;

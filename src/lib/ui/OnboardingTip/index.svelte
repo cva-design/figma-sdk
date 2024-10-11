@@ -23,19 +23,19 @@
 	.onboarding-tip {
 		display: flex;
 		align-items: top;
-		padding: 0 var(--size-xsmall) 0 0;
+		padding: 0 var(--spacer-3) 0 0;
 	}
 
 	.icon {
-		width: var(--size-medium);
-		height: var(--size-medium);
-		margin-right: var(--size-xxsmall);
+		width: var(--spacer-5);
+		height: var(--spacer-5);
+		margin-right: var(--spacer-2);
 	}
 
 	p {
-		padding: var(--size-xxsmall) 0 var(--size-xxsmall) 0;
-		font-size: var(--font-size-xsmall);
-		font-weight: var(--font-weight-normal);
+		padding: var(--spacer-2) 0 var(--spacer-2) 0;
+		font-size: var(--text-body-medium-font-size);
+		font-weight: var(--font-weight-default);
 		letter-spacing: var(--font-letter-spacing-pos-xsmall);
 		line-height: var(--line-height);
 		color: var(--figma-color-text);

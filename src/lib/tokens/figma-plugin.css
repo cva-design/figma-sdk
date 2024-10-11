@@ -7,15 +7,13 @@
 
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
 
-/* TODO: We need to remove this import */
-@import url("./global.css");
-
 body {
   font-feature-settings: "liga" 1, "calt" 1;
 }
 
 :root,
-.figma-light {
+.figma-light,
+[data-preferred-theme="light"] {
   --figma-color-bg: #ffffff;
   --figma-color-bg-brand: #0d99ff;
   --figma-color-bg-brand-hover: #007be5;
@@ -190,7 +188,8 @@ body {
   --figma-color-text-warning-tertiary: #b86200;
 }
 
-.figma-dark {
+.figma-dark,
+[data-preferred-theme="dark"]:not([data-editor-theme="whiteboard"]) {
   --figma-color-bg: #2c2c2c;
   --figma-color-bg-brand: #0c8ce9;
   --figma-color-bg-brand-hover: #0a6dc2;
@@ -365,7 +364,7 @@ body {
   --figma-color-text-warning-tertiary: #f7d15f;
 }
 
-.figjam {
+[data-editor-theme="whiteboard"] {
   --figma-color-bg: rgba(255, 255, 255, 1);
   --figma-color-bg-brand: #9747ff;
   --figma-color-bg-brand-hover: #8638e5;
