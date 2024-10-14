@@ -1,7 +1,7 @@
 <script context="module" lang="ts">
+	import { StarOnSvg } from '$icons';
 	import { IconButton } from '$ui';
 	import { Story, Template } from '@storybook/addon-svelte-csf';
-	import { imgStarOn } from '../lib/icons/ui2/index.ts';
 
 	export const meta = {
 		title: 'ui/IconButton',
@@ -24,7 +24,7 @@
 <Story
 	name="Default"
 	args={{
-		iconName: imgStarOn,
+		iconName: StarOnSvg,
 		iconText: null,
 		selected: false,
 		spin: false,
@@ -35,7 +35,7 @@
 <Story
 	name="Selected"
 	args={{
-		iconName: imgStarOn,
+		iconName: StarOnSvg,
 		iconText: null,
 		selected: true,
 		spin: false,
@@ -57,7 +57,7 @@
 <Story
 	name="Spinning"
 	args={{
-		iconName: imgStarOn,
+		iconName: StarOnSvg,
 		iconText: null,
 		selected: false,
 		spin: true,
@@ -68,11 +68,10 @@
 <Story
 	name="Custom Class"
 	args={{
-		iconName: imgStarOn,
+		iconName: StarOnSvg,
 		iconText: null,
 		selected: false,
 		spin: false,
 		class: 'custom-class'
 	}}
 />
-

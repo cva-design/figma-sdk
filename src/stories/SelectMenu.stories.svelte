@@ -1,7 +1,7 @@
 <script context="module" lang="ts">
+	import { StarOnSvg } from '$icons';
 	import { SelectMenu } from '$ui';
 	import { Story, Template } from '@storybook/addon-svelte-csf';
-	import { imgStarOn } from '../lib/icons/ui2/index.ts';
 
 	export const meta = {
 		title: 'ui/SelectMenu',
@@ -46,7 +46,7 @@
 	args={{
 		menuItems: defaultMenuItems,
 		placeholder: 'Select an option',
-		iconUrl: imgStarOn
+		iconUrl: StarOnSvg
 	}}
 />
 

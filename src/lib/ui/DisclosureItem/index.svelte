@@ -3,12 +3,9 @@
 </script>
 
 <script lang="ts">
-	import CaretDown from '$icons/ui2/caret-down.svg';
-	import CaretRight from '$icons/ui2/caret-right.svg';
+	import { CaretDownSvg, CaretRightSvg } from '$icons';
 	import { getContext } from 'svelte';
-	// import CaretDown from './../../icons/caret-down.svg';
-	// import CaretRight from './../../icons/caret-right.svg';
-	import Icon from './../Icon/index.svelte';
+	import Icon from '../Icon/index.svelte';
 
 	export let uniqueId = 'disclosureItem--' + (Math.random() * 10000000).toFixed(0).toString();
 	export let title: string | null = null;
@@ -40,9 +37,9 @@
 	>
 		<div class="icon">
 			{#if expanded}
-				<Icon iconUrl={CaretDown} color="black" />
+				<Icon iconUrl={CaretDownSvg} color="black" />
 			{:else}
-				<Icon iconUrl={CaretRight} color="black" />
+				<Icon iconUrl={CaretRightSvg} color="black" />
 			{/if}
 		</div>
 		<div class="title">{title}</div>

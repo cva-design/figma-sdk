@@ -3,8 +3,7 @@
 	import { Story, Template } from '@storybook/addon-svelte-csf';
 
 	// You'll need to import some SVG icons to use in the stories
-	import { imgStarOn } from '../lib/icons/ui2/index.ts';
-	import { imgPlus } from '../lib/icons/ui2/index.ts';
+	import { PlusSvg, StarOnSvg } from '$icons';
 
 	export const meta = {
 		title: 'ui/Icon',
@@ -26,14 +25,14 @@
 <Story
 	name="Default Icon"
 	args={{
-		iconUrl: imgStarOn
+		iconUrl: StarOnSvg
 	}}
 />
 
 <Story
 	name="Spinning Icon"
 	args={{
-		iconUrl: imgPlus,
+		iconUrl: PlusSvg,
 		spin: true
 	}}
 />
@@ -48,7 +47,7 @@
 <Story
 	name="Colored Icon"
 	args={{
-		iconUrl: imgPlus,
+		iconUrl: PlusSvg,
 		color: '--figma-color-text'
 	}}
 />
@@ -56,7 +55,7 @@
 <Story
 	name="Custom Class"
 	args={{
-		iconUrl: imgStarOn,
+		iconUrl: StarOnSvg,
 		class: 'custom-icon-class'
 	}}
 />

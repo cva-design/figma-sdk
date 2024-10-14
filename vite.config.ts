@@ -1,22 +1,38 @@
 import { sveltekit } from '@sveltejs/kit/vite';
-import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'vitest/config';
+import { svelteWarnings } from './src/lib/config/svelte-warnings/plugin';
 
-const baseUrl = fileURLToPath(new URL('./src', import.meta.url));
-
-export default defineConfig({
-  plugins: [sveltekit()],
+const config = defineConfig({
+  plugins: [
+    sveltekit(),
+    svelteWarnings({
+      disable: [/a11y*/],
+      summary: 'all',
+      listAllCodes: true,
+    }),
+  ],
+  build: {
+    sourcemap: true,
+  },
   test: {
     include: ['src/**/*.{test,spec}.{js,ts}'],
   },
-
-  // resolve: {
-  //   alias: [
-  //     // tsConfig.compilerOptions.paths,
-  //     {
-  //       find: /\$(ui|icons)(.*)?/,
-  //       replacement: `${baseUrl}/lib/$1$2`,
-  //     },
-  //   ],
-  // },
+  server: {
+    watch: {
+      // usePolling: true,
+      // interval: 100,
+    },
+  },
 });
+
+console.log(
+  `
+  ========================================
+  Vite Config:
+  ----------------------------------------
+  ${JSON.stringify(config, null, 2)}
+  ========================================
+  `,
+);
+
+export default config;

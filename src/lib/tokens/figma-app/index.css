@@ -1,4 +1,4 @@
-// @index('./*.css', f => `@import "${f.path}";`)
+/* @index('./*.css', f => `@import "${f.path}";`) */
 @import "./01-fallback";
 @import "./02-ramps";
 @import "./03-root";
@@ -11,4 +11,4 @@
 @import "./05-editor-whiteboard";
 @import "./06-ui2-overrides";
 @import "./07-ui3-overrides";
-// @endindex
+/* @endindex */
