@@ -4,16 +4,15 @@
 	import Icon from './../Icon/index.svelte';
 	import SelectDivider from './../SelectDivider/index.svelte';
 	import SelectItem from './../SelectItem/index.svelte';
+	import type { SelectMenuItem } from './types';
 
 	export let iconUrl: string | null = null;
 	export let iconText: string | null = null;
 	export let disabled: boolean = false;
 	export let macOSBlink: boolean = false;
-	export let menuItems: Array<{ id?: number; selected?: boolean; group?: string; label?: string }> =
-		[]; //pass data in via this prop to generate menu items
+	export let menuItems: SelectMenuItem[] = []; //pass data in via this prop to generate menu items
 	export let placeholder: string = 'Please make a selection.';
-	export let value: { id?: number; selected?: boolean; group?: string; label?: string } | null =
-		null; //stores the current selection, note, the value will be an object from your array
+	export let value: SelectMenuItem | null | undefined = null; //stores the current selection, note, the value will be an object from your array
 	export let showGroupLabels: boolean = false; //default prop, true will show option group labels
 	export { className as class };
 

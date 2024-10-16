@@ -47,3 +47,7 @@ export { default as Switch } from './Switch/index.svelte';
 export { default as Textarea } from './Textarea/index.svelte';
 export { default as Type } from './Type/index.svelte';
 //@endindex
+
+//@index(['*/types.ts'], f => `export * from '${f.path}';`)
+export * from './SelectMenu/types';
+//@endindex
