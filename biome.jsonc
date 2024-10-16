@@ -8,10 +8,6 @@
   },
   "files": {
     "ignoreUnknown": true,
-    // "include": [
-    // 	"src/**/*",
-    // 	"test/**/*"
-    // ],
     "ignore": ["**/*.min.*", "**/*.map", "**/*.svelte"]
   },
   "formatter": {
@@ -26,6 +22,9 @@
     "enabled": true,
     "rules": {
       "recommended": true,
+      "style": {
+        "noInferrableTypes": "off"
+      },
       "complexity": {
         "noBannedTypes": "off"
       },
@@ -36,26 +35,7 @@
   },
   "javascript": {
     "formatter": {
-      "quoteStyle": "single",
-      "indentStyle": "space"
+      "quoteStyle": "single"
     }
-  },
-  "overrides": [
-    // {
-    //   "include": ["*.svelte"],
-    //   "linter": {
-    //     "rules": {
-    //       "style": {
-    //         "useConst": "off",
-    //         "useImportType": "off",
-    //         "useSingleVarDeclarator": "off",
-    //         "useTemplate": {
-    //           "level": "warn",
-    //           "fix": "unsafe"
-    //         }
-    //       }
-    //     }
-    //   }
-    // }
-  ]
+  }
 }
