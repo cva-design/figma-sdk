@@ -15,8 +15,10 @@
 </script>
 
 <li
+	role="option"
 	itemid={String(itemId)}
 	tabindex={Number(itemId) + 1}
+	aria-selected={selected}
 	class:highlight={selected}
 	class={className}
 	on:mouseenter

@@ -11,6 +11,9 @@ const config = defineConfig({
       listAllCodes: true,
     }),
   ],
+  resolve: {
+    conditions: ['cva-dev'],
+  },
   build: {
     sourcemap: true,
   },

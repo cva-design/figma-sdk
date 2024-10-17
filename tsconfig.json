@@ -14,6 +14,7 @@
     "moduleResolution": "Bundler",
     "baseUrl": "./",
     "rootDir": "../../",
+    "customConditions": ["cva-dev"],
     "paths": {
       "$ui": ["src/lib/ui"],
       "$ui/*": ["src/lib/ui/*"],
@@ -21,5 +22,4 @@
       "$icons/*": ["src/lib/icons/*"]
     }
   }
-
 }

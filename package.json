@@ -30,14 +30,11 @@
       "svelte": "./dist/index.js"
     },
     "./global.css": {
+      "cva-dev": "./src/lib/styles/global.css",
       "default": "./dist/styles/global.css"
     },
     "./config/*": {
-      "default": [
-        "./dist/config/*",
-        "./dist/config/*.js",
-        "./dist/config/*/index.js"
-      ]
+      "default": ["./dist/config/*", "./dist/config/*.js", "./dist/config/*/index.js"]
     },
     "./config/svelte-warnings": {
       "default": "./dist/config/svelte-warnings/index.js"
@@ -66,21 +63,15 @@
       "svelte": "./dist/icons/ui2/*.svg"
     },
     "./tokens": {
+      "cva-dev": "./src/tokens/index.css",
       "default": "./dist/tokens/index.css"
     },
     "./tokens/*": {
-      "default": [
-        "./dist/tokens/*",
-        "./dist/tokens/*.css"
-      ]
+      "cva-dev": "./src/tokens/*.css",
+      "default": "./dist/tokens/*.css"
     }
   },
-  "files": [
-    "dist",
-    "!dist/**/*.test.*",
-    "!dist/**/*.spec.*",
-    "src"
-  ],
+  "files": ["dist", "!dist/**/*.test.*", "!dist/**/*.spec.*", "src"],
   "peerDependencies": {
     "svelte": "^4.2.0"
   },
@@ -127,9 +118,7 @@
   "svelte": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "eslintConfig": {
-    "extends": [
-      "plugin:storybook/recommended"
-    ]
+    "extends": ["plugin:storybook/recommended"]
   },
   "dependencies": {
     "@biomejs/biome": "^1.9.3",
