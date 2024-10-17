@@ -2,7 +2,9 @@
 	export let variant: 'primary' | 'secondary' | 'tertiary' = 'primary';
 	export let disabled = false;
 	export let destructive = false;
-	export let className: string = 'aaa';
+
+	let className: string = '';
+	export { className as class };
 
 	function handleClick(event: MouseEvent) {
 		(event.target as HTMLButtonElement).blur();

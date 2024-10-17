@@ -3,6 +3,7 @@ node_modules
 # Output
 .output
 .vercel
+.tsc
 /.svelte-kit
 /build
 /dist
