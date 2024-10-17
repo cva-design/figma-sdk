@@ -11,6 +11,15 @@
     "skipLibCheck": true,
     "sourceMap": true,
     "strict": true,
-    "moduleResolution": "Bundler"
+    "moduleResolution": "Bundler",
+    "baseUrl": "./",
+    "rootDir": "../../",
+    "paths": {
+      "$ui": ["src/lib/ui"],
+      "$ui/*": ["src/lib/ui/*"],
+      "$icons": ["src/lib/icons/index.ts"],
+      "$icons/*": ["src/lib/icons/*"]
+    }
   }
+
 }
