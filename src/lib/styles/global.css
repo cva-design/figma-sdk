@@ -2,7 +2,20 @@
 
 /* Global styles */
 * {
+  border: 0;
   box-sizing: border-box;
+  cursor: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  margin: 0;
+  outline: none;
+  padding: 0;
+  text-decoration: none;
+  vertical-align: inherit;
+}
+
+button {
+  background-color: var(--color-bg);
 }
 
 body {

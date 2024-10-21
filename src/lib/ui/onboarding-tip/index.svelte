@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Icon from './../Icon/index.svelte';
+	import { Icon } from '$ui/icon';
 
 	export let spin = false;
 	export let color = 'black8';

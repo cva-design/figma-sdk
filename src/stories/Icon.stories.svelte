@@ -6,7 +6,7 @@
 	import { PlusSvg, StarOnSvg } from '$icons';
 
 	export const meta = {
-		title: 'ui/Icon',
+		title: 'ui/icon',
 		component: Icon,
 		argTypes: {
 			iconUrl: { control: 'text' },

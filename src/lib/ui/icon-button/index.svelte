@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Icon from './../Icon/index.svelte';
+	import { Icon } from '$ui/icon';
 
 	/**
 	 * iconName: The name of the icon to be displayed.

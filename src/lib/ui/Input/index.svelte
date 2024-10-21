@@ -1,6 +1,6 @@
 <script lang="ts">
+	import { Icon } from '$ui/icon';
 	import { createEventDispatcher } from 'svelte';
-	import Icon from './../Icon/index.svelte';
 
 	export let id: string | null = null;
 	export let value: string | null = null;
