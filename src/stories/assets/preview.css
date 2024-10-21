@@ -1,4 +1,4 @@
-@import url("../../lib/figma-themes.css");
+@import url("../../lib/tokens/index.css");
 
 html {
   background-color: var(--figma-color-bg);

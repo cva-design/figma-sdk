@@ -1,9 +1,9 @@
 <script lang="ts">
+	import { Icon } from '$ui/icon';
 	import { createEventDispatcher, onMount } from 'svelte';
 	import ClickOutside from 'svelte-click-outside';
-	import Icon from './../Icon/index.svelte';
-	import SelectDivider from './../SelectDivider/index.svelte';
-	import SelectItem from './../SelectItem/index.svelte';
+	import SelectDivider from './select-divider.svelte';
+	import SelectItem from './select-item.svelte';
 	import type { SelectMenuItem } from './types';
 
 	export let iconUrl: string | null = null;

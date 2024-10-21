@@ -5,7 +5,7 @@
 <script lang="ts">
 	import { CaretDownSvg, CaretRightSvg } from '$icons';
 	import { getContext } from 'svelte';
-	import Icon from '../Icon/index.svelte';
+	import { Icon } from '../icon';
 
 	export let uniqueId = 'disclosureItem--' + (Math.random() * 10000000).toFixed(0).toString();
 	export let title: string | null = null;

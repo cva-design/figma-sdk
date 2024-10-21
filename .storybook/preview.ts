@@ -2,6 +2,9 @@ import type { Preview } from '@storybook/svelte';
 
 // GLOBAL STYLES
 import '../src/stories/assets/preview.css';
+// import './storybook-reset.css';
+
+import { themes } from '@storybook/theming';
 
 const preview: Preview = {
   argTypes: {
@@ -14,6 +17,7 @@ const preview: Preview = {
   parameters: {
     layout: 'centered',
     backgrounds: {
+      default: 'figma-dark',
       grid: {
         cellSize: 8,
         cellAmount: 4,
@@ -25,7 +29,9 @@ const preview: Preview = {
         date: /Date$/i,
       },
     },
-    tags: ['autodocs'],
+    docs: {
+      theme: themes.dark,
+    },
     darkMode: {
       current: 'dark',
       // dark: { ...themes.dark },
@@ -37,6 +43,7 @@ const preview: Preview = {
       stylePreview: true,
     },
   },
+  tags: ['autodocs'],
 };
 
 export default preview;

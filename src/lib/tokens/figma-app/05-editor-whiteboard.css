@@ -2,9 +2,6 @@
 [data-editor-theme=whiteboard] {
   --toolbar-height: 48px;
   --insertable-resource-dragging-cursor: grabbing
-}
-
-[data-editor-theme=whiteboard] {
     --color-texthighlight: rgba(151, 71, 255, .4);
     --color-scrollbar: rgba(179, 179, 179, .5);
     --color-bgselectedarea: rgba(151, 71, 255, .2);

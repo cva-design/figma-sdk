@@ -28,26 +28,33 @@
  *  For `changeCase` object documentation.
  */
 
-//@index(['*/index.svelte'], f => `export { default as ${f.path.split('/').at(-2)} } from '${f.path}${f.ext}';`)
-export { default as Button } from './Button/index.svelte';
-export { default as Checkbox } from './Checkbox/index.svelte';
-export { default as Disclosure } from './Disclosure/index.svelte';
-export { default as DisclosureItem } from './DisclosureItem/index.svelte';
-export { default as Icon } from './Icon/index.svelte';
-export { default as IconButton } from './IconButton/index.svelte';
+//@index(['*/index.ts'], (f, {pascalCase}) => `export * from '${f.path}${f.ext}';`)
+export * from './button/index.ts';
+export * from './checkbox/index.ts';
+export * from './icon/index.ts';
+export * from './popover/index.ts';
+export * from './select-menu/index.ts';
+export * from './tooltip/index.ts';
+export * from './tree/index.ts';
+//@endindex
+
+//@index(['*/index.svelte'], (f, {pascalCase}) => `export { default as ${pascalCase(f.path.split('/').at(-2))} } from '${f.path}${f.ext}';`)
+export { default as Disclosure } from './disclosure/index.svelte';
+export { default as IconButton } from './icon-button/index.svelte';
 export { default as Input } from './Input/index.svelte';
-export { default as Label } from './Label/index.svelte';
-export { default as OnboardingTip } from './OnboardingTip/index.svelte';
-export { default as Radio } from './Radio/index.svelte';
-export { default as Section } from './Section/index.svelte';
-export { default as SelectDivider } from './SelectDivider/index.svelte';
-export { default as SelectItem } from './SelectItem/index.svelte';
-export { default as SelectMenu } from './SelectMenu/index.svelte';
-export { default as Switch } from './Switch/index.svelte';
-export { default as Textarea } from './Textarea/index.svelte';
-export { default as Type } from './Type/index.svelte';
+export { default as Label } from './label/index.svelte';
+export { default as OnboardingTip } from './onboarding-tip/index.svelte';
+export { default as Radio } from './radio/index.svelte';
+export { default as Section } from './section/index.svelte';
+export { default as Switch } from './switch/index.svelte';
+export { default as Textarea } from './textarea/index.svelte';
+export { default as Type } from './type/index.svelte';
 //@endindex
 
 //@index(['*/types.ts'], f => `export * from '${f.path}';`)
-export * from './SelectMenu/types';
+export * from './select-menu/types';
+export * from './tree/types';
 //@endindex
+
+export { Button } from './button';
+// Export other components as they are migrated
