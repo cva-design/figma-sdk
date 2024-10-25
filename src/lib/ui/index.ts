@@ -35,6 +35,7 @@ export * from './icon/index.ts';
 export * from './popover/index.ts';
 export * from './select-menu/index.ts';
 export * from './slider/index.ts';
+export * from './text/index.ts';
 export * from './tooltip/index.ts';
 export * from './tree/index.ts';
 //@endindex
