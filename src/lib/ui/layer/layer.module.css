@@ -1,0 +1,162 @@
+.layer {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border-radius: var(--radius-medium);
+  overflow: visible;
+}
+
+.layerContent {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  height: 32px;
+  align-items: center;
+  padding: 0;
+}
+
+.input,
+.box {
+  position: absolute;
+  top: 4px;
+  right: 8px;
+  bottom: 4px;
+  left: 12px;
+}
+
+.box {
+  border-radius: var(--radius-medium);
+}
+
+.input {
+  z-index: 3;
+  display: block;
+  opacity: 0;
+  cursor: pointer;
+  width: calc(100% - 20px);
+  height: 24px;
+}
+
+.disabled .input {
+  cursor: not-allowed;
+}
+
+.input:checked ~ .box {
+  background-color: var(--figma-color-bg-selected);
+}
+
+.input:not(:checked):hover ~ .box {
+  background-color: var(--figma-color-bg-hover);
+}
+
+.input:focus ~ .box {
+  border: 2px solid var(--figma-color-border-brand-strong);
+}
+
+.component .input:checked ~ .box {
+  background-color: var(--figma-color-bg-component-tertiary);
+}
+
+.component .input:not(:checked):hover ~ .box {
+  background-color: var(--figma-color-bg-component-hover);
+}
+
+.component .input:focus ~ .box {
+  border-color: var(--figma-color-border-component-strong);
+}
+
+.icon,
+.name,
+.description {
+  position: relative;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.icon {
+  height: 16px;
+  flex: 0 0 16px;
+  margin-right: 8px;
+  color: var(--figma-color-icon-secondary);
+}
+
+.input:checked ~ .icon {
+  color: var(--figma-color-icon);
+}
+
+.component .icon,
+.component .input:checked ~ .icon {
+  color: var(--figma-color-icon-component);
+}
+
+.name {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.layer-indent {
+  display: flex;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  width: 16px;
+  text-align: right;
+}
+
+.layer-indent {
+  display: flex;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  width: 16px;
+}
+.layer:not(.layer-topLevel) .layer-indent:not(:first-child) {
+  margin-right: 8px;
+}
+
+.description {
+  margin-left: 8px;
+  color: var(--figma-color-text-secondary);
+}
+
+.children {
+  display: none;
+  position: relative;
+}
+
+.layer.expanded > .children {
+  display: block;
+}
+
+.layer.expanded.selected > .layerContent .box {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.layer.expanded.selected > .children {
+  background-color: var(--figma-color-bg-selected-secondary);
+  border-bottom-left-radius: var(--radius-medium);
+  border-bottom-right-radius: var(--radius-medium);
+  margin: -4px 8px 0 12px;
+  padding-top: 4px;
+  padding-bottom: var(--radius-medium);
+  padding-right: 4px;
+}
+
+.component.expanded.selected > .children {
+  background-color: var(--figma-color-bg-component-secondary);
+}
+
+.children > .layer {
+  margin-top: 1px;
+}
+
+/* Remove background for selected children when parent is selected */
+.layer.expanded.selected .children .layer .input:checked ~ .box {
+  background-color: transparent;
+}
+
+.layer.expanded.selected .children .layer.component .input:checked ~ .box {
+  background-color: transparent;
+}

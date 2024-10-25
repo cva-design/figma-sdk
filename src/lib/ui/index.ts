@@ -32,6 +32,7 @@
 export * from './button/index.ts';
 export * from './checkbox/index.ts';
 export * from './icon/index.ts';
+export * from './layer/index.ts';
 export * from './popover/index.ts';
 export * from './select-menu/index.ts';
 export * from './slider/index.ts';
