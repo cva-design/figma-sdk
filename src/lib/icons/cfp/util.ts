@@ -11,5 +11,5 @@ export function getIconPath<T extends IconName>(
   iconName: T,
   size: SizeForIcon<T>,
 ): string {
-  return `$lib/icons/size-${size}/${iconName}-${size}.svg`;
+  return `src/lib/icons/cfp/size-${size}/${iconName}-${size}.svg`;
 }
