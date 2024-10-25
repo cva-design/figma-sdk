@@ -1,7 +1,7 @@
 /**
  * Automatic Index (vscode snippet: cva-index)
  * 1. Install the extension: JayFong.generate-index
- * 2. Open VS Commands [⌘-⇧-P] and select 'Generate Index'
+ * 2. Open VS Commands [ ⌘-⇧-P ] and select 'Generate Index'
  * 3. Edit the @index() function call to do what you want
  *
  * ## Cheat Sheet
@@ -18,12 +18,8 @@
  *
  * @example Fill the blank below with the name of a file in this folder to see the output
  *
- * @index('./______________', (patterns,changeCase,extraInfo) => '*
-' + JSON.stringify({patterns,changeCase,extraInfo}, null, 2).split('
-').map(s => ` * s`).join('
-') + '
- *')
- *
+ * @index('./______________', (patterns,changeCase,extraInfo) => '*\n' + JSON.stringify({patterns,changeCase,extraInfo}, null, 2).split('\n').map(s => ` * ${s}`).join('\n') + '\n *')
+
  * @endindex
  *
  * @see {@link https://github.com/fjc0k/vscode-generate-index | vscode-generate-index}
@@ -32,24 +28,32 @@
  *  For `changeCase` object documentation.
  */
 
-//@index(['./*.svg', './**/index.*'], f => `export * from '${f.path}${f.ext === '.ts' ? '' : f.ext}';`)
-export * from './toolbar-actions.svg';
-export * from './toolbar-arrow.svg';
-export * from './toolbar-comment.svg';
-export * from './toolbar-dev-mode.svg';
-export * from './toolbar-ellipse.svg';
-export * from './toolbar-frame.svg';
-export * from './toolbar-hand-tool.svg';
-export * from './toolbar-line.svg';
-export * from './toolbar-move.svg';
-export * from './toolbar-pen.svg';
-export * from './toolbar-pencil.svg';
-export * from './toolbar-polygon.svg';
-export * from './toolbar-rectangle.svg';
-export * from './toolbar-ruler.svg';
-export * from './toolbar-scale.svg';
-export * from './toolbar-section.svg';
-export * from './toolbar-slice.svg';
-export * from './toolbar-star.svg';
-export * from './toolbar-text.svg';
+//@index('./*.{png,jpg,jpeg,svg,gif}', (f, _) => `export { default as ${_.pascalCase(f.name).replace(/(_[0-9]+|$)/, 'Svg$1')} } from '${f.path}${f.ext}?raw';`)
+export { default as LayerPolygonSvg_12 } from './layer-polygon-12.svg?raw';
+export { default as LayerPolygonSvg_16 } from './layer-polygon-16.svg?raw';
+export { default as LayerPolygonSvg_32 } from './layer-polygon-32.svg?raw';
+export { default as LayerSectionSvg_16 } from './layer-section-16.svg?raw';
+export { default as LayerStarSvg_12 } from './layer-star-12.svg?raw';
+export { default as LayerStarSvg_16 } from './layer-star-16.svg?raw';
+export { default as LayerStarSvg_32 } from './layer-star-32.svg?raw';
+export { default as LayerWidgetSvg_16 } from './layer-widget-16.svg?raw';
+export { default as ToolbarActionsSvg } from './toolbar-actions.svg?raw';
+export { default as ToolbarArrowSvg } from './toolbar-arrow.svg?raw';
+export { default as ToolbarCommentSvg } from './toolbar-comment.svg?raw';
+export { default as ToolbarDevModeSvg } from './toolbar-dev-mode.svg?raw';
+export { default as ToolbarEllipseSvg } from './toolbar-ellipse.svg?raw';
+export { default as ToolbarFrameSvg } from './toolbar-frame.svg?raw';
+export { default as ToolbarHandToolSvg } from './toolbar-hand-tool.svg?raw';
+export { default as ToolbarLineSvg } from './toolbar-line.svg?raw';
+export { default as ToolbarMoveSvg } from './toolbar-move.svg?raw';
+export { default as ToolbarPenSvg } from './toolbar-pen.svg?raw';
+export { default as ToolbarPencilSvg } from './toolbar-pencil.svg?raw';
+export { default as ToolbarPolygonSvg } from './toolbar-polygon.svg?raw';
+export { default as ToolbarRectangleSvg } from './toolbar-rectangle.svg?raw';
+export { default as ToolbarRulerSvg } from './toolbar-ruler.svg?raw';
+export { default as ToolbarScaleSvg } from './toolbar-scale.svg?raw';
+export { default as ToolbarSectionSvg } from './toolbar-section.svg?raw';
+export { default as ToolbarSliceSvg } from './toolbar-slice.svg?raw';
+export { default as ToolbarStarSvg } from './toolbar-star.svg?raw';
+export { default as ToolbarTextSvg } from './toolbar-text.svg?raw';
 //@endindex
