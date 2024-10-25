@@ -6,8 +6,6 @@
 	export let nodes: ITreeNode[] = [];
 	export let options: TreeOptions = {
 		indentationWidth: 20,
-		expandIcon: '▶',
-		collapseIcon: '▼',
 		showLayerIcon: true,
 		defaultActions: []
 	};

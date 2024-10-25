@@ -20,13 +20,14 @@
 	/**
 	 * color: The color of the icon. This should be a CSS color variable.
 	 */
-	export let color: '--figma-color-icon' | string = '--figma-color-icon';
+	export let color: '--figma-color-icon' | AutocompletableString = '--figma-color-icon';
 
 	/**
 	 * className: Additional CSS classes that can be applied to the icon.
 	 */
 	let className = '';
 	export { className as class };
+	import type { AutocompletableString } from '$lib/util';
 </script>
 
 <!-- @component
@@ -36,11 +37,12 @@
   is controlled by the 'color' prop, and additional CSS classes can be applied using 
   the 'className' prop. If the 'spin' prop is true, a spinning animation will be applied to the icon.
 -->
-<div class="icon-component {className}">
+<div class="icon-component {className}" style="color: var({color}); fill: var({color})">
 	{#if iconText}
 		{iconText}
 	{:else}
-		<img src={iconUrl} style="color: var({color}); fill: var({color})" class:spin alt="Component" />
+		{@html iconUrl}
+		<!-- <img src={iconUrl} style="color: var({color}); fill: var({color})" class:spin alt="Component" /> -->
 	{/if}
 </div>
 

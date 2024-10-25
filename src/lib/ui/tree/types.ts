@@ -13,8 +13,8 @@ export interface ITreeNode {
 
 export interface TreeOptions {
   indentationWidth: number;
-  expandIcon: string;
-  collapseIcon: string;
+  expandIcon?: string;
+  collapseIcon?: string;
   showLayerIcon: boolean;
   defaultActions: Action[];
 }

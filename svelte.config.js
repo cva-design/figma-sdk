@@ -15,10 +15,18 @@ const config = {
     adapter: adapter(),
 
     alias: {
+      $lib: 'src/lib',
+      '$lib/*': 'src/lib/*',
       $ui: 'src/lib/ui',
       '$ui/*': 'src/lib/ui/*',
-      $icons: 'src/lib/icons/index.js',
-      'icons/*': 'src/lib/icons/*',
+      '$icons/16': 'src/lib/icons/cfp/size-16/index.ts',
+      '#icons/16': 'src/lib/icons/cfp/size-16/index.ts',
+      '$icons/16/*': 'src/lib/icons/cfp/size-16/*',
+      '$icons/32': 'src/lib/icons/cfp/size-32/index.ts',
+      '$icons/32/*': 'src/lib/icons/cfp/size-32/*',
+      // BE CAREFULL! ORDER IS IMPORTANT HERE!
+      $icons: 'src/lib/icons/index.ts',
+      '$icons/*': 'src/lib/icons/*',
     },
   },
 };

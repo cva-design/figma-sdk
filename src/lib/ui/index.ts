@@ -34,6 +34,7 @@ export * from './checkbox/index.ts';
 export * from './icon/index.ts';
 export * from './popover/index.ts';
 export * from './select-menu/index.ts';
+export * from './slider/index.ts';
 export * from './tooltip/index.ts';
 export * from './tree/index.ts';
 //@endindex
@@ -52,9 +53,11 @@ export { default as Type } from './type/index.svelte';
 //@endindex
 
 //@index(['*/types.ts'], f => `export * from '${f.path}';`)
+export * from './layer/types';
 export * from './select-menu/types';
 export * from './tree/types';
 //@endindex
 
 export { Button } from './button';
+export { Slider } from './slider';
 // Export other components as they are migrated

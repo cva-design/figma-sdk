@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { control } from '$icons';
 	import { createEventDispatcher } from 'svelte';
 	import type { Action, ITreeNode, TreeOptions } from './types';
 
@@ -18,14 +19,17 @@
 	function handleAction(action: Action, event: Event) {
 		dispatch('nodeAction', { node, action, event });
 	}
+
+	options.expandIcon = options.expandIcon ?? control.ControlChevronUpSvg;
+	options.collapseIcon = options.collapseIcon ?? control.ControlChevronDownSvg;
 </script>
 
 <div class="tree-node" style="padding-left: {depth * options.indentationWidth}px;">
 	<div class="node-content">
 		{#if node.children && node.children.length > 0}
-			<span class="expand-icon" on:click={toggleExpand}>
-				{isExpanded ? options.collapseIcon : options.expandIcon}
-			</span>
+			<button class="expand-icon" on:click={toggleExpand}>
+				{@html isExpanded ? options.collapseIcon : options.expandIcon}
+			</button>
 		{/if}
 		{#if options.showLayerIcon && node.icon}
 			<span class="node-icon">{node.icon}</span>

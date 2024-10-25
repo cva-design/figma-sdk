@@ -11,14 +11,11 @@
     "skipLibCheck": true,
     "sourceMap": true,
     "strict": true,
-    "moduleResolution": "bundler",
-    "baseUrl": "./",
-    "rootDir": "../../",
-    "paths": {
-      "$ui": ["src/lib/ui"],
-      "$ui/*": ["src/lib/ui/*"],
-      "$icons": ["src/lib/icons/index.ts"],
-      "$icons/*": ["src/lib/icons/*"]
-    }
+    "moduleResolution": "bundler"
+    // THE PROPS BELOW MUST NOT BE DEFINED HERE
+    // PATHS ARE DEFINED IN SVELTE.CONFIG.JS
+    // "baseUrl": "."
+    // "rootDir": "../../"
+    // "paths": {}
   }
 }
