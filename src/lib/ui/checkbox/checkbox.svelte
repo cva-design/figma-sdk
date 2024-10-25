@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Label from '$ui/text/label.svelte';
 	import { createCheckbox } from '@melt-ui/svelte';
 	import CheckmarkIndeterminateIcon from './assets/checkmark-indeterminate.svelte';
 	import CheckmarkIcon from './assets/checkmark.svelte';
@@ -42,9 +43,9 @@
 			<CheckmarkIcon class="fp-CheckboxCheckmark" size="4" />
 		{/if}
 	</span>
-	<label class="fp-CheckboxLabel" for="checkbox-input" aria-hidden="true" id="checkbox-label">
+	<Label class="fp-CheckboxLabel" for="checkbox-input" aria-hidden="true" id="checkbox-label">
 		{label}
-	</label>
+	</Label>
 	{#if $$slots.description}
 		<span class="fp-CheckboxDescription" id="checkbox-description">
 			<slot name="description" />

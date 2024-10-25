@@ -43,8 +43,6 @@
 		],
 		options: {
 			indentationWidth: 20,
-			expandIcon: '▶',
-			collapseIcon: '▼',
 			showLayerIcon: true,
 			defaultActions: [{ id: 'info', icon: 'ℹ️', tooltip: 'Info' }]
 		}

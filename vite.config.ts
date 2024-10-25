@@ -1,9 +1,30 @@
 import { sveltekit } from '@sveltejs/kit/vite';
-import { defineConfig } from 'vitest/config';
+import path from 'node:path';
+import { default as tsconfigPaths } from 'vite-tsconfig-paths';
+import { type Plugin, defineConfig } from 'vitest/config';
 import { svelteWarnings } from './src/lib/config/svelte-warnings/plugin';
+// Debug plugin
+const debugResolvePlugin = (): Plugin => ({
+  name: 'debug-resolve',
+  configureServer(server) {
+    server.middlewares.use((req, res, next) => {
+      console.log(`Request URL: ${req.url}`);
+      next();
+    });
+  },
+  resolveId(source, importer) {
+    console.log(`Resolving: ${source} from ${importer}`);
+    return null;
+  },
+});
 
 const config = defineConfig({
+  root: path.resolve(__dirname, '.'),
   plugins: [
+    debugResolvePlugin(),
+    tsconfigPaths({
+      root: path.resolve(__dirname, '.'),
+    }) as Plugin,
     sveltekit(),
     svelteWarnings({
       disable: [/a11y*/],
@@ -11,9 +32,6 @@ const config = defineConfig({
       listAllCodes: true,
     }),
   ],
-  resolve: {
-    conditions: ['cva-dev'],
-  },
   build: {
     sourcemap: true,
   },
