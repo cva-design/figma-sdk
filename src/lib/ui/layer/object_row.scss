@@ -1,0 +1,277 @@
+// Variables
+$spacing: (
+  xs: 4px,
+  sm: 8px,
+  md: 16px,
+  lg: 24px,
+  xl: 32px
+);
+
+$icon-size: 16px;
+
+// Mixins
+@mixin icon-colors($prefix: "") {
+  color: var(--color-icon#{$prefix});
+  fill: var(--color-icon#{$prefix});
+  stroke: var(--color-icon#{$prefix});
+}
+
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// Base styles
+.bullet {
+  height: 4px;
+  width: 4px;
+  background-color: var(--color-icon-brand);
+  border-radius: 100%;
+  @include flex-center;
+}
+
+.row {
+  position: absolute;
+  top: 0;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  color: var(--color-text);
+  fill: var(--color-text);
+  stroke: var(--color-text);
+  box-sizing: border-box;
+  background-color: var(--color-bg);
+  cursor: default;
+  letter-spacing: 0.005em;
+
+  // UI3 version specific styles
+  [data-fpl-version="ui3"] & {
+    background-color: unset;
+
+    &.topLevel {
+      background-color: var(--color-bg);
+    }
+
+    &.hovered:after {
+      border: none;
+      content: "";
+      height: $spacing-lg;
+      border-radius: var(--radius-medium);
+      background-color: var(--color-bg-hover);
+      position: absolute;
+      left: $spacing-md;
+      right: $spacing-sm;
+      top: $spacing-xs;
+      z-index: -1;
+    }
+  }
+
+  // States
+  &.webpage {
+    background-color: transparent;
+  }
+
+  &.sectionHeader {
+    font-size: 9px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-text-secondary);
+  }
+
+  &.selected {
+    background-color: var(--color-bg-selected);
+    border-color: transparent;
+    z-index: 4;
+
+    .layerIcon {
+      @include icon-colors("-onselected");
+    }
+
+    .pill {
+      border-color: var(--color-text-onselected);
+    }
+
+    &.expanded {
+      &:after {
+        border-radius: var(--radius-medium) var(--radius-medium) 0 0;
+        border-bottom: 4px solid var(--color-bg-selected-secondary);
+      }
+    }
+  }
+
+  &.hovered {
+    z-index: 3;
+
+    &:after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border: 1px solid var(--color-bg-brand-hover);
+      pointer-events: none;
+    }
+  }
+
+  &.disabled {
+    @include icon-colors("-disabled");
+  }
+}
+
+// Component styles
+.indents {
+  display: flex;
+  position: relative;
+  height: 100%;
+  flex-shrink: 0;
+
+  .mask {
+    @include icon-colors("-tertiary");
+    width: $icon-size;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    &.reversed {
+      transform: scaleY(-1);
+    }
+
+    &.sticky {
+      position: sticky;
+      right: $spacing-xl;
+      margin-left: -$icon-size;
+      margin-right: 0 !important;
+    }
+  }
+}
+
+.rowContent {
+  display: flex;
+  align-items: center;
+  height: 100%;
+
+  &.sticky {
+    position: sticky;
+    left: 0;
+    display: flex;
+    width: 0;
+  }
+}
+
+.layerIcon {
+  width: $icon-size;
+  @include flex-center;
+  flex-shrink: 0;
+  height: 100%;
+  @include icon-colors("-tertiary");
+
+  & + .layerIcon {
+    margin-left: $spacing-sm;
+  }
+
+  &.menu {
+    margin-right: $spacing-sm;
+    @include icon-colors("-menu");
+  }
+}
+
+// Additional components follow similar patterns...
+[data-fpl-version="ui3"] .object_row--row.object_row--codeComponent.object_row--topLevel--W50XB.object_row--selected--wBEzC,
+[data-fpl-version="ui3"] .object_row--row.object_row--module.object_row--topLevel--W50XB.object_row--selected--wBEzC {
+  background-color: var(--color-bg);
+}
+
+$row-types: (
+  symbolh,
+  symbolChild,
+  stateGroup,
+  instance,
+  instanceChild,
+  immutableFrame,
+  highlight,
+  module,
+  moduleChild,
+  sectionsCollapsed,
+  layerListRow,
+  "widget-",
+  codeComponent,
+  "stamp-"
+);
+
+.object_row--row {
+  @each $type in $row-types {
+    // Selected + Expanded state
+    &.object_row--#{$type}.object_row--selected--wBEzC.object_row--expanded---1WdM:after {
+      border-radius: var(--radius-medium) var(--radius-medium) 0 0;
+      border-bottom: 4px solid var(--color-bg-selected-secondary);
+    }
+
+    // Selected + Hovered state
+    &.object_row--#{$type}.object_row--selected--wBEzC.object_row--hovered--dpkIP:after {
+      @extend .object_row--row.object_row--#{$type}.object_row--selected--wBEzC.object_row--expanded---1WdM:after;
+    }
+
+    // Selected LayerIcon
+    &.object_row--#{$type}.object_row--selected--wBEzC .object_row--layerIcon {
+      color: var(--color-icon-component);
+      fill: var(--color-icon-component);
+      stroke: var(--color-icon-component);
+    }
+
+    // Hover and Hovered states
+    &.object_row--#{$type}:hover:after,
+    &.object_row--#{$type}.object_row--hovered--dpkIP:after {
+      margin-bottom: -1px;
+      border-color: var(--color-border-component);
+    }
+
+    // Disabled state
+    &.object_row--#{$type}.object_row--disabled--69orW {
+      &,
+      .object_row--layerIcon {
+        color: var(--color-text-component-tertiary);
+        fill: var(--color-icon-component-tertiary);
+        stroke: var(--color-icon-component-tertiary);
+        --color-icon: var(--color-icon-component-tertiary);
+      }
+
+      .object_row--pill {
+        border-color: var(--color-text-component-tertiary);
+      }
+    }
+
+    // Parent Selected state
+    &.object_row--#{$type}.object_row--parentSelected {
+      background-color: var(--color-bg-selected-secondary);
+
+      [data-fpl-version="ui3"] & {
+        background-color: unset;
+      }
+    }
+
+    // Default LayerIcon state
+    &.object_row--#{$type} .object_row--layerIcon {
+      color: var(--color-icon-component-tertiary);
+      fill: var(--color-icon-component-tertiary);
+      stroke: var(--color-icon-component-tertiary);
+      --color-icon: var(--color-icon-component-tertiary);
+      --color-icon-tertiary: var(--color-icon-component-tertiary);
+    }
+
+    // Disabled + Parent Selected combined state
+    &.object_row--#{$type}.object_row--disabled--69orW.object_row--parentSelected {
+      &,
+      .object_row--layerIcon {
+        color: var(--color-text-component-tertiary);
+        fill: var(--color-text-component-tertiary);
+        stroke: var(--color-text-component-tertiary);
+        --color-icon: var(--color-icon-component-tertiary);
+      }
+
+      .object_row--pill {
+        border-color: var(--color-text-component-tertiary);
+      }
+    }
+  }
+}
