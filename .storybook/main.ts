@@ -1,3 +1,4 @@
+import { dirname, join } from 'node:path';
 import type { StorybookConfig } from '@storybook/sveltekit';
 
 const config: StorybookConfig = {
@@ -5,7 +6,7 @@ const config: StorybookConfig = {
 
   addons: [
     '@chromatic-com/storybook',
-    '@kemuridama/storybook-addon-github ',
+    '@kemuridama/storybook-addon-github',
     '@storybook/addon-console',
     '@storybook/addon-coverage',
     '@storybook/addon-essentials',
@@ -15,13 +16,8 @@ const config: StorybookConfig = {
     '@storybook/addon-svelte-csf',
     'storybook-dark-mode',
   ],
-  framework: {
-    name: '@storybook/sveltekit',
-    options: {},
-  },
-  docs: {
-    autodocs: 'tag',
-  },
+  framework: '@storybook/sveltekit',
+  docs: {},
 
   // previewBody: (body) => {
   //   const themes = ['light', 'dark'];
@@ -38,3 +34,7 @@ const config: StorybookConfig = {
 };
 
 export default config;
+
+function getAbsolutePath(value: string): string {
+  return dirname(require.resolve(join(value, 'package.json')));
+}
