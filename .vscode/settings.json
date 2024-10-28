@@ -25,7 +25,20 @@
   "typescript.enablePromptUseWorkspaceTsdk": true,
   "typescript.preferences.autoImportFileExcludePatterns": ["dist/**"],
   "typescript.tsdk": "node_modules/typescript/lib",
-  "cSpell.words": ["@endindex", "antfu", "biomejs", "commitlint", "conventionalcommits", "dprint", "endindex", "Fong", "onwarn", "texthighlight", "typecheck"],
+  "cSpell.words": [
+    "@endindex",
+    "antfu",
+    "Autocompletable",
+    "biomejs",
+    "commitlint",
+    "conventionalcommits",
+    "dprint",
+    "endindex",
+    "Fong",
+    "onwarn",
+    "texthighlight",
+    "typecheck"
+  ],
   "gutterpreview.enableReferenceLookup": true,
   "gutterpreview.currentColorForSVG": "#CCC"
 }

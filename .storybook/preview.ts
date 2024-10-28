@@ -2,7 +2,7 @@ import type { Preview } from '@storybook/svelte';
 
 // GLOBAL STYLES
 import '../src/stories/assets/preview.css';
-// import './storybook-reset.css';
+import './storybook-reset.css';
 
 import { themes } from '@storybook/theming';
 

@@ -23,29 +23,63 @@ body {
   height: 350px;
 }
 
-.radix-notice {
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  display: flex;
-  align-items: center;
+#storybook-root {
+  min-width: 250px;
 }
 
-.radix-link {
-  display: inline-flex;
-  gap: 2px;
-  align-items: center;
+body {
+  margin: 0;
+  background-color: var(--figma-color-bg);
+  color: var(--figma-color-text);
+  font-family: var(--font-family);
+  font-size: var(--font-size-11);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-16);
 }
 
-.beta-notice {
-  border: 1px solid #fab815;
-  background-color: rgba(255, 241, 194, 0.2);
-  padding: 12px 16px;
-  border-radius: 5px;
-  margin: -24px auto 40px !important;
-  max-width: 720px;
+div, span {
+  cursor: default;
+  -webkit-user-select: none;
+  user-select: none;
+}
 
-  p {
-    margin: 0;
-  }
+h1, h2, h3 {
+  margin: 0;
+  font-weight: inherit;
+}
+
+button {
+  padding: 0;
+  border: 0;
+  -webkit-appearance: none;
+  background-color: transparent;
+  font: inherit;
+  outline: 0;
+}
+
+hr {
+  border: 0;
+  margin: 0;
+}
+
+label {
+  display: block;
+}
+
+input, textarea {
+  padding: 0;
+  border: 0;
+  margin: 0;
+  -webkit-appearance: none;
+  cursor: default;
+  font: inherit;
+  outline: 0;
+}
+
+svg {
+  display: block;
+}
+
+::selection {
+  background-color: var(--figma-color-bg-onselected);
 }
