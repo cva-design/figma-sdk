@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { control } from '$icons';
+	import { ChevronDownSvg_16, ChevronRightSvg_16 } from '$icons';
 	import { createEventDispatcher } from 'svelte';
 	import type { Action, ITreeNode, TreeOptions } from './types';
 
@@ -20,8 +20,8 @@
 		dispatch('nodeAction', { node, action, event });
 	}
 
-	options.expandIcon = options.expandIcon ?? control.ControlChevronUpSvg;
-	options.collapseIcon = options.collapseIcon ?? control.ControlChevronDownSvg;
+	options.expandIcon = options.expandIcon ?? ChevronRightSvg_16;
+	options.collapseIcon = options.collapseIcon ?? ChevronDownSvg_16;
 </script>
 
 <div class="tree-node" style="padding-left: {depth * options.indentationWidth}px;">
