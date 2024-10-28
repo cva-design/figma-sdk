@@ -51,6 +51,7 @@ export { default as CaretLeftSvg_16 } from './caret-left-16.svg?raw';
 export { default as CaretRightSvg_16 } from './caret-right-16.svg?raw';
 export { default as CaretUpSvg_16 } from './caret-up-16.svg?raw';
 export { default as ChevronDownSvg_16 } from './chevron-down-16.svg?raw';
+export { default as ChevronRightSvg_16 } from './chevron-right-16.svg?raw';
 export { default as ChevronUpSvg_16 } from './chevron-up-16.svg?raw';
 export { default as CircleHelpSvg_16 } from './circle-help-16.svg?raw';
 export { default as CircleInfoSvg_16 } from './circle-info-16.svg?raw';
