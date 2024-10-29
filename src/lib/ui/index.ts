@@ -31,6 +31,7 @@
 //@index(['*/index.ts'], (f, {pascalCase}) => `export * from '${f.path}${f.ext}';`)
 export * from './button/index.ts';
 export * from './checkbox/index.ts';
+export * from './disclosure/index.ts';
 export * from './icon/index.ts';
 export * from './layer/index.ts';
 export * from './popover/index.ts';
@@ -42,7 +43,6 @@ export * from './tree/index.ts';
 //@endindex
 
 //@index(['*/index.svelte'], (f, {pascalCase}) => `export { default as ${pascalCase(f.path.split('/').at(-2))} } from '${f.path}${f.ext}';`)
-export { default as Disclosure } from './disclosure/index.svelte';
 export { default as IconButton } from './icon-button/index.svelte';
 export { default as Input } from './Input/index.svelte';
 export { default as Label } from './label/index.svelte';

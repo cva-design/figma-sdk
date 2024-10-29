@@ -22,7 +22,7 @@
 </Story>
 
 <Story name="Custom Size">
-	<Icon iconUrl="#icon-default" size={48} />
+	<Icon iconUrl="#icon-default" />
 </Story>
 
 <Story name="Multiple Icons">

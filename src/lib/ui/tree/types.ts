@@ -1,3 +1,5 @@
+import type { Layer } from '../layer';
+
 export interface ITreeNode {
   id: string;
   title: string;
@@ -25,4 +27,5 @@ export interface Action {
   tooltip: string;
   enabled?: boolean;
   active?: boolean;
+  click?: (context: { action: Action; event: Event; layer: Layer }) => void;
 }

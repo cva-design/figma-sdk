@@ -37,7 +37,7 @@
 
 <Story name="With Labels">
 	<div style="display: flex; flex-direction: column; align-items: center;">
-		<Slider min={0} max={100} step={1} value={75} />
+		<Slider min={0} max={100} step={1} />
 		<div style="display: flex; justify-content: space-between; width: 100%; margin-top: 8px;">
 			<span>0</span>
 			<span>50</span>

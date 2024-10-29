@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { cva, type VariantProps } from 'class-variance-authority';
-	import type { HTMLParagraphAttributes } from 'svelte/elements';
+	import type { HTMLAttributes } from 'svelte/elements';
 	import './text.scss';
 
 	const paragraph = cva('fp-Text', {
@@ -30,7 +30,7 @@
 		}
 	});
 
-	interface $$Props extends HTMLParagraphAttributes, VariantProps<typeof paragraph> {
+	interface $$Props extends HTMLAttributes<HTMLParagraphElement>, VariantProps<typeof paragraph> {
 		block?: boolean;
 	}
 

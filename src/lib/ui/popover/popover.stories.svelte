@@ -1,6 +1,7 @@
 <script context="module" lang="ts">
 	import { Popover } from '$ui';
 	import { Story } from '@storybook/addon-svelte-csf';
+	import { PopoverPlacements } from './popover.svelte';
 
 	export const meta = {
 		title: 'ui/Popover',
@@ -44,13 +45,13 @@
 
 <Story name="Placements">
 	<div style="display: flex; justify-content: space-between; padding: 100px;">
-		{#each ['top', 'bottom', 'left', 'right'] as placement}
+		{#each PopoverPlacements as placement}
 			<div>
-				<button on:click={() => (isOpen = placement)}>
+				<button on:click={() => (isOpen = true)}>
 					Open {placement}
 				</button>
 				<Popover
-					isOpen={isOpen === placement}
+					isOpen={isOpen === true}
 					anchor={anchorElement}
 					{placement}
 					offset={8}
