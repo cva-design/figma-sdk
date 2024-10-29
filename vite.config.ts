@@ -1,8 +1,12 @@
 import { sveltekit } from '@sveltejs/kit/vite';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { default as tsconfigPaths } from 'vite-tsconfig-paths';
 import { type Plugin, defineConfig } from 'vitest/config';
 import { svelteWarnings } from './src/lib/config/svelte-warnings/plugin';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
 // Debug plugin
 const debugResolvePlugin = (): Plugin => ({
   name: 'debug-resolve',
@@ -20,6 +24,10 @@ const debugResolvePlugin = (): Plugin => ({
 
 const config = defineConfig({
   root: path.resolve(__dirname, '.'),
+  // define: {
+  //   __dirname: 'import.meta.dirname',
+  //   __filename: 'import.meta.url',
+  // },
   plugins: [
     debugResolvePlugin(),
     tsconfigPaths({
@@ -32,8 +40,14 @@ const config = defineConfig({
       listAllCodes: true,
     }),
   ],
+  optimizeDeps: {
+    exclude: ['fsevents'],
+  },
   build: {
     sourcemap: true,
+    commonjsOptions: {
+      transformMixedEsModules: true,
+    },
   },
   test: {
     include: ['src/**/*.{test,spec}.{js,ts}'],

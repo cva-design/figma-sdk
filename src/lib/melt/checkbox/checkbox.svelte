@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Check, Minus } from '$icons/index.js';
+	import { CheckboxCheckedSvg_12, CheckboxMixedSvg_12 } from '$icons';
 	import { createCheckbox } from '@melt-ui/svelte';
 
 	const {
@@ -20,9 +20,9 @@
 			id="checkbox"
 		>
 			{#if $isIndeterminate}
-				<Minus class="size-5" />
+				{@html CheckboxMixedSvg_12}
 			{:else if $isChecked}
-				<Check class="size-5" />
+				{@html CheckboxCheckedSvg_12}
 			{/if}
 			<input {...$input} use:input />
 		</button>

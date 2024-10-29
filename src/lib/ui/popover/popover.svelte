@@ -1,10 +1,15 @@
+<script context="module" lang="ts">
+	export const PopoverPlacements = ['top', 'bottom', 'left', 'right'] as const;
+	export type PopoverPlacement = (typeof PopoverPlacements)[number];
+</script>
+
 <script lang="ts">
 	import { createEventDispatcher, onDestroy, onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
 
 	export let isOpen = false;
 	export let anchor: HTMLElement | null = null;
-	export let placement: 'top' | 'bottom' | 'left' | 'right' = 'bottom';
+	export let placement: PopoverPlacement = 'top';
 	export let offset = 8;
 	export let className = '';
 

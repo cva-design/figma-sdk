@@ -7,11 +7,6 @@
 	export let iconUrl: string | null = null;
 
 	/**
-	 * spin: A boolean that, when true, applies a spinning animation to the icon.
-	 */
-	export let spin: boolean = false;
-
-	/**
 	 * iconText: A string that will be displayed as the icon's text.
 	 * If this prop is provided, it will be used instead of the iconName prop.
 	 */
