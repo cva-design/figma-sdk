@@ -1,3 +1,21 @@
+<script lang="ts" context="module">
+	export type LayerProps = {
+		type: LayerType;
+		name: string;
+		component: boolean;
+		selected: boolean;
+		description?: string;
+		actions: Array<{
+			id: string;
+			icon: string;
+			tooltip: string;
+			active?: boolean;
+			enabled?: boolean;
+		}>;
+		click?: (event: Event) => void;
+	};
+</script>
+
 <script lang="ts">
 	import { Text } from '$ui';
 	import type { LayerType } from '../layer/types';
@@ -19,6 +37,7 @@
 	import Action from './Action.svelte';
 
 	$: iconUrl = LayerIcon[type];
+	const props = $$props as unknown as LayerProps;
 </script>
 
 <div class="layer" class:component class:selected>
@@ -35,7 +54,7 @@
 	{#if actions.length > 0}
 		<span class="layer--actions">
 			{#each actions as action (action.id)}
-				<Action {action} on:click />
+				<Action {action} layer={props} on:click />
 			{/each}
 		</span>
 	{/if}
