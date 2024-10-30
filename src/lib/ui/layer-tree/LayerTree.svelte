@@ -10,6 +10,7 @@
 		expanded?: boolean;
 		actions?: ActionType[];
 		depth?: number;
+		click?: (event: Event, tree: LayerTreeData) => void;
 	};
 </script>
 
@@ -31,13 +32,19 @@
 	function toggleExpand() {
 		expanded = !expanded;
 	}
+
+	function handleClick(event: Event) {
+		if (tree && tree.click) {
+			tree.click(event, tree);
+		}
+	}
 </script>
 
 {#if tree}
-	<div class="layerTree" style="--depth: {depth}">
+	<div class="layerTree" style="--depth: {depth}" on:click|stopPropagation={handleClick}>
 		<div class="layerTree--header">
 			{#if tree.children.length > 0}
-				<button class="layerTree--caret" on:click={toggleExpand} class:expanded>
+				<button class="layerTree--caret" on:click|stopPropagation={toggleExpand} class:expanded>
 					{@html expanded ? ChevronDownSvg_16 : ChevronRightSvg_16}
 				</button>
 			{/if}
@@ -49,7 +56,6 @@
 				component={tree.component}
 				selected={tree.selected}
 				actions={tree.actions}
-				on:click
 			/>
 		</div>
 

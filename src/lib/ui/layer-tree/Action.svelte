@@ -1,17 +1,29 @@
 <script lang="ts">
 	import type { HTMLAttributes } from 'svelte/elements';
+	import type { LayerProps } from './Layer.svelte';
+
+	interface Action {
+		id: string;
+		icon: string;
+		tooltip: string;
+		active?: boolean;
+		enabled?: boolean;
+		click?: (params: { action: Action; event: Event; layer: LayerProps }) => void;
+	}
 
 	interface $$Props extends HTMLAttributes<HTMLButtonElement> {
-		action: {
-			id: string;
-			icon: string;
-			tooltip: string;
-			active?: boolean;
-			enabled?: boolean;
-		};
+		action: Action;
+		layer: LayerProps;
 	}
 
 	export let action: $$Props['action'];
+	export let layer: LayerProps;
+
+	function handleClick(event: Event) {
+		if (action.click) {
+			action.click({ action, event, layer });
+		}
+	}
 </script>
 
 <button
@@ -19,6 +31,7 @@
 	class:active={action.active}
 	disabled={!action.enabled}
 	title={action.tooltip}
+	on:click={handleClick}
 	{...$$restProps}
 >
 	{@html action.icon}
