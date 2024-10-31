@@ -28,7 +28,7 @@
 	export let expanded: boolean = false;
 	export let actions: ActionType[] = [];
 	export let depth: number = 0;
-
+	export let click: (event: Event, tree: LayerTreeData) => void = () => {};
 	function toggleExpand() {
 		expanded = !expanded;
 	}
@@ -36,6 +36,11 @@
 	function handleClick(event: Event) {
 		if (tree && tree.click) {
 			tree.click(event, tree);
+		}
+		if (click) {
+			click(event, {
+				...$$props as LayerTreeData,
+			});
 		}
 	}
 </script>
@@ -68,9 +73,9 @@
 		{/if}
 	</div>
 {:else}
-	<div class="layerTree" style="--depth: {depth}">
+	<div class="layerTree" style="--depth: {depth}"  on:click|stopPropagation={handleClick}>
 		<div class="layerTree--header">
-			<button class="layerTree--caret" on:click={toggleExpand} class:expanded>
+			<button class="layerTree--caret" on:click|stopPropagation={toggleExpand} class:expanded>
 				{@html expanded ? ChevronDownSvg_16 : ChevronRightSvg_16}
 			</button>
 
