@@ -42,6 +42,11 @@
 	export let fullWidth: boolean = false;
 </script>
 
-<button class={button({ variant, size, fullWidth, class: $$props.class })} {...$$restProps}>
+<button
+	class={button({ variant, size, fullWidth, class: $$props.class })}
+	{...$$restProps}
+	on:click
+	on:submit|preventDefault
+>
 	<slot />
 </button>
