@@ -1,6 +1,6 @@
 {
   "name": "@cva.design/figma-sdk",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "type": "module",
   "description": "An SDK for creating Figma plugins in Svelte SDK",
   "scripts": {
@@ -33,19 +33,17 @@
       "types": "./dist/index.d.ts",
       "svelte": "./dist/index.js"
     },
+    "./package.json": {
+      "default": "./package.json"
+    },
     "./global.css": {
       "cva-dev": "./src/lib/styles/global.css",
       "default": "./dist/styles/global.css"
     },
     "./config/*": {
-      "default": [
-        "./dist/config/*",
-        "./dist/config/*.js",
-        "./dist/config/*/index.js"
-      ]
-    },
-    "./config/svelte-warnings": {
-      "default": "./dist/config/svelte-warnings/index.js"
+      "cva-dev": "./src/lib/config/*",
+      "development": "./src/lib/config/*",
+      "default": "./dist/lib/config/*"
     },
     "./ui": {
       "types": "./dist/ui/index.d.ts",
@@ -70,6 +68,9 @@
     "./icons/*.svg": {
       "svelte": "./dist/icons/ui2/*.svg"
     },
+    "./src/*": {
+      "default": "./src/lib/*"
+    },
     "./tokens": {
       "cva-dev": "./src/lib/tokens/index.css",
       "default": "./dist/tokens/index.css"
@@ -79,12 +80,7 @@
       "default": "./dist/tokens/*.css"
     }
   },
-  "files": [
-    "dist",
-    "!dist/**/*.test.*",
-    "!dist/**/*.spec.*",
-    "src/**/*"
-  ],
+  "files": ["dist", "!dist/**/*.test.*", "!dist/**/*.spec.*", "src/**/*"],
   "devDependencies": {
     "@antfu/ni": "^0.23.0",
     "@biomejs/biome": "^1.9.4",
@@ -143,9 +139,7 @@
   "svelte": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "eslintConfig": {
-    "extends": [
-      "plugin:storybook/recommended"
-    ]
+    "extends": ["plugin:storybook/recommended"]
   },
   "dependencies": {
     "@melt-ui/svelte": "^0.85.0",
