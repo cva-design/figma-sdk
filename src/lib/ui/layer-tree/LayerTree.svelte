@@ -39,7 +39,7 @@
 		}
 		if (click) {
 			click(event, {
-				...$$props as LayerTreeData,
+				...($$props as LayerTreeData)
 			});
 		}
 	}
@@ -73,7 +73,7 @@
 		{/if}
 	</div>
 {:else}
-	<div class="layerTree" style="--depth: {depth}"  on:click|stopPropagation={handleClick}>
+	<div class="layerTree" style="--depth: {depth}" on:click|stopPropagation={handleClick}>
 		<div class="layerTree--header">
 			<button class="layerTree--caret" on:click|stopPropagation={toggleExpand} class:expanded>
 				{@html expanded ? ChevronDownSvg_16 : ChevronRightSvg_16}
