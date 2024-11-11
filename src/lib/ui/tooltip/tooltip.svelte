@@ -1,47 +1,98 @@
 <script lang="ts">
+	import { createTooltip, melt } from '@melt-ui/svelte';
 	import { createEventDispatcher } from 'svelte';
 
-	export let content: string;
-	export let position: 'top' | 'right' | 'bottom' | 'left' = 'top';
-	export let className: string = '';
+	type Position = 'top' | 'right' | 'bottom' | 'left';
+
+	export let content: string | HTMLElement;
+	export let position: Position = 'top';
+	export let className = '';
+	export let openDelay = 1000;
+	export let closeDelay = 500;
+	export let disableHoverableContent = false;
+	export let defaultOpen = false;
+	export let open: boolean | undefined = undefined;
+	export let forceMount = false;
+	export let closeOnPointerDown = true;
+	export let arrowSize = 8;
+	export let group: string | boolean = false;
 
 	const dispatch = createEventDispatcher();
 
-	let isVisible = false;
-
-	function showTooltip() {
-		isVisible = true;
-		dispatch('show');
-	}
-
-	function hideTooltip() {
-		isVisible = false;
-		dispatch('hide');
-	}
+	const {
+		elements: { trigger, content: tooltipContent, arrow },
+		states: { open: isOpen }
+	} = createTooltip({
+		positioning: {
+			placement: position,
+			gutter: 8,
+			overflowPadding: 8
+		},
+		arrowSize,
+		openDelay,
+		closeDelay,
+		disableHoverableContent,
+		closeOnPointerDown,
+		defaultOpen,
+		forceVisible: forceMount,
+		group,
+		onOpenChange: ({ curr, next }) => {
+			dispatch('openChange', { open: next });
+			dispatch(next ? 'show' : 'hide');
+			return next;
+		}
+	});
 
 	$: classes = [
-		'fp-Tooltip',
-		`fp-Tooltip--${position}`,
-		isVisible ? 'fp-Tooltip--visible' : '',
+		'fp-tooltip',
+		position && `fp-tooltip--${position}`,
+		$isOpen ? 'fp-tooltip--visible' : '',
 		className
 	]
 		.filter(Boolean)
 		.join(' ');
 </script>
 
-<div
-	class={classes}
-	on:mouseenter={showTooltip}
-	on:mouseleave={hideTooltip}
-	on:focusin={showTooltip}
-	on:focusout={hideTooltip}
->
+<div class="fp-tooltip-wrapper" use:melt={$trigger}>
 	<slot />
-	{#if isVisible}
-		<div class="fp-Tooltip-content">
-			{content}
-		</div>
-	{/if}
 </div>
 
-<style src="./tooltip.css"></style>
+{#if $isOpen || forceMount}
+	<div use:melt={$tooltipContent} class={classes}>
+		{content}
+		<div use:melt={$arrow} class="fp-tooltip-arrow" />
+	</div>
+{/if}
+
+<style>
+	.fp-tooltip-wrapper {
+		position: relative;
+		display: inline-block;
+	}
+
+	.fp-tooltip {
+		position: absolute;
+		z-index: 1000;
+		box-sizing: border-box;
+		padding: var(--space-1) var(--space-2);
+		background-color: var(--color-bg-tooltip);
+		font-family: var(--font-family-default);
+		font-size: var(--font-size-default);
+		font-weight: var(--font-weight-default);
+		letter-spacing: var(--letter-spacing-default);
+		line-height: var(--line-height-default);
+		min-height: var(--space-6);
+		color: var(--color-text-tooltip);
+		white-space: pre-wrap;
+		word-break: break-word;
+		border-radius: var(--radius-medium);
+		box-shadow: var(--elevation-300, 0 2px 7px rgba(0, 0, 0, 0.15));
+	}
+
+	.fp-tooltip-arrow {
+		fill: var(--color-bg-tooltip);
+		width: var(--space-3_5);
+		height: var(--space-1_5);
+		position: relative;
+	}
+</style>

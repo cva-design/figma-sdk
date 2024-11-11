@@ -10,7 +10,14 @@
 			position: {
 				control: { type: 'select' },
 				options: ['top', 'right', 'bottom', 'left']
-			}
+			},
+			openDelay: { control: 'number' },
+			closeDelay: { control: 'number' },
+			disableHoverableContent: { control: 'boolean' },
+			defaultOpen: { control: 'boolean' },
+			open: { control: 'boolean' },
+			closeOnPointerDown: { control: 'boolean' },
+			forceMount: { control: 'boolean' }
 		}
 	};
 </script>
@@ -18,6 +25,18 @@
 <Story name="Default">
 	<Tooltip content="This is a tooltip">
 		<button>Hover me</button>
+	</Tooltip>
+</Story>
+
+<Story name="With Custom Delays">
+	<Tooltip content="Custom delays" openDelay={500} closeDelay={200}>
+		<button>Quick close, slow open</button>
+	</Tooltip>
+</Story>
+
+<Story name="Force Mounted">
+	<Tooltip content="Always in DOM" forceMount>
+		<button>For custom transitions</button>
 	</Tooltip>
 </Story>
 
