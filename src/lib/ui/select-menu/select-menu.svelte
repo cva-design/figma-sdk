@@ -1,4 +1,5 @@
 <script lang="ts">
+	import * as icons from '$icons';
 	import { Icon } from '$ui/icon';
 	import { createEventDispatcher, onMount } from 'svelte';
 	import ClickOutside from 'svelte-click-outside';
@@ -6,7 +7,7 @@
 	import SelectItem from './select-item.svelte';
 	import type { SelectMenuItem } from './types';
 
-	export let iconUrl: string | null = null;
+	export let icon: keyof typeof icons | undefined;
 	export let iconText: string | null = null;
 	export let disabled: boolean = false;
 	export let macOSBlink: boolean = false;
@@ -195,8 +196,8 @@
 <ClickOutside on:clickoutside={menuClick}>
 	<div on:change on:focus on:blur bind:this={menuWrapper} {placeholder} class="wrapper {className}">
 		<button bind:this={menuButton} on:click={menuClick} {disabled}>
-			{#if iconUrl}
-				<span class="icon"><Icon {iconUrl} color="black3" /></span>
+			{#if icon}
+				<span class="icon"><Icon {icon} color="black3" /></span>
 			{:else if iconText}
 				<span class="icon"><Icon {iconText} color="black3" /></span>
 			{/if}

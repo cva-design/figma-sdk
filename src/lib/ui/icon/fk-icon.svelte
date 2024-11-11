@@ -1,10 +1,11 @@
 <script lang="ts">
+	import * as icons from '$icons';
 	import { cva, type VariantProps } from 'class-variance-authority';
 
 	const DEFAULT_SIZE = '6';
 	const DEFAULT_VIEWBOX = '0 0 24 24';
 
-	const icon = cva('fp-Icon', {
+	const iconClasses = cva('fp-Icon', {
 		variants: {
 			size: {
 				'1': 'fp-size-1',
@@ -28,21 +29,21 @@
 
 	import type { SVGAttributes } from 'svelte/elements';
 
-	type IconProps = VariantProps<typeof icon> & {
-		path: string;
+	type IconProps = VariantProps<typeof iconClasses> & {
+		icon: keyof typeof import('$icons');
 		viewBox?: string;
 		class?: string;
 	} & SVGAttributes<SVGSVGElement>;
 
 	export let size: IconProps['size'] = DEFAULT_SIZE;
-	export let path: string;
+	export let icon: IconProps['icon'];
 	export let viewBox = DEFAULT_VIEWBOX;
 
-	$: classes = icon({ size, class: $$props.class });
+	$: classes = iconClasses({ size, class: $$props.class });
 </script>
 
 <svg xmlns="http://www.w3.org/2000/svg" {viewBox} class={classes} fill="none" {...$$restProps}>
-	{@html path}
+	{@html icons[icon]}
 </svg>
 
 <style src="./fk-icon.css" lang="css"></style>

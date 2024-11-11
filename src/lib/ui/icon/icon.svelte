@@ -1,45 +1,56 @@
 <script lang="ts">
-	/**
-	 * iconName: SVG data string that gets inserted into the icon component.
-	 * If you have an SVG you'd like to use, import it in the parent component
-	 * and pass the data into this prop.
-	 */
-	export let iconUrl: string | null = null;
+	import * as icons from '$icons';
+	import type { AutocompletableString } from '$lib/util';
+
+	type IconProps = {
+		color?: '--figma-color-icon' | AutocompletableString;
+		spin?: boolean;
+		class?: string;
+	} & (
+		| { icon: keyof typeof import('$icons'); iconText?: never }
+		| { icon?: never; iconText: string }
+	);
 
 	/**
-	 * iconText: A string that will be displayed as the icon's text.
-	 * If this prop is provided, it will be used instead of the iconName prop.
+	 * icon: The icon identifier from the icons collection
 	 */
-	export let iconText: string | null = null;
+	export let icon: IconProps['icon'] = undefined;
+
+	/**
+	 * A string that will be displayed as the icon.
+	 * If provided, it is displayed instead of the icon.
+	 * It is useful for using characters or emojis as icons.
+	 */
+	export let iconText: IconProps['iconText'] = undefined;
 
 	/**
 	 * color: The color of the icon. This should be a CSS color variable.
 	 */
-	export let color: '--figma-color-icon' | AutocompletableString = '--figma-color-icon';
+	export let color: IconProps['color'] = '--figma-color-icon';
+
+	/**
+	 * spin: Whether the icon should spin
+	 */
+	export let spin: IconProps['spin'] = false;
 
 	/**
 	 * className: Additional CSS classes that can be applied to the icon.
 	 */
 	let className = '';
 	export { className as class };
-	import type { AutocompletableString } from '$lib/util';
 </script>
 
-<!-- @component
-
-  This component renders an icon, which can either be represented by SVG data (iconName) 
-  or text (iconText). If both are provided, the text will be used. The icon's color 
-  is controlled by the 'color' prop, and additional CSS classes can be applied using 
-  the 'className' prop. If the 'spin' prop is true, a spinning animation will be applied to the icon.
--->
-<div class="icon-component {className}" style="color: var({color}); fill: var({color})">
-	{#if iconText}
+{#if iconText}
+	<div
+		class="icon-component {className}"
+		class:spin
+		style="color: var({color}); fill: var({color})"
+	>
 		{iconText}
-	{:else}
-		{@html iconUrl}
-		<!-- <img src={iconUrl} style="color: var({color}); fill: var({color})" class:spin alt="Component" /> -->
-	{/if}
-</div>
+	</div>
+{:else if icon}
+	{@html icons[icon]}
+{/if}
 
 <style>
 	.icon-component {
@@ -70,5 +81,10 @@
 	:global(.icon-component *) {
 		fill: inherit;
 		color: inherit;
+	}
+
+	:global(.icon-component svg) {
+		width: 100%;
+		height: 100%;
 	}
 </style>
