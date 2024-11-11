@@ -1,103 +1,129 @@
 <script lang="ts" context="module">
 	import type { Action as ActionType } from '../tree/types';
 	export type LayerTreeData = {
+		id: string;
 		children: LayerTreeData[];
 		type: LayerType;
 		name: string;
-		description?: string | undefined;
+		description?: string;
 		component?: boolean;
 		selected?: boolean;
 		expanded?: boolean;
 		actions?: ActionType[];
 		depth?: number;
-		click?: (event: Event, tree: LayerTreeData) => void;
+		mixed?: boolean;
+		disabled?: boolean;
+		click?: (event: Event, node: LayerTreeData) => void;
 	};
 </script>
 
 <script lang="ts">
-	import { ChevronDownSvg_16, ChevronRightSvg_16 } from '$icons';
+	import { Icon } from '$ui/icon';
+	import { createEventDispatcher, onMount } from 'svelte';
 	import type { LayerType } from '../layer/types';
 	import Layer from './Layer.svelte';
 
-	export let tree: LayerTreeData | undefined | null;
-	export let type: LayerType;
-	export let name: string;
-	export let description: string | undefined = undefined;
-	export let component: boolean = false;
-	export let selected: boolean = false;
-	export let expanded: boolean = false;
-	export let actions: ActionType[] = [];
-	export let depth: number = 0;
-	export let click: (event: Event, tree: LayerTreeData) => void = () => {};
-	function toggleExpand() {
-		expanded = !expanded;
+	const dispatch = createEventDispatcher<{
+		select: LayerTreeData;
+		toggle: { node: LayerTreeData; expanded: boolean };
+	}>();
+
+	export let data: LayerTreeData;
+	export let expandedNodes: Set<string> = new Set();
+	export let initiallyExpanded = false;
+
+	function expandAll(node: LayerTreeData) {
+		expandedNodes.add(node.id);
+		node.children?.forEach(expandAll);
 	}
 
-	function handleClick(event: Event) {
-		if (tree && tree.click) {
-			tree.click(event, tree);
+	onMount(() => {
+		if (initiallyExpanded) {
+			expandAll(data);
+			expandedNodes = expandedNodes; // Trigger reactivity
 		}
-		if (click) {
-			click(event, {
-				...($$props as LayerTreeData)
-			});
+	});
+
+	function toggleExpand(node: LayerTreeData) {
+		if (expandedNodes.has(node.id)) {
+			expandedNodes.delete(node.id);
+		} else {
+			expandedNodes.add(node.id);
 		}
+		dispatch('toggle', { node, expanded: expandedNodes.has(node.id) });
 	}
+
+	function handleNodeClick(event: Event, node: LayerTreeData) {
+		if (node.click) {
+			node.click(event, node);
+		}
+		dispatch('select', node);
+	}
+
+	function renderNode(node: LayerTreeData, depth: number = 0) {
+		const isExpanded = expandedNodes.has(node.id);
+		return {
+			...node,
+			depth,
+			expanded: isExpanded,
+			children: node.children?.map((child) => renderNode(child, depth + 1)) || []
+		};
+	}
+
+	$: renderedTree = renderNode(data);
 </script>
 
-{#if tree}
-	<div class="layerTree" style="--depth: {depth}" on:click|stopPropagation={handleClick}>
-		<div class="layerTree--header">
-			{#if tree.children.length > 0}
-				<button class="layerTree--caret" on:click|stopPropagation={toggleExpand} class:expanded>
-					{@html expanded ? ChevronDownSvg_16 : ChevronRightSvg_16}
+<div class="layerTree-container">
+	<div class="layerTree" class:disabled={renderedTree.disabled} class:mixed={renderedTree.mixed}>
+		<div class="layerTree--header" style="padding-left: calc({renderedTree.depth} * 16px)">
+			{#if renderedTree.children?.length > 0}
+				<button
+					class="layerTree--caret"
+					on:click|stopPropagation={() => toggleExpand(renderedTree)}
+					class:expanded={renderedTree.expanded}
+				>
+					{#if renderedTree.expanded}
+						<Icon icon="ChevronDownSvg_16" />
+					{:else}
+						<Icon icon="ChevronRightSvg_16" />
+					{/if}
 				</button>
 			{/if}
 
 			<Layer
-				type={tree.type}
-				name={tree.name}
-				description={tree.description}
-				component={tree.component}
-				selected={tree.selected}
-				actions={tree.actions}
+				type={renderedTree.type}
+				name={renderedTree.name}
+				description={renderedTree.description}
+				component={renderedTree.component}
+				selected={renderedTree.selected}
+				actions={renderedTree.actions}
+				on:click={(e) => handleNodeClick(e, renderedTree)}
 			/>
 		</div>
 
-		{#if expanded}
+		{#if renderedTree.expanded && renderedTree.children?.length}
 			<div class="layerTree--children">
-				{#each tree.children as child}
-					<svelte:self tree={child} depth={depth + 1} />
+				{#each renderedTree.children as child}
+					<svelte:self data={child} {expandedNodes} on:select on:toggle />
 				{/each}
 			</div>
 		{/if}
 	</div>
-{:else}
-	<div class="layerTree" style="--depth: {depth}" on:click|stopPropagation={handleClick}>
-		<div class="layerTree--header">
-			<button class="layerTree--caret" on:click|stopPropagation={toggleExpand} class:expanded>
-				{@html expanded ? ChevronDownSvg_16 : ChevronRightSvg_16}
-			</button>
-
-			<Layer {type} {name} {description} {component} {selected} {actions} on:click />
-		</div>
-
-		{#if expanded}
-			<div class="layerTree--children">
-				<slot />
-			</div>
-		{/if}
-	</div>
-{/if}
+</div>
 
 <style>
+	.layerTree-container {
+		width: 100%;
+	}
+
 	.layerTree {
-		padding-left: calc(var(--depth) * -8px);
+		width: 100%;
 	}
 
 	.layerTree--header {
 		display: flex;
 		align-items: center;
+		width: 100%;
 	}
 
 	.layerTree--caret {
@@ -116,6 +142,14 @@
 	}
 
 	.layerTree--children {
-		margin-left: 24px;
+		width: 100%;
+	}
+
+	.disabled {
+		opacity: 0.5;
+	}
+
+	.mixed {
+		opacity: 0.75;
 	}
 </style>
