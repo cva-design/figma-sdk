@@ -35,7 +35,7 @@
 </Story>
 
 <Story name="Force Mounted">
-	<Tooltip content="Always in DOM" forceMount>
+	<Tooltip content="Always in DOM" forceVisible>
 		<button>For custom transitions</button>
 	</Tooltip>
 </Story>

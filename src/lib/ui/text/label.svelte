@@ -9,7 +9,12 @@
 	import { cva, type VariantProps } from 'class-variance-authority';
 	import type { HTMLLabelAttributes } from 'svelte/elements';
 
-	const label = cva('fp-Text', {
+	export let size: $$Props['size'] = undefined;
+	export let weight: $$Props['weight'] = undefined;
+	export let align: $$Props['align'] = undefined;
+	export let block: boolean = false;
+
+	const label = cva(['fp-Text', 'fp-Label', $$props.class], {
 		variants: {
 			size: {
 				small: 'fp-size-small',
@@ -38,14 +43,10 @@
 
 	interface $$Props extends HTMLLabelAttributes, VariantProps<typeof label> {
 		block?: boolean;
+		class: string | null | undefined;
 	}
-
-	export let size: $$Props['size'] = undefined;
-	export let weight: $$Props['weight'] = undefined;
-	export let align: $$Props['align'] = undefined;
-	export let block: boolean = false;
 </script>
 
-<label class={label({ size, weight, align, block, class: $$props.class })} {...$$restProps}>
+<label {...$$restProps} class={label({ size, weight, align, block })}>
 	<slot />
 </label>

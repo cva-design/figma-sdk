@@ -11,8 +11,7 @@
 	export let closeDelay = 500;
 	export let disableHoverableContent = false;
 	export let defaultOpen = false;
-	export let open: boolean | undefined = undefined;
-	export let forceMount = false;
+	export let forceVisible = false;
 	export let closeOnPointerDown = true;
 	export let arrowSize = 8;
 	export let group: string | boolean = false;
@@ -34,7 +33,7 @@
 		disableHoverableContent,
 		closeOnPointerDown,
 		defaultOpen,
-		forceVisible: forceMount,
+		forceVisible,
 		group,
 		onOpenChange: ({ curr, next }) => {
 			dispatch('openChange', { open: next });
@@ -57,7 +56,7 @@
 	<slot />
 </div>
 
-{#if $isOpen || forceMount}
+{#if $isOpen || forceVisible}
 	<div use:melt={$tooltipContent} class={classes}>
 		{content}
 		<div use:melt={$arrow} class="fp-tooltip-arrow" />

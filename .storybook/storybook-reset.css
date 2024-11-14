@@ -10,6 +10,11 @@ body {
   margin: 0;
 }
 
+* {
+  box-sizing: border-box;
+  font-family: var(--font-family-default);
+}
+
 .story-layout {
   position: relative;
   display: flex;
@@ -25,6 +30,7 @@ body {
 
 #storybook-root {
   min-width: 250px;
+  max-width: 500px;
 }
 
 body {

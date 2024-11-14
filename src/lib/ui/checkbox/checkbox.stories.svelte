@@ -1,57 +1,51 @@
 <script context="module" lang="ts">
-	import { Checkbox } from '$ui';
 	import { Story } from '@storybook/addon-svelte-csf';
+	import type { Meta } from '@storybook/svelte';
+	import Checkbox from './melt-checkbox.svelte';
 
 	export const meta = {
-		title: 'ui/Checkbox',
-		component: Checkbox,
-		argTypes: {
-			checked: { control: 'boolean' },
-			disabled: { control: 'boolean' },
-			indeterminate: { control: 'boolean' },
-			label: { control: 'text' },
-			description: { control: 'text' },
-			onChange: { action: 'changed' }
-		}
-	};
+		title: 'Components/Checkbox',
+		component: Checkbox
+	} satisfies Meta<typeof Checkbox>;
 </script>
 
 <Story name="WithLabel">
-	<Checkbox on:change label="Some Label" />
+	<Checkbox label="Clip content" />
 </Story>
 
 <Story name="WithoutLabel">
-	<Checkbox on:change />
+	<Checkbox />
 </Story>
 
 <Story name="Indeterminate">
-	<Checkbox label="Clip content" indeterminate on:change />
+	<Checkbox label="Clip content" indeterminate />
 </Story>
 
 <Story name="Disabled">
-	<Checkbox label="Clip content" disabled on:change />
+	<Checkbox label="Clip content" disabled />
 </Story>
 
 <Story name="DisabledChecked">
-	<Checkbox label="Clip content" disabled checked on:change />
+	<Checkbox label="Clip content" disabled checked />
 </Story>
 
 <Story name="DisabledIndeterminate">
-	<Checkbox label="Clip content" disabled indeterminate on:change />
+	<Checkbox label="Clip content" disabled indeterminate />
 </Story>
 
 <Story name="MultiLineLabel">
 	<div style="width: 128px;">
-		<Checkbox label="Clip content with label that spans multiple lines" on:change />
+		<Checkbox label="Clip content with label that spans multiple lines" />
 	</div>
 </Story>
 
 <Story name="Description">
 	<div style="max-width: 512px;">
-		<Checkbox
-			label="Checkbox with description"
-			description="Helpful description of the option which may briefly highlight side effects or conditions of the option."
-			on:change
-		/>
+		<Checkbox label="Checkbox with description">
+			<span slot="description">
+				Helpful description of the option which may briefly highlight side effects or conditions of
+				the option.
+			</span>
+		</Checkbox>
 	</div>
 </Story>
