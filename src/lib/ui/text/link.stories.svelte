@@ -3,7 +3,7 @@
 	import { Link } from './index';
 
 	export const meta = {
-		title: 'ui/Link',
+		title: 'ui/text/Link',
 		component: Link,
 		argTypes: {
 			size: {

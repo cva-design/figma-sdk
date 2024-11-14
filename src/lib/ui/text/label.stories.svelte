@@ -3,7 +3,7 @@
 	import { Label } from './index';
 
 	export const meta = {
-		title: 'ui/Label',
+		title: 'ui/text/Label',
 		component: Label,
 		argTypes: {
 			size: {

@@ -6,7 +6,7 @@
 		title: 'ui/Icon',
 		component: Icon,
 		argTypes: {
-			iconUrl: { control: 'text' },
+			icon: { control: 'text' },
 			color: { control: 'color' },
 			size: { control: 'number' }
 		}
@@ -14,22 +14,17 @@
 </script>
 
 <Story name="Default">
-	<Icon iconUrl="#icon-default" />
+	<Icon icon="StylesSvg" />
 </Story>
 
 <Story name="Custom Color">
-	<Icon iconUrl="#icon-default" color="#ff0000" />
-</Story>
-
-<Story name="Custom Size">
-	<Icon iconUrl="#icon-default" />
+	<Icon icon="StylesSvg" color="#ff0000" />
 </Story>
 
 <Story name="Multiple Icons">
 	<div style="display: flex; gap: 16px;">
-		<Icon iconUrl="#icon-arrow-left" />
-		<Icon iconUrl="#icon-arrow-right" />
-		<Icon iconUrl="#icon-check" />
-		<Icon iconUrl="#icon-close" />
+		<Icon icon="ArrowLeftSvg_16" />
+		<Icon icon="ArrowLeftRightSvg_16" />
+		<Icon icon="ArrowRightSvg_16" />
 	</div>
 </Story>

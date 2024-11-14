@@ -1,17 +1,4 @@
 <script context="module" lang="ts">
-	export type IconButtonAppearanceOptions = {
-		icon: keyof typeof import('$icons');
-		tooltip?: string;
-	};
-
-	export type IconButtonAppearance =
-		| IconButtonAppearanceOptions
-		| {
-				default: IconButtonAppearanceOptions;
-				disabled?: IconButtonAppearanceOptions;
-		  };
-
-	// New types from React version
 	export type IconButtonSize = 'small' | 'medium';
 	export type IconButtonVariant = 'subtle' | 'solid';
 </script>
@@ -21,11 +8,15 @@
 	import { Tooltip } from '$ui/tooltip';
 	import { cva } from 'class-variance-authority';
 
+	// Flattened props
+	export let icon: keyof typeof import('$icons');
+	export let tooltip: string | undefined = undefined;
+	export let disabledIcon: keyof typeof import('$icons') | undefined = undefined;
+	export let disabledTooltip: string | undefined = undefined;
+
 	// Existing props
-	export let appearance: IconButtonAppearance;
 	export let selected = false;
 	export let disabled = false;
-	export let tooltip: string | undefined = undefined;
 	export let spin = false;
 
 	// New props from React version
@@ -34,14 +25,11 @@
 	export let ariaLabel: string | undefined = undefined;
 	export let disableTooltip = false;
 
-	const normalizedAppearance =
-		'default' in appearance ? appearance : { default: appearance, disabled: appearance };
-
 	const buttonIcon = cva('', {
 		variants: {
 			disabled: {
-				false: normalizedAppearance.default.icon,
-				true: normalizedAppearance.disabled?.icon || normalizedAppearance.default.icon
+				false: icon,
+				true: disabledIcon || icon
 			}
 		},
 		defaultVariants: {
@@ -49,9 +37,11 @@
 		}
 	});
 
-	$: icon = buttonIcon({
+	$: currentIcon = buttonIcon({
 		disabled
 	}) as keyof typeof import('$icons');
+
+	$: currentTooltip = disabled ? disabledTooltip || tooltip : tooltip;
 
 	const iconButton = cva('fp-IconButton', {
 		variants: {
@@ -76,8 +66,8 @@
 	export { className as class };
 </script>
 
-{#if !disableTooltip && (tooltip || ariaLabel)}
-	<Tooltip content={String(tooltip || ariaLabel)}>
+{#if !disableTooltip && (currentTooltip || ariaLabel)}
+	<Tooltip content={String(currentTooltip || ariaLabel)}>
 		<div
 			role="button"
 			tabindex="0"
@@ -90,7 +80,7 @@
 		>
 			<slot>
 				<Icon
-					{icon}
+					icon={currentIcon}
 					{spin}
 					color={selected ? '--figma-color-icon-onbrand' : '--figma-color-icon'}
 				/>
@@ -109,7 +99,11 @@
 		aria-label={ariaLabel}
 	>
 		<slot>
-			<Icon {icon} {spin} color={selected ? '--figma-color-icon-onbrand' : '--figma-color-icon'} />
+			<Icon
+				icon={currentIcon}
+				{spin}
+				color={selected ? '--figma-color-icon-onbrand' : '--figma-color-icon'}
+			/>
 		</slot>
 	</div>
 {/if}
@@ -158,22 +152,22 @@
 		cursor: not-allowed;
 	}
 
-	:global(.fp-size-small) {
+	.fp-size-small {
 		width: var(--space-6);
 		height: var(--space-6);
 	}
 
-	:global(.fp-size-medium) {
+	.fp-size-medium {
 		width: var(--space-8);
 		height: var(--space-8);
 	}
 
-	:global(.fp-active-appearance-subtle[data-state='open']) {
+	.fp-active-appearance-subtle[data-state='open'] {
 		background-color: var(--figma-color-bg-selected);
 		--color-icon: var(--figma-color-icon-brand);
 	}
 
-	:global(.fp-active-appearance-solid[data-state='open']) {
+	.fp-active-appearance-solid[data-state='open'] {
 		background-color: var(--figma-color-bg-selected-strong);
 		--color-icon: var(--figma-color-icon-onbrand);
 	}

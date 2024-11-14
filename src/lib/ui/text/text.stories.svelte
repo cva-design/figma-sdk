@@ -1,9 +1,9 @@
 <script context="module" lang="ts">
-	import { Story } from '@storybook/addon-svelte-csf';
-	import { Text } from './index';
+	import { Story, Template } from '@storybook/addon-svelte-csf';
+	import { Link, Text } from './index';
 
 	export const meta = {
-		title: 'ui/Text',
+		title: 'ui/text/Text',
 		component: Text,
 		argTypes: {
 			size: {
@@ -29,39 +29,46 @@
 	};
 </script>
 
-<Story name="Default" args={{ size: 'medium', weight: 'default', align: 'start', block: false }}>
-	<Text {...$$props}>Default Text</Text>
+<Template let:args let:content>
+	<div style="display: flex; gap: 16px; flex-direction: column; width: 50%;">
+		<Text {...args}>{content}</Text>
+	</div>
+</Template>
+
+<Story name="Sizes">
+	<div style="display: flex; gap: 16px; flex-direction: column;">
+		<Text size="small">Small Text</Text>
+		<Text>Default Text</Text>
+		<Text size="large">Large Text</Text>
+	</div>
 </Story>
 
-<Story name="Small" args={{ size: 'small', weight: 'default', align: 'start', block: false }}>
-	<Text {...$$props}>Small Text</Text>
-</Story>
-
-<Story name="Large" args={{ size: 'large', weight: 'default', align: 'start', block: false }}>
-	<Text {...$$props}>Large Text</Text>
-</Story>
-
-<Story name="Strong" args={{ size: 'medium', weight: 'strong', align: 'start', block: false }}>
-	<Text {...$$props}>Strong Text</Text>
-</Story>
-
-<Story name="Centered" args={{ size: 'medium', weight: 'default', align: 'center', block: true }}>
-	<Text {...$$props}>Centered Text</Text>
-</Story>
-
-<Story
-	name="As Paragraph"
-	args={{ size: 'medium', weight: 'default', align: 'start', block: false, as: 'p' }}
->
-	<Text {...$$props}>This text is rendered as a paragraph.</Text>
-</Story>
-
-<Story name="Inline Semantics">
-	<Text>
-		<strong>This is strong text</strong> to highlight important points.
-		<em>This is emphasized text</em>
-		to indicate subtle importance. Use <code>inline code</code> for code snippets.
-		<mark>This is marked text</mark>
-		to draw attention.
-	</Text>
+<Story name="Styling">
+	<div style="display: flex; gap: 24px; flex-direction: column;">
+		<div style="display: flex; gap: 16px; flex-direction: column;">
+			<h3>Weights</h3>
+			<div style="display: flex; gap: 16px; flex-direction: row;">
+				<Text weight="default">Default Text</Text>
+				<Text weight="strong">Strong Text</Text>
+			</div>
+		</div>
+		<div style="display: flex; gap: 16px; flex-direction: column;">
+			<h3>Alignments</h3>
+			<Text align="start">Start Aligned Text</Text>
+			<Text align="center">Center Aligned Text</Text>
+			<Text align="end">End Aligned Text</Text>
+		</div>
+		<div style="display: flex; gap: 16px; flex-direction: column;">
+			<h3>Inline Semantics</h3>
+			<Text>
+				<strong>This is strong text</strong> to highlight important points.
+				<em>This is emphasized text</em>
+				to indicate subtle importance. Use <code>inline code</code> for code snippets.
+				<mark>This is marked text</mark>
+				to draw attention. This is a link to <Link href="https://help.figma.com/"
+					>Figma's documentation</Link
+				>.
+			</Text>
+		</div>
+	</div>
 </Story>
