@@ -49,7 +49,13 @@
 		{iconText}
 	</div>
 {:else if icon}
-	{@html icons[icon]}
+	<div
+		class="icon-component {className}"
+		class:spin
+		style="color: var({color}); fill: var({color})"
+	>
+		{@html icons[icon]}
+	</div>
 {/if}
 
 <style>
