@@ -1,54 +1,56 @@
 <script context="module" lang="ts">
 	import { Story } from '@storybook/addon-svelte-csf';
-	import { IconButton } from '.';
+	import IconButton from './icon-button.svelte';
+	import { Icon } from '$ui/icon';
+
 
 	export const meta = {
-		title: 'Components/Icon Button',
+		title: 'Components/IconButton',
 		component: IconButton,
-		parameters: {
-			controls: { expanded: true },
-			fixedWidth: true
-		},
 		argTypes: {
-			'aria-label': {
-				description: 'Text for screen readers, also used as tooltip text by default.',
-				type: 'string',
-				required: true
-			},
 			size: {
-				description: 'Size of the button.',
-				options: ['small', 'medium'],
-				control: { type: 'radio' },
-				defaultValue: 'small'
+				control: 'select',
+				options: ['small', 'medium']
 			},
-			variant: {
-				description: 'Visual variant of the button when in active/pressed mode',
-				options: ['subtle', 'solid'],
-				control: { type: 'radio' },
-				defaultValue: 'subtle'
-			},
-			disabled: {
-				type: 'boolean'
-			},
-			tooltipContent: {
-				description: 'Custom content for the tooltip. Defaults to aria-label if not specified.',
-				type: 'string'
+			activeAppearance: {
+				control: 'select',
+				options: ['subtle', 'solid']
 			},
 			disableTooltip: {
-				description: "Disables the tooltip. Use sparingly when the button's function is clear.",
-				type: 'boolean'
+				control: 'boolean'
 			}
 		}
 	};
 </script>
 
 <Story name="Default">
-	<IconButton
-		appearance={{ default: { icon: 'StylesSvg' } }}
-		tooltip="Open popover"
-		variant="subtle"
-		size="small"
-	/>
+	<IconButton aria-label="Star" on:click={() => alert('clicked')}>
+		<Icon icon="AlertSvg"  />
+	</IconButton>
+</Story>
+
+<Story name="Medium">
+	<IconButton aria-label="Star" size="medium" on:click={() => alert('clicked')}>
+		<Icon icon="StylesSvg" />
+	</IconButton>
+</Story>
+
+<Story name="Solid">
+	<IconButton aria-label="Star" activeAppearance="solid" on:click={() => alert('clicked')}>
+		<Icon icon="StylesSvg" />
+	</IconButton>
+</Story>
+
+<Story name="Custom Tooltip">
+	<IconButton aria-label="Star" tooltipContent="Add to favorites" on:click={() => alert('clicked')}>
+		<Icon icon="StylesSvg" />
+	</IconButton>
+</Story>
+
+<Story name="Disabled">
+	<IconButton aria-label="Star" disabled on:click={() => alert('clicked')}>
+		<Icon icon="StylesSvg" />
+	</IconButton>
 </Story>
 
 <style>
