@@ -6,6 +6,7 @@
 	export let value: string | null = null;
 	export let name: string | null = null;
 	export let iconText: string | null = null;
+	export let icon: string | null = null;
 	export let borders = false;
 	export let disabled = false;
 	export let iconName: string | null = null;
@@ -44,10 +45,10 @@
 	}
 </script>
 
-{#if iconName || iconText}
+{#if icon || iconName || iconText}
 	<div class="input {className}">
 		<div class="icon">
-			<Icon iconUrl={iconName} {iconText} {spin} color="--figma-color-icon" />
+			<Icon icon={icon} {iconText} spin={spin} color="--figma-color-icon" />
 		</div>
 		<input
 			use:typeAction
