@@ -1,47 +1,7 @@
-<script context="module" lang="ts">
-	export type IconButtonSize = 'small' | 'medium';
-	export type IconButtonVariant = 'subtle' | 'solid';
-</script>
-
 <script lang="ts">
-	import { Icon } from '$ui/icon';
 	import { Tooltip } from '$ui/tooltip';
-	import { cva } from 'class-variance-authority';
-
-	// Flattened props
-	export let icon: keyof typeof import('$icons');
-	export let tooltip: string | undefined = undefined;
-	export let disabledIcon: keyof typeof import('$icons') | undefined = undefined;
-	export let disabledTooltip: string | undefined = undefined;
-
-	// Existing props
-	export let selected = false;
-	export let disabled = false;
-	export let spin = false;
-
-	// New props from React version
-	export let size: IconButtonSize = 'small';
-	export let variant: IconButtonVariant = 'subtle';
-	export let ariaLabel: string | undefined = undefined;
-	export let disableTooltip = false;
-
-	const buttonIcon = cva('', {
-		variants: {
-			disabled: {
-				false: icon,
-				true: disabledIcon || icon
-			}
-		},
-		defaultVariants: {
-			disabled: false
-		}
-	});
-
-	$: currentIcon = buttonIcon({
-		disabled
-	}) as keyof typeof import('$icons');
-
-	$: currentTooltip = disabled ? disabledTooltip || tooltip : tooltip;
+	import { cva, type VariantProps } from 'class-variance-authority';
+	import './icon-button.css';
 
 	const iconButton = cva('fp-IconButton', {
 		variants: {
@@ -49,126 +9,98 @@
 				small: 'fp-size-small',
 				medium: 'fp-size-medium'
 			},
-			variant: {
+			activeAppearance: {
 				subtle: 'fp-active-appearance-subtle',
 				solid: 'fp-active-appearance-solid'
 			}
 		},
 		defaultVariants: {
 			size: 'small',
-			variant: 'subtle'
+			activeAppearance: 'subtle'
 		}
 	});
 
-	$: buttonClass = iconButton({ size, variant });
+	interface $$Props extends VariantProps<typeof iconButton> {
+		'aria-label': string;
+		tooltipContent?: string;
+		disableTooltip?: boolean;
+		class?: string;
+	}
 
-	const className = '';
+	export let size: $$Props['size'] = undefined;
+	export let activeAppearance: $$Props['activeAppearance'] = undefined;
+	export let tooltipContent: string | undefined = undefined;
+	export let disableTooltip = false;
 	export { className as class };
+
+	let className = '';
 </script>
 
-{#if !disableTooltip && (currentTooltip || ariaLabel)}
-	<Tooltip content={String(currentTooltip || ariaLabel)}>
-		<div
-			role="button"
-			tabindex="0"
-			on:keypress
-			on:click
-			class:selected
-			class:disabled
-			class={`${buttonClass} ${className}`}
-			aria-label={ariaLabel}
-		>
-			<slot>
-				<Icon
-					icon={currentIcon}
-					{spin}
-					color={selected ? '--figma-color-icon-onbrand' : '--figma-color-icon'}
-				/>
-			</slot>
-		</div>
-	</Tooltip>
-{:else}
-	<div
-		role="button"
-		tabindex="0"
-		on:keypress
-		on:click
-		class:selected
-		class:disabled
-		class={`${buttonClass} ${className}`}
-		aria-label={ariaLabel}
-	>
-		<slot>
-			<Icon
-				icon={currentIcon}
-				{spin}
-				color={selected ? '--figma-color-icon-onbrand' : '--figma-color-icon'}
-			/>
-		</slot>
-	</div>
-{/if}
-
+<svelte:element
+	this="button"
+	class={iconButton({ size, activeAppearance, class: className })}
+	aria-label={$$props['aria-label']}
+	on:click
+	on:keydown
+	{...$$restProps}
+>
+	{#if disableTooltip}
+		<slot />
+	{:else}
+		<Tooltip content={tooltipContent ?? $$props['aria-label']}>
+			<slot />
+		</Tooltip>
+	{/if}
+</svelte:element>
 <style>
-	/* Keep existing styles and add new ones from icon-button.css */
-	div {
-		box-sizing: border-box;
-		background-clip: border-box;
-		background-color: transparent;
-		user-select: none;
-		appearance: none;
-		border: 0;
-		padding: 0;
-		cursor: pointer;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		flex-shrink: 0;
-		--color-icon: var(--figma-color-icon);
-		border-radius: var(--radius-medium);
-		width: var(--spacer-5);
-		height: var(--spacer-5);
-	}
+.fp-IconButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 0;
+  color: var(--figma-color-icon);
+}
 
-	div:hover:not(.disabled) {
-		background: var(--figma-color-bg-hover);
-	}
+.fp-IconButton:hover {
+  background-color: var(--figma-color-bg-hover);
+  border-radius: var(--border-radius-small);
+}
 
-	div:focus-visible {
-		outline-offset: -1px;
-		outline: 1px solid var(--figma-color-border-selected);
-	}
+.fp-IconButton:active {
+  background-color: var(--figma-color-bg-pressed);
+}
 
-	.selected {
-		background-color: var(--figma-color-bg-selected-strong);
-	}
+.fp-IconButton:disabled {
+  color: var(--figma-color-icon-disabled);
+  cursor: not-allowed;
+}
 
-	.selected:hover {
-		background-color: var(--figma-color-bg-selected-strong);
-	}
+.fp-IconButton:focus-visible {
+  outline: 2px solid var(--figma-color-border-selected);
+  outline-offset: -1px;
+  border-radius: var(--border-radius-small);
+}
 
-	.disabled {
-		--color-icon: var(--figma-color-icon-disabled);
-		opacity: 0.5;
-		cursor: not-allowed;
-	}
+.fp-size-small {
+  width: var(--space-6);
+  height: var(--space-6);
+}
 
-	.fp-size-small {
-		width: var(--space-6);
-		height: var(--space-6);
-	}
+.fp-size-medium {
+  width: var(--space-8);
+  height: var(--space-8);
+}
 
-	.fp-size-medium {
-		width: var(--space-8);
-		height: var(--space-8);
-	}
+.fp-active-appearance-subtle:active {
+  background-color: var(--figma-color-bg-pressed);
+}
 
-	.fp-active-appearance-subtle[data-state='open'] {
-		background-color: var(--figma-color-bg-selected);
-		--color-icon: var(--figma-color-icon-brand);
-	}
+.fp-active-appearance-solid:active {
+  background-color: var(--figma-color-bg-brand);
+  color: var(--figma-color-icon-onbrand);
+}
 
-	.fp-active-appearance-solid[data-state='open'] {
-		background-color: var(--figma-color-bg-selected-strong);
-		--color-icon: var(--figma-color-icon-onbrand);
-	}
 </style>
