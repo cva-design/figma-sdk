@@ -64,3 +64,5 @@ export * from './tree/types';
 export { Button } from './button';
 export { Slider } from './slider';
 // Export other components as they are migrated
+
+export * from './action-group';

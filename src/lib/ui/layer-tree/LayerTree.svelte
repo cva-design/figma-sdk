@@ -35,12 +35,12 @@
 	function expandAll(node: LayerTreeData) {
 		expandedNodes.add(node.id);
 		node.children?.forEach(expandAll);
+		expandedNodes = expandedNodes; // Trigger reactivity
 	}
 
 	onMount(() => {
 		if (initiallyExpanded) {
 			expandAll(data);
-			expandedNodes = expandedNodes; // Trigger reactivity
 		}
 	});
 
@@ -50,11 +50,13 @@
 		} else {
 			expandedNodes.add(node.id);
 		}
+		expandedNodes = new Set(expandedNodes); // Create new Set to trigger reactivity
 		dispatch('toggle', { node, expanded: expandedNodes.has(node.id) });
 	}
 
 	function handleNodeClick(event: Event, node: LayerTreeData) {
 		if (node.click) {
+			console.log('node.click', node.click);
 			node.click(event, node);
 		}
 		dispatch('select', node);
@@ -75,7 +77,10 @@
 
 <div class="layerTree-container">
 	<div class="layerTree" class:disabled={renderedTree.disabled} class:mixed={renderedTree.mixed}>
-		<div class="layerTree--header" style="padding-left: calc({renderedTree.depth} * 16px)">
+		<div 
+			class="layerTree--header" 
+			style:padding-left="{renderedTree.depth * 16}px"
+		>
 			{#if renderedTree.children?.length > 0}
 				<button
 					class="layerTree--caret"
@@ -101,7 +106,7 @@
 			/>
 		</div>
 
-		{#if renderedTree.expanded && renderedTree.children?.length}
+		{#if expandedNodes.has(renderedTree.id) && renderedTree.children?.length}
 			<div class="layerTree--children">
 				{#each renderedTree.children as child}
 					<svelte:self data={child} {expandedNodes} on:select on:toggle />
@@ -143,6 +148,7 @@
 
 	.layerTree--children {
 		width: 100%;
+		padding-left: 16px;
 	}
 
 	.disabled {
