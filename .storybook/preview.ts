@@ -43,7 +43,7 @@ const preview: Preview = {
       stylePreview: true,
     },
   },
-  tags: ['autodocs'],
+  tags: ['autodocs', 'autodocs'],
 };
 
 export default preview;
