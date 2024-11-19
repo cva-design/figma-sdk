@@ -1,0 +1,35 @@
+{
+  "extends": "../../tsconfig.options.json",
+  "compilerOptions": {
+    "rootDir": "./src",
+    "outDir": "../../.moon/cache/types/packages/rpc",
+    "verbatimModuleSyntax": false,
+    "paths": {
+      "@figma-plugin-sdk/message-bus": [
+        "./src/index.ts"
+      ],
+      "@figma-plugin-sdk/message-bus/*": [
+        "./src/*"
+      ],
+      "@figma-plugin-sdk/rpc": [
+        "src/index.ts"
+      ],
+      "@figma-plugin-sdk/rpc/*": [
+        "src/*"
+      ]
+    }
+  },
+  "include": [
+    "**/*",
+    "src/**/*",
+    "tests/**/*"
+  ],
+  "references": [
+    {
+      "path": "./tsconfig.esm.json"
+    },
+    {
+      "path": "./tsconfig.lib.json"
+    }
+  ]
+}

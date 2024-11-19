@@ -1,44 +1,52 @@
 {
-  "editor.formatOnSave": true,
-  "editor.codeActionsOnSave": {
-    "source.fixAll": "always",
-    "source.organizeImports": "always",
-    "quickfix.biome": "always"
+  "yaml.schemas": {
+    "https://moonrepo.dev/schemas/tasks.json": [
+      ".moon/tasks.yml",
+      ".moon/tasks/**/*.yml"
+    ],
+    "https://moonrepo.dev/schemas/project.json": [
+      "**/moon.yml"
+    ],
+    "https://moonrepo.dev/schemas/template.json": [
+      "**/template.yml"
+    ],
+    "https://moonrepo.dev/schemas/workspace.json": [
+      "**/.moon/workspace.yml"
+    ],
+    "https://moonrepo.dev/schemas/toolchain.json": [
+      "**/.moon/toolchain.yml"
+    ]
   },
-  "editor.defaultFormatter": "gplane.dprint2",
-  "[javascript]": {
-    "editor.defaultFormatter": "biomejs.biome"
+  "files.associations": {
+    "*.yml.tera": "jinja-yaml",
+    "*.md.tera": "jinja-md",
+    "*.json.tera": "jinja-json",
+    "*.tera": "jinja"
   },
-  "[typescript]": {
-    "editor.defaultFormatter": "biomejs.biome"
-  },
+  "cSpell.words": [
+    "archivable",
+    "citty",
+    "deno",
+    "moonrepo",
+    "nodenv",
+    "packemon",
+    "proto",
+    "prototools",
+    "svallory",
+    "tagit",
+    "tera",
+    "tokilabs",
+    "tsbuildinfo",
+    "typecheck",
+    "vite",
+    "vitest"
+  ],
   "explorer.fileNesting.enabled": true,
   "explorer.fileNesting.patterns": {
-    ".config": "biome.*, dprint.*, .env*, *.cjs, *.config.ts, *.setup.ts, .git*, tsconfig.*.json, jsconfig.*.json, *config, *config.json, *config.js, *config.mjs, *config.cjs, *config.ts, *config.toml, *config.yaml, *config.yml, *rc, *rc.json, *rc.js, *rc.mjs, *rc.cjs, *rc.ts, *rc.toml, *rc.yaml, *rc.yml, *ignore, Dockerfile*, docker-*, *.toml, package-lock.json, yarn.lock, pnpm-lock.yaml, .prototools, rollup.*, renovate.json, .size-limit.*, vitest*",
-    "*.json": "${capture}.lock"
+    ".config*": ".git*, prettier.*, babel.*, *config.toml, *config.yaml, *config.yml, *rc, *rc.json, *rc.js, *rc.mjs, *rc.cjs, *rc.ts, *rc.toml, *rc.yaml, *rc.yml, .eslint*, .prettier*, .*",
+    "Configuration Files.md": ".git*, prettier.*, babel.*, *config.toml, *config.yaml, *config.yml, *rc, *rc.json, *rc.js, *rc.mjs, *rc.cjs, *rc.ts, *rc.toml, *rc.yaml, *rc.yml, .eslint*, .prettier*, .*",
+    "*.yml": "${basename}.*.yml"
   },
-  "search.exclude": {
-    "**/coverage": true,
-    "**/dist": true,
-    "**/node_modules": true
-  },
-  "typescript.enablePromptUseWorkspaceTsdk": true,
-  "typescript.preferences.autoImportFileExcludePatterns": ["dist/**"],
-  "typescript.tsdk": "node_modules/typescript/lib",
-  "cSpell.words": [
-    "@endindex",
-    "antfu",
-    "Autocompletable",
-    "biomejs",
-    "commitlint",
-    "conventionalcommits",
-    "dprint",
-    "endindex",
-    "Fong",
-    "onwarn",
-    "texthighlight",
-    "typecheck"
-  ],
-  "gutterpreview.enableReferenceLookup": true,
-  "gutterpreview.currentColorForSVG": "#CCC"
+  "references.preferredLocation": "peek",
+  "typescript.tsdk": "node_modules/typescript/lib"
 }
