@@ -6,7 +6,6 @@
 	import Text from '../text/text.svelte';
 	import styles from './layer.module.css';
 	import { LayerIcon, type LayerType } from './types';
-
 	const layer = cva(styles.layer, {
 		variants: {
 			bold: {
@@ -97,3 +96,5 @@
 		</div>
 	{/if}
 </div>
+
+

@@ -1,111 +1,137 @@
 <script context="module" lang="ts">
-	import {
-		LockLockedSvg_16,
-		LockUnlockedSvg_16,
-		VisibilityHiddenSvg_16,
-		VisibilityVisibleSvg_16
-	} from '$icons';
 	import { Story } from '@storybook/addon-svelte-csf';
-	import type { Layer } from '../layer';
-	import type { Action } from '../tree/types';
+	import type { Meta } from '@storybook/svelte';
 	import LayerTree from './LayerTree.svelte';
+	import type { LayerTreeData } from './LayerTree.svelte';
 
 	export const meta = {
 		title: 'Components/LayerTree',
 		component: LayerTree,
-		parameters: {
-			layout: 'padded'
+		argTypes: {
+			initiallyExpanded: { control: 'boolean' },
+			data: { control: 'object' }
 		}
+	} satisfies Meta<typeof LayerTree>;
+
+	const sampleData: LayerTreeData = {
+		id: 'root',
+		name: 'Root',
+		type: 'FRAME',
+		children: [
+			{
+				id: 'frame1',
+				name: 'Frame 1',
+				type: 'FRAME',
+				children: [
+					{
+						id: 'rect1',
+						name: 'Rectangle 1',
+						type: 'RECTANGLE',
+						children: []
+					},
+					{
+						id: 'text1',
+						name: 'Text Layer',
+						type: 'TEXT',
+						children: []
+					}
+				]
+			},
+			{
+				id: 'group1',
+				name: 'Group 1',
+				type: 'GROUP',
+				children: [
+					{
+						id: 'ellipse1',
+						name: 'Ellipse 1',
+						type: 'ELLIPSE',
+						children: []
+					}
+				]
+			}
+		]
 	};
 
-	const toggleVisibility: Action = {
-		id: 'toggleVisibility',
-		icon: VisibilityVisibleSvg_16,
-		tooltip: 'Show/Hide Layer',
-		enabled: true,
-		click: ({ action }: { action: Action; event: Event; layer: Layer }) => {
-			console.log('toggle visibility');
-			action.icon =
-				action.icon == VisibilityVisibleSvg_16 ? VisibilityHiddenSvg_16 : VisibilityVisibleSvg_16;
-		}
+	const componentData: LayerTreeData = {
+		id: 'component-root',
+		name: 'Button Component',
+		type: 'COMPONENT',
+		component: true,
+		children: [
+			{
+				id: 'bg',
+				name: 'Background',
+				type: 'RECTANGLE',
+				children: []
+			},
+			{
+				id: 'label',
+				name: 'Label',
+				type: 'TEXT',
+				children: []
+			}
+		]
 	};
 
-	const defaultActions = [
-		{ id: 'visible', icon: VisibilityVisibleSvg_16, tooltip: 'Show/Hide Layer', enabled: true },
-		{ id: 'lock', icon: LockUnlockedSvg_16, tooltip: 'Lock/Unlock Layer', enabled: true }
-	];
+	const mixedStateData: LayerTreeData = {
+		...sampleData,
+		mixed: true
+	};
 
-	const hiddenActions = [
-		{ id: 'visible', icon: VisibilityHiddenSvg_16, tooltip: 'Show/Hide Layer', enabled: true },
-		{ id: 'lock', icon: LockUnlockedSvg_16, tooltip: 'Lock/Unlock Layer', enabled: true }
-	];
-
-	const lockedActions = [
-		{ id: 'visible', icon: VisibilityVisibleSvg_16, tooltip: 'Show/Hide Layer', enabled: true },
-		{ id: 'lock', icon: LockLockedSvg_16, tooltip: 'Lock/Unlock Layer', enabled: true }
-	];
+	const disabledData: LayerTreeData = {
+		...sampleData,
+		disabled: true
+	};
 </script>
 
-<Story name="Default State">
-	<LayerTree type="FRAME" name="Frame 3" actions={defaultActions} expanded>
-		<LayerTree type="FRAME" name="Frame 4" actions={defaultActions} depth={1} />
-		<LayerTree type="FRAME" name="Frame 1" actions={defaultActions} depth={1} expanded>
-			<LayerTree
-				type="COMPONENT"
-				name="Component 1"
-				component
-				selected
-				actions={defaultActions}
-				depth={2}
-				expanded
-			>
-				<LayerTree type="POLYGON" name="layer-polygon-12" actions={defaultActions} depth={3} />
-				<LayerTree type="RECTANGLE" name="Rectangle 1" actions={defaultActions} depth={3} />
-				<LayerTree type="FRAME" name="Frame 2" actions={defaultActions} depth={3} />
-			</LayerTree>
-		</LayerTree>
-		<LayerTree type="STAR" name="layer-star-12" actions={defaultActions} depth={1}>
-			<LayerTree type="STAR" name="Star 1" actions={defaultActions} depth={2} />
-		</LayerTree>
-		<LayerTree type="STAR" name="layer-star-16" actions={defaultActions} depth={1}>
-			<LayerTree type="STAR" name="layer-star-16" actions={defaultActions} depth={2} />
-		</LayerTree>
-		<LayerTree type="STAR" name="layer-star-32" actions={lockedActions} depth={1}>
-			<LayerTree type="STAR" name="Star 1" actions={defaultActions} depth={2} />
-		</LayerTree>
-		<LayerTree type="POLYGON" name="layer-polygon-32" actions={hiddenActions} depth={1}>
-			<LayerTree type="POLYGON" name="layer-polygon-12" actions={defaultActions} depth={2} />
-			<LayerTree type="RECTANGLE" name="Rectangle 3" actions={defaultActions} depth={2} />
-		</LayerTree>
-		<LayerTree type="RECTANGLE" name="Rectangle 4" actions={defaultActions} depth={1} />
-		<LayerTree type="POLYGON" name="layer-polygon-12" actions={defaultActions} depth={1} />
-		<LayerTree type="POLYGON" name="layer-polygon-16" actions={defaultActions} depth={1} />
-	</LayerTree>
+<Story name="Default">
+	<div style="width: 240px;">
+		<LayerTree data={sampleData} expandedNodes={new Set()} />
+	</div>
 </Story>
 
-<Story name="Layer States">
-	<div class="states-grid">
-		<LayerTree type="FRAME" name="Default Frame" actions={defaultActions} />
-		<LayerTree type="FRAME" name="Selected Frame" selected actions={defaultActions} />
-		<LayerTree type="FRAME" name="Expanded Frame" expanded actions={defaultActions}>
-			<LayerTree type="RECTANGLE" name="Child Layer" actions={defaultActions} depth={1} />
-		</LayerTree>
-		<LayerTree type="FRAME" name="Hidden Frame" actions={hiddenActions} />
-		<LayerTree type="FRAME" name="Locked Frame" actions={lockedActions} />
-		<LayerTree type="COMPONENT" name="Component" component actions={defaultActions} />
+<Story name="Initially Expanded">
+	<div style="width: 240px;">
+		<LayerTree data={sampleData} initiallyExpanded={true} expandedNodes={new Set()} />
+	</div>
+</Story>
+
+<Story name="Component">
+	<div style="width: 240px;">
+		<LayerTree data={componentData} />
+	</div>
+</Story>
+
+<Story name="Mixed State">
+	<div style="width: 240px;">
+		<LayerTree data={mixedStateData} />
+	</div>
+</Story>
+
+<Story name="Disabled">
+	<div style="width: 240px;">
+		<LayerTree data={disabledData} />
+	</div>
+</Story>
+
+<Story name="With Actions">
+	<div style="width: 240px;">
 		<LayerTree
-			type="COMPONENT"
-			name="Selected Component"
-			component
-			selected
-			actions={defaultActions}
+			data={{
+				...sampleData,
+				actions: [
+					{ icon: 'LockSvg', label: 'Lock' },
+					{ icon: 'HideSvg', label: 'Hide' }
+				]
+			}}
 		/>
 	</div>
 </Story>
 
 <style>
-	.states-grid {
-		display: grid;
-		gap: 8px;
+	div {
+		padding: 1rem;
+		background: var(--figma-color-bg);
 	}
 </style>

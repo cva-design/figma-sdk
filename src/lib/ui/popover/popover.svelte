@@ -8,18 +8,18 @@
 	import { fade } from 'svelte/transition';
 
 	export let isOpen = false;
-	export let anchor: HTMLElement | null = null;
 	export let placement: PopoverPlacement = 'top';
 	export let offset = 8;
 	export let className = '';
 
+	let containerElement: HTMLDivElement;
 	let popoverElement: HTMLDivElement;
 	const dispatch = createEventDispatcher();
 
 	function updatePosition() {
-		if (!anchor || !popoverElement) return;
+		if (!containerElement || !popoverElement) return;
 
-		const anchorRect = anchor.getBoundingClientRect();
+		const anchorRect = containerElement.getBoundingClientRect();
 		const popoverRect = popoverElement.getBoundingClientRect();
 
 		let top = 0;
@@ -48,12 +48,17 @@
 		popoverElement.style.left = `${left}px`;
 	}
 
+	function handleClick() {
+		isOpen = !isOpen;
+	}
+
 	function handleClickOutside(event: MouseEvent) {
 		if (
 			popoverElement &&
 			!popoverElement.contains(event.target as Node) &&
-			event.target !== anchor
+			!containerElement.contains(event.target as Node)
 		) {
+			isOpen = false;
 			dispatch('close');
 		}
 	}
@@ -74,17 +79,26 @@
 	}
 </script>
 
-{#if isOpen}
-	<div
-		bind:this={popoverElement}
-		class={`fp-Popover fp-placement-${placement} ${className}`}
-		transition:fade={{ duration: 150 }}
-	>
-		<slot />
-	</div>
-{/if}
+<div bind:this={containerElement} class="fp-Popover-container" on:click={handleClick}>
+	<slot name="trigger" />
+	
+	{#if isOpen}
+		<div
+			bind:this={popoverElement}
+			class={`fp-Popover fp-placement-${placement} ${className}`}
+			transition:fade={{ duration: 150 }}
+		>
+			<slot />
+		</div>
+	{/if}
+</div>
 
 <style>
+	.fp-Popover-container {
+		display: inline-block;
+		cursor: pointer;
+	}
+
 	.fp-Popover {
 		position: fixed;
 		z-index: 1000;
