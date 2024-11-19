@@ -31,7 +31,7 @@
 //@index(['*/index.ts'], (f, {pascalCase}) => `export * from '${f.path}${f.ext}';`)
 export * from './button/index.ts';
 export * from './checkbox/index.ts';
-export * from './Disclosure/index.ts';
+export * from './disclosure/index.ts';
 export * from './icon-button/index.ts';
 export * from './icon-toggle/index.ts';
 export * from './icon/index.ts';
@@ -49,7 +49,7 @@ export { default as Input } from './Input/input.svelte';
 export { default as Label } from './Label/label.svelte';
 export { default as OnboardingTip } from './onboarding-tip/index.svelte';
 export { default as Radio } from './radio/index.svelte';
-export { default as Section } from './section/index.svelte';
+export { default as Section } from './Section/section.svelte';
 export { default as Switch } from './switch/index.svelte';
 export { default as Textarea } from './textarea/index.svelte';
 export { default as Type } from './type/index.svelte';

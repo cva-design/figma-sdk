@@ -1,7 +1,8 @@
 <script context="module" lang="ts">
 	import { Story } from '@storybook/addon-svelte-csf';
 	import type { Meta } from '@storybook/svelte';
-	import { Tabs, TabsContent, TabsList, TabsTrigger } from '.';
+	import {TabsContent, TabsList, TabsTrigger } from '.';
+	import Tabs from "./tabs.svelte"
 
 	export const meta = {
 		title: 'Components/Tabs',
@@ -64,13 +65,13 @@
 <Story name="WithCustomClass">
 	<Tabs defaultValue="tab1" class_="custom-tabs">
 		<TabsList class_="custom-list">
-			<TabsTrigger value="tab1" class_="custom-trigger">Tab 1</TabsTrigger>
-			<TabsTrigger value="tab2" class_="custom-trigger">Tab 2</TabsTrigger>
+			<TabsTrigger value="tab1" class="custom-trigger">Tab 1</TabsTrigger>
+			<TabsTrigger value="tab2" class="custom-trigger">Tab 2</TabsTrigger>
 		</TabsList>
-		<TabsContent value="tab1" class_="custom-content">
+		<TabsContent value="tab1" class="custom-content">
 			<div class="content">Content for Tab 1</div>
 		</TabsContent>
-		<TabsContent value="tab2" class_="custom-content">
+		<TabsContent value="tab2" class="custom-content">
 			<div class="content">Content for Tab 2</div>
 		</TabsContent>
 	</Tabs>

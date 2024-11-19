@@ -3,7 +3,8 @@
   import type { Writable } from 'svelte/store';
   
   export let value: string;
-  export let class_: string | undefined = undefined;
+  let className: string | undefined = undefined;
+  export { className as class};
   export let expand: boolean = false;
 
   const { register } = getContext('tabs');
@@ -22,7 +23,7 @@
 
 <button
   bind:this={triggerElement}
-  class="fp-TabsTrigger {expand ? 'expand' : ''} {class_ || ''}"
+  class="fp-TabsTrigger {expand ? 'expand' : ''} {className || ''}"
   role="tab"
   aria-selected={isActive}
   data-state={isActive ? 'active' : 'inactive'}
