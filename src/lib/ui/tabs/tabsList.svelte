@@ -1,7 +1,6 @@
 <script lang="ts">
   import { slide } from 'svelte/transition';
   import { Button } from '$ui/button';
-  import { CaretDownSvg, CaretRightSvg } from '$icons';
   import { Icon } from '$ui/icon';
   
   export let class_: string | undefined = undefined;
@@ -22,7 +21,7 @@
       on:click={toggleExpand} 
       class="toggle-button"
     >
-      <Icon iconUrl={isExpanded ? CaretDownSvg : CaretRightSvg} />
+      <Icon icon={isExpanded ? 'CaretDownSvg' : 'CaretRightSvg'} />
       <span class="toggle-text">Show Options</span>
     </Button>
     

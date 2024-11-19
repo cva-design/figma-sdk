@@ -2,8 +2,8 @@
   import { getContext } from 'svelte';
   
   export let value: string;
-  export let class_: string | undefined = undefined;
-
+  let className: string | undefined = undefined;
+  export { className as class};
   const { register } = getContext('tabs');
   const { isSelected } = register(value);
   
@@ -11,7 +11,7 @@
 </script>
 
 {#if isVisible}
-  <div class="fp-TabsContent {class_ || ''}" role="tabpanel">
+  <div class="fp-TabsContent {className || ''}" role="tabpanel">
     <slot />
   </div>
 {/if} 
