@@ -1,3 +1,11 @@
 {
-  "recommendations": ["svelte.svelte-vscode", "jayfong.generate-index", "biomejs.biome", "gplane.dprint2", "kisstkondoros.vscode-gutter-preview"]
+  "recommendations": [
+    // Schema validation for yaml files
+    "redhat.vscode-yaml",
+    // Better highlighting and completion for .tera files than the Tera extension
+    "samuelcolvin.jinjahtml",
+    // Enables shared config files for VSCode
+    "swellaby.workspace-config-plus",
+    "tamasfe.even-better-toml"
+  ]
 }

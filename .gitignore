@@ -1,26 +1,40 @@
-node_modules
-
-# Output
-.output
-.vercel
-.tsc
-/.svelte-kit
-/build
-/dist
-
-# OS
 .DS_Store
-Thumbs.db
 
-# Env
-.env
-.env.*
-!.env.example
-!.env.test
+# Logs
+logs/
+*.log
 
-# Vite
-vite.config.js.timestamp-*
-vite.config.ts.timestamp-*
+# Cache
+.eslintcache
+.idea
+.npm
+.vscode/*
+!.vscode/*.shared.json
 
-*storybook.log
-.bolt
+# Directories
+build/
+coverage/
+cjs/
+dist/
+dts/
+esm/
+lib/
+mjs/
+tmp/
+umd/
+node_modules/
+
+# Custom
+*.min.js
+*.map
+*.tsbuildinfo
+
+# moon
+.moon/cache
+.moon/dts
+.moon/docker
+
+# Apps
+.output/
+.svelte-kit/
+.vercel/

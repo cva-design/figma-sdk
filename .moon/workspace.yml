@@ -1,0 +1,13 @@
+$schema: 'https://moonrepo.dev/schemas/workspace.json'
+
+##################################################################################
+# NOTE:
+# If you created this repository based on the template at https://github.com/svallory/moonrepo-template
+# You can should pick one of the options below
+##################################################################################
+
+# Extend the template configuration and delete the local `workspace.base.yml` to avoid confusion
+extends: 'https://raw.githubusercontent.com/svallory/moonrepo-template/master/.moon/workspace.base.yml'
+
+# Part ways with the template and use the local file
+# extends: "./workspace.base.yml"
