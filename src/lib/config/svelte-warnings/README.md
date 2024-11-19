@@ -10,6 +10,8 @@ npm install --save-dev @cva.design/figma-sdk
 yarn add --dev @cva.design/figma-sdk
 # or
 pnpm add --save-dev @cva.design/figma-sdk
+# or
+bun add -D @cva.design/figma-sdk
 ```
 
 ## Usage
