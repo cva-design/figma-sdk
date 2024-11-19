@@ -53,7 +53,7 @@
 </Story>
 
 <Story name="SpinningIcon">
-	<Input icon="CheckSvg" spin placeholder="Loading..." />
+	<Input icon="SpinnerSvg" spin placeholder="Loading..." />
 </Story>
 
 <Story name="FullWidth">
