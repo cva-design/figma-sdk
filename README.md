@@ -1,58 +1,51 @@
-# create-svelte
+# moonrepo Monorepo Template
 
-Everything you need to build a Svelte library, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/main/packages/create-svelte).
+Monorepo template using moon, Yarn, Packemon, ESLint, Jest, Prettier, TypeScript, Vite, Vitest, Astro.
 
-Read more about creating a library [in the docs](https://kit.svelte.dev/docs/packaging).
+Read also:
 
-## Creating a project
+- [Configuration Files](<Configuration Files.md>)
+- Project Structure
+  - [Apps](apps/README.md)
+  - [Libaries](libs/README.md)
+  - [Packages](packages/README.md)
 
-If you're seeing this, you've probably already done this step. Congrats!
+This template was based on the [moonrepo examples](https://github.com/moonrepo/examples) repository
+> A collection of packages and applications using moon and popular tooling.
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+## Usage
 
-# create a new project in my-app
-npm create svelte@latest my-app
-```
+To begin, we suggest installing moon globally: <https://moonrepo.dev/docs/install>
 
-## Developing
+Once installed, run the following commands for common tasks:
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+- `moon check --all` - Run _all_ tasks (below).
+- `moon run :build` - Build all projects.
+- `moon run :lint` - Lint code in all projects.
+- `moon run :test` - Run tests in all projects.
+- `moon run :format` - Format code in all projects.
+- `moon run :typecheck` - Type check code in all projects.
 
-```bash
-npm run dev
+Tasks can also be focused to individual projects. The list of projects can be found in
+`.moon/workspace.yml`.
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
+- `moon check <project>`
+- `moon run <project>:<task>`
+- `moon run <project>:dev` - For applications, starts the development server.
 
-Everything inside `src/lib` is part of your library, everything inside `src/routes` can be used as a showcase or preview app.
+## JavaScript
 
-## Building
+The following tools are configured as moon tasks.
 
-To build your library:
+- ESLint
+- Jest
+- Packemon
+- Prettier
+- TypeScript
+- Vite + Vitest
 
-```bash
-npm run package
-```
+### Frameworks
 
-To create a production version of your showcase app:
+The following frameworks have been integrated into this template.
 
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
-
-## Publishing
-
-Go into the `package.json` and give your package the desired name through the `"name"` option. Also consider adding a `"license"` field and point it to a `LICENSE` file which you can create from a template (one popular option is the [MIT license](https://opensource.org/license/mit/)).
-
-To publish your library to [npm](https://www.npmjs.com):
-
-```bash
-npm publish
-```
+- [Astro](./apps/astro-app/README.md)
