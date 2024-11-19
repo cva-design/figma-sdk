@@ -106,8 +106,11 @@
 	}
 
 	input {
-		font-size: var(--text-body-medium-font-size);
-		font-weight: var(--font-weight-default);
+		font-size: var(--font-size-default);
+    font-weight: var(--font-weight-default);
+		font-family: var(--font-family-default);
+    letter-spacing: var(--letter-spacing-default);
+    line-height: var(--line-height-default);
 		letter-spacing: var(--font-letter-spacing-neg-xsmall);
 		line-height: var(--line-height);
 		position: relative;
@@ -115,14 +118,13 @@
 		overflow: visible;
 		align-items: center;
 		width: 100%;
-		height: 30px;
-		margin: 1px 0 1px 0;
+    height: var(--space-6);
 		padding: var(--spacer-2) var(--spacer-1) var(--spacer-2) var(--spacer-2);
 		color: var(--figma-color-text);
 		border: 1px solid transparent;
-		border-radius: var(--border-radius-small);
+		border-radius: var(--radius-medium);
 		outline: none;
-		background-color: var(--figma-color-bg);
+		background-color: var(--figma-color-bg-secondary);
 	}
 	input:hover,
 	input:placeholder-shown:hover {
@@ -140,12 +142,10 @@
 	}
 	input:placeholder-shown {
 		color: var(--figma-color-text);
-		border: 1px solid var(--figma-color-border);
 		background-image: none;
 	}
 	input:focus:placeholder-shown {
 		border: 1px solid var(--figma-color-border-selected);
-		outline: 1px solid var(--figma-color-border-selected);
 		outline-offset: -2px;
 	}
 	input:disabled:hover {
@@ -155,7 +155,6 @@
 	input:focus {
 		color: var(--figma-color-text);
 		border: 1px solid var(--figma-color-border-selected);
-		outline: 1px solid var(--figma-color-border-selected);
 		outline-offset: -2px;
 	}
 	input:disabled {
