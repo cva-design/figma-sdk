@@ -3,7 +3,7 @@
 	import Slider from './slider.svelte';
 
 	export const meta = {
-		title: 'ui/components/Slider',
+		
 		component: Slider,
 		argTypes: {
 			min: { control: 'number' },

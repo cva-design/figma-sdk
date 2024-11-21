@@ -7,7 +7,7 @@
 	import { Sidebar } from './index.ts';
 
 	export const meta = {
-		title: 'ui/components/Sidebar',
+		
 		component: Sidebar,
 		argTypes: {
 			collapsed: { control: 'boolean' },

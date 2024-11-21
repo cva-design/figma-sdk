@@ -6,7 +6,7 @@
 	const IconLayerFrame16 = getIconPath('layer-frame', 16);
 
 	export const meta = {
-		title: 'ui/components/Layer',
+		
 		component: Layer,
 		parameters: {
 			fixedWidth: true

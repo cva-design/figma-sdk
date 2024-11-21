@@ -4,7 +4,7 @@
 	import { Story, Template } from '@storybook/addon-svelte-csf';
 
 	export const meta = {
-		title: 'ui/components/SelectMenu',
+		
 		component: SelectMenu,
 		argTypes: {
 			iconUrl: { control: 'text' },

@@ -5,7 +5,7 @@
 	import Tabs from "./tabs.svelte";
 
 	export const meta = {
-		title: 'ui/components/Tabs',
+		
 		component: Tabs,
 		argTypes: {
 			value: { control: 'text' },
