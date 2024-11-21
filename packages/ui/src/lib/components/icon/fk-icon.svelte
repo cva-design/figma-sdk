@@ -1,5 +1,4 @@
 <script lang="ts">
-	import './fk-icon.css';
 	import * as icons from '$icons';
 	import { cva, type VariantProps } from 'class-variance-authority';
 
@@ -46,3 +45,59 @@
 <svg xmlns="http://www.w3.org/2000/svg" {viewBox} class={classes} fill="none" {...$$restProps}>
 	{@html icons[icon]}
 </svg>
+
+<style lang="scss">
+.fk-icon {
+  display: block;
+  flex-shrink: 0;
+  pointer-events: none;
+
+  &:where(.fp-size-1) {
+    width: var(--space-1);
+  }
+
+  &:where(.fp-size-2) {
+    width: var(--space-2);
+  }
+
+  &:where(.fp-size-2_5) {
+    width: var(--space-2_5);
+  }
+
+  &:where(.fp-size-3) {
+    width: var(--space-3);
+  }
+
+  &:where(.fp-size-3_5) {
+    width: var(--space-3_5);
+  }
+
+  &:where(.fp-size-4) {
+    width: var(--space-4);
+  }
+
+  &:where(.fp-size-5) {
+    width: var(--space-5);
+  }
+
+  &:where(.fp-size-6) {
+    width: var(--space-6);
+  }
+
+  &:where(.fp-size-7) {
+    width: var(--space-7);
+  }
+
+  &:where(.fp-size-8) {
+    width: var(--space-8);
+  }
+
+  &:where(.fp-size-9) {
+    width: var(--space-9);
+  }
+
+  &:where(.fp-size-10) {
+    width: var(--space-10);
+  }
+}
+</style>

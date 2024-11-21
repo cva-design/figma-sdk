@@ -1,6 +1,4 @@
 <script lang="ts">
-  import './dialog-title.css';
-
   export let weight: 'normal' | 'strong' = 'strong';
 </script>
   
@@ -8,3 +6,13 @@
     <slot />
   </h2>
   
+<style lang="scss">
+.fp-DialogBaseTitle {
+  margin: 0 0 16px 0;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+.strong {
+  font-weight: 600;
+}</style>

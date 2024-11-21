@@ -17,7 +17,6 @@
 </script>
 
 <script lang="ts">
-	import './layer.css';
 	import { Text } from '$ui';
 	import type { LayerType } from '../layer/types';
 	import { LayerIcon } from '../layer/types';

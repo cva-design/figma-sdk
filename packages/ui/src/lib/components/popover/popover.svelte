@@ -4,7 +4,6 @@
 </script>
 
 <script lang="ts">
-	import './popover.css';
 	import { createEventDispatcher, onDestroy, onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
 
@@ -93,3 +92,34 @@
 		</div>
 	{/if}
 </div>
+
+<style lang="scss">
+.fp-Popover-container {
+  display: inline-block;
+  cursor: pointer;
+}
+
+.fp-Popover {
+  position: fixed;
+  z-index: 1000;
+  background-color: var(--figma-color-bg);
+  border-radius: 2px;
+  box-shadow: var(--figma-shadow-floating);
+  padding: 8px;
+}
+
+.fp-Popover.fp-placement-top {
+  transform-origin: bottom center;
+}
+
+.fp-Popover.fp-placement-bottom {
+  transform-origin: top center;
+}
+
+.fp-Popover.fp-placement-left {
+  transform-origin: right center;
+}
+
+.fp-Popover.fp-placement-right {
+  transform-origin: left center;
+}</style>

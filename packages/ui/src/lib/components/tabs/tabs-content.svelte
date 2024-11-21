@@ -1,5 +1,4 @@
 <script lang="ts">
-	import './tabs-content.css';
   import { getContext } from 'svelte';
   
   export let value: string;
@@ -16,3 +15,5 @@
     <slot />
   </div>
 {/if} 
+<style lang="scss">
+</style>
