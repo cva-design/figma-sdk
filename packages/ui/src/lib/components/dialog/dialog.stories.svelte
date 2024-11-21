@@ -7,7 +7,7 @@
 	import Dialog from './dialog.svelte';
 
 	export const meta = {
-		title: 'ui/components/Dialog',
+		
 		component: Dialog,
 		argTypes: {
 			open: { control: 'boolean' },

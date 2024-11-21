@@ -3,7 +3,7 @@
 	import { Story, Template } from '@storybook/addon-svelte-csf';
 
 	export const meta = {
-		title: 'ui/components/Switch',
+		
 		component: Switch,
 		argTypes: {
 			checked: { control: 'boolean' },

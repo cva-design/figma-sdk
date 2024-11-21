@@ -5,7 +5,7 @@
 
 
 	export const meta = {
-		title: 'ui/components/IconButton',
+		
 		component: IconButton,
 		argTypes: {
 			size: {

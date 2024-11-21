@@ -3,7 +3,7 @@
 	import { Story } from '@storybook/addon-svelte-csf';
 
 	export const meta = {
-		title: 'ui/components/Tooltip',
+		
 		component: Tooltip,
 		argTypes: {
 			content: { control: 'text' },

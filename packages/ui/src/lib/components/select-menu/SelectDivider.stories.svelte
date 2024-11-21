@@ -3,7 +3,7 @@
 	import { Story, Template } from '@storybook/addon-svelte-csf';
 
 	export const meta = {
-		title: 'ui/components/SelectDivider',
+		
 		component: SelectDivider,
 		argTypes: {
 			label: { control: 'boolean' },

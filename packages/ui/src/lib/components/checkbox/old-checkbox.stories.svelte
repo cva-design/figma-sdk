@@ -4,7 +4,7 @@
 	import Checkbox from './checkbox.svelte';
 
 	export const meta = {
-		title: 'ui/components/Checkboxes/old',
+		
 		component: Checkbox
 	} satisfies Meta<typeof Checkbox>;
 </script>

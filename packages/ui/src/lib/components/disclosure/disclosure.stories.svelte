@@ -3,7 +3,7 @@
 	import { Story, Template } from '@storybook/addon-svelte-csf';
 
 	export const meta = {
-		title: 'ui/components/Disclosure',
+		
 		component: Disclosure,
 		argTypes: {
 			onChange: { action: 'changed' }

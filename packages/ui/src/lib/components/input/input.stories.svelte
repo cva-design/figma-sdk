@@ -4,7 +4,7 @@
 	import Input from './input.svelte';
 
 	export const meta = {
-		title: 'ui/components/Input',
+		
 		component: Input,
 		argTypes: {
 			value: { control: 'text' },

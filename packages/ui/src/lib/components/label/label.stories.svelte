@@ -4,7 +4,7 @@
 	import Label from './label.svelte';
 
 	export const meta = {
-		title: 'ui/components/Label',
+		
 		component: Label,
 		argTypes: {
 			class: { control: 'text' }

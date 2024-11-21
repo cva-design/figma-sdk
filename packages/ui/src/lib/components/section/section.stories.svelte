@@ -4,7 +4,7 @@
 	import { Section } from './index.ts';
 
 	export const meta = {
-		title: 'ui/components/Section',
+		
 		component: Section,
 		argTypes: {
 			class: { control: 'text' }

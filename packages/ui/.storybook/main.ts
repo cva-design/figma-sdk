@@ -1,5 +1,5 @@
-import type { InlineConfig } from 'vite';
 import type { StorybookConfig } from '@storybook/sveltekit';
+import type { InlineConfig } from 'vite';
 
 // Simplify paths
 import path from 'node:path';
@@ -8,7 +8,23 @@ import { fileURLToPath } from 'node:url';
 const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
 const config: StorybookConfig = {
-  stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|ts|svelte)', '../docs/**/*.mdx', '../docs/**/*.stories.@(js|ts|svelte)'],
+  stories: [
+    {
+      directory: '../docs',
+      files: '*.mdx',
+      titlePrefix: 'Documentation',
+    },
+    {
+      directory: '../docs/packages',
+      files: '**/*.mdx',
+      titlePrefix: 'SDK Packages',
+    },
+    {
+      directory: '../src/lib/components',
+      files: '**/*.@(mdx|stories.@(js|ts|svelte))',
+      titlePrefix: 'UI Components',
+    },
+  ],
 
   addons: [
     '@storybook/addon-svelte-csf',
