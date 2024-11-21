@@ -1,4 +1,4 @@
-# moonrepo Monorepo Template Configuration Files
+# Configuration Files
 
 ## babel
 

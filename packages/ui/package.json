@@ -120,6 +120,8 @@
     "@types/eslint": "^9.6.1",
     "@types/node": "^22.8.5",
     "@typescript-eslint/utils": "^8.12.2",
+    "chromatic": "^11.18.1",
+    "esbuild-darwin-64": "^0.15.18",
     "eslint": "^9.13.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-storybook": "^0.11.1",
