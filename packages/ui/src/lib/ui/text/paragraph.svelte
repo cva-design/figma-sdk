@@ -1,7 +1,7 @@
 <script lang="ts">
+	import './paragraph.css';
 	import { cva, type VariantProps } from 'class-variance-authority';
 	import type { HTMLAttributes } from 'svelte/elements';
-	import './text.scss';
 
 	const paragraph = cva('fp-Text', {
 		variants: {

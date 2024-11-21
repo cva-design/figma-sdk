@@ -1,7 +1,7 @@
 <script lang="ts">
+	import './link.css';
 	import { cva, type VariantProps } from 'class-variance-authority';
 	import type { HTMLAnchorAttributes } from 'svelte/elements';
-	import './text.scss';
 
 	const link = cva('fp-Text fp-Link', {
 		variants: {

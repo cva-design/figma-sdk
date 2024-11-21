@@ -1,4 +1,5 @@
 <script lang="ts">
+	import './sidebar.css';
 	import { Button } from '../button';
 	import { Icon } from '../icon';
 	import IconButton from '../icon-button/icon-button.svelte';
@@ -30,49 +31,3 @@
 		<slot />
 	</div>
 </aside>
-
-<style>
-	.sidebar {
-		position: relative;
-		width: var(--sidebar-width);
-		height: 100%;
-		background: var(--figma-color-bg);
-		border-right: 1px solid var(--figma-color-border);
-		transition: width 0.2s ease-in-out;
-		overflow: hidden;
-	}
-
-	.sidebar.collapsed {
-		width: var(--sidebar-collapsed-width);
-	}
-
-	.sidebar.right {
-		border-right: none;
-		border-left: 1px solid var(--figma-color-border);
-	}
-
-	.sidebar-content {
-		height: 100%;
-		width: var(--sidebar-width);
-		overflow-y: auto;
-		overflow-x: hidden;
-	}
-
-	.toggle-button {
-		position: absolute;
-		bottom: var(--spacer-2);
-		right: var(--spacer-2);
-		width: var(--spacer-5);
-		height: var(--spacer-5);
-		padding: 0;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		border-radius: var(--border-radius-small);
-	}
-
-	.right .toggle-button {
-		right: unset;
-		left: var(--spacer-2);
-	}
-</style>

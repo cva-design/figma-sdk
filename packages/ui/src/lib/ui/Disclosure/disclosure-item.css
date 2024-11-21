@@ -1,0 +1,60 @@
+li {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  border-bottom: 1px solid var(--figma-color-border);
+}
+li:last-child {
+  border-bottom: 1px solid transparent;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  height: var(--spacer-5);
+  font-size: var(--text-body-medium-font-size);
+  font-weight: var(--font-weight-default);
+  letter-spacing: var(--font-letter-spacing-pos-xsmall);
+  line-height: var(--line-height);
+  color: var(--figma-color-text);
+}
+.header:hover .icon {
+  opacity: 0.9;
+}
+
+.title {
+  margin-left: -4px;
+  user-select: none;
+}
+
+.icon {
+  margin-left: -4px;
+  opacity: 0.3;
+}
+.expanded .icon {
+  opacity: 0.8;
+}
+
+.section {
+  font-weight: var(--font-weight-strong);
+}
+
+.content {
+  font-size: var(--text-body-medium-font-size);
+  font-weight: var(--font-weight-default);
+  letter-spacing: var(--font-letter-spacing-pos-xsmall);
+  line-height: var(--line-height);
+  color: var(--figma-color-text);
+  padding: var(--spacer-2) var(--spacer-2) var(--spacer-2) var(--spacer-4);
+  display: none;
+  user-select: none;
+  pointer-events: none;
+}
+
+.expanded .content {
+  display: block;
+}

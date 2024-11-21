@@ -1,4 +1,5 @@
 <script lang="ts">
+	import './text.css';
 	import { cva, type VariantProps } from 'class-variance-authority';
 	import type { HTMLAttributes } from 'svelte/elements';
 
@@ -46,5 +47,3 @@
 <span class={`${text({ size, weight, align, block, inverse })} ${$$props.class}`}>
 	<slot />
 </span>
-
-<style lang="scss" src="./text.scss"></style>

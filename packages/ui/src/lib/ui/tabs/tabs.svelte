@@ -1,4 +1,5 @@
 <script lang="ts">
+	import './tabs.css';
   import { setContext } from 'svelte';
   import { writable, type Writable } from 'svelte/store';
 

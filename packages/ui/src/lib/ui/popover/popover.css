@@ -1,3 +1,8 @@
+.fp-Popover-container {
+  display: inline-block;
+  cursor: pointer;
+}
+
 .fp-Popover {
   position: fixed;
   z-index: 1000;

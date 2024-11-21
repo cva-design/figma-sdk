@@ -1,1 +1,1 @@
-export { default as ActionGroup } from './ActionGroup.svelte'; 
+export { default as ActionGroup } from './action-group.svelte'; 

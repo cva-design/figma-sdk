@@ -1,4 +1,5 @@
 <script lang="ts">
+	import './tabs-list.css';
   import { slide } from 'svelte/transition';
   import { Button } from '$ui/button';
   import { Icon } from '$ui/icon';
@@ -39,36 +40,3 @@
     <slot />
   </div>
 {/if}
-
-<style lang="scss">
-  .fp-TabsList {
-    display: flex;
-    overflow-y: auto;
-    gap: var(--space-2);
-
-    &.full-width {
-      width: 100%;
-      
-      :global(.fp-TabsTrigger) {
-        flex: 1;
-        width: 100% !important; // Override the fixed width
-      }
-    }
-  }
-
-  .tabs-wrapper {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-2);
-  }
-
-  .toggle-button {
-    display: flex;
-    align-items: center;
-    gap: var(--space-2);
-  }
-
-  .toggle-text {
-    margin-left: var(--space-1);
-  }
-</style> 

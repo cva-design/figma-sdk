@@ -2,7 +2,7 @@
 	import { Story } from '@storybook/addon-svelte-csf';
 	import type { Meta } from '@storybook/svelte';
 	import Dialog from './dialog.svelte';
-	import DialogTitle from './dialogTitle.svelte';
+	import DialogTitle from './dialog-title.svelte';
 	import { Button } from '../button';
 	import { ActionGroup } from '../action-group';
 

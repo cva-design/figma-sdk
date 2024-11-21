@@ -1,7 +1,7 @@
 <script context="module" lang="ts">
 	import { Story } from '@storybook/addon-svelte-csf';
 	import type { Meta } from '@storybook/svelte';
-	import ActionGroup from './ActionGroup.svelte';
+	import ActionGroup from './action-group.svelte';
 	import { Button } from '../button';
 	import { IconButton } from '../icon-button';
 	import { Icon } from '../icon';

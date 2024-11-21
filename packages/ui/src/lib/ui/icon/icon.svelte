@@ -1,4 +1,5 @@
 <script lang="ts">
+	import './icon.css';
 	import * as icons from '$icons';
 	import type { AutocompletableString } from '$lib/util';
 
@@ -57,40 +58,3 @@
 		{@html icons[icon]}
 	</div>
 {/if}
-
-<style>
-	.icon-component {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		cursor: default;
-		width: var(--spacer-5);
-		height: var(--spacer-5);
-		font-family: var(--font-family-default);
-		font-size: var(--text-body-medium-font-size);
-		user-select: none;
-	}
-
-	.spin {
-		animation: rotating 1s linear infinite;
-	}
-
-	@keyframes rotating {
-		from {
-			transform: rotate(0deg);
-		}
-		to {
-			transform: rotate(360deg);
-		}
-	}
-
-	:global(.icon-component *) {
-		fill: inherit;
-		color: inherit;
-	}
-
-	:global(.icon-component svg) {
-		width: 100%;
-		height: 100%;
-	}
-</style>

@@ -56,17 +56,17 @@
   display: none;
 }
 
-.fp-CheckboxInput:checked .fp-CheckboxCheckmark {
+.fp-CheckboxInput:checked ~ .fp-CheckboxIndicator .fp-CheckboxCheckmark {
   --color-icon: var(--figma-color-icon-onbrand);
   display: block;
 }
 
-.fp-CheckboxInput:indeterminate .fp-CheckboxIndeterminate {
+.fp-CheckboxInput:indeterminate ~ .fp-CheckboxIndicator .fp-CheckboxIndeterminate {
   --color-icon: var(--figma-color-icon);
   display: block;
 }
 
-.fp-CheckboxInput:disabled:indeterminate .fp-CheckboxIndeterminate {
+.fp-CheckboxInput:disabled:indeterminate ~ .fp-CheckboxIndicator .fp-CheckboxIndeterminate {
   --color-icon: var(--figma-color-icon-disabled);
 }
 

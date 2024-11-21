@@ -1,11 +1,11 @@
 <script context="module" lang="ts">
-	import './text.scss';
 	export type Size = 'small' | 'medium' | 'large';
 	export type Weight = 'default' | 'strong';
 	export type Align = 'start' | 'center' | 'end';
 </script>
 
 <script lang="ts">
+	import './label.css';
 	import { cva, type VariantProps } from 'class-variance-authority';
 	import type { HTMLLabelAttributes } from 'svelte/elements';
 

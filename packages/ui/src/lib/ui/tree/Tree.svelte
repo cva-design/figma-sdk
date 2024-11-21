@@ -1,6 +1,7 @@
 <script lang="ts">
+	import './tree.css';
 	import { createEventDispatcher } from 'svelte';
-	import TreeNode from './TreeNode.svelte';
+	import TreeNode from './tree-node.svelte';
 	import type { ITreeNode, TreeOptions } from './types';
 
 	export let nodes: ITreeNode[] = [];
@@ -22,9 +23,3 @@
 		<TreeNode {node} {options} on:nodeAction={handleNodeAction} />
 	{/each}
 </div>
-
-<style>
-	.tree {
-		font-family: Arial, sans-serif;
-	}
-</style>

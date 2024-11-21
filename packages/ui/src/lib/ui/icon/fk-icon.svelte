@@ -1,4 +1,5 @@
 <script lang="ts">
+	import './fk-icon.css';
 	import * as icons from '$icons';
 	import { cva, type VariantProps } from 'class-variance-authority';
 
@@ -45,5 +46,3 @@
 <svg xmlns="http://www.w3.org/2000/svg" {viewBox} class={classes} fill="none" {...$$restProps}>
 	{@html icons[icon]}
 </svg>
-
-<style src="./fk-icon.css" lang="css"></style>
