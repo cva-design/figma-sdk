@@ -1,3 +1,3 @@
-export { default as Tree } from './Tree.svelte';
-export { default as TreeNode } from './TreeNode.svelte';
+export { default as Tree } from './tree.svelte';
+export { default as TreeNode } from './tree-node.svelte';
 export type { Action, ITreeNode, TreeOptions } from './types';

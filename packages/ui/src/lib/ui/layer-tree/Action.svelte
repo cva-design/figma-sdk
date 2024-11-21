@@ -25,10 +25,11 @@
 </script>
 
 <script lang="ts">
+	import './action.css';
 	import { Icon } from '$ui/icon';
 	import { cva } from 'class-variance-authority';
 	import type { HTMLAttributes } from 'svelte/elements';
-	import type { LayerProps } from './Layer.svelte';
+	import type { LayerProps } from './layer.svelte';
 
 	interface $$Props extends HTMLAttributes<HTMLButtonElement> {
 		action: Action;
@@ -115,27 +116,3 @@
 >
 	<Icon icon={iconKey} />
 </button>
-
-<style>
-	.action {
-		background: none;
-		border: none;
-		cursor: pointer;
-		padding: 2px;
-		margin: 0 2px;
-		color: var(--figma-color-icon-secondary);
-	}
-
-	.action:disabled {
-		opacity: 0.5;
-		cursor: not-allowed;
-	}
-
-	.action.active {
-		color: var(--figma-color-icon);
-	}
-
-	.action:hover:not(:disabled) {
-		color: var(--figma-color-icon);
-	}
-</style>

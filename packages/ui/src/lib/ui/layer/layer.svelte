@@ -1,10 +1,11 @@
 <script lang="ts">
+	import './layer.css';
+	import styles from './layer.module.css';
 	import { ChevronDownSvg_16, ChevronRightSvg_16 } from '$icons';
 	import { cva, type VariantProps } from 'class-variance-authority';
 	import type { ComponentType } from 'svelte';
 	import { createEventDispatcher } from 'svelte';
 	import Text from '../text/text.svelte';
-	import styles from './layer.module.css';
 	import { LayerIcon, type LayerType } from './types';
 	const layer = cva(styles.layer, {
 		variants: {

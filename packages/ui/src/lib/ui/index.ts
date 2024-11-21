@@ -45,11 +45,11 @@ export * from './tree/index.ts';
 //@endindex
 
 //@index(['*/index.svelte'], (f, {pascalCase}) => `export { default as ${pascalCase(f.path.split('/').at(-2))} } from '${f.path}${f.ext}';`)
-export { default as Input } from './Input/input.svelte';
-export { default as Label } from './Label/label.svelte';
+export { default as Input } from './input/input.svelte';
+export { default as Label } from './label/label.svelte';
 export { default as OnboardingTip } from './onboarding-tip/index.svelte';
 export { default as Radio } from './radio/index.svelte';
-export { default as Section } from './Section/section.svelte';
+export { default as Section } from './section/section.svelte';
 export { default as Switch } from './switch/index.svelte';
 export { default as Textarea } from './textarea/index.svelte';
 export { default as Type } from './type/index.svelte';

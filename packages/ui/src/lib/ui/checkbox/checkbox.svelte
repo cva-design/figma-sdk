@@ -1,7 +1,9 @@
 <script lang="ts">
+	import './checkbox.css';
 	import { createCheckbox } from '@melt-ui/svelte';
 	import CheckmarkIndeterminateIcon from './assets/checkmark-indeterminate.svelte';
 	import CheckmarkIcon from './assets/checkmark.svelte';
+	
 	export let className = '';
 	export let checked = false;
 	export let indeterminate = false;

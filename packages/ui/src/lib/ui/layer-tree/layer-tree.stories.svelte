@@ -1,8 +1,8 @@
 <script context="module" lang="ts">
 	import { Story } from '@storybook/addon-svelte-csf';
 	import type { Meta } from '@storybook/svelte';
-	import LayerTree from './LayerTree.svelte';
-	import type { LayerTreeData } from './LayerTree.svelte';
+	import LayerTree from './layer-tree.svelte';
+	import type { LayerTreeData } from './layer-tree.svelte';
 
 	export const meta = {
 		title: 'Components/LayerTree',

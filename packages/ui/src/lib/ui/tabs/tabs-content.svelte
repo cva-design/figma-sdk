@@ -1,4 +1,5 @@
 <script lang="ts">
+	import './tabs-content.css';
   import { getContext } from 'svelte';
   
   export let value: string;

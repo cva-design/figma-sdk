@@ -1,4 +1,5 @@
 <script lang="ts">
+	import './melt-checkbox.css';
 	import { createCheckbox, melt } from '@melt-ui/svelte';
 	import Label from '../text/label.svelte';
 	import CheckmarkIndeterminateIcon from './assets/checkmark-indeterminate.svelte';
@@ -58,5 +59,3 @@
 		</span>
 	{/if}
 </div>
-
-<style src="./checkbox.scss" lang="scss"></style>

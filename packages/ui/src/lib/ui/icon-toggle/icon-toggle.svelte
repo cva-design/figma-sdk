@@ -17,6 +17,7 @@
 </script>
 
 <script lang="ts">
+	import './icon-toggle.css';
 	import { Icon } from '$ui/icon';
 	import { Tooltip } from '$ui/tooltip';
 	import { cva } from 'class-variance-authority';
@@ -108,27 +109,3 @@
 		<Icon {icon} />
 	</button>
 {/if}
-
-<style>
-	button {
-		background: none;
-		border: none;
-		cursor: pointer;
-		padding: 2px;
-		margin: 0 2px;
-		color: var(--figma-color-icon-secondary);
-	}
-
-	button:disabled {
-		opacity: 0.5;
-		cursor: not-allowed;
-	}
-
-	button:global(.on) {
-		color: var(--figma-color-icon);
-	}
-
-	button:hover:not(:disabled) {
-		color: var(--figma-color-icon);
-	}
-</style>

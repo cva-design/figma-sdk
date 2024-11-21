@@ -4,7 +4,7 @@
 	import { Sidebar } from './index.ts';
 	import { Button } from '../button';
 	import { Disclosure, DisclosureItem } from '../disclosure/index.ts';
-	import { Section } from '../Section/index';
+	import { Section } from '../section/index';
 
 	export const meta = {
 		title: 'Components/Sidebar',

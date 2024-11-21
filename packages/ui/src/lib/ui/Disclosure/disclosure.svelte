@@ -1,4 +1,5 @@
 <script>
+	import './disclosure.css';
 	import { createEventDispatcher, setContext } from 'svelte';
 	import { writable } from 'svelte/store';
 	import { disclosure } from './disclosure-item.svelte';
@@ -31,13 +32,3 @@
 <ul class={className} bind:this={disclosureWrapper}>
 	<slot></slot>
 </ul>
-
-<style>
-	ul {
-		position: relative;
-		width: 100%;
-		margin: 0;
-		padding: 0;
-		list-style-type: none;
-	}
-</style>

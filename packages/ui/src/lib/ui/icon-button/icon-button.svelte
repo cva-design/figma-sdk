@@ -1,7 +1,7 @@
 <script lang="ts">
+	import './icon-button.css';
 	import { Tooltip } from '$ui/tooltip';
 	import { cva, type VariantProps } from 'class-variance-authority';
-	import './icon-button.css';
 
 	const iconButton = cva('fp-IconButton', {
 		variants: {
@@ -52,55 +52,3 @@
 		</Tooltip>
 	{/if}
 </svelte:element>
-<style>
-.fp-IconButton {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  background: none;
-  cursor: pointer;
-  padding: 0;
-  color: var(--figma-color-icon);
-}
-
-.fp-IconButton:hover {
-  background-color: var(--figma-color-bg-hover);
-  border-radius: var(--border-radius-small);
-}
-
-.fp-IconButton:active {
-  background-color: var(--figma-color-bg-pressed);
-}
-
-.fp-IconButton:disabled {
-  color: var(--figma-color-icon-disabled);
-  cursor: not-allowed;
-}
-
-.fp-IconButton:focus-visible {
-  outline: 2px solid var(--figma-color-border-selected);
-  outline-offset: -1px;
-  border-radius: var(--border-radius-small);
-}
-
-.fp-size-small {
-  width: var(--space-6);
-  height: var(--space-6);
-}
-
-.fp-size-medium {
-  width: var(--space-8);
-  height: var(--space-8);
-}
-
-.fp-active-appearance-subtle:active {
-  background-color: var(--figma-color-bg-pressed);
-}
-
-.fp-active-appearance-solid:active {
-  background-color: var(--figma-color-bg-brand);
-  color: var(--figma-color-icon-onbrand);
-}
-
-</style>

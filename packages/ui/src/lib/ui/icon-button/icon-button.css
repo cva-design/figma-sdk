@@ -9,11 +9,18 @@
   color: var(--figma-color-icon);
 }
 
+.fp-IconButton:hover {
+  background-color: var(--figma-color-bg-hover);
+  border-radius: var(--border-radius-small);
+}
 .fp-IconButton:hover:not(:disabled) {
   background-color: var(--figma-color-bg-hover);
   border-radius: var(--border-radius-small);
 }
 
+.fp-IconButton:active {
+  background-color: var(--figma-color-bg-pressed);
+}
 .fp-IconButton:active:not(:disabled) {
   background-color: var(--figma-color-bg-pressed);
 }
@@ -40,10 +47,18 @@
   height: var(--space-8);
 }
 
+.fp-active-appearance-subtle:active {
+  background-color: var(--figma-color-bg-pressed);
+}
+
 .fp-active-appearance-subtle:active:not(:disabled) {
   background-color: var(--figma-color-bg-pressed);
 }
 
+.fp-active-appearance-solid:active {
+  background-color: var(--figma-color-bg-brand);
+  color: var(--figma-color-icon-onbrand);
+}
 .fp-active-appearance-solid:active:not(:disabled) {
   background-color: var(--figma-color-bg-brand);
   color: var(--figma-color-icon-onbrand);

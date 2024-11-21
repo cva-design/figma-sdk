@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { createSlider, type SliderOrientation } from '@melt-ui/svelte';
 	import './slider.css';
+	import { createSlider, type SliderOrientation } from '@melt-ui/svelte';
 
 	export let min: number = 0;
 	export let max: number = 100;
