@@ -21,10 +21,9 @@ const config = {
     alias: {
       $lib: 'src/lib',
       '$lib/*': 'src/lib/*',
-      $ui: 'src/lib/ui',
-      '$ui/*': 'src/lib/ui/*',
+      $ui: 'src/lib/components',
+      '$ui/*': 'src/lib/components/*',
       '$icons/16': 'src/lib/icons/cfp/size-16/index.ts',
-      '#icons/16': 'src/lib/icons/cfp/size-16/index.ts',
       '$icons/16/*': 'src/lib/icons/cfp/size-16/*',
       '$icons/32': 'src/lib/icons/cfp/size-32/index.ts',
       '$icons/32/*': 'src/lib/icons/cfp/size-32/*',
