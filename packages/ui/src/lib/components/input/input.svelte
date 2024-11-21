@@ -1,5 +1,4 @@
 <script lang="ts">
-	import './input.css';
 	import { Icon } from '$ui/icon';
 	import { createEventDispatcher } from 'svelte';
 
@@ -99,3 +98,122 @@
 		{/if}
 	</div>
 {/if}
+
+<style lang="scss">
+.input {
+  position: relative;
+  transition: flex 0s 0.2s;
+}
+
+input {
+  font-size: var(--font-size-default);
+  font-weight: var(--font-weight-default);
+  font-family: var(--font-family-default);
+  letter-spacing: var(--letter-spacing-default);
+  line-height: var(--line-height-default);
+  letter-spacing: var(--font-letter-spacing-neg-xsmall);
+  line-height: var(--line-height);
+  position: relative;
+  display: flex;
+  overflow: visible;
+  align-items: center;
+  width: 100%;
+  height: var(--space-6);
+  padding: var(--spacer-2) var(--spacer-1) var(--spacer-2) var(--spacer-2);
+  color: var(--figma-color-text);
+  border: 1px solid transparent;
+  border-radius: var(--radius-medium);
+  outline: none;
+  background-color: var(--figma-color-bg-secondary);
+}
+input:hover,
+input:placeholder-shown:hover {
+  color: var(--figma-color-text-hover);
+  border: 1px solid var(--figma-color-border);
+  background-image: none;
+}
+input::selection {
+  color: var(--figma-color-text);
+  background-color: var(--color-texthighlight);
+}
+input::placeholder {
+  color: var(--figma-color-text-tertiary);
+  border: 1px solid transparent;
+}
+input:placeholder-shown {
+  color: var(--figma-color-text);
+  background-image: none;
+}
+input:focus:placeholder-shown {
+  border: 1px solid var(--figma-color-border-selected);
+  outline-offset: -2px;
+}
+input:disabled:hover {
+  border: 1px solid transparent;
+}
+input:active,
+input:focus {
+  color: var(--figma-color-text);
+  border: 1px solid var(--figma-color-border-selected);
+  outline-offset: -2px;
+}
+input:disabled {
+  position: relative;
+  color: var(--figma-color-text-disabled);
+  background-image: none;
+}
+input:disabled:active {
+  outline: none;
+}
+
+.borders {
+  border: 1px solid var(--figma-color-border);
+  background-image: none;
+}
+.borders:disabled {
+  border: 1px solid transparent;
+  background-image: none;
+}
+.borders:disabled:placeholder-shown {
+  border: 1px solid transparent;
+  background-image: none;
+}
+.borders:disabled:placeholder-shown:active {
+  border: 1px solid transparent;
+  outline: none;
+}
+.borders:placeholder-shown {
+  border: 1px solid var(--figma-color-border);
+  background-image: none;
+}
+
+.indent {
+  padding-left: 32px;
+}
+
+.invalid,
+.invalid:hover,
+.invalid:focus {
+  border: 1px solid var(--figma-color-border-danger-strong);
+  outline: 1px solid var(--figma-color-border-danger-strong);
+  outline-offset: -2px;
+}
+
+.icon {
+  position: absolute;
+  top: -1px;
+  left: 0;
+  width: var(--spacer-5);
+  height: var(--spacer-5);
+  z-index: 1;
+}
+
+.error {
+  color: var(--figma-color-text-danger);
+  font-size: var(--text-body-medium-font-size);
+  font-weight: var(--font-weight-default);
+  letter-spacing: var(--font-letter-spacing-neg-xsmall);
+  line-height: var(--line-height);
+  padding-top: var(--spacer-1);
+  padding-left: var(--spacer-2);
+}</style>

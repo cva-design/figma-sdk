@@ -1,6 +1,5 @@
 <script lang="ts" context="module">
 	import type { Action as ActionType } from '../tree/types';
-	import './layer-tree.css';
 	export type LayerTreeData = {
 		id: string;
 		children: LayerTreeData[];
@@ -116,3 +115,46 @@
 		{/if}
 	</div>
 </div>
+
+<style lang="scss">
+.layerTree-container {
+  width: 100%;
+}
+
+.layerTree {
+  width: 100%;
+}
+
+.layerTree--header {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.layerTree--caret {
+  flex: 0 0 16px;
+  height: 16px;
+  padding: 0;
+  margin-right: 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--figma-color-icon-secondary);
+}
+
+.layerTree--caret:hover {
+  color: var(--figma-color-icon);
+}
+
+.layerTree--children {
+  width: 100%;
+  padding-left: 16px;
+}
+
+.disabled {
+  opacity: 0.5;
+}
+
+.mixed {
+  opacity: 0.75;
+}</style>

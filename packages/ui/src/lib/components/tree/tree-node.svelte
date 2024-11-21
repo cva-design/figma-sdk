@@ -1,5 +1,4 @@
 <script lang="ts">
-	import './tree-node.css';
 	import { ChevronDownSvg_16, ChevronRightSvg_16 } from '$icons';
 	import { createEventDispatcher } from 'svelte';
 	import type { Action, ITreeNode, TreeOptions } from './types';
@@ -63,3 +62,39 @@
 		</div>
 	{/if}
 </div>
+
+<style lang="scss">
+.tree-node {
+  margin: 2px 0;
+}
+.node-content {
+  display: flex;
+  align-items: center;
+}
+.expand-icon {
+  cursor: pointer;
+  margin-right: 5px;
+}
+.node-icon {
+  margin-right: 5px;
+}
+.node-title {
+  flex-grow: 1;
+}
+.node-actions {
+  display: flex;
+}
+.action-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 2px;
+  margin: 0 2px;
+}
+.action-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.action-button.active {
+  background-color: #e0e0e0;
+}</style>
