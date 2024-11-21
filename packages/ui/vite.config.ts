@@ -1,4 +1,5 @@
 import { sveltekit } from '@sveltejs/kit/vite';
+import { searchForWorkspaceRoot } from 'vite'
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { default as tsconfigPaths } from 'vite-tsconfig-paths';
@@ -6,6 +7,11 @@ import { type Plugin, defineConfig } from 'vitest/config';
 import { svelteWarnings } from './src/lib/config/svelte-warnings/plugin';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const workspaceRoot = searchForWorkspaceRoot(process.cwd());
+
+console.log(`Workspace Root: ${workspaceRoot}`);
+console.log(`__dirname: ${__dirname}`);
+// process.exit(0);
 
 // Debug plugin
 const debugResolvePlugin = (): Plugin => ({
@@ -56,7 +62,7 @@ const config = defineConfig({
     watch: {
       // usePolling: true,
       // interval: 100,
-    },
+    }
   },
 });
 
