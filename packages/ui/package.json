@@ -23,7 +23,8 @@
     "lint": "pnpm biome check .",
     "lint:fix": "pnpm biome check --fix .",
     "lint:unsafe-fix": "pnpm biome check --unsafe-fix .",
-    "svelte-check": "svelte-check --tsconfig ./tsconfig.json"
+    "svelte-check": "svelte-check --tsconfig ./tsconfig.json",
+    "chromatic": "npx chromatic --project-token=chpt_12bcca3066945d0"
   },
   "imports": {
     "$icons/16": "./src/lib/icons/cfp/size-16/*"
