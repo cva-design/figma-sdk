@@ -14,18 +14,18 @@
 				strong: 'fp-weight-strong'
 			},
 			align: {
-				start: 'fp-align-start',
+				left: 'fp-align-start',
 				center: 'fp-align-center',
-				end: 'fp-align-end'
+				right: 'fp-align-end'
 			},
 			block: {
 				true: 'fp-block'
 			}
 		},
 		defaultVariants: {
-			size: 'medium',
+			size: 'medium', 
 			weight: 'default',
-			align: 'start'
+			align: 'left'
 		}
 	});
 
@@ -88,7 +88,7 @@
   }
 
   &:where(.fp-align-start) {
-    text-align: start;
+    text-align: left;
   }
 
   &:where(.fp-align-center) {
@@ -96,7 +96,7 @@
   }
 
   &:where(.fp-align-end) {
-    text-align: end;
+    text-align: right;
   }
 
   &:where(.fp-block) {

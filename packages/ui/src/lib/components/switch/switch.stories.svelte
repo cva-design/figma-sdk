@@ -31,7 +31,7 @@
 <Story
 	name="Checked"
 	args={{
-		label: 'Checked Switch',
+		label: 'Switch Label',
 		checked: true
 	}}
 />
@@ -61,20 +61,3 @@
 		value: 'exampleValue'
 	}}
 />
-
-<Story
-	name="With Custom Class"
-	args={{
-		label: 'Switch with Custom Class',
-		class: 'custom-switch'
-	}}
-/>
-
-<style>
-	:global(.custom-switch) {
-		margin-top: 10px;
-		padding: 5px;
-		background-color: var(--figma-color-bg-secondary);
-		border-radius: var(--border-radius-small);
-	}
-</style>

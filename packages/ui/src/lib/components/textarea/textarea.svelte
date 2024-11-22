@@ -47,8 +47,7 @@ textarea {
   padding: 7px 4px 9px 7px;
   color: var(--figma-color-text);
   border: 1px solid var(--figma-color-border);
-  border-radius: var(--border-radius-small);
-  outline: none;
+  border-radius: var(--radius-medium);
   background-color: var(--figma-color-bg);
   resize: none;
   overflow-y: auto;
@@ -69,8 +68,6 @@ textarea::placeholder {
 }
 textarea:focus:placeholder-shown {
   border: 1px solid var(--figma-color-border-selected);
-  outline: 1px solid var(--figma-color-border-selected);
-  outline-offset: -2px;
 }
 textarea:active,
 textarea:focus {
@@ -78,8 +75,7 @@ textarea:focus {
 
   color: var(--figma-color-text);
   border: 1px solid var(--figma-color-border-selected);
-  outline: 1px solid var(--figma-color-border-selected);
-  outline-offset: -2px;
+  border-radius: var(--radius-medium);
 }
 textarea:disabled,
 textarea:disabled:hover {
@@ -89,5 +85,4 @@ textarea:disabled:hover {
 }
 textarea:disabled:active {
   padding: 7px 4px 9px 7px;
-  outline: none;
 }</style>

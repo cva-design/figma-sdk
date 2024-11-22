@@ -47,7 +47,7 @@
 	<ActionGroup>
 		<Button>Edit</Button>
 		<IconButton>
-			<Icon name="delete" />
+			<Icon icon="StarOnSvg" />
 		</IconButton>
 		<Button>Save</Button>
 	</ActionGroup>

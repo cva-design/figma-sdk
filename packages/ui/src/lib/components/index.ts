@@ -44,7 +44,6 @@ export * from './layer/index.ts';
 export * from './onboarding-tip/index.ts';
 export * from './popover/index.ts';
 export * from './radio/index.ts';
-export * from './section/index.ts';
 export * from './select-menu/index.ts';
 export * from './sidebar/index.ts';
 export * from './slider/index.ts';

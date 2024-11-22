@@ -51,23 +51,7 @@
 	name="Custom Rows"
 	args={{
 		value: '',
-		placeholder: 'This textarea has 5 rows',
-		rows: 5
+		placeholder: 'This textarea has 10 rows',
+		rows: 10
 	}}
 />
-
-<Story
-	name="With Custom Class"
-	args={{
-		value: '',
-		placeholder: 'Textarea with custom class',
-		rows: 3,
-		class: 'custom-textarea'
-	}}
-/>
-
-<style>
-	:global(.custom-textarea) {
-		border: 2px solid var(--figma-color-border-brand-strong);
-	}
-</style>

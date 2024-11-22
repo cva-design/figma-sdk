@@ -108,4 +108,5 @@ input:enabled:checked:focus + label:before {
 input:enabled:focus + label:before {
   border: 1px solid var(--figma-color-border-selected);
   box-shadow: 0 0 0 1px var(--figma-color-border-selected);
-}</style>
+}
+</style>

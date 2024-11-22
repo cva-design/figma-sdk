@@ -85,7 +85,3 @@
 		macOSBlink: true
 	}}
 />
-
-<style>
-	/* Add any global styles for the stories here if needed */
-</style>

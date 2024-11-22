@@ -16,7 +16,7 @@
 			},
 			align: {
 				control: 'radio',
-				options: ['start', 'center', 'end']
+				options: ['left', 'center', 'right']
 			},
 			block: {
 				control: 'boolean'
@@ -54,9 +54,9 @@
 		</div>
 		<div style="display: flex; gap: 16px; flex-direction: column;">
 			<h3>Alignments</h3>
-			<Text align="start">Start Aligned Text</Text>
+			<Text align="left">Start Aligned Text</Text>
 			<Text align="center">Center Aligned Text</Text>
-			<Text align="end">End Aligned Text</Text>
+			<Text align="right">End Aligned Text</Text>
 		</div>
 		<div style="display: flex; gap: 16px; flex-direction: column;">
 			<h3>Inline Semantics</h3>
