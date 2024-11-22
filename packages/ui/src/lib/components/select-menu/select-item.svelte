@@ -32,7 +32,7 @@
 <style lang="scss">
 li {
   align-items: center;
-  color: var(--figma-color-text);
+  color: var(--figma-color-text-onbrand);
   cursor: default;
   display: flex;
   font-family: var(--font-family-default);

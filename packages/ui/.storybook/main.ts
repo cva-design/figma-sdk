@@ -16,7 +16,7 @@ const groups = {
   'Data Display': ['tree', 'disclosure'],
   Forms: ['input', 'textarea', 'radio', 'switch', 'select-menu'],
   Navigation: ['tabs', 'sidebar'],
-  Visual: ['icon'],
+  Visual: ['icon', 'onboarding-tip'],
 };
 
 const config: StorybookConfig = {

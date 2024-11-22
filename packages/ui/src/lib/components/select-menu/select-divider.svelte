@@ -30,5 +30,7 @@
 		background-color: var(--color-border-menu);
 		display: block;
 		height: 1px;
+		outline: 0;
 	}
+
 	</style>
