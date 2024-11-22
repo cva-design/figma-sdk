@@ -5,38 +5,11 @@ import type { InlineConfig } from 'vite';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const projectRoot = path.resolve(
+  path.dirname(fileURLToPath(import.meta.url)),
+  '..',
+);
 
-/*
-## Actions
-- button
-- icon-button
-- icon-toggle
-- action-group
-- link
-
-## Form
-- input
-- textarea
-- radio
-- switch
-- select-menu
-
-## Navigation
-- tabs
-- sidebar
-
-## Disclosure & Structure
-- tree
-- disclosure
-
-## Feedback & Support
-- tooltip
-- popover
-
-## Visual
-- icon
- */
 const groups = {
   Actions: ['button', 'icon-button', 'icon-toggle', 'action-group', 'link'],
   Communication: ['tooltip', 'popover'],
@@ -87,6 +60,14 @@ const config: StorybookConfig = {
   },
 
   docs: {},
+  // managerHead: (head) => {
+  //   console.log(head);
+  //   return `
+  //   ${head}
+  // `;
+  // },
+
+  staticDirs: ['../docs/assets', '../static'],
 
   viteFinal: async (config: InlineConfig) => {
     config.server = {
