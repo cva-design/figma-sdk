@@ -1,0 +1,5 @@
+/* Sidebar - Hide icons on root items */
+.sidebar-item:not([data-parent-id]) svg {
+  display: none !important;
+  border: 1px solid red;
+}

@@ -1,8 +1,6 @@
 import type { Preview } from '@storybook/svelte';
 
-// GLOBAL STYLES
-import '../docs/assets/preview.css';
-import './storybook-reset.css';
+import '../docs/assets/storybook/index.scss';
 
 import { themes } from '@storybook/theming';
 
@@ -29,9 +27,6 @@ const preview: Preview = {
         date: /Date$/i,
       },
     },
-    docs: {
-      theme: themes.dark,
-    },
     darkMode: {
       current: 'dark',
       // dark: { ...themes.dark },
@@ -42,8 +37,16 @@ const preview: Preview = {
       classTarget: 'html',
       stylePreview: true,
     },
+    docs: {
+      theme: themes.dark,
+    },
+    options: {
+      storySort: {
+        order: ['Intro', 'Get Started', 'Architecture', 'Github Template', '*'],
+      },
+    },
   },
-  tags: ['autodocs', 'autodocs'],
+  tags: ['autodocs'],
 };
 
 export default preview;
