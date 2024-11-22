@@ -41,4 +41,4 @@ jobs:
           install_command: echo "already installed dependendies" # default: npm ci
           build_command: cd packages/ui && bun run build-storybook # default: npm run build-storybook
           # Path to the build output directory
-          path: storybook-static # default: dist/storybook
+          path: packages/ui/storybook-static # default: dist/storybook
