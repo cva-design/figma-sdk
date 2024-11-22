@@ -6,6 +6,7 @@
     "samuelcolvin.jinjahtml",
     // Enables shared config files for VSCode
     "swellaby.workspace-config-plus",
-    "tamasfe.even-better-toml"
+    "tamasfe.even-better-toml",
+    "unifiedjs.vscode-mdx"
   ]
 }
