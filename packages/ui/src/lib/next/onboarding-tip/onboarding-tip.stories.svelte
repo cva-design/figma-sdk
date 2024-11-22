@@ -4,7 +4,6 @@
 	import { Story, Template } from '@storybook/addon-svelte-csf';
 
 	export const meta = {
-		
 		component: OnboardingTip,
 		argTypes: {
 			iconName: { control: 'text' },

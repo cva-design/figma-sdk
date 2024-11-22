@@ -7,7 +7,7 @@
 	import ActionGroup from './action-group.svelte';
 
 	export const meta = {
-		
+		title: 'ActionGroup',
 		component: ActionGroup,
 		argTypes: {
 			class: { control: 'text' }

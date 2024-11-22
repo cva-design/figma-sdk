@@ -1,9 +1,9 @@
 <script context="module" lang="ts">
 	import { Story } from '@storybook/addon-svelte-csf';
-	import { Label } from './index';
+	import Label from './label.svelte';
 
 	export const meta = {
-		
+		title: 'Label',
 		component: Label,
 		argTypes: {
 			size: {

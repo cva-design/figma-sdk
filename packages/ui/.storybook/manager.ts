@@ -1,10 +1,10 @@
 import { addons } from '@storybook/manager-api';
-import { themes } from '@storybook/theming';
+import theme from './theme';
 
 import '../docs/assets/storybook/manager.css';
 
 addons.setConfig({
-  theme: themes.dark,
+  theme,
   sidebar: {
     showRoots: true,
   },

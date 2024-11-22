@@ -7,6 +7,45 @@ import { fileURLToPath } from 'node:url';
 
 const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
+/*
+## Actions
+- button
+- icon-button
+- icon-toggle
+- action-group
+- link
+
+## Form
+- input
+- textarea
+- radio
+- switch
+- select-menu
+
+## Navigation
+- tabs
+- sidebar
+
+## Disclosure & Structure
+- tree
+- disclosure
+
+## Feedback & Support
+- tooltip
+- popover
+
+## Visual
+- icon
+ */
+const groups = {
+  Actions: ['button', 'icon-button', 'icon-toggle', 'action-group', 'link'],
+  Communication: ['tooltip', 'popover'],
+  'Data Display': ['tree', 'disclosure'],
+  Forms: ['input', 'textarea', 'radio', 'switch', 'select-menu'],
+  Navigation: ['tabs', 'sidebar'],
+  Visual: ['icon'],
+};
+
 const config: StorybookConfig = {
   stories: [
     {
@@ -19,11 +58,17 @@ const config: StorybookConfig = {
       files: '**/*.mdx',
       titlePrefix: 'SDK Packages',
     },
-    {
+    ...Object.entries(groups).map(([group, components]) => ({
+      titlePrefix: group,
       directory: '../src/lib/components',
-      files: '**/*.@(mdx|stories.@(js|ts|svelte))',
-      titlePrefix: 'UI Components',
-    },
+      files: `**/@(${components.join('|')}).@(mdx|stories.@(js|ts|svelte))`,
+    })),
+    // commented out for now, as it's not working
+    // {
+    //   directory: '../src/lib/components',
+    //   files: `**/(!${Object.values(groups).flat().join('|')}).@(mdx|stories.@(js|ts|svelte))`,
+    //   titlePrefix: 'Other Components',
+    // },
   ],
 
   addons: [
@@ -32,7 +77,8 @@ const config: StorybookConfig = {
     '@chromatic-com/storybook',
     '@storybook/addon-interactions',
     '@storybook/addon-mdx-gfm',
-    'storybook-dark-mode',
+    // disabled since we are using dual theme decorator
+    // 'storybook-dark-mode',
   ],
 
   framework: {

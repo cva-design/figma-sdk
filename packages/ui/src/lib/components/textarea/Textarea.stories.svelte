@@ -3,7 +3,7 @@
 	import { Story, Template } from '@storybook/addon-svelte-csf';
 
 	export const meta = {
-		
+		title: 'Textarea',
 		component: Textarea,
 		argTypes: {
 			value: { control: 'text' },

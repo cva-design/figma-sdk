@@ -1,7 +1,138 @@
-# Get Started
+import { Meta } from "@storybook/blocks";
+import Github from "./assets/github.svg";
+import Discord from "./assets/discord.svg";
 
-## Install
+export const RightArrow = () => <svg 
+    viewBox="0 0 14 14" 
+    width="8px" 
+    height="14px" 
+    style={{ 
+      marginLeft: '4px',
+      display: 'inline-block',
+      shapeRendering: 'inherit',
+      verticalAlign: 'middle',
+      fill: 'currentColor',
+      'path fill': 'currentColor'
+    }}
+>
+  <path d="m11.1 7.35-5.5 5.5a.5.5 0 0 1-.7-.7L10.04 7 4.9 1.85a.5.5 0 1 1 .7-.7l5.5 5.5c.2.2.2.5 0 .7Z" />
+</svg>
 
+<Meta title="Get Started" />
+
+<h1>
+<div style={{ display: 'flex', justifyContent: 'center' }}>
+  <img alt="Figma Plugin SDK Logo" src="/docs/assets/fps-logotype-vertical-dark.png" height="240px" />
+</div>
+</h1>
+Welcome to the Figma Plugin SDK! This toolkit helps you build high-quality Figma plugins faster and more efficiently. Whether you're creating your first plugin or you're an experienced developer, this SDK provides the building blocks you need.
+
+## Key Features
+
+- 🎨 **UI Components** - Pre-built, Figma-styled components
+- 🔌 **Plugin APIs** - Type-safe wrappers around Figma's plugin API
+- 🛠️ **Development Tools** - Hot reload, debugging utilities, and more
+- 📦 **Build System** - Optimized build pipeline for Figma plugins
+
+## Quick Start
+
+1. **Install the SDK**
 ```bash
-npm install @figma-plugin-sdk/ui
+npm install @cva.design/figma-sdk
 ```
+
+## Next Steps
+
+- [Read the Architecture Overview](/docs/architecture)
+- [Browse Component Examples](/docs/components)
+- [Check Plugin Templates](/docs/templates)
+
+## Community & Support
+
+<div className="sb-section sb-socials">
+    <div className="sb-section-item">
+      <img src={Github} alt="Github logo" className="sb-explore-image"/>
+      <div>
+        <h3 className="sb-section-item-heading">Open Source</h3>
+        <p className="sb-section-item-paragraph">Join us and help us make this the best way to build Figma plugins.</p>
+        <a href="https://github.com/cva.design/figma-sdk" target="_blank">
+          Star on GitHub<RightArrow />
+        </a>
+      </div>
+    </div>
+    <div className="sb-section-item">
+      <img src={Discord} alt="Discord logo" className="sb-explore-image"/>
+      <div>
+        <h3 className="sb-section-item-heading">Community</h3>
+        <p className="sb-section-item-paragraph">Get help and chat with the Figma SDK and CVA plugin developers.</p>
+        <a href="https://discord.gg/PQmZWrTtr3" target="_blank">
+          Join Discord<RightArrow />
+        </a>
+      </div>
+    </div>
+</div>
+
+<style>
+{`
+  .sb-container {
+    margin-bottom: 48px;
+  }
+
+  .sb-section {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+  }
+
+  img {
+    object-fit: cover;
+  }
+
+  .sb-section-title {
+    margin-bottom: 32px;
+  }
+
+  .sb-section a:not(h1 a, h2 a, h3 a) {
+    font-size: 14px;
+    color: #2952CC;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+  }
+
+  .sb-section-item, .sb-grid-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #2c2c2c;
+    background: #000;
+  }
+
+  .sb-section-item-heading {
+    padding-top: 20px !important;
+    padding-bottom: 5px !important;
+    margin: 0 !important;
+    font-size: 1.2em;
+  }
+  
+  .sb-section-item-paragraph {
+    margin: 0;
+    padding-bottom: 10px;
+    color: #777;
+  }
+
+  .sb-explore-image {
+    max-height: 32px;
+    align-self: flex-start;
+  }
+
+  @media screen and (max-width: 600px) {
+    .sb-section {
+      flex-direction: column;
+    }
+  }
+`}
+</style>

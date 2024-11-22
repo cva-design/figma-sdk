@@ -5,20 +5,38 @@
 
 # Packages
 
-## Plugin  UI Communication
+This is (for now) a roadmap of the packages we'll publish. These have been created to help us manage the complexity of the [CVA plugin](https://cva.design) project,
+but have yet to be extracted into their own packages.
 
-### RPC
+#### 📦 UI
 
-### Message Bus
+Published as `@cva.design/figma-sdk`, in the future, this will be an umbrella package and the UI stuff will be published under `@figma-plugin-sdk/ui`.
 
-## UI
+- 🟢 Components
+- 🟡 Icons (needs documentation)
+- 🟡 Tokens (needs documentation)
+  - Figma’s Plugin Tokens
+    > The tokens Figma makes available to plugins.
+  - Figma’s Internal Tokens
+    > The tokens used by internally Figma in their app, a much bigger set than the plugin ones.
 
-### Components
+##### Plugin ↔ UI Communication
 
-### Icons
+#### 📦 RPC
 
-### Tokens
+🟡 In beta
 
-#### Figma’s Plugin Tokens
+Check out the [RPC package](./rpc) for more information.
 
-#### Figma’s Internal Tokens
+#### 📦 Message Bus
+
+🚩 Comming soon.
+
+A message bus in typescript with fully typed messages and handlers. Messages can be either an async `Event` or a sync `Command`.
+They can be dispatched from the plugin to the UI and vice versa.
+
+##### Testing
+
+#### 📦 RunRun 🚩
+
+Allows us to run tests inside figma, using a bootstrapped document and with access to the Figma API.
