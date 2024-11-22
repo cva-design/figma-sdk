@@ -60,6 +60,14 @@
 />
 
 <Story
+	name="With custom icon"
+	args={{
+		menuItems: defaultMenuItems,
+		placeholder: 'Select an option',
+		icon: 'PlusSvg'
+	}}
+/>
+<Story
 	name="Pre-selected Value"
 	args={{
 		menuItems: defaultMenuItems,

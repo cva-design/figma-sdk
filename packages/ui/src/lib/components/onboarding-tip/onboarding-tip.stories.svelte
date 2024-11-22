@@ -1,9 +1,9 @@
 <script context="module" lang="ts">
-	import { PlusSvg } from '$icons';
 	import { OnboardingTip } from '$ui';
 	import { Story, Template } from '@storybook/addon-svelte-csf';
 
 	export const meta = {
+		title: 'OnboardingTip',
 		component: OnboardingTip,
 		argTypes: {
 			iconName: { control: 'text' },
@@ -24,7 +24,7 @@
 <Story
 	name="Default"
 	args={{
-		iconName: PlusSvg,
+		iconName: "PlusSvg",
 		content: 'This is a default OnboardingTip.'
 	}}
 />
@@ -40,7 +40,7 @@
 <Story
 	name="Spinning Icon"
 	args={{
-		iconName: PlusSvg,
+		iconName: "PlusSvg",
 		spin: true,
 		content: 'This OnboardingTip has a spinning icon.'
 	}}
@@ -49,7 +49,7 @@
 <Story
 	name="Custom Color"
 	args={{
-		iconName: PlusSvg,
+		iconName: "PlusSvg",
 		color: 'yellow',
 		content: 'This OnboardingTip uses a custom color for the icon.'
 	}}
@@ -58,7 +58,7 @@
 <Story
 	name="Long Content"
 	args={{
-		iconName: PlusSvg,
+		iconName: "PlusSvg",
 		content:
 			'This OnboardingTip has longer content to demonstrate how it wraps. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam euismod, nisi vel consectetur interdum, nisl nunc egestas nunc, vitae tincidunt nisl nunc euismod nunc.'
 	}}

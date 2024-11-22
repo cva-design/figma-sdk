@@ -355,7 +355,7 @@ button * {
   top: 32px;
   left: 0;
   width: 100%;
-  background-color: var(--color-bg-menu);
+  background-color: #000000e5;
   box-shadow: var(--shadow-hud);
   padding: var(--spacer-2) 0 var(--spacer-2) 0;
   border-radius: var(--border-radius-small);

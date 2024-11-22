@@ -1,5 +1,5 @@
 <script lang="ts" context="module">
-	import type { Action as ActionType } from '../tree/types';
+	import type { Action as ActionType } from '../../components/tree/types';
 	export type LayerTreeData = {
 		id: string;
 		children: LayerTreeData[];
@@ -77,10 +77,7 @@
 
 <div class="layerTree-container">
 	<div class="layerTree" class:disabled={renderedTree.disabled} class:mixed={renderedTree.mixed}>
-		<div 
-			class="layerTree--header" 
-			style:padding-left="{renderedTree.depth * 16}px"
-		>
+		<div class="layerTree--header" style:padding-left="{renderedTree.depth * 16}px">
 			{#if renderedTree.children?.length > 0}
 				<button
 					class="layerTree--caret"
@@ -117,44 +114,45 @@
 </div>
 
 <style lang="scss">
-.layerTree-container {
-  width: 100%;
-}
+	.layerTree-container {
+		width: 100%;
+	}
 
-.layerTree {
-  width: 100%;
-}
+	.layerTree {
+		width: 100%;
+	}
 
-.layerTree--header {
-  display: flex;
-  align-items: center;
-  width: 100%;
-}
+	.layerTree--header {
+		display: flex;
+		align-items: center;
+		width: 100%;
+	}
 
-.layerTree--caret {
-  flex: 0 0 16px;
-  height: 16px;
-  padding: 0;
-  margin-right: 8px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: var(--figma-color-icon-secondary);
-}
+	.layerTree--caret {
+		flex: 0 0 16px;
+		height: 16px;
+		padding: 0;
+		margin-right: 8px;
+		background: none;
+		border: none;
+		cursor: pointer;
+		color: var(--figma-color-icon-secondary);
+	}
 
-.layerTree--caret:hover {
-  color: var(--figma-color-icon);
-}
+	.layerTree--caret:hover {
+		color: var(--figma-color-icon);
+	}
 
-.layerTree--children {
-  width: 100%;
-  padding-left: 16px;
-}
+	.layerTree--children {
+		width: 100%;
+		padding-left: 16px;
+	}
 
-.disabled {
-  opacity: 0.5;
-}
+	.disabled {
+		opacity: 0.5;
+	}
 
-.mixed {
-  opacity: 0.75;
-}</style>
+	.mixed {
+		opacity: 0.75;
+	}
+</style>

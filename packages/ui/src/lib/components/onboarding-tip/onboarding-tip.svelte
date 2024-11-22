@@ -12,7 +12,7 @@
 
 <div class="onboarding-tip {className}">
 	<div class="icon">
-		<Icon iconUrl={iconName} {iconText} {color} {spin} />
+		<Icon icon={iconName} {iconText} {color} {spin} />
 	</div>
 	<p>
 		<slot></slot>

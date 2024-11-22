@@ -1,9 +1,8 @@
 <script lang="ts">
-	import { ChevronDownSvg_16, ChevronRightSvg_16 } from '$icons';
 	import { cva, type VariantProps } from 'class-variance-authority';
 	import type { ComponentType } from 'svelte';
 	import { createEventDispatcher } from 'svelte';
-	import Text from '../text/text.svelte';
+	import {Icon, Text} from '$ui';
 	import styles from './layer.module.css';
 	import { LayerIcon, type LayerType } from './types';
 	const layer = cva(styles.layer, {
@@ -69,9 +68,9 @@
 
 <div class={layer({ bold, component, expanded, selected })}>
 	<div class={styles.layerContent}>
-		<span class="layer-indent">
-			{@html expanded ? ChevronDownSvg_16 : ChevronRightSvg_16}
-		</span>
+		<!-- <span class="layer-indent">
+			<Icon icon={expanded ? 'ChevronDownSvg_16' : 'ChevronRightSvg_16'} />
+		</span> -->
 		<input
 			{...$$restProps}
 			bind:checked={selected}

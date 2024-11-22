@@ -5,13 +5,12 @@
 	import LayerTree from './layer-tree.svelte';
 
 	export const meta = {
-		
 		component: LayerTree,
 		argTypes: {
 			initiallyExpanded: { control: 'boolean' },
 			data: { control: 'object' }
 		}
-	} satisfies Meta<typeof LayerTree>;
+	} satisfies Meta<LayerTree>;
 
 	const sampleData: LayerTreeData = {
 		id: 'root',
@@ -121,8 +120,8 @@
 			data={{
 				...sampleData,
 				actions: [
-					{ icon: 'LockSvg', label: 'Lock' },
-					{ icon: 'HideSvg', label: 'Hide' }
+					{ icon: 'LockSvg', id: 'lock', tooltip: 'Lock' },
+					{ icon: 'HideSvg', id: 'hide', tooltip: 'Hide' }
 				]
 			}}
 		/>
