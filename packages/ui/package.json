@@ -18,7 +18,7 @@
     "test:integration": "playwright test",
     "test:unit": "vitest",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build --docs",
+    "build-storybook": "storybook build",
     "---- lint -----------------------------------------": "",
     "lint": "na biome check .",
     "lint:fix": "na biome check --fix .",
