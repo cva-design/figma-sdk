@@ -1,0 +1,30 @@
+{
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "always",
+    "source.organizeImports": "always",
+    "quickfix.biome": "always"
+  },
+  "editor.defaultFormatter": "gplane.dprint2",
+  "[javascript]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "explorer.fileNesting.enabled": true,
+  "explorer.fileNesting.patterns": {
+    ".config": "biome.*, dprint.*, .env*, *.cjs, *.config.ts, *.setup.ts, .git*, tsconfig.*.json, jsconfig.*.json, *config, *config.json, *config.js, *config.mjs, *config.cjs, *config.ts, *config.toml, *config.yaml, *config.yml, *rc, *rc.json, *rc.js, *rc.mjs, *rc.cjs, *rc.ts, *rc.toml, *rc.yaml, *rc.yml, *ignore, Dockerfile*, docker-*, *.toml, package-lock.json, yarn.lock, pnpm-lock.yaml, .prototools, rollup.*, renovate.json, .size-limit.*, vitest*",
+    "*.json": "${capture}.lock"
+  },
+  "search.exclude": {
+    "**/coverage": true,
+    "**/dist": true,
+    "**/node_modules": true,
+    "**/.svelte-kit": true
+  },
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "typescript.preferences.autoImportFileExcludePatterns": ["dist/**"],
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "gutterpreview.enableReferenceLookup": true
+}
