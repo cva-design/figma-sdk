@@ -30,5 +30,5 @@
 		background-color: var(--color-border-menu);
 		display: block;
 		height: 1px;
-		margin: 8px 0 7px 0;
-	}</style>
+	}
+	</style>

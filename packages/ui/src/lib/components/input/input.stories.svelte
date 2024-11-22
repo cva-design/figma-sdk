@@ -65,11 +65,3 @@
 <Story name="WithValue">
 	<Input value="Prefilled value" />
 </Story>
-
-<style>
-	/* Add any story-specific styles here */
-	div {
-		padding: 1rem;
-		max-width: 400px;
-	}
-</style> 

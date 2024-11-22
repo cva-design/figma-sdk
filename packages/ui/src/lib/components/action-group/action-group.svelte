@@ -33,7 +33,4 @@
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
-
-:global(.action-group:hover) {
-  border: 1px solid var(--figma-color-icon-onbrand-secondary);
-}</style>
+</style>

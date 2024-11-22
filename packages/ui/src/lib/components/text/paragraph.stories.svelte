@@ -16,7 +16,7 @@
 			},
 			align: {
 				control: 'select',
-				options: ['start', 'center', 'end']
+				options: ['left', 'center', 'right']
 			},
 			block: { control: 'boolean' }
 		}

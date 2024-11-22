@@ -85,7 +85,7 @@ input:disabled + label {
 }
 
 input:focus + label .switch-track {
-  box-shadow: 0 0 0 2px var(--figma-color-border-selected);
+  //box-shadow: 0 0 0 2px var(--figma-color-border-selected);
 }
 
 .switch-text {

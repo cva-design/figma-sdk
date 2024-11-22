@@ -195,13 +195,11 @@ input:disabled:active {
 .invalid:hover,
 .invalid:focus {
   border: 1px solid var(--figma-color-border-danger-strong);
-  outline: 1px solid var(--figma-color-border-danger-strong);
-  outline-offset: -2px;
 }
 
 .icon {
   position: absolute;
-  top: -1px;
+  top: -4px;
   left: 0;
   width: var(--spacer-5);
   height: var(--spacer-5);
