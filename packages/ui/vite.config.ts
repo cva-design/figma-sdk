@@ -24,6 +24,9 @@ const debugResolvePlugin = (): Plugin => ({
 
 const config = defineConfig({
   root: path.resolve(__dirname, '.'),
+  define: {
+    IS_CHROMATIC: false,
+  },
   plugins: [
     debugResolvePlugin(),
     tsconfigPaths({

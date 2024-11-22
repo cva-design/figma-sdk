@@ -24,7 +24,7 @@
     "lint:fix": "na biome check --fix .",
     "lint:unsafe-fix": "na biome check --unsafe-fix .",
     "svelte-check": "svelte-check --tsconfig ./tsconfig.json",
-    "chromatic": "dotenvx run -- npx chromatic --project-token=$CHROMATIC_PROJECT_TOKEN"
+    "chromatic": "npx chromatic --project-token=$(dotenvx get CHROMATIC_PROJECT_TOKEN)"
   },
   "imports": {
     "$icons/16": "./src/lib/icons/cfp/size-16/*"
