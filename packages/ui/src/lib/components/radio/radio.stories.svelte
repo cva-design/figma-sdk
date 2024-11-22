@@ -3,7 +3,7 @@
 	import { Story, Template } from '@storybook/addon-svelte-csf';
 	let groupV = 'option2';
 	export const meta = {
-		
+		title: 'Radio',
 		component: Radio,
 		argTypes: {
 			group: { control: 'text' },

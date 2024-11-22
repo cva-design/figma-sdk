@@ -1,5 +1,4 @@
 import { sveltekit } from '@sveltejs/kit/vite';
-import { searchForWorkspaceRoot } from 'vite'
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { default as tsconfigPaths } from 'vite-tsconfig-paths';
@@ -7,11 +6,6 @@ import { type Plugin, defineConfig } from 'vitest/config';
 import { svelteWarnings } from './src/lib/config/svelte-warnings/plugin';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const workspaceRoot = searchForWorkspaceRoot(process.cwd());
-
-console.log(`Workspace Root: ${workspaceRoot}`);
-console.log(`__dirname: ${__dirname}`);
-// process.exit(0);
 
 // Debug plugin
 const debugResolvePlugin = (): Plugin => ({
@@ -30,10 +24,6 @@ const debugResolvePlugin = (): Plugin => ({
 
 const config = defineConfig({
   root: path.resolve(__dirname, '.'),
-  // define: {
-  //   __dirname: 'import.meta.dirname',
-  //   __filename: 'import.meta.url',
-  // },
   plugins: [
     debugResolvePlugin(),
     tsconfigPaths({
@@ -62,18 +52,18 @@ const config = defineConfig({
     watch: {
       // usePolling: true,
       // interval: 100,
-    }
+    },
   },
 });
 
-console.log(
-  `
-  ========================================
-  Vite Config:
-  ----------------------------------------
-  ${JSON.stringify(config, null, 2)}
-  ========================================
-  `,
-);
+// console.log(
+//   `
+//   ========================================
+//   Vite Config:
+//   ----------------------------------------
+//   ${JSON.stringify(config, null, 2)}
+//   ========================================
+//   `,
+// );
 
 export default config;

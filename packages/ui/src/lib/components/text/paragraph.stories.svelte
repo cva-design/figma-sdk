@@ -3,7 +3,7 @@
 	import { Paragraph } from './index';
 
 	export const meta = {
-		
+		title: 'Paragraph',
 		component: Paragraph,
 		argTypes: {
 			size: {

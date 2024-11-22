@@ -4,7 +4,7 @@
 	import { PopoverPlacements } from './popover.svelte';
 
 	export const meta = {
-		
+		title: 'Popover',
 		component: Popover,
 		argTypes: {
 			isOpen: { control: 'boolean' },

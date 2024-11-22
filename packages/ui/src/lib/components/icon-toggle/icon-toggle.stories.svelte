@@ -3,7 +3,7 @@
 	import { Story } from '@storybook/addon-svelte-csf';
 
 	export const meta = {
-		
+		title: 'IconToggle',
 		component: IconToggle,
 		parameters: {
 			fixedWidth: true

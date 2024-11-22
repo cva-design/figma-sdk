@@ -42,7 +42,7 @@
 
 	interface $$Props extends HTMLLabelAttributes, VariantProps<typeof label> {
 		block?: boolean;
-		class: string | null | undefined;
+		class?: string | null | undefined;
 	}
 </script>
 

@@ -31,22 +31,15 @@
 //@index(['*/index.ts'], (f, {pascalCase}) => `export * from '${f.path}${f.ext}';`)
 export * from './action-group/index.ts';
 export * from './button/index.ts';
-export * from './checkbox/index.ts';
-export * from './dialog/index.ts';
 export * from './disclosure/index.ts';
 export * from './icon-button/index.ts';
 export * from './icon-toggle/index.ts';
 export * from './icon/index.ts';
 export * from './input/index.ts';
-export * from './label/index.ts';
-export * from './layer-tree/index.ts';
-export * from './layer/index.ts';
-export * from './onboarding-tip/index.ts';
 export * from './popover/index.ts';
 export * from './radio/index.ts';
 export * from './select-menu/index.ts';
 export * from './sidebar/index.ts';
-export * from './slider/index.ts';
 export * from './switch/index.ts';
 export * from './tabs/index.ts';
 export * from './text/index.ts';
@@ -60,14 +53,7 @@ export * from './tree/index.ts';
 //@endindex
 
 //@index(['*/types.ts'], f => `export * from '${f.path}';`)
-export * from './layer/types';
 export * from './select-menu/types';
 export * from './tooltip/types';
 export * from './tree/types';
 //@endindex
-
-export { Button } from './button';
-export { Slider } from './slider';
-// Export other components as they are migrated
-
-export * from './action-group';

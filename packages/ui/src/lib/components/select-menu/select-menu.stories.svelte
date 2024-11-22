@@ -4,7 +4,7 @@
 	import { Story, Template } from '@storybook/addon-svelte-csf';
 
 	export const meta = {
-		
+		title: 'SelectMenu',
 		component: SelectMenu,
 		argTypes: {
 			iconUrl: { control: 'text' },
@@ -42,15 +42,6 @@
 />
 
 <Story
-	name="With Icon"
-	args={{
-		menuItems: defaultMenuItems,
-		placeholder: 'Select an option',
-		iconUrl: StarOnSvg
-	}}
-/>
-
-<Story
 	name="Disabled"
 	args={{
 		menuItems: defaultMenuItems,
@@ -60,7 +51,7 @@
 />
 
 <Story
-	name="With Groups"
+	name="With Groups (label above options)"
 	args={{
 		menuItems: defaultMenuItems,
 		placeholder: 'Select an option',

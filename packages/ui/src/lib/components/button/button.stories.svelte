@@ -3,7 +3,7 @@
 	import Button from './button.svelte';
 
 	export const meta = {
-		
+		title: 'Button',
 		component: Button,
 		argTypes: {
 			variant: {

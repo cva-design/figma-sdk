@@ -1,8 +1,8 @@
 import type { Preview } from '@storybook/svelte';
+import { themes } from '@storybook/theming';
+import DualTheme from '../docs/docs-ui/decorators/dual-theme.svelte';
 
 import '../docs/assets/storybook/index.scss';
-
-import { themes } from '@storybook/theming';
 
 const preview: Preview = {
   argTypes: {
@@ -14,13 +14,13 @@ const preview: Preview = {
   },
   parameters: {
     layout: 'centered',
-    backgrounds: {
-      default: 'figma-dark',
-      grid: {
-        cellSize: 8,
-        cellAmount: 4,
-      },
-    },
+    // backgrounds: {
+    //   default: 'figma-dark',
+    //   grid: {
+    //     cellSize: 8,
+    //     cellAmount: 4,
+    //   },
+    // },
     controls: {
       matchers: {
         color: /(background|color)$/i,
@@ -46,6 +46,7 @@ const preview: Preview = {
       },
     },
   },
+  decorators: [() => DualTheme],
   tags: ['autodocs'],
 };
 

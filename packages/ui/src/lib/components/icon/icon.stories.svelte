@@ -3,7 +3,7 @@
 	import { Story } from '@storybook/addon-svelte-csf';
 
 	export const meta = {
-		
+		title: 'Icon',
 		component: Icon,
 		argTypes: {
 			icon: { control: 'text' },

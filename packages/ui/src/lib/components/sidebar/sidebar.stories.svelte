@@ -6,7 +6,8 @@
 	import Sidebar from './sidebar.svelte';
 	import Text from '../text/text.svelte';
 
-	export const meta = {		
+	export const meta = {
+		title: 'Sidebar',
 		component: Sidebar,
 		argTypes: {
 			collapsed: { control: 'boolean' },
