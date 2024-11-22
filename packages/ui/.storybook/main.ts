@@ -12,7 +12,7 @@ const config: StorybookConfig = {
     {
       directory: '../docs',
       files: '*.mdx',
-      titlePrefix: 'Documentation',
+      // titlePrefix: 'Documentation',
     },
     {
       directory: '../docs/packages',
@@ -32,6 +32,7 @@ const config: StorybookConfig = {
     '@chromatic-com/storybook',
     '@storybook/addon-interactions',
     '@storybook/addon-mdx-gfm',
+    'storybook-dark-mode',
   ],
 
   framework: {

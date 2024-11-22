@@ -3,11 +3,10 @@
 	import type { Meta } from '@storybook/svelte';
 	import { Button } from '../button';
 	import { Disclosure, DisclosureItem } from '../disclosure/index.ts';
-	import { Section } from '../section/index';
-	import { Sidebar } from './index.ts';
+	import Sidebar from './sidebar.svelte';
+	import Text from '../text/text.svelte';
 
-	export const meta = {
-		
+	export const meta = {		
 		component: Sidebar,
 		argTypes: {
 			collapsed: { control: 'boolean' },
@@ -25,7 +24,7 @@
 	<div style="height: 400px; display: flex;">
 		<Sidebar>
 			<div style="padding: var(--spacer-2);">
-				<Section>Navigation</Section>
+				<Text>Navigation</Text>
 				<Disclosure>
 					<DisclosureItem title="Menu Group 1">
 						<Button variant="text" fullWidth>Menu Item 1.1</Button>
@@ -54,7 +53,7 @@
 		</div>
 		<Sidebar position="right">
 			<div style="padding: var(--spacer-2);">
-				<Section>Settings</Section>
+				<Text>Settings</Text>
 				<Disclosure>
 					<DisclosureItem title="General Settings">
 						<Button variant="text" fullWidth>Profile</Button>
@@ -74,7 +73,7 @@
 	<div style="height: 400px; display: flex;">
 		<Sidebar collapsed={true}>
 			<div style="padding: var(--spacer-2);">
-				<Section>Tools</Section>
+				<Text>Tools</Text>
 				<Disclosure>
 					<DisclosureItem title="Drawing Tools">
 						<Button variant="text" fullWidth>Pen</Button>
@@ -100,7 +99,7 @@
 	<div style="height: 400px; display: flex;">
 		<Sidebar width="300px" collapsedWidth="60px">
 			<div style="padding: var(--spacer-2);">
-				<Section>Project Explorer</Section>
+				<Text>Project Explorer</Text>
 				<Disclosure>
 					<DisclosureItem title="Project Files">
 						<Button variant="text" fullWidth>index.html</Button>
