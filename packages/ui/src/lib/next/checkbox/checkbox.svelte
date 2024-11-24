@@ -2,7 +2,7 @@
 	import { createCheckbox } from '@melt-ui/svelte';
 	import CheckmarkIndeterminateIcon from './assets/checkmark-indeterminate.svelte';
 	import CheckmarkIcon from './assets/checkmark.svelte';
-	
+
 	export let className = '';
 	export let checked = false;
 	export let indeterminate = false;
@@ -41,16 +41,16 @@
 	const descriptionId = `checkbox-description-${id ?? ''}`;
 </script>
 
-<div class="fp-CheckboxRoot {className}" use:root {...$root}>
+<div class="fps-CheckboxRoot {className}" use:root {...$root}>
 	<input
 		{...$$restProps}
-		class="fp-CheckboxInput"
+		class="fps-CheckboxInput"
 		use:input
 		{...$input}
 		aria-labelledby={labelId}
 		aria-describedby={descriptionId}
 	/>
-	<span class="fp-CheckboxIndicator" aria-hidden="true">
+	<span class="fps-CheckboxIndicator" aria-hidden="true">
 		{#if $isIndeterminate}
 			<CheckmarkIndeterminateIcon />
 		{:else if $isChecked}
@@ -59,100 +59,100 @@
 	</span>
 
 	{#if label}
-		<label class="fp-Text fp-CheckboxLabel" for={id} aria-hidden="true" id={labelId}>
+		<label class="fps-Text fps-CheckboxLabel" for={id} aria-hidden="true" id={labelId}>
 			{label}
 		</label>
 	{/if}
 	{#if $$slots.description}
-		<span class="fp-CheckboxDescription" id={descriptionId}>
+		<span class="fps-CheckboxDescription" id={descriptionId}>
 			<slot name="description" />
 		</span>
 	{/if}
 </div>
 
 <style lang="scss">
-.fp-CheckboxRoot {
-  position: relative;
-  display: grid;
-  grid-template-columns: var(--space-4) auto;
-  min-height: 24px;
-  gap: var(--space-1) var(--space-2);
-}
+	.fps-CheckboxRoot {
+		position: relative;
+		display: grid;
+		grid-template-columns: var(--space-4) auto;
+		min-height: 24px;
+		gap: var(--space-1) var(--space-2);
+	}
 
-.fp-CheckboxInput {
-  all: unset;
-  box-sizing: border-box;
-  display: block;
-  width: var(--space-4);
-  height: var(--space-4);
-  margin: var(--space-1) 0;
-  background-color: transparent;
-  border: 1px solid var(--figma-color-border-strong);
-  border-radius: var(--radius-medium);
-  flex-shrink: 0;
+	.fps-CheckboxInput {
+		all: unset;
+		box-sizing: border-box;
+		display: block;
+		width: var(--space-4);
+		height: var(--space-4);
+		margin: var(--space-1) 0;
+		background-color: transparent;
+		border: 1px solid var(--figma-color-border-strong);
+		border-radius: var(--radius-medium);
+		flex-shrink: 0;
 
-  &:focus-visible {
-    outline-offset: -1px;
-    outline: 1px solid var(--figma-color-border-selected);
-  }
+		&:focus-visible {
+			outline-offset: -1px;
+			outline: 1px solid var(--figma-color-border-selected);
+		}
 
-  &:focus-visible:checked {
-    outline-offset: 0;
-    outline: 1px solid var(--figma-color-border-selected-strong);
-    border-color: var(--figma-color-icon-onbrand);
-  }
+		&:focus-visible:checked {
+			outline-offset: 0;
+			outline: 1px solid var(--figma-color-border-selected-strong);
+			border-color: var(--figma-color-icon-onbrand);
+		}
 
-  &:checked {
-    background-color: var(--figma-color-bg-brand);
-    border-color: transparent;
-  }
+		&:checked {
+			background-color: var(--figma-color-bg-brand);
+			border-color: transparent;
+		}
 
-  &:disabled {
-    border-color: var(--figma-color-border-disabled-strong);
-  }
+		&:disabled {
+			border-color: var(--figma-color-border-disabled-strong);
+		}
 
-  &:disabled:checked {
-    border-color: transparent;
-    background-color: var(--figma-color-border-disabled-strong);
-  }
-}
+		&:disabled:checked {
+			border-color: transparent;
+			background-color: var(--figma-color-border-disabled-strong);
+		}
+	}
 
-.fp-CheckboxIndicator {
-  display: block;
-  pointer-events: none;
-  position: absolute;
-  top: var(--space-1);
-}
+	.fps-CheckboxIndicator {
+		display: block;
+		pointer-events: none;
+		position: absolute;
+		top: var(--space-1);
+	}
 
-.fp-CheckboxCheckmark,
-.fp-CheckboxIndeterminate {
-  display: none;
-}
+	.fps-CheckboxCheckmark,
+	.fps-CheckboxIndeterminate {
+		display: none;
+	}
 
-.fp-CheckboxInput:checked ~ .fp-CheckboxIndicator .fp-CheckboxCheckmark {
-  --color-icon: var(--figma-color-icon-onbrand);
-  display: block;
-}
+	.fps-CheckboxInput:checked ~ .fps-CheckboxIndicator .fps-CheckboxCheckmark {
+		--color-icon: var(--figma-color-icon-onbrand);
+		display: block;
+	}
 
-.fp-CheckboxInput:indeterminate ~ .fp-CheckboxIndicator .fp-CheckboxIndeterminate {
-  --color-icon: var(--figma-color-icon);
-  display: block;
-}
+	.fps-CheckboxInput:indeterminate ~ .fps-CheckboxIndicator .fps-CheckboxIndeterminate {
+		--color-icon: var(--figma-color-icon);
+		display: block;
+	}
 
-.fp-CheckboxInput:disabled:indeterminate ~ .fp-CheckboxIndicator .fp-CheckboxIndeterminate {
-  --color-icon: var(--figma-color-icon-disabled);
-}
+	.fps-CheckboxInput:disabled:indeterminate ~ .fps-CheckboxIndicator .fps-CheckboxIndeterminate {
+		--color-icon: var(--figma-color-icon-disabled);
+	}
 
-.fp-CheckboxLabel {
-  margin-top: var(--space-1);
-}
+	.fps-CheckboxLabel {
+		margin-top: var(--space-1);
+	}
 
-.fp-CheckboxInput:disabled ~ .fp-CheckboxLabel {
-  color: var(--figma-color-text-disabled);
-}
+	.fps-CheckboxInput:disabled ~ .fps-CheckboxLabel {
+		color: var(--figma-color-text-disabled);
+	}
 
-.fp-CheckboxDescription {
-  color: var(--figma-color-text-secondary);
-  grid-area: 2 / 2;
-}
+	.fps-CheckboxDescription {
+		color: var(--figma-color-text-secondary);
+		grid-area: 2 / 2;
+	}
 </style>

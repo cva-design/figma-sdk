@@ -59,91 +59,92 @@
 {/if}
 
 <style lang="scss">
-.fk-icon {
-  display: block;
-  flex-shrink: 0;
-  pointer-events: none;
+	.fk-icon {
+		display: block;
+		flex-shrink: 0;
+		pointer-events: none;
 
-  &:where(.fp-size-1) {
-    width: var(--space-1);
-  }
+		&:where(.fps-size-1) {
+			width: var(--space-1);
+		}
 
-  &:where(.fp-size-2) {
-    width: var(--space-2);
-  }
+		&:where(.fps-size-2) {
+			width: var(--space-2);
+		}
 
-  &:where(.fp-size-2_5) {
-    width: var(--space-2_5);
-  }
+		&:where(.fps-size-2_5) {
+			width: var(--space-2_5);
+		}
 
-  &:where(.fp-size-3) {
-    width: var(--space-3);
-  }
+		&:where(.fps-size-3) {
+			width: var(--space-3);
+		}
 
-  &:where(.fp-size-3_5) {
-    width: var(--space-3_5);
-  }
+		&:where(.fps-size-3_5) {
+			width: var(--space-3_5);
+		}
 
-  &:where(.fp-size-4) {
-    width: var(--space-4);
-  }
+		&:where(.fps-size-4) {
+			width: var(--space-4);
+		}
 
-  &:where(.fp-size-5) {
-    width: var(--space-5);
-  }
+		&:where(.fps-size-5) {
+			width: var(--space-5);
+		}
 
-  &:where(.fp-size-6) {
-    width: var(--space-6);
-  }
+		&:where(.fps-size-6) {
+			width: var(--space-6);
+		}
 
-  &:where(.fp-size-7) {
-    width: var(--space-7);
-  }
+		&:where(.fps-size-7) {
+			width: var(--space-7);
+		}
 
-  &:where(.fp-size-8) {
-    width: var(--space-8);
-  }
+		&:where(.fps-size-8) {
+			width: var(--space-8);
+		}
 
-  &:where(.fp-size-9) {
-    width: var(--space-9);
-  }
+		&:where(.fps-size-9) {
+			width: var(--space-9);
+		}
 
-  &:where(.fp-size-10) {
-    width: var(--space-10);
-  }
-}
+		&:where(.fps-size-10) {
+			width: var(--space-10);
+		}
+	}
 
-.icon-component {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: default;
-  width: var(--spacer-5);
-  height: var(--spacer-5);
-  font-family: var(--font-family-default);
-  font-size: var(--text-body-medium-font-size);
-  user-select: none;
-}
+	.icon-component {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		cursor: default;
+		width: var(--spacer-5);
+		height: var(--spacer-5);
+		font-family: var(--font-family-default);
+		font-size: var(--text-body-medium-font-size);
+		user-select: none;
+	}
 
-.spin {
-  animation: rotating 1s linear infinite;
-}
+	.spin {
+		animation: rotating 1s linear infinite;
+	}
 
-@keyframes rotating {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
+	@keyframes rotating {
+		from {
+			transform: rotate(0deg);
+		}
+		to {
+			transform: rotate(360deg);
+		}
+	}
 
-:global(.icon-component *) {
-  fill: inherit;
-  color: inherit;
-}
+	:global(.icon-component *) {
+		fill: inherit;
+		color: inherit;
+	}
 
-:global(.icon-component svg) {
-  width: 100%;
-  height: 100%;
-}</style>
+	:global(.icon-component svg) {
+		width: 100%;
+		height: 100%;
+	}
+</style>
