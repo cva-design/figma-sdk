@@ -1,0 +1,3 @@
+[submodule ".moon/templates"]
+	path = .moon/templates
+	url = git@github.com:svallory/moon-templates.git
