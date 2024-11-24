@@ -79,13 +79,13 @@
 	}
 </script>
 
-<div bind:this={containerElement} class="fp-Popover-container" on:click={handleClick}>
+<div bind:this={containerElement} class="fps-Popover-container" on:click={handleClick}>
 	<slot name="trigger" />
-	
+
 	{#if isOpen}
 		<div
 			bind:this={popoverElement}
-			class={`fp-Popover fp-placement-${placement} ${className}`}
+			class={`fps-Popover fps-placement-${placement} ${className}`}
 			transition:fade={{ duration: 150 }}
 		>
 			<slot />
@@ -94,32 +94,33 @@
 </div>
 
 <style lang="scss">
-.fp-Popover-container {
-  display: inline-block;
-  cursor: pointer;
-}
+	.fps-Popover-container {
+		display: inline-block;
+		cursor: pointer;
+	}
 
-.fp-Popover {
-  position: fixed;
-  z-index: 1000;
-  background-color: var(--figma-color-bg);
-  border-radius: 2px;
-  box-shadow: var(--figma-shadow-floating);
-  padding: 8px;
-}
+	.fps-Popover {
+		position: fixed;
+		z-index: 1000;
+		background-color: var(--figma-color-bg);
+		border-radius: 2px;
+		box-shadow: var(--figma-shadow-floating);
+		padding: 8px;
+	}
 
-.fp-Popover.fp-placement-top {
-  transform-origin: bottom center;
-}
+	.fps-Popover.fps-placement-top {
+		transform-origin: bottom center;
+	}
 
-.fp-Popover.fp-placement-bottom {
-  transform-origin: top center;
-}
+	.fps-Popover.fps-placement-bottom {
+		transform-origin: top center;
+	}
 
-.fp-Popover.fp-placement-left {
-  transform-origin: right center;
-}
+	.fps-Popover.fps-placement-left {
+		transform-origin: right center;
+	}
 
-.fp-Popover.fp-placement-right {
-  transform-origin: left center;
-}</style>
+	.fps-Popover.fps-placement-right {
+		transform-origin: left center;
+	}
+</style>
