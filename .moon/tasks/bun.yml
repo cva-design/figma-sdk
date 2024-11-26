@@ -83,7 +83,7 @@ tasks:
       - "/tsconfig.eslint.json"
       - "/tsconfig.options.json"
       - "@group(app)"
-      - "@globs(sources)"
+      - "@globs(sources+.36)"
       - "@globs(tests)"
 
   # https://moonrepo.dev/docs/guides/examples/jest

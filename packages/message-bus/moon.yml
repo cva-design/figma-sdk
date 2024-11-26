@@ -1,6 +1,6 @@
-id: message-bus
 type: 'library'
 language: 'typescript'
+platform: 'bun'
 
 tasks:
   build:
