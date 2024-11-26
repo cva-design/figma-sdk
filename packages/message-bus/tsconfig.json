@@ -6,10 +6,10 @@
     "verbatimModuleSyntax": false,
     "paths": {
       "@figma-plugin-sdk/message-bus": [
-        "./src/index.ts"
+        "src/index.ts"
       ],
       "@figma-plugin-sdk/message-bus/*": [
-        "./src/*"
+        "src/*"
       ]
     }
   },

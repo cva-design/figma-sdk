@@ -9,5 +9,23 @@ $schema: 'https://moonrepo.dev/schemas/workspace.json'
 # Extend the template configuration and delete the local `workspace.base.yml` to avoid confusion
 extends: 'https://raw.githubusercontent.com/svallory/moonrepo-template/master/.moon/workspace.base.yml'
 
-# Part ways with the template and use the local file
-# extends: "./workspace.base.yml"
+projects:
+  - "libs/*"
+  - "packages/*"
+
+vcs:
+  manager: "git"
+  defaultBranch: "main"
+
+  # Makes sure all developers have hooks activated
+  syncHooks: true
+  hooks:
+    pre-commit:
+      - 'echo PRE-COMMIT HOOK DISABLED: moon run :lint :format --affected --status=staged'
+
+generator:
+  templates:
+    # - './.moon/templates'
+    # - './.moon/templates/moon.toolchain'
+    - './.moon/templates/__utils'
+    # - './.moon/templates/marko'

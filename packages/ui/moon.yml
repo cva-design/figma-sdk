@@ -1,0 +1,11 @@
+type: "library"
+language: "typescript"
+platform: "bun"
+
+tags: ["sveltekit"]
+
+fileGroups:
+  sources:
+    - "**/*.svelte"
+    - "**/*.ts"
+    - "**/*.tsx"
