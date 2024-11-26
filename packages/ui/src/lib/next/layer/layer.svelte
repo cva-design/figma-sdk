@@ -1,8 +1,8 @@
 <script lang="ts">
+	import { Icon, Text } from '$ui';
 	import { cva, type VariantProps } from 'class-variance-authority';
 	import type { ComponentType } from 'svelte';
 	import { createEventDispatcher } from 'svelte';
-	import {Icon, Text} from '$ui';
 	import styles from './layer.module.css';
 	import { LayerIcon, type LayerType } from './types';
 	const layer = cva(styles.layer, {
@@ -46,11 +46,13 @@
 	const dispatch = createEventDispatcher();
 
 	function handleChange(event: Event) {
-		const target = event.target as HTMLInputElement;
-		const newValue = target.checked;
-		expanded = newValue; // Toggle expanded state
-		dispatch('change', event);
-		dispatch('valueChange', newValue);
+		if ($$slots.default) {
+			const target = event.target as HTMLInputElement;
+			const newValue = target.checked;
+			expanded = newValue; // Toggle expanded state
+			dispatch('change', event);
+			dispatch('valueChange', newValue);
+		}
 	}
 
 	function handleKeyDown(event: KeyboardEvent) {
@@ -63,14 +65,20 @@
 		}
 	}
 
+
+
 	const iconUrl = LayerIcon[type] ?? icon;
 </script>
 
-<div class={layer({ bold, component, expanded, selected })}>
-	<div class={styles.layerContent}>
-		<!-- <span class="layer-indent">
-			<Icon icon={expanded ? 'ChevronDownSvg_16' : 'ChevronRightSvg_16'} />
-		</span> -->
+<div class={layer({ bold, component, expanded, selected })} >
+	<div
+		class={`layer-content ${styles.layerContent} ${selected ? styles.layerIndentSelected : styles.layerIndent}`}
+	>
+		{#if $$slots.default}
+			<span class="layer-chevron">
+				<Icon icon={expanded ? 'ChevronDownSvg_16' : 'ChevronRightSvg_16'} />
+			</span>
+		{/if}
 		<input
 			{...$$restProps}
 			bind:checked={selected}
@@ -96,90 +104,93 @@
 	{/if}
 </div>
 
-
-
 <style lang="scss">
-.layer {
-  position: relative;
-  z-index: var(--z-index-1);
-  display: flex;
-  height: 32px;
-  align-items: center;
-  padding: 0 var(--space-small);
-}
+	// .layer {
+	// 	position: relative;
+	// 	z-index: var(--z-index-1);
+	// 	display: flex;
+	// 	height: 32px;
+	// 	align-items: center;
+	// 	padding: 0 var(--space-small);
+	// }
 
-.input,
-.box {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-}
+	// .input,
+	// .box {
+	// 	position: absolute;
+	// 	top: 0;
+	// 	right: 0;
+	// 	bottom: 0;
+	// 	left: 0;
+	// }
 
-.input {
-  z-index: var(--z-index-1);
-  display: block;
-}
-:global(.disabled) .input {
-  cursor: not-allowed;
-}
+	// .input {
+	// 	z-index: var(--z-index-1);
+	// 	display: block;
+	// }
+	// :global(.disabled) .input {
+	// 	cursor: not-allowed;
+	// }
 
-.input:checked ~ .box {
-  background-color: var(--figma-color-bg-selected);
-}
-.input:not(:checked):hover ~ .box,
-.input:focus ~ .box {
-  border: 1px solid var(--figma-color-border-brand-strong);
-}
+	// .input:checked ~ .box {
+	// 	background-color: var(--figma-color-bg-selected);
+	// }
+	// .input:not(:checked):hover ~ .box,
+	// .input:focus ~ .box {
+	// 	border: 1px solid var(--figma-color-border-brand-strong);
+	// }
 
-:global(.component) .input:checked ~ .box {
-  background-color: var(--figma-color-bg-component-tertiary);
-}
-:global(.component) .input:not(:checked):hover ~ .box,
-:global(.component) .input:focus ~ .box {
-  border-color: var(--figma-color-border-component-strong);
-}
+	// :global(.component) .input:checked ~ .box {
+	// 	background-color: var(--figma-color-bg-component-tertiary);
+	// }
+	// :global(.component) .input:not(:checked):hover ~ .box,
+	// :global(.component) .input:focus ~ .box {
+	// 	border-color: var(--figma-color-border-component-strong);
+	// }
 
-.icon,
-.children,
-.description {
-  position: relative;
-}
+	// .icon,
+	// .children,
+	// .description {
+	// 	position: relative;
+	// }
 
-.children,
-.description {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
+	// .children,
+	// .description {
+	// 	overflow: hidden;
+	// 	text-overflow: ellipsis;
+	// 	white-space: nowrap;
+	// }
 
-.children {
-  padding-left: var(--space-extra-small);
-  color: var(--figma-color-text);
-}
-:global(.component) .children {
-  color: var(--figma-color-text-component);
-}
-:global(.bold) .children {
-  font-weight: var(--font-weight-bold);
-}
+	// .children {
+	// 	padding-left: var(--space-extra-small);
+	// 	color: var(--figma-color-text);
+	// }
+	// :global(.component) .children {
+	// 	color: var(--figma-color-text-component);
+	// }
+	// :global(.bold) .children {
+	// 	font-weight: var(--font-weight-bold);
+	// }
 
-.icon {
-  height: 16px;
-  flex: 0 0 16px;
-  color: var(--figma-color-icon-secondary);
-}
-.input:checked ~ .icon {
-  color: var(--figma-color-icon);
-}
-:global(.component) .icon,
-:global(.component) .input:checked ~ .icon {
-  color: var(--figma-color-icon-component);
-}
+	// .icon {
+	// 	height: 16px;
+	// 	flex: 0 0 16px;
+	// 	color: var(--figma-color-icon-secondary);
+	// }
+	// .input:checked ~ .icon {
+	// 	color: var(--figma-color-icon);
+	// }
+	// :global(.component) .icon,
+	// :global(.component) .input:checked ~ .icon {
+	// 	color: var(--figma-color-icon-component);
+	// }
 
-.description {
-  padding-left: var(--space-extra-small);
-  color: var(--figma-color-text-secondary);
-}
+	// .layer-indent {
+	// 	display: flex;
+	// 	align-items: center;
+	// 	padding-left: var(--space-small);
+	// }
+
+	// .layer-indent-selected {
+	// 	padding-left: var(--space-medium);
+	// }
 </style>
