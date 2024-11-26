@@ -16,7 +16,7 @@
 	}
 </script>
 
-<div class={className}>
+<div class={`fp-RadioRoot ${className}`}>
 	<input
 		type="radio"
 		{value}
@@ -43,7 +43,7 @@ div {
   position: relative;
 }
 
-input {
+.fp-RadioRoot {
   opacity: 0;
   width: 10px;
   height: 10px;
@@ -51,13 +51,13 @@ input {
   padding: 0;
   flex-shrink: 0;
 }
-input:checked + label:after {
+.fp-RadioRoot:checked + label:after {
   background-color: var(--figma-color-icon);
 }
-input:disabled + label {
+.fp-RadioRoot:disabled + label {
   opacity: 0.3;
 }
-input:checked:disabled + label:before {
+.fp-RadioRoot:checked:disabled + label:before {
   border: 1px solid var(--figma-color-icon);
 }
 

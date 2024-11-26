@@ -28,7 +28,7 @@
 	import { Icon } from '$ui/icon';
 	import { cva } from 'class-variance-authority';
 	import type { HTMLAttributes } from 'svelte/elements';
-	import type { LayerProps } from './layer.svelte';
+	import type { LayerProps } from '../layer/layer.svelte';
 
 	interface $$Props extends HTMLAttributes<HTMLButtonElement> {
 		action: Action;

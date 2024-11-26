@@ -20,8 +20,8 @@
 <script lang="ts">
 	import { Icon } from '$ui/icon';
 	import { createEventDispatcher, onMount } from 'svelte';
-	import Layer from '../layer/layer.svelte';
-	import type { LayerType } from '../layer/types';
+	import { Layer } from '../layer';
+	import type { LayerType } from '../../components/layer/types';
 
 	const dispatch = createEventDispatcher<{
 		select: LayerTreeData;

@@ -47,7 +47,7 @@ export * from './text/index.ts';
 export * from './textarea/index.ts';
 export * from './tooltip/index.ts';
 export * from './tree/index.ts';
-export * from '../next/layer-tree/index.ts';
+// export * from '../next/layer-tree/index.ts';
 //@endindex
 
 //@index(['*/index.svelte'], (f, {pascalCase}) => `export { default as ${pascalCase(f.path.split('/').at(-2))} } from '${f.path}${f.ext}';`)
