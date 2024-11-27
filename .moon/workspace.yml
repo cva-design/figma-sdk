@@ -10,18 +10,19 @@ $schema: 'https://moonrepo.dev/schemas/workspace.json'
 extends: 'https://raw.githubusercontent.com/svallory/moonrepo-template/master/.moon/workspace.base.yml'
 
 projects:
-  - "libs/*"
-  - "packages/*"
+  - "libs/*/moon.yml"
+  - "packages/*/moon.yml"
 
 vcs:
-  manager: "git"
   defaultBranch: "main"
+  manager: "git"
+  provider: "github"
 
   # Makes sure all developers have hooks activated
   syncHooks: true
   hooks:
     pre-commit:
-      - 'echo PRE-COMMIT HOOK DISABLED: moon run :lint :format --affected --status=staged'
+      - 'moon run :check :typecheck --affected --status=staged'
 
 generator:
   templates:

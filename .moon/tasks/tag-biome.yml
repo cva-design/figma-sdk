@@ -1,0 +1,55 @@
+$schema: 'https://moonrepo.dev/schemas/tasks.json'
+
+fileGroups:
+  lintable:
+    - src
+
+# Biome main commands:
+#   check          Runs formatter, linter and import sorting to the requested files.
+#   lint           Run various checks on a set of files.
+#   format         Run the formatter on a set of files.
+#   ci             Command to use in CI environments. Runs formatter, linter and import sorting
+tasks:
+  check:
+    deps:
+      - check-fix
+    command: "bun biome check"
+    args:
+      - "@dirs(lintable)"
+    inputs:
+      - "@group(lintable)"
+    options:
+      cache: false
+      # Enables the use of --affected option in the CLI
+      affectedFiles: true
+
+  check-fix:
+    command: "bun biome check"
+    args:
+      - "--fix"
+      - "--no-errors-on-unmatched"
+      - "--files-ignore-unknown=true"
+      - "@dirs(lintable)"
+    inputs:
+      - "@group(lintable)"
+    options:
+      cache: false
+      # Enables the use of --affected option in the CLI
+      affectedFiles: true
+
+  ci:
+    command:
+      - biome
+      - ci
+      - --reporter=github
+
+  typecheck:
+    deps:
+      - check-fix
+    command:
+      - "tsc"
+      - "--build"
+      - "--pretty"
+      - "--verbose"
+    options:
+      cache: false
