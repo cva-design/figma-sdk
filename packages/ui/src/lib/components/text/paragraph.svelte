@@ -1,42 +1,44 @@
 <script lang="ts">
-	import { cva, type VariantProps } from 'class-variance-authority';
-	import type { HTMLAttributes } from 'svelte/elements';
+import { type VariantProps, cva } from "class-variance-authority";
+import type { HTMLAttributes } from "svelte/elements";
 
-	const paragraph = cva('fps-Text', {
-		variants: {
-			size: {
-				small: 'fps-size-small',
-				medium: 'fps-size-medium',
-				large: 'fps-size-large'
-			},
-			weight: {
-				default: 'fps-weight-default',
-				strong: 'fps-weight-strong'
-			},
-			align: {
-				left: 'fps-align-start',
-				center: 'fps-align-center',
-				right: 'fps-align-end'
-			},
-			block: {
-				true: 'fps-block'
-			}
+const paragraph = cva("fps-Text", {
+	variants: {
+		size: {
+			small: "fps-size-small",
+			medium: "fps-size-medium",
+			large: "fps-size-large",
 		},
-		defaultVariants: {
-			size: 'medium',
-			weight: 'default',
-			align: 'left'
-		}
-	});
+		weight: {
+			default: "fps-weight-default",
+			strong: "fps-weight-strong",
+		},
+		align: {
+			left: "fps-align-start",
+			center: "fps-align-center",
+			right: "fps-align-end",
+		},
+		block: {
+			true: "fps-block",
+		},
+	},
+	defaultVariants: {
+		size: "medium",
+		weight: "default",
+		align: "left",
+	},
+});
 
-	interface $$Props extends HTMLAttributes<HTMLParagraphElement>, VariantProps<typeof paragraph> {
-		block?: boolean;
-	}
+interface $$Props
+	extends HTMLAttributes<HTMLParagraphElement>,
+		VariantProps<typeof paragraph> {
+	block?: boolean;
+}
 
-	export let size: $$Props['size'] = undefined;
-	export let weight: $$Props['weight'] = undefined;
-	export let align: $$Props['align'] = undefined;
-	export let block: boolean = false;
+export const size: $$Props["size"] = undefined;
+export const weight: $$Props["weight"] = undefined;
+export const align: $$Props["align"] = undefined;
+export const block = false;
 </script>
 
 <p class={paragraph({ size, weight, align, block, class: $$props.class })} {...$$restProps}>

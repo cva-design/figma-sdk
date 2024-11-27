@@ -33,7 +33,7 @@ body {
   --space-13: 3.25rem;
   --space-14: 3.5rem;
   --space-15: 3.75rem;
-  --space-16: 4rem
+  --space-16: 4rem;
 }
 
 :root {
@@ -42,7 +42,7 @@ body {
   --radius-medium: .3125rem;
   --radius-large: .8125rem;
   --radius-full: 9999px;
-  --radius-default: var(--radius-small)
+  --radius-default: var(--radius-small);
 }
 
 :root {
@@ -56,12 +56,12 @@ body {
   --font-size-8: 1rem;
   --font-size-9: 1.25rem;
   --font-size-10: 1.5rem;
-  --font-size-default: var(--font-size-3)
+  --font-size-default: var(--font-size-3);
 }
 
 :root {
   --font-weight-default: 450;
-  --font-weight-strong: 550
+  --font-weight-strong: 550;
 }
 
 :root {
@@ -75,7 +75,7 @@ body {
   --line-height-8: 1.5625rem;
   --line-height-9: 2rem;
   --line-height-10: 2rem;
-  --line-height-default: var(--line-height-3)
+  --line-height-default: var(--line-height-3);
 }
 
 :root {
@@ -89,7 +89,7 @@ body {
   --letter-spacing-8: -.011rem;
   --letter-spacing-9: -.013812rem;
   --letter-spacing-10: -.0255rem;
-  --letter-spacing-default: var(--letter-spacing-3)
+  --letter-spacing-default: var(--letter-spacing-3);
 }
 
 :root,

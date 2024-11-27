@@ -24,20 +24,33 @@
   border-radius: var(--radius-medium) var(--radius-medium) 0 0;
   border-bottom: 4px solid var(--color-bg-selected-secondary);
 }
-.object_row--row.object_row--symbolh.object_row--selected .object_row--layerIcon,
-.object_row--row.object_row--symbolChild.object_row--selected .object_row--layerIcon,
-.object_row--row.object_row--stateGroup.object_row--selected .object_row--layerIcon,
-.object_row--row.object_row--instance.object_row--selected .object_row--layerIcon,
-.object_row--row.object_row--instanceChild.object_row--selected .object_row--layerIcon,
-.object_row--row.object_row--immutableFrame.object_row--selected .object_row--layerIcon,
-.object_row--row.object_row--highlight.object_row--selected .object_row--layerIcon,
+.object_row--row.object_row--symbolh.object_row--selected
+  .object_row--layerIcon,
+.object_row--row.object_row--symbolChild.object_row--selected
+  .object_row--layerIcon,
+.object_row--row.object_row--stateGroup.object_row--selected
+  .object_row--layerIcon,
+.object_row--row.object_row--instance.object_row--selected
+  .object_row--layerIcon,
+.object_row--row.object_row--instanceChild.object_row--selected
+  .object_row--layerIcon,
+.object_row--row.object_row--immutableFrame.object_row--selected
+  .object_row--layerIcon,
+.object_row--row.object_row--highlight.object_row--selected
+  .object_row--layerIcon,
 .object_row--row.object_row--module.object_row--selected .object_row--layerIcon,
-.object_row--row.object_row--moduleChild.object_row--selected .object_row--layerIcon,
-.object_row--row.object_row--sectionsCollapsed.object_row--selected .object_row--layerIcon,
-.object_row--row.object_row--layerListRow.object_row--selected .object_row--layerIcon,
-.object_row--row.object_row--widget-.object_row--selected .object_row--layerIcon,
-.object_row--row.object_row--codeComponent.object_row--selected .object_row--layerIcon,
-.object_row--row.object_row--stamp-.object_row--selected .object_row--layerIcon {
+.object_row--row.object_row--moduleChild.object_row--selected
+  .object_row--layerIcon,
+.object_row--row.object_row--sectionsCollapsed.object_row--selected
+  .object_row--layerIcon,
+.object_row--row.object_row--layerListRow.object_row--selected
+  .object_row--layerIcon,
+.object_row--row.object_row--widget-.object_row--selected
+  .object_row--layerIcon,
+.object_row--row.object_row--codeComponent.object_row--selected
+  .object_row--layerIcon,
+.object_row--row.object_row--stamp-.object_row--selected
+  .object_row--layerIcon {
   color: var(--color-icon-component);
   fill: var(--color-icon-component);
   stroke: var(--color-icon-component);
@@ -87,20 +100,33 @@
 .object_row--row.object_row--widget-.object_row--disabled,
 .object_row--row.object_row--codeComponent.object_row--disabled,
 .object_row--row.object_row--stamp-.object_row--disabled,
-.object_row--row.object_row--symbolh.object_row--disabled .object_row--layerIcon,
-.object_row--row.object_row--symbolChild.object_row--disabled .object_row--layerIcon,
-.object_row--row.object_row--stateGroup.object_row--disabled .object_row--layerIcon,
-.object_row--row.object_row--instance.object_row--disabled .object_row--layerIcon,
-.object_row--row.object_row--instanceChild.object_row--disabled .object_row--layerIcon,
-.object_row--row.object_row--immutableFrame.object_row--disabled .object_row--layerIcon,
-.object_row--row.object_row--highlight.object_row--disabled .object_row--layerIcon,
+.object_row--row.object_row--symbolh.object_row--disabled
+  .object_row--layerIcon,
+.object_row--row.object_row--symbolChild.object_row--disabled
+  .object_row--layerIcon,
+.object_row--row.object_row--stateGroup.object_row--disabled
+  .object_row--layerIcon,
+.object_row--row.object_row--instance.object_row--disabled
+  .object_row--layerIcon,
+.object_row--row.object_row--instanceChild.object_row--disabled
+  .object_row--layerIcon,
+.object_row--row.object_row--immutableFrame.object_row--disabled
+  .object_row--layerIcon,
+.object_row--row.object_row--highlight.object_row--disabled
+  .object_row--layerIcon,
 .object_row--row.object_row--module.object_row--disabled .object_row--layerIcon,
-.object_row--row.object_row--moduleChild.object_row--disabled .object_row--layerIcon,
-.object_row--row.object_row--sectionsCollapsed.object_row--disabled .object_row--layerIcon,
-.object_row--row.object_row--layerListRow.object_row--disabled .object_row--layerIcon,
-.object_row--row.object_row--widget-.object_row--disabled .object_row--layerIcon,
-.object_row--row.object_row--codeComponent.object_row--disabled .object_row--layerIcon,
-.object_row--row.object_row--stamp-.object_row--disabled .object_row--layerIcon {
+.object_row--row.object_row--moduleChild.object_row--disabled
+  .object_row--layerIcon,
+.object_row--row.object_row--sectionsCollapsed.object_row--disabled
+  .object_row--layerIcon,
+.object_row--row.object_row--layerListRow.object_row--disabled
+  .object_row--layerIcon,
+.object_row--row.object_row--widget-.object_row--disabled
+  .object_row--layerIcon,
+.object_row--row.object_row--codeComponent.object_row--disabled
+  .object_row--layerIcon,
+.object_row--row.object_row--stamp-.object_row--disabled
+  .object_row--layerIcon {
   color: var(--color-text-component-tertiary);
   fill: var(--color-icon-component-tertiary);
   stroke: var(--color-icon-component-tertiary);
@@ -110,15 +136,20 @@
 .object_row--row.object_row--symbolChild.object_row--disabled .object_row--pill,
 .object_row--row.object_row--stateGroup.object_row--disabled .object_row--pill,
 .object_row--row.object_row--instance.object_row--disabled .object_row--pill,
-.object_row--row.object_row--instanceChild.object_row--disabled .object_row--pill,
-.object_row--row.object_row--immutableFrame.object_row--disabled .object_row--pill,
+.object_row--row.object_row--instanceChild.object_row--disabled
+  .object_row--pill,
+.object_row--row.object_row--immutableFrame.object_row--disabled
+  .object_row--pill,
 .object_row--row.object_row--highlight.object_row--disabled .object_row--pill,
 .object_row--row.object_row--module.object_row--disabled .object_row--pill,
 .object_row--row.object_row--moduleChild.object_row--disabled .object_row--pill,
-.object_row--row.object_row--sectionsCollapsed.object_row--disabled .object_row--pill,
-.object_row--row.object_row--layerListRow.object_row--disabled .object_row--pill,
+.object_row--row.object_row--sectionsCollapsed.object_row--disabled
+  .object_row--pill,
+.object_row--row.object_row--layerListRow.object_row--disabled
+  .object_row--pill,
 .object_row--row.object_row--widget-.object_row--disabled .object_row--pill,
-.object_row--row.object_row--codeComponent.object_row--disabled .object_row--pill,
+.object_row--row.object_row--codeComponent.object_row--disabled
+  .object_row--pill,
 .object_row--row.object_row--stamp-.object_row--disabled .object_row--pill {
   border-color: var(--color-text-component-tertiary);
 }
@@ -138,20 +169,34 @@
 .object_row--row.object_row--stamp-.object_row--parentSelected {
   background-color: var(--color-bg-selected-secondary);
 }
-[data-fpl-version="ui3"] .object_row--row.object_row--symbolh.object_row--parentSelected,
-[data-fpl-version="ui3"] .object_row--row.object_row--symbolChild.object_row--parentSelected,
-[data-fpl-version="ui3"] .object_row--row.object_row--stateGroup.object_row--parentSelected,
-[data-fpl-version="ui3"] .object_row--row.object_row--instance.object_row--parentSelected,
-[data-fpl-version="ui3"] .object_row--row.object_row--instanceChild.object_row--parentSelected,
-[data-fpl-version="ui3"] .object_row--row.object_row--immutableFrame.object_row--parentSelected,
-[data-fpl-version="ui3"] .object_row--row.object_row--highlight.object_row--parentSelected,
-[data-fpl-version="ui3"] .object_row--row.object_row--module.object_row--parentSelected,
-[data-fpl-version="ui3"] .object_row--row.object_row--moduleChild.object_row--parentSelected,
-[data-fpl-version="ui3"] .object_row--row.object_row--sectionsCollapsed.object_row--parentSelected,
-[data-fpl-version="ui3"] .object_row--row.object_row--layerListRow.object_row--parentSelected,
-[data-fpl-version="ui3"] .object_row--row.object_row--widget-.object_row--parentSelected,
-[data-fpl-version="ui3"] .object_row--row.object_row--codeComponent.object_row--parentSelected,
-[data-fpl-version="ui3"] .object_row--row.object_row--stamp-.object_row--parentSelected {
+[data-fpl-version="ui3"]
+  .object_row--row.object_row--symbolh.object_row--parentSelected,
+[data-fpl-version="ui3"]
+  .object_row--row.object_row--symbolChild.object_row--parentSelected,
+[data-fpl-version="ui3"]
+  .object_row--row.object_row--stateGroup.object_row--parentSelected,
+[data-fpl-version="ui3"]
+  .object_row--row.object_row--instance.object_row--parentSelected,
+[data-fpl-version="ui3"]
+  .object_row--row.object_row--instanceChild.object_row--parentSelected,
+[data-fpl-version="ui3"]
+  .object_row--row.object_row--immutableFrame.object_row--parentSelected,
+[data-fpl-version="ui3"]
+  .object_row--row.object_row--highlight.object_row--parentSelected,
+[data-fpl-version="ui3"]
+  .object_row--row.object_row--module.object_row--parentSelected,
+[data-fpl-version="ui3"]
+  .object_row--row.object_row--moduleChild.object_row--parentSelected,
+[data-fpl-version="ui3"]
+  .object_row--row.object_row--sectionsCollapsed.object_row--parentSelected,
+[data-fpl-version="ui3"]
+  .object_row--row.object_row--layerListRow.object_row--parentSelected,
+[data-fpl-version="ui3"]
+  .object_row--row.object_row--widget-.object_row--parentSelected,
+[data-fpl-version="ui3"]
+  .object_row--row.object_row--codeComponent.object_row--parentSelected,
+[data-fpl-version="ui3"]
+  .object_row--row.object_row--stamp-.object_row--parentSelected {
   background-color: unset;
 }
 .object_row--row.object_row--symbolh .object_row--layerIcon,
@@ -194,39 +239,67 @@
 .object_row--row.object_row--widget-.object_row--disabled.object_row--parentSelected,
 .object_row--row.object_row--codeComponent.object_row--disabled.object_row--parentSelected,
 .object_row--row.object_row--stamp-.object_row--disabled.object_row--parentSelected,
-.object_row--row.object_row--symbolh.object_row--disabled.object_row--parentSelected .object_row--layerIcon,
-.object_row--row.object_row--symbolChild.object_row--disabled.object_row--parentSelected .object_row--layerIcon,
-.object_row--row.object_row--stateGroup.object_row--disabled.object_row--parentSelected .object_row--layerIcon,
-.object_row--row.object_row--instance.object_row--disabled.object_row--parentSelected .object_row--layerIcon,
-.object_row--row.object_row--instanceChild.object_row--disabled.object_row--parentSelected .object_row--layerIcon,
-.object_row--row.object_row--immutableFrame.object_row--disabled.object_row--parentSelected .object_row--layerIcon,
-.object_row--row.object_row--highlight.object_row--disabled.object_row--parentSelected .object_row--layerIcon,
-.object_row--row.object_row--module.object_row--disabled.object_row--parentSelected .object_row--layerIcon,
-.object_row--row.object_row--moduleChild.object_row--disabled.object_row--parentSelected .object_row--layerIcon,
-.object_row--row.object_row--sectionsCollapsed.object_row--disabled.object_row--parentSelected .object_row--layerIcon,
-.object_row--row.object_row--layerListRow.object_row--disabled.object_row--parentSelected .object_row--layerIcon,
-.object_row--row.object_row--widget-.object_row--disabled.object_row--parentSelected .object_row--layerIcon,
-.object_row--row.object_row--codeComponent.object_row--disabled.object_row--parentSelected .object_row--layerIcon,
-.object_row--row.object_row--stamp-.object_row--disabled.object_row--parentSelected .object_row--layerIcon {
+.object_row--row.object_row--symbolh.object_row--disabled.object_row--parentSelected
+  .object_row--layerIcon,
+.object_row--row.object_row--symbolChild.object_row--disabled.object_row--parentSelected
+  .object_row--layerIcon,
+.object_row--row.object_row--stateGroup.object_row--disabled.object_row--parentSelected
+  .object_row--layerIcon,
+.object_row--row.object_row--instance.object_row--disabled.object_row--parentSelected
+  .object_row--layerIcon,
+.object_row--row.object_row--instanceChild.object_row--disabled.object_row--parentSelected
+  .object_row--layerIcon,
+.object_row--row.object_row--immutableFrame.object_row--disabled.object_row--parentSelected
+  .object_row--layerIcon,
+.object_row--row.object_row--highlight.object_row--disabled.object_row--parentSelected
+  .object_row--layerIcon,
+.object_row--row.object_row--module.object_row--disabled.object_row--parentSelected
+  .object_row--layerIcon,
+.object_row--row.object_row--moduleChild.object_row--disabled.object_row--parentSelected
+  .object_row--layerIcon,
+.object_row--row.object_row--sectionsCollapsed.object_row--disabled.object_row--parentSelected
+  .object_row--layerIcon,
+.object_row--row.object_row--layerListRow.object_row--disabled.object_row--parentSelected
+  .object_row--layerIcon,
+.object_row--row.object_row--widget-.object_row--disabled.object_row--parentSelected
+  .object_row--layerIcon,
+.object_row--row.object_row--codeComponent.object_row--disabled.object_row--parentSelected
+  .object_row--layerIcon,
+.object_row--row.object_row--stamp-.object_row--disabled.object_row--parentSelected
+  .object_row--layerIcon {
   color: var(--color-text-component-tertiary);
   fill: var(--color-text-component-tertiary);
   stroke: var(--color-text-component-tertiary);
   --color-icon: var(--color-icon-component-tertiary);
 }
-.object_row--row.object_row--symbolh.object_row--disabled.object_row--parentSelected .object_row--pill,
-.object_row--row.object_row--symbolChild.object_row--disabled.object_row--parentSelected .object_row--pill,
-.object_row--row.object_row--stateGroup.object_row--disabled.object_row--parentSelected .object_row--pill,
-.object_row--row.object_row--instance.object_row--disabled.object_row--parentSelected .object_row--pill,
-.object_row--row.object_row--instanceChild.object_row--disabled.object_row--parentSelected .object_row--pill,
-.object_row--row.object_row--immutableFrame.object_row--disabled.object_row--parentSelected .object_row--pill,
-.object_row--row.object_row--highlight.object_row--disabled.object_row--parentSelected .object_row--pill,
-.object_row--row.object_row--module.object_row--disabled.object_row--parentSelected .object_row--pill,
-.object_row--row.object_row--moduleChild.object_row--disabled.object_row--parentSelected .object_row--pill,
-.object_row--row.object_row--sectionsCollapsed.object_row--disabled.object_row--parentSelected .object_row--pill,
-.object_row--row.object_row--layerListRow.object_row--disabled.object_row--parentSelected .object_row--pill,
-.object_row--row.object_row--widget-.object_row--disabled.object_row--parentSelected .object_row--pill,
-.object_row--row.object_row--codeComponent.object_row--disabled.object_row--parentSelected .object_row--pill,
-.object_row--row.object_row--stamp-.object_row--disabled.object_row--parentSelected .object_row--pill {
+.object_row--row.object_row--symbolh.object_row--disabled.object_row--parentSelected
+  .object_row--pill,
+.object_row--row.object_row--symbolChild.object_row--disabled.object_row--parentSelected
+  .object_row--pill,
+.object_row--row.object_row--stateGroup.object_row--disabled.object_row--parentSelected
+  .object_row--pill,
+.object_row--row.object_row--instance.object_row--disabled.object_row--parentSelected
+  .object_row--pill,
+.object_row--row.object_row--instanceChild.object_row--disabled.object_row--parentSelected
+  .object_row--pill,
+.object_row--row.object_row--immutableFrame.object_row--disabled.object_row--parentSelected
+  .object_row--pill,
+.object_row--row.object_row--highlight.object_row--disabled.object_row--parentSelected
+  .object_row--pill,
+.object_row--row.object_row--module.object_row--disabled.object_row--parentSelected
+  .object_row--pill,
+.object_row--row.object_row--moduleChild.object_row--disabled.object_row--parentSelected
+  .object_row--pill,
+.object_row--row.object_row--sectionsCollapsed.object_row--disabled.object_row--parentSelected
+  .object_row--pill,
+.object_row--row.object_row--layerListRow.object_row--disabled.object_row--parentSelected
+  .object_row--pill,
+.object_row--row.object_row--widget-.object_row--disabled.object_row--parentSelected
+  .object_row--pill,
+.object_row--row.object_row--codeComponent.object_row--disabled.object_row--parentSelected
+  .object_row--pill,
+.object_row--row.object_row--stamp-.object_row--disabled.object_row--parentSelected
+  .object_row--pill {
   border-color: var(--color-text-component-tertiary);
 }
 .object_row--row.object_row--parentSelected {
@@ -234,7 +307,8 @@
   border-color: transparent;
 }
 .object_row--row.object_row--parentSelected.object_row--disabled,
-.object_row--row.object_row--parentSelected.object_row--disabled .object_row--layerIcon {
+.object_row--row.object_row--parentSelected.object_row--disabled
+  .object_row--layerIcon {
   color: var(--color-text-onselected-tertiary);
   fill: var(--color-icon-onselected-tertiary);
   stroke: var(--color-icon-onselected-tertiary);
@@ -299,8 +373,12 @@
   position: absolute;
   right: 0;
 }
-.object_row--row:not(.object_row--topLevel) .object_row--indents .object_row--indent:not(:first-child),
-.object_row--row:not(.object_row--topLevel) .object_row--indents .object_row--mask:not(:first-child) {
+.object_row--row:not(.object_row--topLevel)
+  .object_row--indents
+  .object_row--indent:not(:first-child),
+.object_row--row:not(.object_row--topLevel)
+  .object_row--indents
+  .object_row--mask:not(:first-child) {
   margin-right: 8px;
 }
 .object_row--mask .object_row--layerIcon path {

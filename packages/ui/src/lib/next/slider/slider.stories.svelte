@@ -1,20 +1,19 @@
 <script context="module" lang="ts">
-	import { Story } from '@storybook/addon-svelte-csf';
-	import Slider from './slider.svelte';
+import { Story } from "@storybook/addon-svelte-csf";
+import Slider from "./slider.svelte";
 
-	export const meta = {
-		
-		component: Slider,
-		argTypes: {
-			min: { control: 'number' },
-			max: { control: 'number' },
-			step: { control: 'number' },
-			value: { control: 'number' },
-			onChange: { action: 'changed' },
-			orientation: { control: 'select', options: ['horizontal', 'vertical'] },
-			disabled: { control: 'boolean' }
-		}
-	};
+export const meta = {
+	component: Slider,
+	argTypes: {
+		min: { control: "number" },
+		max: { control: "number" },
+		step: { control: "number" },
+		value: { control: "number" },
+		onChange: { action: "changed" },
+		orientation: { control: "select", options: ["horizontal", "vertical"] },
+		disabled: { control: "boolean" },
+	},
+};
 </script>
 
 <Story name="Default" args={{ min: 0, max: 100, step: 1, value: 50 }}>

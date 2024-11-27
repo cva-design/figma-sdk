@@ -1,8 +1,8 @@
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { preprocessMeltUI, sequence } from '@melt-ui/pp';
 import adapter from '@sveltejs/adapter-auto';
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -39,9 +39,9 @@ const config = {
         __dirname,
         // Adjust this path according to your project structure
         path.resolve(__dirname, '..'),
-        path.resolve(__dirname, '..', '..')
-      ]
-    }
+        path.resolve(__dirname, '..', '..'),
+      ],
+    },
   },
 };
 

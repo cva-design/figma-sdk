@@ -1,15 +1,15 @@
 <script context="module" lang="ts">
-	import { Tree } from '$ui';
-	import { Story, Template } from '@storybook/addon-svelte-csf';
+import { Tree } from "$ui";
+import { Story, Template } from "@storybook/addon-svelte-csf";
 
-	export const meta = {
-		title: 'Tree',
-		component: Tree,
-		argTypes: {
-			nodes: { control: 'object' },
-			options: { control: 'object' }
-		}
-	};
+export const meta = {
+	title: "Tree",
+	component: Tree,
+	argTypes: {
+		nodes: { control: "object" },
+		options: { control: "object" },
+	},
+};
 </script>
 
 <Template let:args>

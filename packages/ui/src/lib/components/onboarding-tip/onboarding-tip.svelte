@@ -1,13 +1,13 @@
 <script lang="ts">
-	import { Icon } from '$ui/icon';
+import { Icon } from "$ui/icon";
 
-	export let spin = false;
-	export let color = 'black8';
-	export let iconName: string | null = null;
-	export let iconText: string | null = null;
-	export { className as class };
+export const spin = false;
+export const color = "black8";
+export const iconName: string | null = null;
+export const iconText: string | null = null;
+export { className as class };
 
-	let className = '';
+const className = "";
 </script>
 
 <div class="onboarding-tip {className}">

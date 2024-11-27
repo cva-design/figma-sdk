@@ -1,14 +1,14 @@
 <script lang="ts">
-	import { Icon } from '../icon';
-	import IconButton from '../icon-button/icon-button.svelte';
+import { Icon } from "../icon";
+import IconButton from "../icon-button/icon-button.svelte";
 
-	export let collapsed: boolean = false;
-	export let position: 'left' | 'right' = 'left';
-	export let width: string = '240px';
-	export let collapsedWidth: string = '48px';
-	export { className as class };
+export const collapsed = false;
+export const position: "left" | "right" = "left";
+export const width = "240px";
+export const collapsedWidth = "48px";
+export { className as class };
 
-	let className = '';
+const className = "";
 </script>
 
 <aside

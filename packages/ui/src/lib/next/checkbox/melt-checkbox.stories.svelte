@@ -1,12 +1,11 @@
 <script context="module" lang="ts">
-	import { Story } from '@storybook/addon-svelte-csf';
-	import type { Meta } from '@storybook/svelte';
-	import Checkbox from './checkbox.svelte';
+import { Story } from "@storybook/addon-svelte-csf";
+import type { Meta } from "@storybook/svelte";
+import Checkbox from "./checkbox.svelte";
 
-	export const meta = {
-		
-		component: Checkbox
-	} satisfies Meta<typeof Checkbox>;
+export const meta = {
+	component: Checkbox,
+} satisfies Meta<typeof Checkbox>;
 </script>
 
 <Story name="WithLabel">

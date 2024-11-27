@@ -1,17 +1,17 @@
 <script lang="ts">
-	import { Button } from '$ui/button';
-	import { Icon } from '$ui/icon';
-	import { slide } from 'svelte/transition';
+import { Button } from "$ui/button";
+import { Icon } from "$ui/icon";
+import { slide } from "svelte/transition";
 
-	export let class_: string | undefined = undefined;
-	export let fullWidth: boolean = false;
-	export let collapsible: boolean = false;
+export const class_: string | undefined = undefined;
+export const fullWidth = false;
+export const collapsible = false;
 
-	let isExpanded = false;
+let isExpanded = false;
 
-	function toggleExpand() {
-		isExpanded = !isExpanded;
-	}
+function toggleExpand() {
+	isExpanded = !isExpanded;
+}
 </script>
 
 {#if collapsible}

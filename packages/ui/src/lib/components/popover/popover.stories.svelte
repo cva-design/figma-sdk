@@ -1,20 +1,20 @@
 <script context="module" lang="ts">
-	import { Popover } from '$ui';
-	import { Story } from '@storybook/addon-svelte-csf';
-	import { PopoverPlacements } from './popover.svelte';
+import { Popover } from "$ui";
+import { Story } from "@storybook/addon-svelte-csf";
+import { PopoverPlacements } from "./popover.svelte";
 
-	export const meta = {
-		title: 'Popover',
-		component: Popover,
-		argTypes: {
-			isOpen: { control: 'boolean' },
-			placement: {
-				control: 'select',
-				options: ['top', 'bottom', 'left', 'right']
-			},
-			offset: { control: 'number' }
-		}
-	};
+export const meta = {
+	title: "Popover",
+	component: Popover,
+	argTypes: {
+		isOpen: { control: "boolean" },
+		placement: {
+			control: "select",
+			options: ["top", "bottom", "left", "right"],
+		},
+		offset: { control: "number" },
+	},
+};
 </script>
 
 <script lang="ts">

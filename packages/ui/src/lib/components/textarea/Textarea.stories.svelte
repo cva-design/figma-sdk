@@ -1,18 +1,18 @@
 <script context="module" lang="ts">
-	import { Textarea } from '$ui';
-	import { Story, Template } from '@storybook/addon-svelte-csf';
+import { Textarea } from "$ui";
+import { Story, Template } from "@storybook/addon-svelte-csf";
 
-	export const meta = {
-		title: 'Textarea',
-		component: Textarea,
-		argTypes: {
-			value: { control: 'text' },
-			placeholder: { control: 'text' },
-			rows: { control: 'number' },
-			disabled: { control: 'boolean' },
-			class: { control: 'text' }
-		}
-	};
+export const meta = {
+	title: "Textarea",
+	component: Textarea,
+	argTypes: {
+		value: { control: "text" },
+		placeholder: { control: "text" },
+		rows: { control: "number" },
+		disabled: { control: "boolean" },
+		class: { control: "text" },
+	},
+};
 </script>
 
 <Template let:args>

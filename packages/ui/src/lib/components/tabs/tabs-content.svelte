@@ -1,13 +1,13 @@
 <script lang="ts">
-	import { getContext } from 'svelte';
+import { getContext } from "svelte";
 
-	export let value: string;
-	let className: string | undefined = undefined;
-	export { className as class };
-	const { register } = getContext('tabs');
-	const { isSelected } = register(value);
+export let value: string;
+const className: string | undefined = undefined;
+export { className as class };
+const { register } = getContext("tabs");
+const { isSelected } = register(value);
 
-	$: isVisible = $isSelected === value;
+$: isVisible = $isSelected === value;
 </script>
 
 {#if isVisible}

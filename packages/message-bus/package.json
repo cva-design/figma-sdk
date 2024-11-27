@@ -1,48 +1,37 @@
 {
-  "name": "@figma-plugin-sdk/message-bus",
-  "version": "0.0.0",
-  "description": "A browser package.",
-  "keywords": [
-    "node",
-    "lib",
-    "esm"
-  ],
-  "author": "moon",
-  "license": "MIT",
-  "repository": "https://github.com/moonrepo/examples",
-  "packemon": {
-    "format": [
-      "esm"
-    ],
-    "platform": "browser"
-  },
-  "engines": {
-    "node": ">=14.15.0"
-  },
-  "files": [
-    "esm/**/*",
-    "lib/**/*",
-    "src/**/*"
-  ],
-  "main": "./lib/index.js",
-  "module": "./esm/index.js",
-  "types": "./lib/index.d.ts",
-  "exports": {
-    "./package.json": "./package.json",
-    ".": {
-      "types": "./lib/index.d.ts",
-      "browser": {
-        "types": "./esm/index.d.ts",
-        "module": "./esm/index.js",
-        "import": "./esm/index.js",
-        "default": "./lib/index.js"
-      },
-      "default": "./lib/index.js"
-    }
-  },
-  "dependencies": {
-  },
-  "devDependencies": {
-    "@figma/plugin-typings": "^1.102.0"
-  }
+	"name": "@figma-plugin-sdk/message-bus",
+	"version": "0.0.0",
+	"description": "A browser package.",
+	"keywords": ["node", "lib", "esm"],
+	"author": "moon",
+	"license": "MIT",
+	"repository": "https://github.com/moonrepo/examples",
+	"packemon": {
+		"format": ["esm"],
+		"platform": "browser"
+	},
+	"engines": {
+		"node": ">=14.15.0"
+	},
+	"files": ["esm/**/*", "lib/**/*", "src/**/*"],
+	"main": "./lib/index.js",
+	"module": "./esm/index.js",
+	"types": "./lib/index.d.ts",
+	"exports": {
+		"./package.json": "./package.json",
+		".": {
+			"types": "./lib/index.d.ts",
+			"browser": {
+				"types": "./esm/index.d.ts",
+				"module": "./esm/index.js",
+				"import": "./esm/index.js",
+				"default": "./lib/index.js"
+			},
+			"default": "./lib/index.js"
+		}
+	},
+	"dependencies": {},
+	"devDependencies": {
+		"@figma/plugin-typings": "^1.102.0"
+	}
 }

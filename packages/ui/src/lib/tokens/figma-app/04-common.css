@@ -1,41 +1,43 @@
 @font-face {
-  font-family: Helvetica Neue;
-  font-weight: 450;
-  src: local("Helvetica Neue");
+	font-family: Helvetica Neue;
+	font-weight: 450;
+	src: local("Helvetica Neue");
 }
 
 @font-face {
-  font-family: Helvetica Neue;
-  font-weight: 550;
-  src: local("Helvetica Neue Bold");
+	font-family: Helvetica Neue;
+	font-weight: 550;
+	src: local("Helvetica Neue Bold");
 }
 
-body, [data-editor-theme="design"]:not([data-preferred-theme="debug"]) {
-  --dev-handoff-navbar-height: 40px;
-  --insertable-resource-dragging-cursor: default;
-  --toolbar-height: 48px;
+body,
+[data-editor-theme="design"]:not([data-preferred-theme="debug"]) {
+	--dev-handoff-navbar-height: 40px;
+	--insertable-resource-dragging-cursor: default;
+	--toolbar-height: 48px;
 }
 
 [data-fpl-selected="true"],
 [data-fpl-selected="false"]:hover {
-  --color-bg-hover: var(--color-bg-selected-hover);
-  --color-bg-pressed: var(--color-bg-onselected-pressed);
-  --color-bg-secondary: var(--color-bg-selected-secondary);
-  --color-bg-tertiary: var(--color-bg-selected-tertiary);
-  --color-bg: var(--color-bg-onselected);
-  --color-bghovertransparent: var(--color-bg-selected-hover);
-  --color-border-menu-strong: var(--color-border-menu-onselected-strong);
-  --color-border-menu: var(--color-border-menu-onselected);
-  --color-border: var(--color-border-onselected);
-  --color-icon-secondary: var(--color-icon-onselected-secondary);
-  --color-icon-tertiary: var(--color-icon-onselected-tertiary);
-  --color-icon: var(--color-icon-onselected);
-  --color-text-menu: var(--color-text-menu-onselected);
-  --color-text-secondary: var(--color-text-onselected-secondary);
-  --color-text-tertiary: var(--color-text-onselected-tertiary);
-  --color-text: var(--color-text-onselected);
+	--color-bg-hover: var(--color-bg-selected-hover);
+	--color-bg-pressed: var(--color-bg-onselected-pressed);
+	--color-bg-secondary: var(--color-bg-selected-secondary);
+	--color-bg-tertiary: var(--color-bg-selected-tertiary);
+	--color-bg: var(--color-bg-onselected);
+	--color-bghovertransparent: var(--color-bg-selected-hover);
+	--color-border-menu-strong: var(--color-border-menu-onselected-strong);
+	--color-border-menu: var(--color-border-menu-onselected);
+	--color-border: var(--color-border-onselected);
+	--color-icon-secondary: var(--color-icon-onselected-secondary);
+	--color-icon-tertiary: var(--color-icon-onselected-tertiary);
+	--color-icon: var(--color-icon-onselected);
+	--color-text-menu: var(--color-text-menu-onselected);
+	--color-text-secondary: var(--color-text-onselected-secondary);
+	--color-text-tertiary: var(--color-text-onselected-tertiary);
+	--color-text: var(--color-text-onselected);
 }
 
 ::backdrop {
-  --color-modalbackdrop: var(--ramp-black-500) --ramp-black-500: #00000080;
+	--color-modalbackdrop: var(--ramp-black-500);
+	--ramp-black-500: #00000080;
 }

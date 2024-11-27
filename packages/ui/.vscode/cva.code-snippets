@@ -1,21 +1,21 @@
 {
-	// Place your webapp workspace snippets here. Each snippet is defined under a snippet name and has a scope, prefix, body and
-	// description. Add comma separated ids of the languages where the snippet is applicable in the scope field. If scope
-	// is left empty or omitted, the snippet gets applied to all languages. The prefix is what is
-	// used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
-	// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders.
-	// Placeholders with the same ids are connected.
-	// Example:
+  // Place your webapp workspace snippets here. Each snippet is defined under a snippet name and has a scope, prefix, body and
+  // description. Add comma separated ids of the languages where the snippet is applicable in the scope field. If scope
+  // is left empty or omitted, the snippet gets applied to all languages. The prefix is what is
+  // used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
+  // $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders.
+  // Placeholders with the same ids are connected.
+  // Example:
   // "Print to console": {
   //   "scope": "javascript,typescript",
   //   "prefix": "log",
   //   "body": ["console.log('$1');", "$2"],
   //   "description": "Log output to console"
   // }
-	"Auto-index Components Folder": {
-		"scope": "javascript,typescript",
-		"prefix": "cva-index",
-		"body": [
+  "Auto-index Components Folder": {
+    "scope": "javascript,typescript",
+    "prefix": "cva-index",
+    "body": [
       "/**",
       " * Automatic Index (vscode snippet: cva-index)",
       " * 1. Install the extension: JayFong.generate-index",
@@ -48,16 +48,16 @@
       "",
       "//@index(['./*.ts', './*/index.*'${1}], f => `export * from '${f.path}${f.ext}';`)",
       "//@endindex",
-      "",
-		],
-		"description": "Creates an index file that automatically updates itself"
-	},
+      ""
+    ],
+    "description": "Creates an index file that automatically updates itself"
+  },
 
   "Generate a Components Registry": {
-		"scope": "javascript,typescript",
-		"prefix": "cva-registry",
+    "scope": "javascript,typescript",
+    "prefix": "cva-registry",
     "description": "Creates an index file that automatically updates itself",
-		"body": [
+    "body": [
       "/**",
       " * Automatic COMPONENTS_REGISTRY (vscode snippet: cva-registry)",
       " * 1. Install the extension: JayFong.generate-index",
@@ -76,7 +76,7 @@
       "  //@endindex",
       "  //@index('./*/index.ts', (f,_,i) =>  `...${f.path.split('/').at(-2)}COMPONENTS,`)",
       "  //@endindex",
-      "];",
+      "];"
     ]
   }
 }

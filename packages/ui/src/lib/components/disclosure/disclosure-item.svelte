@@ -1,5 +1,5 @@
 <script context="module" lang="ts">
-	export const disclosure = Symbol('disclosure');
+export const disclosure = Symbol("disclosure");
 </script>
 
 <script lang="ts">

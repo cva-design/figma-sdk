@@ -1,17 +1,17 @@
 <script lang="ts">
-	import type { HTMLAttributes } from 'svelte/elements';
+import type { HTMLAttributes } from "svelte/elements";
 
-	export let itemId: string | number;
-	export let selected = false;
-	export let class_name = '';
+export let itemId: string | number;
+export const selected = false;
+export const class_name = "";
 
-	interface $$Props extends HTMLAttributes<HTMLLIElement> {
-		itemId: string | number;
-		selected?: boolean;
-		class?: string;
-	}
+interface $$Props extends HTMLAttributes<HTMLLIElement> {
+	itemId: string | number;
+	selected?: boolean;
+	class?: string;
+}
 
-	$: className = class_name || $$props.class || '';
+$: className = class_name || $$props.class || "";
 </script>
 
 <li

@@ -1,27 +1,27 @@
 <script context="module" lang="ts">
-	import { Story } from '@storybook/addon-svelte-csf';
-	import type { Meta } from '@storybook/svelte';
-	import Input from './input.svelte';
+import { Story } from "@storybook/addon-svelte-csf";
+import type { Meta } from "@storybook/svelte";
+import Input from "./input.svelte";
 
-	export const meta = {
-		title: 'Input',
-		component: Input,
-		argTypes: {
-			value: { control: 'text' },
-			placeholder: { control: 'text' },
-			disabled: { control: 'boolean' },
-			borders: { control: 'boolean' },
-			invalid: { control: 'boolean' },
-			errorMessage: { control: 'text' },
-			type: {
-				control: 'select',
-				options: ['text', 'password', 'email', 'number']
-			},
-			iconUrl: { control: 'text' },
-			iconText: { control: 'text' },
-			spin: { control: 'boolean' }
-		}
-	} satisfies Meta<typeof Input>;
+export const meta = {
+	title: "Input",
+	component: Input,
+	argTypes: {
+		value: { control: "text" },
+		placeholder: { control: "text" },
+		disabled: { control: "boolean" },
+		borders: { control: "boolean" },
+		invalid: { control: "boolean" },
+		errorMessage: { control: "text" },
+		type: {
+			control: "select",
+			options: ["text", "password", "email", "number"],
+		},
+		iconUrl: { control: "text" },
+		iconText: { control: "text" },
+		spin: { control: "boolean" },
+	},
+} satisfies Meta<typeof Input>;
 </script>
 
 <Story name="Default">

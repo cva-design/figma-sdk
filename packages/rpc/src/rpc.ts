@@ -1,127 +1,151 @@
-import { InvalidRequest, MethodNotFound } from './errors';
-import type { JsonRpcRequest } from './types';
-export let sendRaw: (message: any) => void;
+import {
+	InternalError,
+	InvalidRequest,
+	MethodNotFound,
+	RpcError,
+} from "./errors";
+import type {
+	ApiMethodsDictionary,
+	InternalMethodError,
+	JsonObject,
+	JsonRpcRequest,
+	JsonValue,
+} from "./types";
+import { toJsonObject } from "./utils";
 
-if (typeof figma !== 'undefined') {
-  figma.ui.on('message', (message: JsonRpcRequest) => handleRaw(message));
-  sendRaw = (message) => {
-    figma.ui.postMessage(message);
-  };
-} else if (typeof parent !== 'undefined') {
-  window.addEventListener('message', (event) =>
-    handleRaw(event.data.pluginMessage),
-  );
-  sendRaw = (message) => parent.postMessage({ pluginMessage: message }, '*');
+export let sendRaw: (message: JsonRpcRequest) => void;
+
+if (typeof figma !== "undefined") {
+	figma.ui.on("message", (message: JsonRpcRequest) => handleRaw(message));
+	sendRaw = (message) => {
+		figma.ui.postMessage(message);
+	};
+} else if (typeof parent !== "undefined") {
+	window.addEventListener("message", (event) =>
+		handleRaw(event.data.pluginMessage),
+	);
+	sendRaw = (message) => parent.postMessage({ pluginMessage: message }, "*");
 }
 let rpcIndex = 0;
-const pending: { [key: string]: Function } = {};
+const pending: {
+	[key: string]: {
+		(err?: InternalMethodError, result?: JsonValue): JsonValue;
+		timeout: NodeJS.Timeout;
+	};
+} = {};
 
-function sendJson(req: JsonRpcRequest, timeoutId?: number): void {
-  try {
-    sendRaw(req);
+function sendJson(
+	req: JsonRpcRequest,
+	timeoutId?: ReturnType<typeof setTimeout>,
+): void {
+	try {
+		sendRaw(req);
 
-    if (timeoutId) clearTimeout(timeoutId);
-  } catch (err) {
-    console.error(err);
-  }
+		if (timeoutId) clearTimeout(timeoutId);
+	} catch (err) {
+		console.error(err);
+	}
 }
 
-function sendResult(json: JsonRpcRequest, result: any) {
-  sendJson({
-    ...json,
-    result,
-  });
+function sendResult(json: JsonRpcRequest, result: JsonValue) {
+	sendJson({
+		...json,
+		result,
+	});
 }
 
 function sendError(json: JsonRpcRequest, error: Error) {
-  sendJson({
-    ...json,
-    error,
-  });
+	sendJson({
+		...json,
+		error,
+	});
 }
 
 export function handleRaw(data: JsonRpcRequest) {
-  try {
-    if (!data) {
-      return;
-    }
+	try {
+		if (!data) {
+			return;
+		}
 
-    // if (Array.isArray(data)) {
-    //   const [name, ...args] = data as unknown as [string, Array<unknown>];
-    //   invokeEventHandler(name, args);
-    //   return;
-    // }
-    handleRpc(data);
-  } catch (err) {
-    console.error(err);
-    console.error(data);
-  }
+		// if (Array.isArray(data)) {
+		//   const [name, ...args] = data as unknown as [string, Array<unknown>];
+		//   invokeEventHandler(name, args);
+		//   return;
+		// }
+		handleRpc(data);
+	} catch (err) {
+		console.error(err);
+		console.error(data);
+	}
 }
 
-function handleRpc(json: JsonRpcRequest) {
-  if (typeof json.id !== 'undefined') {
-    if (
-      typeof json.result !== 'undefined' ||
-      json.error ||
-      typeof json.method === 'undefined'
-    ) {
-      if (!pending[json.id]) {
-        sendError(json, new InvalidRequest(`Missing callback for ${json.id}`));
-        return;
-      }
-      const callback = pending[json.id];
-      // @ts-ignore
-      if (callback.timeout) {
-        // @ts-ignore
-        clearTimeout(callback.timeout);
-      }
-      delete pending[json.id];
-      callback(json.error, json.result);
-    } else {
-      handleRequest(json);
-    }
-  } else {
-    handleNotification(json);
-  }
+function handleRpc(rpcRequest: JsonRpcRequest) {
+	if (typeof rpcRequest.id !== "undefined") {
+		if (
+			typeof rpcRequest.result !== "undefined" ||
+			rpcRequest.error ||
+			typeof rpcRequest.method === "undefined"
+		) {
+			if (!pending[rpcRequest.id]) {
+				sendError(rpcRequest, new InvalidRequest(rpcRequest));
+				return;
+			}
+			const callback = pending[rpcRequest.id];
+			// @ts-ignore
+			if (callback.timeout) {
+				// @ts-ignore
+				clearTimeout(callback.timeout);
+			}
+			delete pending[rpcRequest.id];
+			callback(rpcRequest.error, rpcRequest.result);
+		} else {
+			handleRequest(rpcRequest);
+		}
+	} else {
+		handleNotification(rpcRequest);
+	}
 }
 
-let methods: { [key: string]: (...params: any[]) => any } = {};
+let methods: ApiMethodsDictionary = {};
 
-function onRequest(method: string, params: any[]) {
-  if (!methods[method]) {
-    throw new MethodNotFound(method);
-  }
-  return methods[method](...params);
+function onRequest(method: string, params: JsonValue[]) {
+	if (!methods[method]) {
+		throw new MethodNotFound({ method, params });
+	}
+	return methods[method](...params);
 }
 
 function handleNotification(json: JsonRpcRequest) {
-  if (!json.method) {
-    return;
-  }
-  onRequest(json.method, json.params ?? []);
+	if (!json.method) {
+		return;
+	}
+	onRequest(json.method, json.params ?? []);
 }
 
-function handleRequest(json: JsonRpcRequest) {
-  if (!json.method) {
-    sendError(json, new InvalidRequest('Missing method'));
-    return;
-  }
-  try {
-    const result = onRequest(json.method, json.params ?? []);
-    if (result && typeof result.then === 'function') {
-      result
-        .then((res: any) => sendResult(json, res))
-        .catch((err: any) => sendError(json, err));
-    } else {
-      sendResult(json, result);
-    }
-  } catch (err) {
-    sendError(json, err as Error);
-  }
+function handleRequest(rpcReq: JsonRpcRequest) {
+	if (!rpcReq.method) {
+		sendError(
+			rpcReq,
+			new MethodNotFound({ method: rpcReq.method, params: rpcReq.params }),
+		);
+		return;
+	}
+	try {
+		const result = onRequest(rpcReq.method, rpcReq.params ?? []);
+		if (result && typeof result.then === "function") {
+			result
+				.then((res: JsonValue) => sendResult(rpcReq, res))
+				.catch((err: Error) => sendError(rpcReq, err));
+		} else {
+			sendResult(rpcReq, result);
+		}
+	} catch (err) {
+		sendError(rpcReq, err as Error);
+	}
 }
 
-export const init = (apiInstance: any) => {
-  methods = apiInstance;
+export const init = (apiInstance: ApiMethodsDictionary) => {
+	methods = apiInstance;
 };
 
 // export const sendNotification = (method: string, params: any) => {
@@ -129,33 +153,33 @@ export const init = (apiInstance: any) => {
 // };
 
 export const sendRequest = (
-  method: string,
-  params: unknown[] = [],
-  timeout?: number,
-): Promise<Object> => new Promise((resolve, reject) => {
-    const id = rpcIndex;
-    const req = { jsonrpc: '2.0', method, params, id };
-    rpcIndex += 1;
-    const callback = (err: Error, result: Object) => {
-      if (err) {
-        const jsError = new Error(err.message)
-        jsError.code = err.code as unkown as string;
-        jsError.data = err.data as unkown as Object;
-        reject(jsError);
-        return;
-      }
-      resolve(result);
-    };
+	method: string,
+	params: JsonValue[] = [],
+	timeout?: number,
+): Promise<JsonValue> =>
+	new Promise((resolve, reject) => {
+		const id = rpcIndex;
+		const req: JsonRpcRequest = { jsonrpc: "2.0", method, params, id };
+		rpcIndex += 1;
 
-    // set a default timeout
-    callback.timeout = setTimeout(() => {
-      delete pending[id];
-      reject(new Error(`Request ${method} timed out.`));
-    }, timeout || 6000);
+		const callback = (err?: InternalMethodError, result?: JsonValue) => {
+			if (err) {
+				reject(new InternalError(toJsonObject(err)));
+				return;
+			}
+			resolve(result);
+			return result;
+		};
 
-    pending[id] = callback;
-    // test()
-    sendJson(req, callback.timeout);
-  });
+		// set a default timeout
+		callback.timeout = setTimeout(() => {
+			delete pending[id];
+			reject(new Error(`Request ${method} timed out.`));
+		}, timeout || 6000);
+
+		pending[id] = callback;
+		// test()
+		sendJson(req, callback.timeout);
+	});
 
 // export { RPCError };

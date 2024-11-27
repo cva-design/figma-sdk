@@ -1,20 +1,20 @@
 <script lang="ts" context="module">
-	import type { Action as ActionType } from '../../components/tree/types';
-	export type LayerTreeData = {
-		id: string;
-		children: LayerTreeData[];
-		type: LayerType;
-		name: string;
-		description?: string;
-		component?: boolean;
-		selected?: boolean;
-		expanded?: boolean;
-		actions?: ActionType[];
-		depth?: number;
-		mixed?: boolean;
-		disabled?: boolean;
-		click?: (event: Event, node: LayerTreeData) => void;
-	};
+import type { Action as ActionType } from "../../components/tree/types";
+export type LayerTreeData = {
+	id: string;
+	children: LayerTreeData[];
+	type: LayerType;
+	name: string;
+	description?: string;
+	component?: boolean;
+	selected?: boolean;
+	expanded?: boolean;
+	actions?: ActionType[];
+	depth?: number;
+	mixed?: boolean;
+	disabled?: boolean;
+	click?: (event: Event, node: LayerTreeData) => void;
+};
 </script>
 
 <script lang="ts">

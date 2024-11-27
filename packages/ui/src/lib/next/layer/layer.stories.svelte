@@ -1,17 +1,16 @@
 <script context="module" lang="ts">
-	import { getIconPath } from '$icons/cfp/util';
-	import { Layer } from '$ui';
-	import { Story } from '@storybook/addon-svelte-csf';
+import { getIconPath } from "$icons/cfp/util";
+import { Layer } from "$ui";
+import { Story } from "@storybook/addon-svelte-csf";
 
-	const IconLayerFrame16 = getIconPath('layer-frame', 16);
+const IconLayerFrame16 = getIconPath("layer-frame", 16);
 
-	export const meta = {
-		
-		component: Layer,
-		parameters: {
-			fixedWidth: true
-		}
-	};
+export const meta = {
+	component: Layer,
+	parameters: {
+		fixedWidth: true,
+	},
+};
 </script>
 
 <Story name="Frame">

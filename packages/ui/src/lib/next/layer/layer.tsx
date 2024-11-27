@@ -59,7 +59,13 @@ export const Layer = createComponent<HTMLInputElement, LayerProps>(
     );
 
     return (
-      <label class={createClassName([styles.layer, bold === true ? styles.bold : null, component === true ? styles.component : null])}>
+      <label
+        class={createClassName([
+          styles.layer,
+          bold === true ? styles.bold : null,
+          component === true ? styles.component : null,
+        ])}
+      >
         <input
           {...rest}
           ref={ref}
@@ -73,7 +79,9 @@ export const Layer = createComponent<HTMLInputElement, LayerProps>(
         <div class={styles.box} />
         <div class={styles.icon}>{icon}</div>
         <div class={styles.children}>{children}</div>
-        {typeof description === 'undefined' ? null : <div class={styles.description}>{description}</div>}
+        {typeof description === 'undefined' ? null : (
+          <div class={styles.description}>{description}</div>
+        )}
       </label>
     );
   },

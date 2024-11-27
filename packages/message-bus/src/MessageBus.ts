@@ -1,8 +1,8 @@
-import * as evtHandler from './handler';
-import type { CommandRegistry } from './commands';
-import { type EventRegistry, isFigmaEvent } from './events';
+import type { CommandRegistry } from "./commands";
+import { type EventRegistry, isFigmaEvent } from "./events";
+import * as evtHandler from "./handler";
 
-import type { CommandHandlers, DeregisterFn, EventListeners } from './types';
+import type { CommandHandlers, DeregisterFn, EventListeners } from "./types";
 
 /**
  * A simple message bus implementation which magically works in both the main thread and the plugin UI.
@@ -17,63 +17,71 @@ import type { CommandHandlers, DeregisterFn, EventListeners } from './types';
  * or to the main thread when the emitter is the plugin UI.
  */
 export class MessageBusSingleton {
-  private static instance?: MessageBusSingleton;
+	private static instance?: MessageBusSingleton;
 
-  protected $handlers: Partial<CommandHandlers> = {};
+	protected $handlers: Partial<CommandHandlers> = {};
 
-  protected $listeners: Partial<EventListeners> = {};
+	protected $listeners: Partial<EventListeners> = {};
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  private constructor() {}
+	// eslint-disable-next-line @typescript-eslint/no-empty-function
+	private constructor() {}
 
-  public static getInstance(): MessageBusSingleton {
-    // Looks like eslint cannot predict this may be called multiple times
-    // in case of module cache gotchas
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-    if (!MessageBusSingleton.instance) {
-      MessageBusSingleton.instance = new MessageBusSingleton();
-    }
+	public static getInstance(): MessageBusSingleton {
+		// Looks like eslint cannot predict this may be called multiple times
+		// in case of module cache gotchas
+		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+		if (!MessageBusSingleton.instance) {
+			MessageBusSingleton.instance = new MessageBusSingleton();
+		}
 
-    return MessageBusSingleton.instance;
-  }
+		return MessageBusSingleton.instance;
+	}
 
-  public handleCommand<Id extends keyof CommandHandlers>(command: Id, handler: CommandHandlers[Id]): DeregisterFn {
+	public handleCommand<Id extends keyof CommandHandlers>(
+		command: Id,
+		handler: CommandHandlers[Id],
+	): DeregisterFn {
+		this.$handlers[command] = handler;
 
-    this.$handlers[command] = handler;
+		return evtHandler.on(command, handler);
+	}
 
-    return evtHandler.on(command, handler);
-  }
+	public sendCommand<Id extends keyof CommandHandlers>(
+		command: Id,
+		data: CommandRegistry[Id]["message"],
+	): CommandRegistry[Id]["result"] | undefined {
+		evtHandler.emit(command, data);
 
-  public sendCommand<Id extends keyof CommandHandlers>(command: Id, data: CommandRegistry[Id]['message']): CommandRegistry[Id]['result'] | undefined {
+		return undefined;
+	}
 
-    evtHandler.emit(command, data);
+	public listenToEvent<Id extends keyof EventListeners>(
+		event: Id,
+		listener: EventListeners[Id],
+	): DeregisterFn {
+		this.$listeners[event] = listener;
 
-    return undefined;
-  }
+		if (isFigmaEvent(event as string)) {
+			// There's no gain in tricking TS to think that the listener
+			// has the correct type, so we just cast it to any
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-explicit-unknown
+			figma.on(event as unknown, listener as unknown);
+			return (): void => {
+				// ditto
+				// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+				figma.off(event as unknown, listener as unknown);
+			};
+		}
 
-  public listenToEvent<Id extends keyof EventListeners>(event: Id, listener: EventListeners[Id]): DeregisterFn {
+		return evtHandler.on(event, listener);
+	}
 
-    this.$listeners[event] = listener;
-
-    if (isFigmaEvent(event as string)) {
-      // There's no gain in tricking TS to think that the listener
-      // has the correct type, so we just cast it to any
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-explicit-any
-      figma.on(event as any, listener as any);
-      return (): void => {
-        // ditto
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-explicit-any
-        figma.off(event as any, listener as any);
-      };
-    }
-
-    return evtHandler.on(event, listener);
-  }
-
-  public publishEvent<Id extends keyof EventListeners>(event: Id, data: EventRegistry[Id]['message']): void {
-
-    evtHandler.emit(event, data);
-  }
+	public publishEvent<Id extends keyof EventListeners>(
+		event: Id,
+		data: EventRegistry[Id]["message"],
+	): void {
+		evtHandler.emit(event, data);
+	}
 }
 
 const singleton = MessageBusSingleton.getInstance();

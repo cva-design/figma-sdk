@@ -1,20 +1,20 @@
 <script context="module" lang="ts">
-	import { Radio } from '$ui';
-	import { Story, Template } from '@storybook/addon-svelte-csf';
-	let groupV = 'option2';
-	export const meta = {
-		title: 'Radio',
-		component: Radio,
-		argTypes: {
-			group: { control: 'text' },
-			value: { control: 'text' },
-			disabled: { control: 'boolean' },
-			tabindex: { control: 'number' },
-			className: { control: 'text' }
-		}
-	};
+import { Radio } from "$ui";
+import { Story, Template } from "@storybook/addon-svelte-csf";
+const groupV = "option2";
+export const meta = {
+	title: "Radio",
+	component: Radio,
+	argTypes: {
+		group: { control: "text" },
+		value: { control: "text" },
+		disabled: { control: "boolean" },
+		tabindex: { control: "number" },
+		className: { control: "text" },
+	},
+};
 
-	let groupValue = 'option1';
+const groupValue = "option1";
 </script>
 
 <Template let:args>

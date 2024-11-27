@@ -1,38 +1,38 @@
 <script lang="ts">
-	import { Tooltip } from '$ui/tooltip';
-	import { cva, type VariantProps } from 'class-variance-authority';
+import { Tooltip } from "$ui/tooltip";
+import { type VariantProps, cva } from "class-variance-authority";
 
-	const iconButton = cva('fps-IconButton', {
-		variants: {
-			size: {
-				small: 'fps-size-small',
-				medium: 'fps-size-medium'
-			},
-			activeAppearance: {
-				subtle: 'fps-active-appearance-subtle',
-				solid: 'fps-active-appearance-solid'
-			}
+const iconButton = cva("fps-IconButton", {
+	variants: {
+		size: {
+			small: "fps-size-small",
+			medium: "fps-size-medium",
 		},
-		defaultVariants: {
-			size: 'small',
-			activeAppearance: 'subtle'
-		}
-	});
+		activeAppearance: {
+			subtle: "fps-active-appearance-subtle",
+			solid: "fps-active-appearance-solid",
+		},
+	},
+	defaultVariants: {
+		size: "small",
+		activeAppearance: "subtle",
+	},
+});
 
-	interface $$Props extends VariantProps<typeof iconButton> {
-		'aria-label': string;
-		tooltipContent?: string;
-		disableTooltip?: boolean;
-		class?: string;
-	}
+interface $$Props extends VariantProps<typeof iconButton> {
+	"aria-label": string;
+	tooltipContent?: string;
+	disableTooltip?: boolean;
+	class?: string;
+}
 
-	export let size: $$Props['size'] = undefined;
-	export let activeAppearance: $$Props['activeAppearance'] = undefined;
-	export let tooltipContent: string | undefined = undefined;
-	export let disableTooltip = false;
-	export { className as class };
+export const size: $$Props["size"] = undefined;
+export const activeAppearance: $$Props["activeAppearance"] = undefined;
+export const tooltipContent: string | undefined = undefined;
+export const disableTooltip = false;
+export { className as class };
 
-	let className = '';
+const className = "";
 </script>
 
 <svelte:element

@@ -1,19 +1,19 @@
 <script context="module" lang="ts">
-	export type ToggleState = {
-		icon: keyof typeof import('$icons');
-		tooltip?: string;
-	};
+export type ToggleState = {
+	icon: keyof typeof import("$icons");
+	tooltip?: string;
+};
 
-	export type ToggleStates = {
-		on: ToggleState;
-		off: ToggleState;
-		disabled?:
-			| Partial<ToggleState>
-			| {
-					on: ToggleState;
-					off: ToggleState;
-			  };
-	};
+export type ToggleStates = {
+	on: ToggleState;
+	off: ToggleState;
+	disabled?:
+		| Partial<ToggleState>
+		| {
+				on: ToggleState;
+				off: ToggleState;
+		  };
+};
 </script>
 
 <script lang="ts">

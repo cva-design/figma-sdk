@@ -12,7 +12,6 @@
     "prepublishOnly": "nr package",
     "test": "nr test:integration && nr test:unit && nr test:storybook",
     "test:storybook": "test-storybook --url http://localhost:6006",
-    "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
     "format": "dprint fmt .",
     "test:integration": "playwright test",

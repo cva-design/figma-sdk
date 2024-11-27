@@ -1,16 +1,16 @@
 <script context="module" lang="ts">
-	import { Icon } from '$ui';
-	import { Story } from '@storybook/addon-svelte-csf';
+import { Icon } from "$ui";
+import { Story } from "@storybook/addon-svelte-csf";
 
-	export const meta = {
-		title: 'Icon',
-		component: Icon,
-		argTypes: {
-			icon: { control: 'text' },
-			color: { control: 'color' },
-			size: { control: 'number' }
-		}
-	};
+export const meta = {
+	title: "Icon",
+	component: Icon,
+	argTypes: {
+		icon: { control: "text" },
+		color: { control: "color" },
+		size: { control: "number" },
+	},
+};
 </script>
 
 <Story name="Default">

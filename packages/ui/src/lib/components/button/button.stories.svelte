@@ -1,23 +1,30 @@
 <script context="module" lang="ts">
-	import { Story } from '@storybook/addon-svelte-csf';
-	import Button from './button.svelte';
+import { Story } from "@storybook/addon-svelte-csf";
+import Button from "./button.svelte";
 
-	export const meta = {
-		title: 'Button',
-		component: Button,
-		argTypes: {
-			variant: {
-				control: 'select',
-				options: ['primary', 'secondary', 'inverse', 'destructive', 'success', 'text']
-			},
-			size: {
-				control: 'select',
-				options: ['small', 'medium']
-			},
-			fullWidth: { control: 'boolean' },
-			onClick: { action: 'clicked' }
-		}
-	};
+export const meta = {
+	title: "Button",
+	component: Button,
+	argTypes: {
+		variant: {
+			control: "select",
+			options: [
+				"primary",
+				"secondary",
+				"inverse",
+				"destructive",
+				"success",
+				"text",
+			],
+		},
+		size: {
+			control: "select",
+			options: ["small", "medium"],
+		},
+		fullWidth: { control: "boolean" },
+		onClick: { action: "clicked" },
+	},
+};
 </script>
 
 <Story name="Primary">

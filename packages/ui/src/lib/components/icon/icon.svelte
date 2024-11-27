@@ -1,43 +1,43 @@
 <script lang="ts">
-	import * as icons from '$icons';
-	import type { AutocompletableString } from '$lib/util';
+import * as icons from "$icons";
+import type { AutocompletableString } from "$lib/util";
 
-	type IconProps = {
-		color?: '--figma-color-icon' | AutocompletableString;
-		spin?: boolean;
-		class?: string;
-	} & (
-		| { icon: keyof typeof import('$icons'); iconText?: never }
-		| { icon?: never; iconText: string }
-	);
+type IconProps = {
+	color?: "--figma-color-icon" | AutocompletableString;
+	spin?: boolean;
+	class?: string;
+} & (
+	| { icon: keyof typeof import("$icons"); iconText?: never }
+	| { icon?: never; iconText: string }
+);
 
-	/**
-	 * icon: The icon identifier from the icons collection
-	 */
-	export let icon: IconProps['icon'] = undefined;
+/**
+ * icon: The icon identifier from the icons collection
+ */
+export const icon: IconProps["icon"] = undefined;
 
-	/**
-	 * A string that will be displayed as the icon.
-	 * If provided, it is displayed instead of the icon.
-	 * It is useful for using characters or emojis as icons.
-	 */
-	export let iconText: IconProps['iconText'] = undefined;
+/**
+ * A string that will be displayed as the icon.
+ * If provided, it is displayed instead of the icon.
+ * It is useful for using characters or emojis as icons.
+ */
+export const iconText: IconProps["iconText"] = undefined;
 
-	/**
-	 * color: The color of the icon. This should be a CSS color variable.
-	 */
-	export let color: IconProps['color'] = '--figma-color-icon';
+/**
+ * color: The color of the icon. This should be a CSS color variable.
+ */
+export const color: IconProps["color"] = "--figma-color-icon";
 
-	/**
-	 * spin: Whether the icon should spin
-	 */
-	export let spin: IconProps['spin'] = false;
+/**
+ * spin: Whether the icon should spin
+ */
+export const spin: IconProps["spin"] = false;
 
-	/**
-	 * className: Additional CSS classes that can be applied to the icon.
-	 */
-	let className = '';
-	export { className as class };
+/**
+ * className: Additional CSS classes that can be applied to the icon.
+ */
+const className = "";
+export { className as class };
 </script>
 
 {#if iconText}

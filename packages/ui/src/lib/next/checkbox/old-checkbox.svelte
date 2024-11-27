@@ -1,18 +1,18 @@
 <script>
-	export let checked = false;
-	export let mixed = false;
-	export let value = '';
-	export let disabled = false;
-	export let tabindex = 0;
+export const checked = false;
+export const mixed = false;
+export const value = "";
+export const disabled = false;
+export const tabindex = 0;
 
-	let className = '';
-	export { className as class };
+const className = "";
+export { className as class };
 
-	const uniqueId = `checkbox--${(Math.random() * 10000000).toFixed(0).toString()}`;
+const uniqueId = `checkbox--${(Math.random() * 10000000).toFixed(0).toString()}`;
 
-	function handleClick(event) {
-		event.currentTarget.blur();
-	}
+function handleClick(event) {
+	event.currentTarget.blur();
+}
 </script>
 
 <div class={className}>

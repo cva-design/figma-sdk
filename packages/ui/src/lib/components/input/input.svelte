@@ -1,48 +1,48 @@
 <script lang="ts">
-	import { Icon } from '$ui/icon';
-	import { createEventDispatcher } from 'svelte';
+import { Icon } from "$ui/icon";
+import { createEventDispatcher } from "svelte";
 
-	export let id: string | null = null;
-	export let value: string | null = null;
-	export let name: string | null = null;
-	export let iconText: string | null = null;
-	export let icon: string | null = null;
-	export let borders = false;
-	export let disabled = false;
-	export let iconName: string | null = null;
-	export let spin: boolean = false;
-	export let type = 'text';
-	export let invalid = false;
-	export let errorMessage = 'Error message';
-	export let placeholder = 'Input something here...';
-	export { className as class };
+export const id: string | null = null;
+export const value: string | null = null;
+export const name: string | null = null;
+export const iconText: string | null = null;
+export const icon: string | null = null;
+export const borders = false;
+export const disabled = false;
+export const iconName: string | null = null;
+export const spin = false;
+export const type = "text";
+export const invalid = false;
+export const errorMessage = "Error message";
+export const placeholder = "Input something here...";
+export { className as class };
 
-	let className = '';
-	const dispatch = createEventDispatcher();
+const className = "";
+const dispatch = createEventDispatcher();
 
-	const typeAction = (node: HTMLInputElement) => {
-		node.type = type;
-	};
+const typeAction = (node: HTMLInputElement) => {
+	node.type = type;
+};
 
-	function handleInput(event: Event) {
-		dispatch('input', event);
-	}
+function handleInput(event: Event) {
+	dispatch("input", event);
+}
 
-	function handleChange(event: Event) {
-		dispatch('change', event);
-	}
+function handleChange(event: Event) {
+	dispatch("change", event);
+}
 
-	function handleKeydown(event: KeyboardEvent) {
-		dispatch('keydown', event);
-	}
+function handleKeydown(event: KeyboardEvent) {
+	dispatch("keydown", event);
+}
 
-	function handleFocus(event: FocusEvent) {
-		dispatch('focus', event);
-	}
+function handleFocus(event: FocusEvent) {
+	dispatch("focus", event);
+}
 
-	function handleBlur(event: FocusEvent) {
-		dispatch('blur', event);
-	}
+function handleBlur(event: FocusEvent) {
+	dispatch("blur", event);
+}
 </script>
 
 {#if icon || iconName || iconText}

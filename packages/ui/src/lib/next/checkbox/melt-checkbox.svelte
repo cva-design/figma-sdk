@@ -1,40 +1,40 @@
 <script lang="ts">
-	import { createCheckbox, melt } from '@melt-ui/svelte';
-	import Label from '../text/label.svelte';
-	import CheckmarkIndeterminateIcon from './assets/checkmark-indeterminate.svelte';
-	import CheckmarkIcon from './assets/checkmark.svelte';
+import { createCheckbox, melt } from "@melt-ui/svelte";
+import Label from "../text/label.svelte";
+import CheckmarkIndeterminateIcon from "./assets/checkmark-indeterminate.svelte";
+import CheckmarkIcon from "./assets/checkmark.svelte";
 
-	export let className = '';
-	export let checked = false;
-	export let indeterminate = false;
-	export let disabled = false;
-	export let required = false;
-	export let name: string | undefined = undefined;
-	export let value: string | undefined = undefined;
-	export let label: string | undefined = undefined;
+export const className = "";
+export let checked = false;
+export let indeterminate = false;
+export const disabled = false;
+export const required = false;
+export const name: string | undefined = undefined;
+export const value: string | undefined = undefined;
+export const label: string | undefined = undefined;
 
-	const {
-		elements: { root, input },
-		states: { checked: checkedState },
-		helpers: { isChecked, isIndeterminate }
-	} = createCheckbox({
-		defaultChecked: indeterminate ? 'indeterminate' : checked,
-		disabled,
-		required,
-		name,
-		value
-	});
+const {
+	elements: { root, input },
+	states: { checked: checkedState },
+	helpers: { isChecked, isIndeterminate },
+} = createCheckbox({
+	defaultChecked: indeterminate ? "indeterminate" : checked,
+	disabled,
+	required,
+	name,
+	value,
+});
 
-	$: {
-		if (indeterminate) {
-			checkedState.set('indeterminate');
-		} else {
-			checkedState.set(checked);
-		}
+$: {
+	if (indeterminate) {
+		checkedState.set("indeterminate");
+	} else {
+		checkedState.set(checked);
 	}
+}
 
-	$: checked = $isChecked;
-	$: indeterminate = $isIndeterminate;
+$: checked = $isChecked;
+$: indeterminate = $isIndeterminate;
 </script>
 
 <div class="fp-CheckboxRoot {className}">

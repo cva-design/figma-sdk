@@ -1,27 +1,27 @@
 <script context="module" lang="ts">
-	import { Story } from '@storybook/addon-svelte-csf';
-	import { Link } from './index';
+import { Story } from "@storybook/addon-svelte-csf";
+import { Link } from "./index";
 
-	export const meta = {
-		title: 'Link',
-		component: Link,
-		argTypes: {
-			size: {
-				control: 'select',
-				options: ['small', 'medium', 'large']
-			},
-			weight: {
-				control: 'select',
-				options: ['default', 'strong']
-			},
-			align: {
-				control: 'select',
-				options: ['left', 'center', 'right']
-			},
-			block: { control: 'boolean' },
-			href: { control: 'text' }
-		}
-	};
+export const meta = {
+	title: "Link",
+	component: Link,
+	argTypes: {
+		size: {
+			control: "select",
+			options: ["small", "medium", "large"],
+		},
+		weight: {
+			control: "select",
+			options: ["default", "strong"],
+		},
+		align: {
+			control: "select",
+			options: ["left", "center", "right"],
+		},
+		block: { control: "boolean" },
+		href: { control: "text" },
+	},
+};
 </script>
 
 <Story name="Default">

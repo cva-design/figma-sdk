@@ -22,28 +22,28 @@
 		}
 	});
 
-	interface LayerProps extends VariantProps<typeof layer> {
-		description?: string;
-		icon: ComponentType | string;
-		value: boolean;
-		propagateEscapeKeyDown?: boolean;
-	}
+interface LayerProps extends VariantProps<typeof layer> {
+	description?: string;
+	icon: ComponentType | string;
+	value: boolean;
+	propagateEscapeKeyDown?: boolean;
+}
 
-	export let type: LayerType;
-	/**
-	 * TODO: automatically set bold to true
-	 * if the layer is a FRAME or SECTION at the top-level
-	 */
-	export let bold: boolean | undefined = false;
-	export let name: string;
-	export let component: boolean | undefined = false;
-	export let description: string | undefined = undefined;
-	export let icon: string | undefined = undefined;
-	export let selected: boolean | undefined = false;
-	export let propagateEscapeKeyDown = true;
-	export let expanded: boolean = false;
+export let type: LayerType;
+/**
+ * TODO: automatically set bold to true
+ * if the layer is a FRAME or SECTION at the top-level
+ */
+export const bold: boolean | undefined = false;
+export let name: string;
+export const component: boolean | undefined = false;
+export const description: string | undefined = undefined;
+export const icon: string | undefined = undefined;
+export const selected: boolean | undefined = false;
+export const propagateEscapeKeyDown = true;
+export let expanded = false;
 
-	const dispatch = createEventDispatcher();
+const dispatch = createEventDispatcher();
 
 	function handleChange(event: Event) {
 		if ($$slots.default) {
@@ -67,7 +67,7 @@
 
 
 
-	const iconUrl = LayerIcon[type] ?? icon;
+const iconUrl = LayerIcon[type] ?? icon;
 </script>
 
 <div class={layer({ bold, component, expanded, selected })} >

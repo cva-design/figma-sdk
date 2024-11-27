@@ -1,27 +1,27 @@
 <script lang="ts">
-	import { ChevronDownSvg_16, ChevronRightSvg_16 } from '$icons';
-	import { createEventDispatcher } from 'svelte';
-	import type { Action, ITreeNode, TreeOptions } from './types';
+import { ChevronDownSvg_16, ChevronRightSvg_16 } from "$icons";
+import { createEventDispatcher } from "svelte";
+import type { Action, ITreeNode, TreeOptions } from "./types";
 
-	export let node: ITreeNode;
-	export let options: TreeOptions;
-	export let depth: number = 0;
+export let node: ITreeNode;
+export let options: TreeOptions;
+export const depth = 0;
 
-	const dispatch = createEventDispatcher();
+const dispatch = createEventDispatcher();
 
-	$: actions = [...(options.defaultActions || []), ...(node.actions || [])];
-	$: isExpanded = node.state?.expanded ?? false;
+$: actions = [...(options.defaultActions || []), ...(node.actions || [])];
+$: isExpanded = node.state?.expanded ?? false;
 
-	function toggleExpand() {
-		node.state = { ...node.state, expanded: !isExpanded };
-	}
+function toggleExpand() {
+	node.state = { ...node.state, expanded: !isExpanded };
+}
 
-	function handleAction(action: Action, event: Event) {
-		dispatch('nodeAction', { node, action, event });
-	}
+function handleAction(action: Action, event: Event) {
+	dispatch("nodeAction", { node, action, event });
+}
 
-	options.expandIcon = options.expandIcon ?? ChevronRightSvg_16;
-	options.collapseIcon = options.collapseIcon ?? ChevronDownSvg_16;
+options.expandIcon = options.expandIcon ?? ChevronRightSvg_16;
+options.collapseIcon = options.collapseIcon ?? ChevronDownSvg_16;
 </script>
 
 <div class="tree-node" style="padding-left: {depth * options.indentationWidth}px;">
