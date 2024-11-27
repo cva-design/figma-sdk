@@ -1,6 +1,6 @@
-import { sveltekit } from '@sveltejs/kit/vite';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { sveltekit } from '@sveltejs/kit/vite';
 import { default as tsconfigPaths } from 'vite-tsconfig-paths';
 import { type Plugin, defineConfig } from 'vitest/config';
 import { svelteWarnings } from './src/lib/config/svelte-warnings/plugin';

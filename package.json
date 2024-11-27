@@ -5,7 +5,9 @@
   "version": "0.0.0",
   "author": "Saulo Vallory",
   "license": "MIT",
-  "workspaces": ["packages/*"],
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
     "moon": "moon --color --log trace"
   },

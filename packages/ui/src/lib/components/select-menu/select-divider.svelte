@@ -1,5 +1,5 @@
 <script lang="ts">
-	export let label = false;
+export const label = false;
 </script>
 
 {#if label === true}

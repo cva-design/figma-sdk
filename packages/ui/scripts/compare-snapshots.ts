@@ -1,5 +1,5 @@
-import fs from 'fs';
-import path from 'path';
+import fs from 'node:fs';
+import path from 'node:path';
 import pixelmatch from 'pixelmatch';
 import { PNG } from 'pngjs';
 
@@ -9,7 +9,7 @@ const reactSnapshotPath = path.join(
 );
 const svelteSnapshotPath = path.join(__dirname, '../src/__image_snapshots__/');
 
-fs.readdirSync(reactSnapshotPath).forEach((file) => {
+for (const file of fs.readdirSync(reactSnapshotPath)) {
   const reactImg = PNG.sync.read(
     fs.readFileSync(path.join(reactSnapshotPath, file)),
   );
@@ -26,7 +26,9 @@ fs.readdirSync(reactSnapshotPath).forEach((file) => {
     diff.data,
     width,
     height,
-    { threshold: 0.1 },
+    {
+      threshold: 0.1,
+    },
   );
 
   console.log(`Difference in ${file}: ${numDiffPixels} pixels`);
@@ -37,4 +39,4 @@ fs.readdirSync(reactSnapshotPath).forEach((file) => {
       PNG.sync.write(diff),
     );
   }
-});
+}

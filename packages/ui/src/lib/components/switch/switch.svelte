@@ -1,12 +1,12 @@
 <script lang="ts">
-	export let checked = false;
-	export let name = '';
-	export let value = '';
-	export let disabled = false;
-	export { className as class };
+export const checked = false;
+export const name = "";
+export const value = "";
+export const disabled = false;
+export { className as class };
 
-	let className = '';
-	let uniqueId = `switch--${(Math.random() * 100000000).toFixed(0)}`;
+const className = "";
+const uniqueId = `switch--${(Math.random() * 100000000).toFixed(0)}`;
 </script>
 
 <div class={`switch ${className}`}>

@@ -1,27 +1,27 @@
 <script context="module" lang="ts">
-	export type ActionKind = 'toggle' | 'button';
+export type ActionKind = "toggle" | "button";
 
-	type ActionBase<RequiredIcons extends string, OptionalIcons extends string> = {
-		id: string;
-		kind: ActionKind;
-		tooltip: string;
-		enabled?: boolean;
-		click?: (params: { action: Action; event: Event; layer: LayerProps }) => void;
-		icons: Record<RequiredIcons, keyof typeof import('$icons')> & {
-			[K in OptionalIcons]?: keyof typeof import('$icons');
-		};
+type ActionBase<RequiredIcons extends string, OptionalIcons extends string> = {
+	id: string;
+	kind: ActionKind;
+	tooltip: string;
+	enabled?: boolean;
+	click?: (params: { action: Action; event: Event; layer: LayerProps }) => void;
+	icons: Record<RequiredIcons, keyof typeof import("$icons")> & {
+		[K in OptionalIcons]?: keyof typeof import("$icons");
 	};
+};
 
-	export type ActionToggle = ActionBase<'on' | 'off', 'disabled'> & {
-		kind: 'toggle';
-		isActive?: boolean;
-	};
+export type ActionToggle = ActionBase<"on" | "off", "disabled"> & {
+	kind: "toggle";
+	isActive?: boolean;
+};
 
-	export type ActionButton = ActionBase<'default', 'disabled'> & {
-		kind: 'button';
-	};
+export type ActionButton = ActionBase<"default", "disabled"> & {
+	kind: "button";
+};
 
-	export type Action = ActionToggle | ActionButton;
+export type Action = ActionToggle | ActionButton;
 </script>
 
 <script lang="ts">

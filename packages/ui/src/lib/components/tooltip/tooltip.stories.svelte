@@ -1,25 +1,25 @@
 <script context="module" lang="ts">
-	import { Tooltip } from '$ui';
-	import { Story } from '@storybook/addon-svelte-csf';
+import { Tooltip } from "$ui";
+import { Story } from "@storybook/addon-svelte-csf";
 
-	export const meta = {
-		title: 'Tooltip',
-		component: Tooltip,
-		argTypes: {
-			content: { control: 'text' },
-			position: {
-				control: { type: 'select' },
-				options: ['top', 'right', 'bottom', 'left']
-			},
-			openDelay: { control: 'number' },
-			closeDelay: { control: 'number' },
-			disableHoverableContent: { control: 'boolean' },
-			defaultOpen: { control: 'boolean' },
-			open: { control: 'boolean' },
-			closeOnPointerDown: { control: 'boolean' },
-			forceMount: { control: 'boolean' }
-		}
-	};
+export const meta = {
+	title: "Tooltip",
+	component: Tooltip,
+	argTypes: {
+		content: { control: "text" },
+		position: {
+			control: { type: "select" },
+			options: ["top", "right", "bottom", "left"],
+		},
+		openDelay: { control: "number" },
+		closeDelay: { control: "number" },
+		disableHoverableContent: { control: "boolean" },
+		defaultOpen: { control: "boolean" },
+		open: { control: "boolean" },
+		closeOnPointerDown: { control: "boolean" },
+		forceMount: { control: "boolean" },
+	},
+};
 </script>
 
 <Story name="Default">

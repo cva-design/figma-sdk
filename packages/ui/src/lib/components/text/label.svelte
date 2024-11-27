@@ -1,7 +1,7 @@
 <script context="module" lang="ts">
-	export type Size = 'small' | 'medium' | 'large';
-	export type Weight = 'default' | 'strong';
-	export type Align = 'start' | 'center' | 'end';
+export type Size = "small" | "medium" | "large";
+export type Weight = "default" | "strong";
+export type Align = "start" | "center" | "end";
 </script>
 
 <script lang="ts">

@@ -1,23 +1,23 @@
 <script lang="ts">
-	import { getContext, onMount } from 'svelte';
+import { getContext, onMount } from "svelte";
 
-	export let value: string;
-	let className: string | undefined = undefined;
-	export { className as class };
-	export let expand: boolean = false;
+export let value: string;
+const className: string | undefined = undefined;
+export { className as class };
+export const expand = false;
 
-	const { register } = getContext('tabs');
-	const { isSelected, select } = register(value);
+const { register } = getContext("tabs");
+const { isSelected, select } = register(value);
 
-	let triggerElement: HTMLButtonElement;
+let triggerElement: HTMLButtonElement;
 
-	$: isActive = $isSelected === value;
+$: isActive = $isSelected === value;
 
-	onMount(() => {
-		if (triggerElement && !expand) {
-			triggerElement.style.width = `${triggerElement.getBoundingClientRect().width}px`;
-		}
-	});
+onMount(() => {
+	if (triggerElement && !expand) {
+		triggerElement.style.width = `${triggerElement.getBoundingClientRect().width}px`;
+	}
+});
 </script>
 
 <button

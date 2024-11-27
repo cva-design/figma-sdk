@@ -1,46 +1,48 @@
 <script lang="ts">
-	import { cva, type VariantProps } from 'class-variance-authority';
-	import type { HTMLAttributes } from 'svelte/elements';
+import { type VariantProps, cva } from "class-variance-authority";
+import type { HTMLAttributes } from "svelte/elements";
 
-	const text = cva('fps-Text', {
-		variants: {
-			size: {
-				small: 'fps-size-small',
-				medium: 'fps-size-medium',
-				large: 'fps-size-large'
-			},
-			weight: {
-				default: 'fps-weight-default',
-				strong: 'fps-weight-strong'
-			},
-			align: {
-				left: 'fps-align-start',
-				center: 'fps-align-center',
-				right: 'fps-align-end'
-			},
-			block: {
-				true: 'fps-block'
-			},
-			inverse: {
-				true: 'fps-inverse'
-			}
+const text = cva("fps-Text", {
+	variants: {
+		size: {
+			small: "fps-size-small",
+			medium: "fps-size-medium",
+			large: "fps-size-large",
 		},
-		defaultVariants: {
-			size: 'medium',
-			weight: 'default',
-			align: 'left',
-			block: false,
-			inverse: false
-		}
-	});
+		weight: {
+			default: "fps-weight-default",
+			strong: "fps-weight-strong",
+		},
+		align: {
+			left: "fps-align-start",
+			center: "fps-align-center",
+			right: "fps-align-end",
+		},
+		block: {
+			true: "fps-block",
+		},
+		inverse: {
+			true: "fps-inverse",
+		},
+	},
+	defaultVariants: {
+		size: "medium",
+		weight: "default",
+		align: "left",
+		block: false,
+		inverse: false,
+	},
+});
 
-	interface $$Props extends HTMLAttributes<HTMLSpanElement>, VariantProps<typeof text> {}
+interface $$Props
+	extends HTMLAttributes<HTMLSpanElement>,
+		VariantProps<typeof text> {}
 
-	export let size: $$Props['size'] = undefined;
-	export let weight: $$Props['weight'] = undefined;
-	export let align: $$Props['align'] = undefined;
-	export let block: $$Props['block'] = false;
-	export let inverse: $$Props['inverse'] = false;
+export const size: $$Props["size"] = undefined;
+export const weight: $$Props["weight"] = undefined;
+export const align: $$Props["align"] = undefined;
+export const block: $$Props["block"] = false;
+export const inverse: $$Props["inverse"] = false;
 </script>
 
 <span class={`${text({ size, weight, align, block, inverse })} ${$$props.class}`}>

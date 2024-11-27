@@ -1,5 +1,5 @@
 <script lang="ts">
-	export let weight: 'normal' | 'strong' = 'strong';
+export const weight: "normal" | "strong" = "strong";
 </script>
 
 <h2 class="fps-DialogBaseTitle" class:strong={weight === 'strong'}>

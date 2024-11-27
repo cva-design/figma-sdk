@@ -1,15 +1,14 @@
 <script context="module" lang="ts">
-	import { SelectDivider } from '$ui';
-	import { Story, Template } from '@storybook/addon-svelte-csf';
+import { SelectDivider } from "$ui";
+import { Story, Template } from "@storybook/addon-svelte-csf";
 
-	export const meta = {
-		
-		component: SelectDivider,
-		argTypes: {
-			label: { control: 'boolean' },
-            content: { control: 'string' }
-		}
-	};
+export const meta = {
+	component: SelectDivider,
+	argTypes: {
+		label: { control: "boolean" },
+		content: { control: "string" },
+	},
+};
 </script>
 
 <Template let:args>

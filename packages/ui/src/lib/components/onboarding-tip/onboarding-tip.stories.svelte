@@ -1,18 +1,18 @@
 <script context="module" lang="ts">
-	import { OnboardingTip } from '$ui';
-	import { Story, Template } from '@storybook/addon-svelte-csf';
+import { OnboardingTip } from "$ui";
+import { Story, Template } from "@storybook/addon-svelte-csf";
 
-	export const meta = {
-		title: 'OnboardingTip',
-		component: OnboardingTip,
-		argTypes: {
-			iconName: { control: 'text' },
-			iconText: { control: 'text' },
-			color: { control: 'text' },
-			spin: { control: 'boolean' },
-			class: { control: 'text' }
-		}
-	};
+export const meta = {
+	title: "OnboardingTip",
+	component: OnboardingTip,
+	argTypes: {
+		iconName: { control: "text" },
+		iconText: { control: "text" },
+		color: { control: "text" },
+		spin: { control: "boolean" },
+		class: { control: "text" },
+	},
+};
 </script>
 
 <Template let:args>

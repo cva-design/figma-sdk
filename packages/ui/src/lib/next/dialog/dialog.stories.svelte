@@ -1,19 +1,18 @@
 <script context="module" lang="ts">
-	import { Story } from '@storybook/addon-svelte-csf';
-	import type { Meta } from '@storybook/svelte';
-	import { ActionGroup } from '../action-group';
-	import { Button } from '../button';
-	import DialogTitle from './dialog-title.svelte';
-	import Dialog from './dialog.svelte';
+import { Story } from "@storybook/addon-svelte-csf";
+import type { Meta } from "@storybook/svelte";
+import { ActionGroup } from "../action-group";
+import { Button } from "../button";
+import DialogTitle from "./dialog-title.svelte";
+import Dialog from "./dialog.svelte";
 
-	export const meta = {
-		
-		component: Dialog,
-		argTypes: {
-			open: { control: 'boolean' },
-			onClose: { action: 'close' }
-		}
-	} satisfies Meta<typeof Dialog>;
+export const meta = {
+	component: Dialog,
+	argTypes: {
+		open: { control: "boolean" },
+		onClose: { action: "close" },
+	},
+} satisfies Meta<typeof Dialog>;
 </script>
 
 <script lang="ts">

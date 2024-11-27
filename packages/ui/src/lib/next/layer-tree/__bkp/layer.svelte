@@ -1,19 +1,19 @@
 <script lang="ts" context="module">
-	export type LayerProps = {
-		type: LayerType;
-		name: string;
-		component: boolean;
-		selected: boolean;
-		description?: string;
-		actions: Array<{
-			id: string;
-			icon: string;
-			tooltip: string;
-			active?: boolean;
-			enabled?: boolean;
-		}>;
-		click?: (event: Event) => void;
-	};
+export type LayerProps = {
+	type: LayerType;
+	name: string;
+	component: boolean;
+	selected: boolean;
+	description?: string;
+	actions: Array<{
+		id: string;
+		icon: string;
+		tooltip: string;
+		active?: boolean;
+		enabled?: boolean;
+	}>;
+	click?: (event: Event) => void;
+};
 </script>
 
 <script lang="ts">

@@ -1,17 +1,21 @@
 {
-  "extends": "../../tsconfig.options.json",
-  "compilerOptions": {
-    "rootDir": "./src",
-    "outDir": "../../.moon/cache/types/packages/message-bus",
-    "verbatimModuleSyntax": false
-  },
-  "include": ["**/*", "src/**/*", "tests/**/*"],
-  "references": [
-    {
-      "path": "./tsconfig.esm.json"
-    },
-    {
-      "path": "./tsconfig.lib.json"
-    }
-  ]
+	"extends": "../../tsconfig.options.json",
+	"compilerOptions": {
+		"rootDir": "./src",
+		"outDir": "../../.moon/cache/types/packages/message-bus",
+		"verbatimModuleSyntax": false,
+		"paths": {
+			"@figma-plugin-sdk/message-bus": ["src/index.ts"],
+			"@figma-plugin-sdk/message-bus/*": ["src/*"]
+		}
+	},
+	"include": ["**/*", "src/**/*", "tests/**/*"],
+	"references": [
+		{
+			"path": "./tsconfig.esm.json"
+		},
+		{
+			"path": "./tsconfig.lib.json"
+		}
+	]
 }

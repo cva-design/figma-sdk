@@ -1,19 +1,19 @@
 <script lang="ts">
-	export let group: any = null;
-	export let value: any = null;
-	export let disabled = false;
-	export let tabindex = 0;
-	export let className = '';
-	export let checked = false;
-	let uniqueId = `radio--${(Math.random() * 10000000).toFixed(0).toString()}`;
-	$: checked = group === value;
+export let group: any = null;
+export const value: any = null;
+export const disabled = false;
+export const tabindex = 0;
+export const className = "";
+export let checked = false;
+const uniqueId = `radio--${(Math.random() * 10000000).toFixed(0).toString()}`;
+$: checked = group === value;
 
-	function handleClick(event: MouseEvent) {
-		const target = event.target as HTMLInputElement;
-		group = target.value;
+function handleClick(event: MouseEvent) {
+	const target = event.target as HTMLInputElement;
+	group = target.value;
 
-		target.blur();
-	}
+	target.blur();
+}
 </script>
 
 <div class={`fp-RadioRoot ${className}`}>

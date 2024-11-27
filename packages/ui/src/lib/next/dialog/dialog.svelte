@@ -1,35 +1,35 @@
 <script lang="ts">
-	import { createEventDispatcher } from 'svelte';
-	import { fade } from 'svelte/transition';
-	import IconButton from '../icon-button/icon-button.svelte';
-	import Icon from '../icon/icon.svelte';
+import { createEventDispatcher } from "svelte";
+import { fade } from "svelte/transition";
+import IconButton from "../icon-button/icon-button.svelte";
+import Icon from "../icon/icon.svelte";
 
-	export let open = false;
+export let open = false;
 
-	export let size: '1' | '2' | '3' | 'fullscreen' = '2';
-	export let placement: 'center' | 'top' = 'top';
-	export let width: string | undefined = undefined;
-	export let height: string | undefined = undefined;
-	export let maxWidth: string | undefined = undefined;
-	export let maxHeight: string | undefined = undefined;
-	export let title: string | undefined = undefined;
-	export let titleWeight: 'normal' | 'strong' = 'strong';
+export const size: "1" | "2" | "3" | "fullscreen" = "2";
+export const placement: "center" | "top" = "top";
+export const width: string | undefined = undefined;
+export const height: string | undefined = undefined;
+export const maxWidth: string | undefined = undefined;
+export const maxHeight: string | undefined = undefined;
+export const title: string | undefined = undefined;
+export const titleWeight: "normal" | "strong" = "strong";
 
-	const dispatch = createEventDispatcher();
+const dispatch = createEventDispatcher();
 
-	function handleClose() {
-		open = false;
-		dispatch('close');
-	}
+function handleClose() {
+	open = false;
+	dispatch("close");
+}
 
-	$: style = [
-		width && `width: ${width}`,
-		height && `height: ${height}`,
-		maxWidth && `max-width: ${maxWidth}`,
-		maxHeight && `max-height: ${maxHeight}`
-	]
-		.filter(Boolean)
-		.join(';');
+$: style = [
+	width && `width: ${width}`,
+	height && `height: ${height}`,
+	maxWidth && `max-width: ${maxWidth}`,
+	maxHeight && `max-height: ${maxHeight}`,
+]
+	.filter(Boolean)
+	.join(";");
 </script>
 
 {#if open}

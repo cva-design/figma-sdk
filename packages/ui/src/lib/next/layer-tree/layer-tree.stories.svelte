@@ -1,87 +1,87 @@
 <script context="module" lang="ts">
-	import { Story } from '@storybook/addon-svelte-csf';
-	import type { Meta } from '@storybook/svelte';
-	import type { LayerTreeData } from './layer-tree.svelte';
-	import LayerTree from './layer-tree.svelte';
+import { Story } from "@storybook/addon-svelte-csf";
+import type { Meta } from "@storybook/svelte";
+import type { LayerTreeData } from "./layer-tree.svelte";
+import LayerTree from "./layer-tree.svelte";
 
-	export const meta = {
-		component: LayerTree,
-		argTypes: {
-			initiallyExpanded: { control: 'boolean' },
-			data: { control: 'object' }
-		}
-	} satisfies Meta<LayerTree>;
+export const meta = {
+	component: LayerTree,
+	argTypes: {
+		initiallyExpanded: { control: "boolean" },
+		data: { control: "object" },
+	},
+} satisfies Meta<LayerTree>;
 
-	const sampleData: LayerTreeData = {
-		id: 'root',
-		name: 'Root',
-		type: 'FRAME',
-		children: [
-			{
-				id: 'frame1',
-				name: 'Frame 1',
-				type: 'FRAME',
-				children: [
-					{
-						id: 'rect1',
-						name: 'Rectangle 1',
-						type: 'RECTANGLE',
-						children: []
-					},
-					{
-						id: 'text1',
-						name: 'Text Layer',
-						type: 'TEXT',
-						children: []
-					}
-				]
-			},
-			{
-				id: 'group1',
-				name: 'Group 1',
-				type: 'GROUP',
-				children: [
-					{
-						id: 'ellipse1',
-						name: 'Ellipse 1',
-						type: 'ELLIPSE',
-						children: []
-					}
-				]
-			}
-		]
-	};
+const sampleData: LayerTreeData = {
+	id: "root",
+	name: "Root",
+	type: "FRAME",
+	children: [
+		{
+			id: "frame1",
+			name: "Frame 1",
+			type: "FRAME",
+			children: [
+				{
+					id: "rect1",
+					name: "Rectangle 1",
+					type: "RECTANGLE",
+					children: [],
+				},
+				{
+					id: "text1",
+					name: "Text Layer",
+					type: "TEXT",
+					children: [],
+				},
+			],
+		},
+		{
+			id: "group1",
+			name: "Group 1",
+			type: "GROUP",
+			children: [
+				{
+					id: "ellipse1",
+					name: "Ellipse 1",
+					type: "ELLIPSE",
+					children: [],
+				},
+			],
+		},
+	],
+};
 
-	const componentData: LayerTreeData = {
-		id: 'component-root',
-		name: 'Button Component',
-		type: 'COMPONENT',
-		component: true,
-		children: [
-			{
-				id: 'bg',
-				name: 'Background',
-				type: 'RECTANGLE',
-				children: []
-			},
-			{
-				id: 'label',
-				name: 'Label',
-				type: 'TEXT',
-				children: []
-			}
-		]
-	};
+const componentData: LayerTreeData = {
+	id: "component-root",
+	name: "Button Component",
+	type: "COMPONENT",
+	component: true,
+	children: [
+		{
+			id: "bg",
+			name: "Background",
+			type: "RECTANGLE",
+			children: [],
+		},
+		{
+			id: "label",
+			name: "Label",
+			type: "TEXT",
+			children: [],
+		},
+	],
+};
 
-	const mixedStateData: LayerTreeData = {
-		...sampleData,
-		mixed: true
-	};
+const mixedStateData: LayerTreeData = {
+	...sampleData,
+	mixed: true,
+};
 
-	const disabledData: LayerTreeData = {
-		...sampleData,
-		disabled: true
-	};
+const disabledData: LayerTreeData = {
+	...sampleData,
+	disabled: true,
+};
 </script>
 
 <Story name="Default">

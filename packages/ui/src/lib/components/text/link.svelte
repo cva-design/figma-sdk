@@ -1,42 +1,42 @@
 <script lang="ts">
-	import { cva, type VariantProps } from 'class-variance-authority';
-	import type { HTMLAnchorAttributes } from 'svelte/elements';
+import { type VariantProps, cva } from "class-variance-authority";
+import type { HTMLAnchorAttributes } from "svelte/elements";
 
-	const link = cva('fps-Text fps-Link', {
-		variants: {
-			size: {
-				small: 'fps-size-small',
-				medium: 'fps-size-medium',
-				large: 'fps-size-large'
-			},
-			weight: {
-				default: 'fps-weight-default',
-				strong: 'fps-weight-strong'
-			},
-			align: {
-				left: 'fps-align-start',
-				center: 'fps-align-center',
-				right: 'fps-align-end'
-			},
-			block: {
-				true: 'fps-block'
-			}
+const link = cva("fps-Text fps-Link", {
+	variants: {
+		size: {
+			small: "fps-size-small",
+			medium: "fps-size-medium",
+			large: "fps-size-large",
 		},
-		defaultVariants: {
-			size: 'medium',
-			weight: 'default',
-			align: 'left'
-		}
-	});
+		weight: {
+			default: "fps-weight-default",
+			strong: "fps-weight-strong",
+		},
+		align: {
+			left: "fps-align-start",
+			center: "fps-align-center",
+			right: "fps-align-end",
+		},
+		block: {
+			true: "fps-block",
+		},
+	},
+	defaultVariants: {
+		size: "medium",
+		weight: "default",
+		align: "left",
+	},
+});
 
-	interface $$Props extends HTMLAnchorAttributes, VariantProps<typeof link> {
-		block?: boolean;
-	}
+interface $$Props extends HTMLAnchorAttributes, VariantProps<typeof link> {
+	block?: boolean;
+}
 
-	export let size: $$Props['size'] = undefined;
-	export let weight: $$Props['weight'] = undefined;
-	export let align: $$Props['align'] = undefined;
-	export let block: boolean = false;
+export const size: $$Props["size"] = undefined;
+export const weight: $$Props["weight"] = undefined;
+export const align: $$Props["align"] = undefined;
+export const block = false;
 </script>
 
 <a class={link({ size, weight, align, block, class: $$props.class })} {...$$restProps}>

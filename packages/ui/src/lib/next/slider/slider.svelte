@@ -1,32 +1,32 @@
 <script lang="ts">
-	import { createSlider, type SliderOrientation } from '@melt-ui/svelte';
+import { type SliderOrientation, createSlider } from "@melt-ui/svelte";
 
-	export let min: number = 0;
-	export let max: number = 100;
-	export let step: number = 1;
-	export let defaultValue: number = 0;
-	export let onChange: ((value: number) => void) | undefined = undefined;
-	export let orientation: SliderOrientation = 'horizontal';
-	export let disabled: boolean = false;
+export const min = 0;
+export const max = 100;
+export const step = 1;
+export let defaultValue = 0;
+export const onChange: ((value: number) => void) | undefined = undefined;
+export const orientation: SliderOrientation = "horizontal";
+export const disabled = false;
 
-	const {
-		elements: { root, range, thumbs },
-		states: { value: sliderValue }
-	} = createSlider({
-		min,
-		max,
-		step,
-		defaultValue: [defaultValue],
-		orientation,
-		disabled
-	});
+const {
+	elements: { root, range, thumbs },
+	states: { value: sliderValue },
+} = createSlider({
+	min,
+	max,
+	step,
+	defaultValue: [defaultValue],
+	orientation,
+	disabled,
+});
 
-	$: {
-		if ($sliderValue[0] !== defaultValue) {
-			defaultValue = $sliderValue[0];
-			if (onChange) onChange(defaultValue);
-		}
+$: {
+	if ($sliderValue[0] !== defaultValue) {
+		defaultValue = $sliderValue[0];
+		if (onChange) onChange(defaultValue);
 	}
+}
 </script>
 
 <span use:root class="fps-SliderRoot" data-orientation={orientation}>

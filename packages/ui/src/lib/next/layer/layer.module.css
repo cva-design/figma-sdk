@@ -1,74 +1,70 @@
 .layer {
-	position: relative;
-	display: flex;
-	flex-direction: column;
-	width: 100%;
-	border-radius: var(--radius-medium);
-	overflow: visible;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border-radius: var(--radius-medium);
+  overflow: visible;
 }
 
 .layer.expanded {
-	background-color: var(--figma-color-bg-selected);
-	border-radius: var(--radius-medium);
+  background-color: var(--figma-color-bg-selected);
+  border-radius: var(--radius-medium);
 }
 
 .layerContent {
-	position: relative;
-	z-index: 1;
-	display: flex;
-	height: 32px;
-	align-items: center;
-	padding: 0;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  height: 32px;
+  align-items: center;
+  padding: 0;
 }
 
 .layerIndent:hover {
-	background-color: var(--figma-color-bg-hover);
-	border-radius: var(--radius-medium);
+  background-color: var(--figma-color-bg-hover);
+  border-radius: var(--radius-medium);
 }
-.layer.expanded  .layerIndentSelected{
+.layer.expanded .layerIndentSelected {
   border-bottom-style: solid;
   border-bottom-color: var(--figma-color-bg-selected-pressed);
   border-bottom-width: 4px;
 }
 
 .layerIndentSelected {
-	background-color: var(--figma-color-bg-selected-pressed);
-	border-radius: var(--radius-medium);
+  background-color: var(--figma-color-bg-selected-pressed);
+  border-radius: var(--radius-medium);
 }
-
-
 
 .input,
 .box {
-	position: absolute;
-	top: 4px;
-	right: 8px;
-	bottom: 4px;
-	left: 12px;
+  position: absolute;
+  top: 4px;
+  right: 8px;
+  bottom: 4px;
+  left: 12px;
 }
 
 .box {
-	border-radius: var(--radius-medium);
+  border-radius: var(--radius-medium);
 }
 
 .input {
-	z-index: 3;
-	display: block;
-	opacity: 0;
+  z-index: 3;
+  display: block;
+  opacity: 0;
 
-	width: calc(100% - 20px);
-	height: 24px;
+  width: calc(100% - 20px);
+  height: 24px;
 }
 
 .disabled .input {
-	cursor: not-allowed;
+  cursor: not-allowed;
 }
 
 /* .input:not(:checked):hover ~ .box {
   background-color: var(--figma-color-bg-hover);
 } */
-
-
 
 /* .component .input:checked ~ .box {
   background-color: var(--figma-color-bg-component-tertiary);
@@ -85,94 +81,93 @@
 .icon,
 .name,
 .description {
-	position: relative;
-	z-index: 2;
-	pointer-events: none;
+  position: relative;
+  z-index: 2;
+  pointer-events: none;
 }
 
 .icon {
-	height: 16px;
-	flex: 0 0 16px;
-	margin-right: 8px;
-	color: var(--figma-color-icon-secondary);
+  height: 16px;
+  flex: 0 0 16px;
+  margin-right: 8px;
+  color: var(--figma-color-icon-secondary);
 }
 
 .input:checked ~ .icon {
-	color: var(--figma-color-icon);
+  color: var(--figma-color-icon);
 }
 
 .component .icon,
 .component .input:checked ~ .icon {
-	color: var(--figma-color-icon-component);
+  color: var(--figma-color-icon-component);
 }
 
 .name {
-	flex: 1;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .layer-indent {
-	display: flex;
-	box-sizing: border-box;
-	flex-shrink: 0;
-	width: 16px;
-	text-align: right;
+  display: flex;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  width: 16px;
+  text-align: right;
 }
 
 .layer-indent {
-	display: flex;
-	box-sizing: border-box;
-	flex-shrink: 0;
-	width: 16px;
+  display: flex;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  width: 16px;
 }
 .layer:not(.layer-topLevel) .layer-indent:not(:first-child) {
-	margin-right: 8px;
+  margin-right: 8px;
 }
 
 .description {
-	margin-left: 8px;
-	color: var(--figma-color-text-secondary);
+  margin-left: 8px;
+  color: var(--figma-color-text-secondary);
 }
 
 .children {
-	display: none;
-	position: relative;
+  display: none;
+  position: relative;
 }
 
 .layer.expanded > .children {
-	display: block;
+  display: block;
 }
 
 .layer.expanded.selected > .layerContent .box {
-	border-bottom-left-radius: 0;
-	border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
 }
 
 .layer.expanded.selected > .children {
-
-	border-bottom-left-radius: var(--radius-medium);
-	border-bottom-right-radius: var(--radius-medium);
-	margin: -4px 8px 0 12px;
-	padding-top: 4px;
-	padding-bottom: var(--radius-medium);
-	padding-right: 4px;
+  border-bottom-left-radius: var(--radius-medium);
+  border-bottom-right-radius: var(--radius-medium);
+  margin: -4px 8px 0 12px;
+  padding-top: 4px;
+  padding-bottom: var(--radius-medium);
+  padding-right: 4px;
 }
 
 .component.expanded.selected > .children {
-	background-color: var(--figma-color-bg-component-secondary);
+  background-color: var(--figma-color-bg-component-secondary);
 }
 
 /* quando passa o mouse em cima de um filho da layer selecionada */
- .layer.expanded.selected .children .layerIndent:hover {
-	background-color: var(--figma-color-bg-onselected-hover);
-} 
-.layer.expanded.selected  >.children .layerIndent:hover {
-	background-color: var(--figma-color-bg-onselected-hover);
-} 
+.layer.expanded.selected .children .layerIndent:hover {
+  background-color: var(--figma-color-bg-onselected-hover);
+}
+.layer.expanded.selected > .children .layerIndent:hover {
+  background-color: var(--figma-color-bg-onselected-hover);
+}
 .children > .layer {
-	margin-top: 1px;
+  margin-top: 1px;
 }
 
 /* Remove background for selected children when parent is selected */

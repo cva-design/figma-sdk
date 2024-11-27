@@ -1,6 +1,6 @@
 <script context="module" lang="ts">
-	export const PopoverPlacements = ['top', 'bottom', 'left', 'right'] as const;
-	export type PopoverPlacement = (typeof PopoverPlacements)[number];
+export const PopoverPlacements = ["top", "bottom", "left", "right"] as const;
+export type PopoverPlacement = (typeof PopoverPlacements)[number];
 </script>
 
 <script lang="ts">

@@ -1,7 +1,12 @@
 <script context="module" lang="ts">
-	
-	export type Variant = 'primary' | 'secondary' | 'inverse' | 'destructive' | 'success' | 'text';
-	export type Size = 'small' | 'medium';
+export type Variant =
+	| "primary"
+	| "secondary"
+	| "inverse"
+	| "destructive"
+	| "success"
+	| "text";
+export type Size = "small" | "medium";
 </script>
 
 <script lang="ts">

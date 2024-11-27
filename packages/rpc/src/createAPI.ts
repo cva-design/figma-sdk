@@ -1,23 +1,27 @@
-import { init } from './rpc';
-import type { MakeAllFnAsync, RpcClientOptions } from './types';
-export type { RpcClientOptions as Options } from './types';
+import { init } from "./rpc";
+import type {
+	ApiMethodsDictionary,
+	MakeAllFnAsync,
+	RpcClientOptions,
+} from "./types";
+export type { RpcClientOptions as Options } from "./types";
 
-export function createAPI<T extends Record<string, (...args: any[]) => any>>(
-  methods: T,
-  options?: RpcClientOptions,
+export function createAPI<T extends ApiMethodsDictionary>(
+	methods: T,
+	options?: RpcClientOptions,
 ): MakeAllFnAsync<T> {
-  // const timeout = options && options.timeout;
+	// const timeout = options && options.timeout;
 
-  init(methods);
+	init(methods);
 
-  const stub = {} as MakeAllFnAsync<T>;
+	const stub = {} as MakeAllFnAsync<T>;
 
-  for (const p in methods) {
-    // @ts-ignore
-    stub[p] = (...params) => methods[p](...params);
-  }
+	for (const p in methods) {
+		// @ts-ignore
+		stub[p] = (...params) => methods[p](...params);
+	}
 
-  return stub;
+	return stub;
 }
 
 // export function createUIAPI<T extends Record<string, (...args: any[]) => any>>(

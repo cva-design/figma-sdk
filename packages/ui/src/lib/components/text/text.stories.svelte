@@ -1,32 +1,32 @@
 <script context="module" lang="ts">
-	import { Story, Template } from '@storybook/addon-svelte-csf';
-	import { Link, Text } from './index';
+import { Story, Template } from "@storybook/addon-svelte-csf";
+import { Link, Text } from "./index";
 
-	export const meta = {
-		title: 'Text',
-		component: Text,
-		argTypes: {
-			size: {
-				control: 'select',
-				options: ['small', 'medium', 'large']
-			},
-			weight: {
-				control: 'radio',
-				options: ['default', 'strong']
-			},
-			align: {
-				control: 'radio',
-				options: ['left', 'center', 'right']
-			},
-			block: {
-				control: 'boolean'
-			},
-			as: {
-				control: 'select',
-				options: ['span', 'label', 'p', 'a']
-			}
-		}
-	};
+export const meta = {
+	title: "Text",
+	component: Text,
+	argTypes: {
+		size: {
+			control: "select",
+			options: ["small", "medium", "large"],
+		},
+		weight: {
+			control: "radio",
+			options: ["default", "strong"],
+		},
+		align: {
+			control: "radio",
+			options: ["left", "center", "right"],
+		},
+		block: {
+			control: "boolean",
+		},
+		as: {
+			control: "select",
+			options: ["span", "label", "p", "a"],
+		},
+	},
+};
 </script>
 
 <Template let:args let:content>

@@ -8,7 +8,14 @@
   },
   "files": {
     "ignoreUnknown": true,
-    "ignore": ["**/*.min.*", "**/*.map", "**/*.svelte"]
+    "ignore": [
+      "**/*.min.*",
+      "**/*.map",
+      "**/*.svelte",
+      ".svelte-kit/**",
+      "src/lib/tokens/figma-app"
+    ],
+    "maxSize": 10000000
   },
   "formatter": {
     "enabled": true,
