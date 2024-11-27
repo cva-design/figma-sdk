@@ -3,21 +3,9 @@
   "compilerOptions": {
     "rootDir": "./src",
     "outDir": "../../.moon/cache/types/packages/message-bus",
-    "verbatimModuleSyntax": false,
-    "paths": {
-      "@figma-plugin-sdk/message-bus": [
-        "src/index.ts"
-      ],
-      "@figma-plugin-sdk/message-bus/*": [
-        "src/*"
-      ]
-    }
+    "verbatimModuleSyntax": false
   },
-  "include": [
-    "**/*",
-    "src/**/*",
-    "tests/**/*"
-  ],
+  "include": ["**/*", "src/**/*", "tests/**/*"],
   "references": [
     {
       "path": "./tsconfig.esm.json"

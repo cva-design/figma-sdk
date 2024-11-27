@@ -1,13 +1,11 @@
 {
+  "name": "figma-plugin-sdk",
   "private": true,
-  "name": "@cva.design/figma-sdk",
   "infra": "monorepo",
   "version": "0.0.0",
   "author": "Saulo Vallory",
   "license": "MIT",
-  "workspaces": [
-    "packages/*"
-  ],
+  "workspaces": ["packages/*"],
   "scripts": {
     "moon": "moon --color --log trace"
   },
