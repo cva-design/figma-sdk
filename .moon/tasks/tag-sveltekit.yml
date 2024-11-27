@@ -1,3 +1,49 @@
 $schema: 'https://moonrepo.dev/schemas/tasks.json'
 
-extends: 'https://raw.githubusercontent.com/moonrepo/moon-configs/master/javascript/sveltekit/tasks.yml'
+# copied below
+# extends: 'https://raw.githubusercontent.com/moonrepo/moon-configs/master/javascript/sveltekit/tasks.yml'
+
+fileGroups:
+  svelte:
+    - 'src/**/*'
+    - 'static/**/*'
+    - 'svelte.config.*'
+    - 'vite.config.*'
+    - 'tsconfig.json'
+  sources: []
+  tests:
+    - 'tests/**/*'
+
+tasks:
+  # Build the application
+  build:
+    command: 'vite build'
+    inputs:
+      - '@group(svelte)'
+      - '@group(sources)'
+    outputs:
+      - '.svelte-kit'
+
+  # Run the typechecker
+  check2:
+    command: svelte-check --tsconfig ./tsconfig.json
+    inputs:
+      - '@group(svelte)'
+      - '@group(sources)'
+      - '@group(tests)'
+
+  # Run the development server
+  dev:
+    command: 'vite dev'
+    local: true
+
+  # Preview the built application
+  preview:
+    command: 'vite preview'
+    deps:
+      - 'build'
+    local: true
+
+  sync:
+    type: build
+    command: 'svelte-kit sync'

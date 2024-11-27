@@ -1,15 +1,21 @@
 {
-  "extends": "./tsconfig.options.json",
-  "files": [],
-  "references": [
-    {
-      "path": "packages/message-bus"
-    },
-    {
-      "path": "packages/rpc"
-    },
-    {
-      "path": "packages/ui"
-    }
-  ]
+	"extends": "./tsconfig.options.json",
+	"files": [],
+	"references": [
+		{
+			"path": "apps/astro-app"
+		},
+		{
+			"path": "apps/plugin-v1"
+		},
+		{
+			"path": "packages/message-bus"
+		},
+		{
+			"path": "packages/rpc"
+		},
+		{
+			"path": "packages/ui"
+		}
+	]
 }
