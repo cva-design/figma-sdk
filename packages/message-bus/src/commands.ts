@@ -1,9 +1,9 @@
-import type { SomeObject } from './types';
+import type { SomeObject } from "./types";
 
 export interface CommandDefinition<
-  Id extends string,
-  Message = undefined,
-  Result = void,
+	Id extends string,
+	Message = undefined,
+	Result = void,
 > {
 	$id: Id;
 	$type: "command";
@@ -12,7 +12,7 @@ export interface CommandDefinition<
 }
 
 export type CommandRegistry<TCommand> = {
-  [K in keyof TCommand]: K extends string
-    ? CommandDefinition<K, SomeObject | undefined>
-    : never;
+	[K in keyof TCommand]: K extends string
+		? CommandDefinition<K, SomeObject | undefined>
+		: never;
 };

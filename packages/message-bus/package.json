@@ -6,6 +6,10 @@
 	"author": "moon",
 	"license": "MIT",
 	"repository": "https://github.com/moonrepo/examples",
+  "scripts": {
+    "check": "bun biome check ./src",
+    "check:fix": "bun biome check --fix ./src"
+  },
 	"packemon": {
 		"format": ["esm"],
 		"platform": "browser"
