@@ -140,6 +140,7 @@ const descriptionId = `checkbox-description-${id ?? ""}`;
 		justify-content: center;
 
 		// Make sure SVG icons are hidden by default
+		// Setting display none to be able to display the indeterminate
 		:global(svg) {
 			display: none;
 		}
