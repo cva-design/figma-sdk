@@ -1,20 +1,19 @@
 <script context="module" lang="ts">
-import { Story } from "@storybook/addon-svelte-csf";
-import type { Meta } from "@storybook/svelte";
-import { TabsContent, TabsList, TabsTrigger } from ".";
-import Tabs from "./tabs.svelte";
+	import { Story } from '@storybook/addon-svelte-csf';
+	import type { Meta } from '@storybook/svelte';
+	import { TabsContent, TabsList, TabsTrigger } from '.';
+	import Tabs from './tabs.svelte';
 
-import type { SvelteComponent } from 'svelte';
 
-export const meta = {
-	title: "Tabs",
-	component: Tabs,
-	argTypes: {
-		value: { control: "text" },
-		defaultValue: { control: "text" },
-		class: { control: "text" },
-	},
-} satisfies Meta<SvelteComponent>;;
+	export const meta = {
+		title: 'Tabs',
+		component: Tabs,
+		argTypes: {
+			value: { control: 'text' },
+			defaultValue: { control: 'text' },
+			class: { control: 'text' }
+		}
+	};
 </script>
 
 <Story name="Default">

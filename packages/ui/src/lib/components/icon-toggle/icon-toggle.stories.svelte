@@ -1,51 +1,49 @@
 <script context="module" lang="ts">
-import { IconToggle, type ToggleStates } from "$ui";
-import { Story } from "@storybook/addon-svelte-csf";
+	import { IconToggle, type ToggleStates } from '$ui';
+	import { Story } from '@storybook/addon-svelte-csf';
 
-import type { SvelteComponent } from 'svelte';
+	export const meta = {
+		title: 'IconToggle',
+		component: IconToggle,
+		parameters: {
+			fixedWidth: true
+		}
+	};
 
-export const meta = {
-	title: "IconToggle",
-	component: IconToggle,
-	parameters: {
-		fixedWidth: true,
-	},
-};
-
-const visibilityStates: ToggleStates = {
-	on: {
-		icon: "VisibilityVisibleSvg_16",
-		tooltip: "Hide layer",
-	},
-	off: {
-		icon: "VisibilityHiddenSvg_16",
-		tooltip: "Show layer",
-	},
-	disabled: {
-		tooltip: "Visibility cannot be changed",
-	},
-};
-
-const lockStates: ToggleStates = {
-	on: {
-		icon: "LockLockedSvg_16",
-		tooltip: "Unlock layer",
-	},
-	off: {
-		icon: "LockUnlockedSvg_16",
-		tooltip: "Lock layer",
-	},
-	disabled: {
+	const visibilityStates: ToggleStates = {
 		on: {
-			icon: "LockLockedSvg_16",
-			tooltip: "Cannot unlock layer",
+			icon: 'VisibilityVisibleSvg_16',
+			tooltip: 'Hide layer'
 		},
 		off: {
-			icon: "LockUnlockedSvg_16",
-			tooltip: "Cannot lock layer",
+			icon: 'VisibilityHiddenSvg_16',
+			tooltip: 'Show layer'
 		},
-	},
-};
+		disabled: {
+			tooltip: 'Visibility cannot be changed'
+		}
+	};
+
+	const lockStates: ToggleStates = {
+		on: {
+			icon: 'LockLockedSvg_16',
+			tooltip: 'Unlock layer'
+		},
+		off: {
+			icon: 'LockUnlockedSvg_16',
+			tooltip: 'Lock layer'
+		},
+		disabled: {
+			on: {
+				icon: 'LockLockedSvg_16',
+				tooltip: 'Cannot unlock layer'
+			},
+			off: {
+				icon: 'LockUnlockedSvg_16',
+				tooltip: 'Cannot lock layer'
+			}
+		}
+	};
 </script>
 
 <Story name="Visibility Toggle">

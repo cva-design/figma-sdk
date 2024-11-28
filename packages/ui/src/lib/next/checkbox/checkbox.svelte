@@ -23,7 +23,6 @@ const {
 	required,
 	name,
 	value,
-	id,
 });
 
 $: {

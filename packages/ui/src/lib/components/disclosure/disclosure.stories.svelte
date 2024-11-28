@@ -1,16 +1,14 @@
 <script context="module" lang="ts">
-import { Disclosure, DisclosureItem } from "$ui";
-import { Story, Template } from "@storybook/addon-svelte-csf";
+	import { Disclosure, DisclosureItem } from '$ui';
+	import { Story, Template } from '@storybook/addon-svelte-csf';
 
-import type { SvelteComponent } from 'svelte';
-
-export const meta = {
-	title: "Disclosure",
-	component: Disclosure,
-	argTypes: {
-		onChange: { action: "changed" },
-	},
-};
+	export const meta = {
+		title: 'Disclosure',
+		component: Disclosure,
+		argTypes: {
+			onChange: { action: 'changed' }
+		}
+	};
 </script>
 
 <Template let:args>

@@ -1,7 +1,7 @@
 import type { SceneNode } from '@figma/plugin-typings/plugin-api-standalone';
 
-import * as icons from '$icons';
-import type { AutocompletableString } from '$lib/util';
+import * as icons from '../../icons';
+import type { AutocompletableString } from '../../util';
 
 export type LayerType =
   | Exclude<

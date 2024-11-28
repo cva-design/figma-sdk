@@ -1,32 +1,29 @@
 <script context="module" lang="ts">
-import { StarOnSvg } from "$icons";
-import { SelectMenu } from "$ui";
-import { Story, Template } from "@storybook/addon-svelte-csf";
+	import { SelectMenu } from '$ui';
+	import { Story, Template } from '@storybook/addon-svelte-csf';
 
-import type { SvelteComponent } from 'svelte';
+	export const meta = {
+		title: 'SelectMenu',
+		component: SelectMenu,
+		argTypes: {
+			iconUrl: { control: 'text' },
+			iconText: { control: 'text' },
+			disabled: { control: 'boolean' },
+			macOSBlink: { control: 'boolean' },
+			menuItems: { control: 'object' },
+			placeholder: { control: 'text' },
+			value: { control: 'object' },
+			showGroupLabels: { control: 'boolean' },
+			class: { control: 'text' }
+		}
+	};
 
-export const meta = {
-	title: "SelectMenu",
-	component: SelectMenu,
-	argTypes: {
-		iconUrl: { control: "text" },
-		iconText: { control: "text" },
-		disabled: { control: "boolean" },
-		macOSBlink: { control: "boolean" },
-		menuItems: { control: "object" },
-		placeholder: { control: "text" },
-		value: { control: "object" },
-		showGroupLabels: { control: "boolean" },
-		class: { control: "text" },
-	},
-};
-
-const defaultMenuItems = [
-	{ label: "Option 1", group: "Group 1" },
-	{ label: "Option 2", group: "Group 1" },
-	{ label: "Option 3", group: "Group 2" },
-	{ label: "Option 4", group: "Group 2" },
-];
+	const defaultMenuItems = [
+		{ label: 'Option 1', group: 'Group 1' },
+		{ label: 'Option 2', group: 'Group 1' },
+		{ label: 'Option 3', group: 'Group 2' },
+		{ label: 'Option 4', group: 'Group 2' }
+	];
 </script>
 
 <Template let:args>

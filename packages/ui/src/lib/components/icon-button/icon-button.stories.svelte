@@ -1,32 +1,30 @@
 <script context="module" lang="ts">
-import { Icon } from "$ui/icon";
-import { Story } from "@storybook/addon-svelte-csf";
-import IconButton from "./icon-button.svelte";
+	import { Icon } from '$ui/icon';
+	import { Story } from '@storybook/addon-svelte-csf';
+	import IconButton from './icon-button.svelte';
 
-import type { SvelteComponent } from 'svelte';
-
-export const meta = {
-	title: "IconButton",
-	component: IconButton,
-	argTypes: {
-		size: {
-			control: "select",
-			options: ["small", "medium"],
-		},
-		activeAppearance: {
-			control: "select",
-			options: ["subtle", "solid"],
-		},
-		disableTooltip: {
-			control: "boolean",
-		},
-	},
-};
+	export const meta = {
+		title: 'IconButton',
+		component: IconButton,
+		argTypes: {
+			size: {
+				control: 'select',
+				options: ['small', 'medium']
+			},
+			activeAppearance: {
+				control: 'select',
+				options: ['subtle', 'solid']
+			},
+			disableTooltip: {
+				control: 'boolean'
+			}
+		}
+	};
 </script>
 
 <Story name="Default">
 	<IconButton aria-label="Star" on:click={() => alert('clicked')}>
-		<Icon icon="AlertSvg"  />
+		<Icon icon="AlertSvg" />
 	</IconButton>
 </Story>
 

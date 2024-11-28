@@ -1,8 +1,9 @@
 {
-  "extends": "./.svelte-kit/tsconfig.json",
+  "extends": "@tsconfig/svelte/tsconfig.json",
   "compilerOptions": {
     "allowJs": true,
     "allowImportingTsExtensions": true,
+    
     "noImplicitAny": false,
     "checkJs": true,
     "esModuleInterop": true,
@@ -12,7 +13,30 @@
     "sourceMap": true,
     "strict": true,
     "moduleResolution": "bundler",
-    "outDir": "../../.moon/cache/types/packages/ui"
+    "outDir": "../../.moon/cache/types/packages/ui",
+    "baseUrl": "./",
+    "paths": {
+      "$lib": ["./src/lib"],
+      "$lib/*": ["./src/lib/*"],
+      "$ui": ["./src/lib/components"],
+      "$ui/*": ["./src/lib/components/*"],
+      "$icons": ["./src/lib/icons"],
+      "$icons/*": ["./src/lib/icons/*"]
+    },
+    "typeRoots": [
+      "./node_modules/@types",
+      "./src/svelte-typings.d.ts"
+    ],
+    "types": [
+      "vite/client",
+      
+    ]
   },
-  "exclude": ["**/_bkp/**/*", "src/lib/next"]
+  "exclude": ["**/_bkp/**/*", "src/lib/next"],
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.svelte",
+    "src/vite-env.d.ts"
+  ]
 }

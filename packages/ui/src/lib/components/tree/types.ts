@@ -6,10 +6,10 @@ export interface ITreeNode {
   icon?: string;
   children?: ITreeNode[];
   actions?: Action[];
-  data?: any;
+  data?: object;
   state?: {
     expanded?: boolean;
-    [key: string]: any;
+    [key: string]: unknown;
   };
 }
 
