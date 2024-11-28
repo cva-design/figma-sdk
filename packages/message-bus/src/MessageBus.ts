@@ -93,6 +93,9 @@ Object.freeze(singleton);
 // export the singleton instance only
 // -----------------------------
 
-export function getMessageBus<TCmdRegistry, TEvtRegistry>(): MessageBusSingleton {
-  return MessageBusSingleton.getInstance();
+export function getMessageBus<
+	TCmdRegistry,
+	TEvtRegistry,
+>(): MessageBusSingleton {
+	return MessageBusSingleton.getInstance();
 }

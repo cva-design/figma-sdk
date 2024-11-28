@@ -26,6 +26,13 @@ platform: bun
 tags:
   - biome
 
+
+fileGroups:
+  sources:
+    - src/**/*
+  lintable:
+    - src/**/*
+
 tasks:
   build:
     outputs:

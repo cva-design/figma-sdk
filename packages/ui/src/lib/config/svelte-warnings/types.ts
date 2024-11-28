@@ -7,7 +7,11 @@ import type { Warning } from 'svelte/types/compiler/interfaces';
  * a function that takes a Warning object and returns a boolean,
  * or a string to match exactly against the warning code.
  */
-export type WarningMatcher = RegExp | ((warning: Warning) => boolean) | KnownSvelteWarningCode | AutocompletableString;
+export type WarningMatcher =
+  | RegExp
+  | ((warning: Warning) => boolean)
+  | KnownSvelteWarningCode
+  | AutocompletableString;
 
 /**
  * Configuration options for the svelteWarnings plugin.

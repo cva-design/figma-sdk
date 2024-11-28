@@ -1,11 +1,11 @@
 {
-  "extends": "./tsconfig.json",
-  "compilerOptions": {
-    "allowImportingTsExtensions": true,
-    "composite": true,
-    "noEmit": false,
-    "emitDeclarationOnly": true,
-    "outDir": "./.tsc"
-  },
-  "include": ["src/**/*"]
+	"extends": "./tsconfig.json",
+	"compilerOptions": {
+		"allowImportingTsExtensions": true,
+		"composite": true,
+		"noEmit": false,
+		"emitDeclarationOnly": true,
+		"outDir": "./.tsc"
+	},
+	"include": ["src/**/*"]
 }
