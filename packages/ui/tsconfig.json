@@ -13,5 +13,6 @@
     "strict": true,
     "moduleResolution": "bundler",
     "outDir": "../../.moon/cache/types/packages/ui"
-  }
+  },
+  "exclude": ["**/_bkp/**/*", "src/lib/next"]
 }

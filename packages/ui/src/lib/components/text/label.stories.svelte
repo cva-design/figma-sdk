@@ -2,6 +2,8 @@
 import { Story } from "@storybook/addon-svelte-csf";
 import Label from "./label.svelte";
 
+import type { SvelteComponent } from 'svelte';
+
 export const meta = {
 	title: "Label",
 	component: Label,

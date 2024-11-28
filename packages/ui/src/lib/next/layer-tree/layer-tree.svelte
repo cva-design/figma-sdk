@@ -30,7 +30,7 @@ export type LayerTreeData = {
 
 	export let data: LayerTreeData;
 	export let expandedNodes: Set<string> = new Set();
-	export let initiallyExpanded = false;
+	export let initiallyExpanded: boolean = false;
 
 	function expandAll(node: LayerTreeData) {
 		expandedNodes.add(node.id);

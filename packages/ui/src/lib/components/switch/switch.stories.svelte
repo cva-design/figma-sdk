@@ -2,6 +2,8 @@
 import { Switch } from "$ui";
 import { Story, Template } from "@storybook/addon-svelte-csf";
 
+import type { SvelteComponent } from 'svelte';
+
 export const meta = {
 	title: "Switch",
 	component: Switch,

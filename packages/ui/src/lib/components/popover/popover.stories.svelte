@@ -3,6 +3,8 @@ import { Popover } from "$ui";
 import { Story } from "@storybook/addon-svelte-csf";
 import { PopoverPlacements } from "./popover.svelte";
 
+import type { SvelteComponent } from 'svelte';
+
 export const meta = {
 	title: "Popover",
 	component: Popover,

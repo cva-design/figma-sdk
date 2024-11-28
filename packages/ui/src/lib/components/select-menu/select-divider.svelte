@@ -1,8 +1,8 @@
 <script lang="ts">
-export const label = false;
+export const label: boolean = false;
 </script>
 
-{#if label === true}
+{#if label}
 	<li class="label"><slot /></li>
 {:else}
 	<li class="divider"></li>

@@ -2,6 +2,8 @@
 import { IconToggle, type ToggleStates } from "$ui";
 import { Story } from "@storybook/addon-svelte-csf";
 
+import type { SvelteComponent } from 'svelte';
+
 export const meta = {
 	title: "IconToggle",
 	component: IconToggle,

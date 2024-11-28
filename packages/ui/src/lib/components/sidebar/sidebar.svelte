@@ -1,14 +1,14 @@
 <script lang="ts">
-import { Icon } from "../icon";
-import IconButton from "../icon-button/icon-button.svelte";
+	import { Icon } from '../icon';
+	import IconButton from '../icon-button/icon-button.svelte';
 
-export let collapsed = false;
-export const position: "left" | "right" = "left";
-export const width = "240px";
-export const collapsedWidth = "48px";
-export { className as class };
+	export let collapsed: boolean = false;
+	export let position: 'left' | 'right' = 'left';
+	export const width: string = '240px';
+	export const collapsedWidth: string = '48px';
+	export { className as class };
 
-const className = "";
+	const className = '';
 </script>
 
 <aside
@@ -31,46 +31,47 @@ const className = "";
 </aside>
 
 <style lang="scss">
-.sidebar {
-  position: relative;
-  width: var(--sidebar-width);
-  height: 100%;
-  background: var(--figma-color-bg);
-  border-right: 1px solid var(--figma-color-border);
-  transition: width 0.2s ease-in-out;
-  overflow: hidden;
-}
+	.sidebar {
+		position: relative;
+		width: var(--sidebar-width);
+		height: 100%;
+		background: var(--figma-color-bg);
+		border-right: 1px solid var(--figma-color-border);
+		transition: width 0.2s ease-in-out;
+		overflow: hidden;
+	}
 
-.sidebar.collapsed {
-  width: var(--sidebar-collapsed-width);
-}
+	.sidebar.collapsed {
+		width: var(--sidebar-collapsed-width);
+	}
 
-.sidebar.right {
-  border-right: none;
-  border-left: 1px solid var(--figma-color-border);
-}
+	.sidebar.right {
+		border-right: none;
+		border-left: 1px solid var(--figma-color-border);
+	}
 
-.sidebar-content {
-  height: 100%;
-  width: var(--sidebar-width);
-  overflow-y: auto;
-  overflow-x: hidden;
-}
+	.sidebar-content {
+		height: 100%;
+		width: var(--sidebar-width);
+		overflow-y: auto;
+		overflow-x: hidden;
+	}
 
-.toggle-button {
-  position: absolute;
-  bottom: var(--spacer-2);
-  right: var(--spacer-2);
-  width: var(--spacer-5);
-  height: var(--spacer-5);
-  padding: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: var(--border-radius-small);
-}
+	.toggle-button {
+		position: absolute;
+		bottom: var(--spacer-2);
+		right: var(--spacer-2);
+		width: var(--spacer-5);
+		height: var(--spacer-5);
+		padding: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: var(--border-radius-small);
+	}
 
-.right .toggle-button {
-  right: unset;
-  left: var(--spacer-2);
-}</style>
+	.right .toggle-button {
+		right: unset;
+		left: var(--spacer-2);
+	}
+</style>

@@ -5,6 +5,7 @@ import { Button } from "../button";
 import { Disclosure, DisclosureItem } from "../disclosure/index.ts";
 import Text from "../text/text.svelte";
 import Sidebar from "./sidebar.svelte";
+import type { SvelteComponent } from 'svelte';
 
 export const meta = {
 	title: "Sidebar",
@@ -18,7 +19,7 @@ export const meta = {
 		width: { control: "text" },
 		collapsedWidth: { control: "text" },
 	},
-} satisfies Meta<typeof Sidebar>;
+} satisfies Meta<SvelteComponent>;;
 </script>
 
 <Story name="Default">

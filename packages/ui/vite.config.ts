@@ -34,7 +34,7 @@ const config = defineConfig({
     }) as Plugin,
     sveltekit(),
     svelteWarnings({
-      disable: [/a11y*/],
+      disable: ['css_unused_selector', /a11y*/],
       summary: 'all',
       listAllCodes: true,
     }),

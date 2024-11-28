@@ -5,14 +5,14 @@ import type { TooltipPosition } from "./types";
 
 export let content: string | HTMLElement;
 export const position: TooltipPosition = "top";
-export const className = "";
-export const openDelay = 1000;
-export const closeDelay = 500;
-export const disableHoverableContent = false;
-export const defaultOpen = false;
-export const forceVisible = false;
-export const closeOnPointerDown = true;
-export const arrowSize = 8;
+export const className: string = "";
+export const openDelay: number = 1000;
+export const closeDelay: number = 500;
+export const disableHoverableContent: boolean = false;
+export const defaultOpen: boolean = false;
+export const forceVisible: boolean = false;
+export const closeOnPointerDown: boolean = true;
+export const arrowSize: number = 8;
 export const group: string | boolean = false;
 
 const dispatch = createEventDispatcher();

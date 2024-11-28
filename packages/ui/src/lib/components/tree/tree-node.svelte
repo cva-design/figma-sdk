@@ -5,7 +5,7 @@ import type { Action, ITreeNode, TreeOptions } from "./types";
 
 export let node: ITreeNode;
 export let options: TreeOptions;
-export const depth = 0;
+export const depth: number = 0;
 
 const dispatch = createEventDispatcher();
 

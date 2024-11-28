@@ -3,6 +3,8 @@ import { Icon } from "$ui/icon";
 import { Story } from "@storybook/addon-svelte-csf";
 import IconButton from "./icon-button.svelte";
 
+import type { SvelteComponent } from 'svelte';
+
 export const meta = {
 	title: "IconButton",
 	component: IconButton,

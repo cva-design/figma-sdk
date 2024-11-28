@@ -3,6 +3,8 @@ import { Story } from "@storybook/addon-svelte-csf";
 import type { Meta } from "@storybook/svelte";
 import Input from "./input.svelte";
 
+import type { SvelteComponent } from 'svelte';
+
 export const meta = {
 	title: "Input",
 	component: Input,
@@ -21,7 +23,7 @@ export const meta = {
 		iconText: { control: "text" },
 		spin: { control: "boolean" },
 	},
-} satisfies Meta<typeof Input>;
+} satisfies Meta<SvelteComponent>;;
 </script>
 
 <Story name="Default">

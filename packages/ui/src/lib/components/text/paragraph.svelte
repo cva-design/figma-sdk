@@ -38,7 +38,7 @@ interface $$Props
 export const size: $$Props["size"] = undefined;
 export const weight: $$Props["weight"] = undefined;
 export const align: $$Props["align"] = undefined;
-export const block = false;
+export const block: $$Props["block"] = false;
 </script>
 
 <p class={paragraph({ size, weight, align, block, class: $$props.class })} {...$$restProps}>

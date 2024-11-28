@@ -4,7 +4,7 @@ import { fade } from "svelte/transition";
 import IconButton from "../icon-button/icon-button.svelte";
 import Icon from "../icon/icon.svelte";
 
-export let open = false;
+export let open: boolean = false;
 
 export const size: "1" | "2" | "3" | "fullscreen" = "2";
 export const placement: "center" | "top" = "top";

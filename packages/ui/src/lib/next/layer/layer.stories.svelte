@@ -5,6 +5,8 @@ import { Story } from "@storybook/addon-svelte-csf";
 
 const IconLayerFrame16 = getIconPath("layer-frame", 16);
 
+import type { SvelteComponent } from 'svelte';
+
 export const meta = {
 	component: Layer,
 	parameters: {

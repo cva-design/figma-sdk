@@ -3,11 +3,11 @@ import { createCheckbox } from "@melt-ui/svelte";
 import CheckmarkIndeterminateIcon from "./assets/checkmark-indeterminate.svelte";
 import CheckmarkIcon from "./assets/checkmark.svelte";
 
-export const className = "";
-export let checked = false;
-export let indeterminate = false;
-export const disabled = false;
-export const required = false;
+export const className: string = "";
+export let checked: boolean = false;
+export let indeterminate: boolean = false;
+export const disabled: boolean = false;
+export const required: boolean = false;
 export const name: string | undefined = undefined;
 export const value: string | undefined = undefined;
 export const id: string | undefined = undefined;

@@ -2,6 +2,8 @@
 import { Story } from "@storybook/addon-svelte-csf";
 import Slider from "./slider.svelte";
 
+import type { SvelteComponent } from 'svelte';
+
 export const meta = {
 	component: Slider,
 	argTypes: {

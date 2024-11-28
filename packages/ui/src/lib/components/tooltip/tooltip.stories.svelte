@@ -2,6 +2,8 @@
 import { Tooltip } from "$ui";
 import { Story } from "@storybook/addon-svelte-csf";
 
+import type { SvelteComponent } from 'svelte';
+
 export const meta = {
 	title: "Tooltip",
 	component: Tooltip,

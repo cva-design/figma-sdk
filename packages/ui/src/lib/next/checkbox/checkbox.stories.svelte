@@ -3,9 +3,11 @@ import { Story } from "@storybook/addon-svelte-csf";
 import type { Meta } from "@storybook/svelte";
 import Checkbox from "./checkbox.svelte";
 
+import type { SvelteComponent } from 'svelte';
+
 export const meta = {
 	component: Checkbox,
-} satisfies Meta<typeof Checkbox>;
+} satisfies Meta<SvelteComponent>;;
 </script>
 
 <Story name="WithLabel">

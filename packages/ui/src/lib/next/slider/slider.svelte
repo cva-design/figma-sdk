@@ -1,13 +1,13 @@
 <script lang="ts">
 import { type SliderOrientation, createSlider } from "@melt-ui/svelte";
 
-export const min = 0;
-export const max = 100;
-export const step = 1;
+export const min: number = 0;
+export const max: number = 100;
+export const step: number = 1;
 export let defaultValue = 0;
 export const onChange: ((value: number) => void) | undefined = undefined;
 export const orientation: SliderOrientation = "horizontal";
-export const disabled = false;
+export const disabled: boolean = false;
 
 const {
 	elements: { root, range, thumbs },
