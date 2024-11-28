@@ -1,0 +1,22 @@
+lockfileVersion: '9.0'
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
+importers:
+
+  .:
+    devDependencies:
+      '@figma/plugin-typings':
+        specifier: ^1.102.0
+        version: 1.103.0
+
+packages:
+
+  '@figma/plugin-typings@1.103.0':
+    resolution: {integrity: sha512-hinDFmafuvjiOSHpbaqLKTiFVBksjFgEuAIQ0OpF9BhkCqIpJqrEgGwJkOnvLtodvaJaabw5kUce1xaIibRciw==}
+
+snapshots:
+
+  '@figma/plugin-typings@1.103.0': {}

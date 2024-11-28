@@ -1,5 +1,5 @@
 <script lang="ts">
-export const checked = false;
+export let checked = false;
 export const name = "";
 export const value = "";
 export const disabled = false;

@@ -39,7 +39,7 @@ export let name: string;
 export const component: boolean | undefined = false;
 export const description: string | undefined = undefined;
 export const icon: string | undefined = undefined;
-export const selected: boolean | undefined = false;
+export let selected: boolean | undefined = false;
 export const propagateEscapeKeyDown = true;
 export let expanded = false;
 

@@ -1,7 +1,7 @@
 // Copied from: https://github.com/yuanqing/create-figma-plugin/blob/main/packages/utilities/src/events.ts
 export type EventHandler = {
 	name: string;
-	handler: (...args: unknown) => void;
+	handler: (...args: unknown[]) => void;
 };
 
 const eventHandlers: Record<string, EventHandler> = {};

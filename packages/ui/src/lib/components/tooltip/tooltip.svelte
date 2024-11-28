@@ -51,14 +51,14 @@ $: classes = [
 	.join(" ");
 </script>
 
-<div class="fps-tooltip-wrapper" use:melt={$trigger}>
+<div class="fps-tooltip-wrapper" {...$trigger} use:$trigger.action>
 	<slot />
 </div>
 
 {#if $isOpen || forceVisible}
-	<div use:melt={$tooltipContent} class={classes}>
+	<div {...$tooltipContent} use:$tooltipContent.action class={classes}>
 		{content}
-		<div use:melt={$arrow} class="fps-tooltip-arrow" />
+		<div {...$arrow} use:$arrow.action class="fps-tooltip-arrow" />
 	</div>
 {/if}
 

@@ -1,6 +1,6 @@
 // import { IAssertionResult } from '@code/tests';
-import type { AutocompletableString, SomeObject } from '@shared/types';
-import { serialize } from '@shared/utils';
+import type { AutocompletableString, SomeObject } from './types';
+import { serialize } from './utils';
 
 // TODO: check why do we need $id and $type and document it here or remove them
 export interface EventDefinition<T extends AutocompletableString, Message> {

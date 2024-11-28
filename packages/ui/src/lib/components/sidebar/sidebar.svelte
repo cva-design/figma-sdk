@@ -2,7 +2,7 @@
 import { Icon } from "../icon";
 import IconButton from "../icon-button/icon-button.svelte";
 
-export const collapsed = false;
+export let collapsed = false;
 export const position: "left" | "right" = "left";
 export const width = "240px";
 export const collapsedWidth = "48px";

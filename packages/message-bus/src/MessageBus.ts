@@ -93,5 +93,6 @@ Object.freeze(singleton);
 // export the singleton instance only
 // -----------------------------
 
-export const MessageBus = singleton;
-export default MessageBusSingleton;
+export function getMessageBus<TCmdRegistry, TEvtRegistry>(): MessageBusSingleton {
+  return MessageBusSingleton.getInstance();
+}
