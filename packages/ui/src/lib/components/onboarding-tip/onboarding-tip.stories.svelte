@@ -1,20 +1,18 @@
 <script context="module" lang="ts">
-import { OnboardingTip } from "$ui";
-import { Story, Template } from "@storybook/addon-svelte-csf";
+	import { OnboardingTip } from '$ui';
+	import { Story, Template } from '@storybook/addon-svelte-csf';
 
-import type { SvelteComponent } from 'svelte';
-
-export const meta = {
-	title: "OnboardingTip",
-	component: OnboardingTip,
-	argTypes: {
-		iconName: { control: "text" },
-		iconText: { control: "text" },
-		color: { control: "text" },
-		spin: { control: "boolean" },
-		class: { control: "text" },
-	},
-};
+	export const meta = {
+		title: 'OnboardingTip',
+		component: OnboardingTip,
+		argTypes: {
+			iconName: { control: 'text' },
+			iconText: { control: 'text' },
+			color: { control: 'text' },
+			spin: { control: 'boolean' },
+			class: { control: 'text' }
+		}
+	};
 </script>
 
 <Template let:args>
@@ -26,7 +24,7 @@ export const meta = {
 <Story
 	name="Default"
 	args={{
-		iconName: "PlusSvg",
+		iconName: 'PlusSvg',
 		content: 'This is a default OnboardingTip.'
 	}}
 />
@@ -42,7 +40,7 @@ export const meta = {
 <Story
 	name="Spinning Icon"
 	args={{
-		iconName: "PlusSvg",
+		iconName: 'PlusSvg',
 		spin: true,
 		content: 'This OnboardingTip has a spinning icon.'
 	}}
@@ -51,7 +49,7 @@ export const meta = {
 <Story
 	name="Custom Color"
 	args={{
-		iconName: "PlusSvg",
+		iconName: 'PlusSvg',
 		color: 'yellow',
 		content: 'This OnboardingTip uses a custom color for the icon.'
 	}}
@@ -60,7 +58,7 @@ export const meta = {
 <Story
 	name="Long Content"
 	args={{
-		iconName: "PlusSvg",
+		iconName: 'PlusSvg',
 		content:
 			'This OnboardingTip has longer content to demonstrate how it wraps. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam euismod, nisi vel consectetur interdum, nisl nunc egestas nunc, vitae tincidunt nisl nunc euismod nunc.'
 	}}

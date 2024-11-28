@@ -1,5 +1,5 @@
-import type { CommandRegistry } from "./commands";
-import type { EventRegistry } from "./events";
+import type { CommandRegistry } from './commands';
+import type { EventRegistry } from './events';
 
 /**
  * A union type of all possible values of type T
@@ -9,27 +9,29 @@ export type SomeObject = Record<string, unknown>;
 export type AutocompletableString = string | number | symbol;
 
 export type MessageData<
-	Key extends keyof CommandRegistry | keyof EventRegistry,
-> = Key extends keyof CommandRegistry
-	? CommandRegistry[Key]["message"]
-	: Key extends keyof EventRegistry
-		? EventRegistry[Key]["message"]
-		: never;
+  TCmd = any,
+  TEvt = any,
+  Key extends keyof CommandRegistry<TCmd> | keyof EventRegistry<TEvt> = never,
+> = Key extends keyof CommandRegistry<TCmd>
+  ? CommandRegistry<TCmd>[Key]['message']
+  : Key extends keyof EventRegistry<TEvt>
+    ? EventRegistry<TEvt>[Key]['message']
+    : never;
 
-type Handler<Command extends SomeValueOf<CommandRegistry>> = (
-	message: Command["message"],
-) => Command["result"];
+type Handler<TCmd, Command extends SomeValueOf<CommandRegistry<TCmd>>> = (
+  message: Command['message'],
+) => Command['result'];
 
-type Listener<Event extends SomeValueOf<EventRegistry>> = (
-	message: Event["message"],
+type Listener<TEvt, Event extends SomeValueOf<EventRegistry<TEvt>>> = (
+  message: Event['message'],
 ) => void;
 
-export type CommandHandlers = {
-	[K in keyof CommandRegistry]: Handler<CommandRegistry[K]>;
+export type CommandHandlers<TCmd = any> = {
+  [K in keyof CommandRegistry<TCmd>]: Handler<TCmd, CommandRegistry<TCmd>[K]>;
 };
 
-export type EventListeners = {
-	[K in keyof EventRegistry]: Listener<EventRegistry[K]>;
+export type EventListeners<TEvt = any> = {
+  [K in keyof EventRegistry<TEvt>]: Listener<TEvt, EventRegistry<TEvt>[K]>;
 };
 
 export type DeregisterFn = () => void;

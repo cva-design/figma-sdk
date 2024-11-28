@@ -1,25 +1,25 @@
 <script context="module" lang="ts">
-import { Story } from "@storybook/addon-svelte-csf";
-import type { Meta } from "@storybook/svelte";
-import { Button } from "../button";
-import { Disclosure, DisclosureItem } from "../disclosure/index.ts";
-import Text from "../text/text.svelte";
-import Sidebar from "./sidebar.svelte";
-import type { SvelteComponent } from 'svelte';
+	import { Story } from '@storybook/addon-svelte-csf';
+	import type { Meta } from '@storybook/svelte';
+	import { Button } from '../button';
+	import { Disclosure, DisclosureItem } from '../disclosure/index.ts';
+	import Text from '../text/text.svelte';
+	import Sidebar from './sidebar.svelte';
+	import type { SvelteComponent } from 'svelte';
 
-export const meta = {
-	title: "Sidebar",
-	component: Sidebar,
-	argTypes: {
-		collapsed: { control: "boolean" },
-		position: {
-			control: "select",
-			options: ["left", "right"],
-		},
-		width: { control: "text" },
-		collapsedWidth: { control: "text" },
-	},
-} satisfies Meta<SvelteComponent>;;
+	export const meta = {
+		title: 'Sidebar',
+		component: Sidebar,
+		argTypes: {
+			collapsed: { control: 'boolean' },
+			position: {
+				control: 'select',
+				options: ['left', 'right']
+			},
+			width: { control: 'text' },
+			collapsedWidth: { control: 'text' }
+		}
+	} satisfies Meta<SvelteComponent>;
 </script>
 
 <Story name="Default">

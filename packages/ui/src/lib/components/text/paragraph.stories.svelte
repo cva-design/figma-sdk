@@ -1,28 +1,26 @@
 <script context="module" lang="ts">
-import { Story } from "@storybook/addon-svelte-csf";
-import { Paragraph } from "./index";
+	import { Story } from '@storybook/addon-svelte-csf';
+	import { Paragraph } from './index';
 
-import type { SvelteComponent } from 'svelte';
-
-export const meta = {
-	title: "Paragraph",
-	component: Paragraph,
-	argTypes: {
-		size: {
-			control: "select",
-			options: ["small", "medium", "large"],
-		},
-		weight: {
-			control: "select",
-			options: ["default", "strong"],
-		},
-		align: {
-			control: "select",
-			options: ["left", "center", "right"],
-		},
-		block: { control: "boolean" },
-	},
-};
+	export const meta = {
+		title: 'Paragraph',
+		component: Paragraph,
+		argTypes: {
+			size: {
+				control: 'select',
+				options: ['small', 'medium', 'large']
+			},
+			weight: {
+				control: 'select',
+				options: ['default', 'strong']
+			},
+			align: {
+				control: 'select',
+				options: ['left', 'center', 'right']
+			},
+			block: { control: 'boolean' }
+		}
+	};
 </script>
 
 <Story name="Default">

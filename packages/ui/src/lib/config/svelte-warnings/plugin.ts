@@ -95,7 +95,13 @@ export function svelteWarnings(config: SvelteWarningsConfig): Plugin {
 
         // Use the original onwarn function if it exists, otherwise use the default handler
         if (originalOnwarn) {
-          originalOnwarn(warning, defaultHandler);
+          originalOnwarn(
+            warning,
+            defaultHandler ??
+              ((w: Warning) => {
+                return w;
+              }),
+          );
         } else if (defaultHandler) {
           defaultHandler(warning);
         }

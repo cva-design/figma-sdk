@@ -2,23 +2,33 @@
 	"name": "@figma-plugin-sdk/rpc",
 	"version": "0.0.1",
 	"description": "A browser package.",
-	"keywords": ["node", "lib", "esm"],
+	"keywords": [
+		"node",
+		"lib",
+		"esm"
+	],
 	"author": "moon",
 	"license": "MIT",
 	"repository": "https://github.com/moonrepo/examples",
-  "scripts": {
-    "check": "bun biome check ./src",
-    "check:fix": "bun biome check --fix ./src",
-    "check:types": "tsc --build tsconfig.project.json --pretty --verbose"
-  },
+	"scripts": {
+		"check": "nr check:biome && nr check:types",
+		"check:biome": "biome check --fix ./src",
+		"check:types": "tsc --build tsconfig.project.json --pretty --verbose"
+	},
 	"packemon": {
-		"format": ["esm"],
+		"format": [
+			"esm"
+		],
 		"platform": "browser"
 	},
 	"engines": {
 		"node": ">=22"
 	},
-	"files": ["esm/**/*", "lib/**/*", "src/**/*"],
+	"files": [
+		"esm/**/*",
+		"lib/**/*",
+		"src/**/*"
+	],
 	"main": "./lib/index.js",
 	"module": "./esm/index.js",
 	"types": "./lib/index.d.ts",

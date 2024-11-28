@@ -22,7 +22,7 @@ vcs:
   syncHooks: true
   hooks:
     pre-commit:
-      - 'echo "⚠️ LINT IS DISABLED❗" # moon run :check :typecheck --affected --status=staged'
+      - 'nr pre-commit'
 
 generator:
   templates:

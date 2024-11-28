@@ -1,20 +1,19 @@
 <script context="module" lang="ts">
-import { Story } from "@storybook/addon-svelte-csf";
-import type { Meta } from "@storybook/svelte";
-import { Button } from "../button";
-import { Icon } from "../icon";
-import { IconButton } from "../icon-button";
-import ActionGroup from "./action-group.svelte";
+	import { Story } from '@storybook/addon-svelte-csf';
+	import type { Meta } from '@storybook/svelte';
+	import { Button } from '../button';
+	import { Icon } from '../icon';
+	import { IconButton } from '../icon-button';
+	import ActionGroup from './action-group.svelte';
+	import type { SvelteComponent } from 'svelte';
 
-import type { SvelteComponent } from 'svelte';
-
-export const meta = {
-	title: "ActionGroup",
-	component: ActionGroup,
-	argTypes: {
-		class: { control: "text" },
-	},
-} satisfies Meta<SvelteComponent>;;
+	export const meta = {
+		title: 'ActionGroup',
+		component: ActionGroup,
+		argTypes: {
+			class: { control: 'text' }
+		}
+	} satisfies Meta<SvelteComponent>;
 </script>
 
 <Story name="Default">
@@ -39,7 +38,7 @@ export const meta = {
 		<IconButton>
 			<Icon icon="TimerSvg" />
 		</IconButton>
-        <IconButton>
+		<IconButton>
 			<Icon icon="StarOnSvg" />
 		</IconButton>
 	</ActionGroup>

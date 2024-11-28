@@ -1,23 +1,22 @@
 <script context="module" lang="ts">
-import { Radio } from "$ui";
-import { Story, Template } from "@storybook/addon-svelte-csf";
-const groupV = "option2";
-import type { SvelteComponent } from 'svelte';
+	import { Radio } from '$ui';
+	import { Story, Template } from '@storybook/addon-svelte-csf';
+	const groupV = 'option2';
 
-export const meta = {
-	title: "Radio",
-	component: Radio,
-	argTypes: {
-		group: { control: "text" },
-		value: { control: "text" },
-		disabled: { control: "boolean" },
-		tabindex: { control: "number" },
-		className: { control: "text" },
-	},
-};
+	export const meta = {
+		title: 'Radio',
+		component: Radio,
+		argTypes: {
+			group: { control: 'text' },
+			value: { control: 'text' },
+			disabled: { control: 'boolean' },
+			tabindex: { control: 'number' },
+			className: { control: 'text' }
+		}
+	};
 
-// biome-ignore lint/style/useConst: it is used in svelte `bind:group`
-let groupValue = "option1";
+	// biome-ignore lint/style/useConst: it is used in svelte `bind:group`
+	let groupValue = 'option1';
 </script>
 
 <Template let:args>

@@ -1,5 +1,5 @@
 import type { StorybookConfig } from '@storybook/sveltekit';
-import type { InlineConfig } from 'vite';
+import type { ViteFinal } from '@storybook/builder-vite';
 
 // Simplify paths
 import path from 'node:path';
@@ -67,20 +67,17 @@ const config: StorybookConfig = {
 
 	staticDirs: ['../docs/assets', '../static'],
 
-	viteFinal: async (config: InlineConfig) => {
-		config.server = {
-			...config.server,
-			fs: {
-				...config.server?.fs,
-				allow: [
-					...(config.server?.fs?.allow || []),
-					// Allow serving files from project root and parent directories
-					path.resolve(projectRoot, 'docs')
-				]
-			}
-		};
-
-		return config;
-	}
+  viteFinal: (async (config) => {
+    return {
+      ...config,
+      server: {
+        ...config.server,
+        fs: {
+          ...config.server?.fs,
+          allow: [...(config.server?.fs?.allow || []), path.resolve(projectRoot, 'docs')],
+        },
+      },
+    };
+  }) satisfies ViteFinal,
 };
 export default config;

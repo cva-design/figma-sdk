@@ -1,20 +1,18 @@
 <script context="module" lang="ts">
-import { Switch } from "$ui";
-import { Story, Template } from "@storybook/addon-svelte-csf";
+	import { Switch } from '$ui';
+	import { Story, Template } from '@storybook/addon-svelte-csf';
 
-import type { SvelteComponent } from 'svelte';
-
-export const meta = {
-	title: "Switch",
-	component: Switch,
-	argTypes: {
-		checked: { control: "boolean" },
-		name: { control: "text" },
-		value: { control: "text" },
-		disabled: { control: "boolean" },
-		class: { control: "text" },
-	},
-};
+	export const meta = {
+		title: 'Switch',
+		component: Switch,
+		argTypes: {
+			checked: { control: 'boolean' },
+			name: { control: 'text' },
+			value: { control: 'text' },
+			disabled: { control: 'boolean' },
+			class: { control: 'text' }
+		}
+	};
 </script>
 
 <Template let:args>
