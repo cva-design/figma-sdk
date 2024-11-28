@@ -12,7 +12,7 @@
 >
   <path
     d="M4 8a1 1 0 0 1 1-1h6a1 1 0 1 1 0 2H5a1 1 0 0 1-1-1z"
-    fill="currentColor"
+    fill="--figma-color-icon"
   />
 </svg>
 

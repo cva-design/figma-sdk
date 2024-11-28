@@ -47,6 +47,7 @@ export * from './text/index.ts';
 export * from './textarea/index.ts';
 export * from './tooltip/index.ts';
 export * from './tree/index.ts';
+export * from '../next/checkbox/index.ts';
 // export * from '../next/layer-tree/index.ts';
 //@endindex
 
