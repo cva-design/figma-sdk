@@ -34,8 +34,8 @@ export type ToggleStates = {
 	}
 
 	export let states: $$Props['states'];
-	export let on = false;
-	export let disabled = false;
+	export let on: boolean = false;
+	export let disabled: boolean = false;
 
 	const toggleVariants = cva('', {
 		variants: {

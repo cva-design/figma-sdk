@@ -1,17 +1,16 @@
 <script context="module" lang="ts">
-export const disclosure = Symbol("disclosure");
+	export const disclosure = Symbol('disclosure');
 </script>
 
 <script lang="ts">
-	import { CaretDownSvg, CaretRightSvg } from '$icons';
 	import { getContext } from 'svelte';
 	import { Icon } from '../icon';
 
 	export let uniqueId = 'disclosureItem--' + (Math.random() * 10000000).toFixed(0).toString();
 	export let title: string | null = null;
-	export let expanded = false;
-	export let section = false;
-	export let open = false;
+	export let expanded: boolean = false;
+	export let section: boolean = false;
+	export let open: boolean = false;
 
 	interface DisclosureContext {
 		clickHandler: (id: string) => void;
@@ -37,9 +36,9 @@ export const disclosure = Symbol("disclosure");
 	>
 		<div class="icon">
 			{#if expanded}
-				<Icon iconUrl={CaretDownSvg} color="black" />
+				<Icon icon="CaretDownSvg" color="black" />
 			{:else}
-				<Icon iconUrl={CaretRightSvg} color="black" />
+				<Icon icon="CaretDownSvg" color="black" />
 			{/if}
 		</div>
 		<div class="title">{title}</div>
@@ -50,63 +49,64 @@ export const disclosure = Symbol("disclosure");
 </li>
 
 <style lang="scss">
-li {
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  list-style-type: none;
-  border-bottom: 1px solid var(--figma-color-border);
-}
-li:last-child {
-  border-bottom: 1px solid transparent;
-}
+	li {
+		display: flex;
+		flex-direction: column;
+		position: relative;
+		width: 100%;
+		margin: 0;
+		padding: 0;
+		list-style-type: none;
+		border-bottom: 1px solid var(--figma-color-border);
+	}
+	li:last-child {
+		border-bottom: 1px solid transparent;
+	}
 
-.header {
-  display: flex;
-  align-items: center;
-  height: var(--spacer-5);
-  font-size: var(--text-body-medium-font-size);
-  font-weight: var(--font-weight-default);
-  letter-spacing: var(--font-letter-spacing-pos-xsmall);
-  line-height: var(--line-height);
-  color: var(--figma-color-text);
-}
-.header:hover .icon {
-  opacity: 0.9;
-}
+	.header {
+		display: flex;
+		align-items: center;
+		height: var(--spacer-5);
+		font-size: var(--text-body-medium-font-size);
+		font-weight: var(--font-weight-default);
+		letter-spacing: var(--font-letter-spacing-pos-xsmall);
+		line-height: var(--line-height);
+		color: var(--figma-color-text);
+	}
+	.header:hover .icon {
+		opacity: 0.9;
+	}
 
-.title {
-  margin-left: -4px;
-  user-select: none;
-}
+	.title {
+		margin-left: -4px;
+		user-select: none;
+	}
 
-.icon {
-  margin-left: -4px;
-  opacity: 0.3;
-}
-.expanded .icon {
-  opacity: 0.8;
-}
+	.icon {
+		margin-left: -4px;
+		opacity: 0.3;
+	}
+	.expanded .icon {
+		opacity: 0.8;
+	}
 
-.section {
-  font-weight: var(--font-weight-strong);
-}
+	.section {
+		font-weight: var(--font-weight-strong);
+	}
 
-.content {
-  font-size: var(--text-body-medium-font-size);
-  font-weight: var(--font-weight-default);
-  letter-spacing: var(--font-letter-spacing-pos-xsmall);
-  line-height: var(--line-height);
-  color: var(--figma-color-text);
-  padding: var(--spacer-2) var(--spacer-2) var(--spacer-2) var(--spacer-4);
-  display: none;
-  user-select: none;
-  pointer-events: none;
-}
+	.content {
+		font-size: var(--text-body-medium-font-size);
+		font-weight: var(--font-weight-default);
+		letter-spacing: var(--font-letter-spacing-pos-xsmall);
+		line-height: var(--line-height);
+		color: var(--figma-color-text);
+		padding: var(--spacer-2) var(--spacer-2) var(--spacer-2) var(--spacer-4);
+		display: none;
+		user-select: none;
+		pointer-events: none;
+	}
 
-.expanded .content {
-  display: block;
-}</style>
+	.expanded .content {
+		display: block;
+	}
+</style>

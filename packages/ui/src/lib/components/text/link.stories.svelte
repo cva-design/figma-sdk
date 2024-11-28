@@ -2,6 +2,8 @@
 import { Story } from "@storybook/addon-svelte-csf";
 import { Link } from "./index";
 
+import type { SvelteComponent } from 'svelte';
+
 export const meta = {
 	title: "Link",
 	component: Link,

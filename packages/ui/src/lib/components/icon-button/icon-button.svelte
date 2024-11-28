@@ -1,43 +1,39 @@
 <script lang="ts">
-import { Tooltip } from "$ui/tooltip";
-import { type VariantProps, cva } from "class-variance-authority";
+	import { Tooltip } from '$ui/tooltip';
+	import { type VariantProps, cva } from 'class-variance-authority';
+	import type { HTMLButtonAttributes } from 'svelte/elements';
 
-const iconButton = cva("fps-IconButton", {
-	variants: {
-		size: {
-			small: "fps-size-small",
-			medium: "fps-size-medium",
+	const iconButton = cva('fps-IconButton', {
+		variants: {
+			size: {
+				small: 'fps-size-small',
+				medium: 'fps-size-medium'
+			},
+			activeAppearance: {
+				subtle: 'fps-active-appearance-subtle',
+				solid: 'fps-active-appearance-solid'
+			}
 		},
-		activeAppearance: {
-			subtle: "fps-active-appearance-subtle",
-			solid: "fps-active-appearance-solid",
-		},
-	},
-	defaultVariants: {
-		size: "small",
-		activeAppearance: "subtle",
-	},
-});
+		defaultVariants: {
+			size: 'small',
+			activeAppearance: 'subtle'
+		}
+	});
 
-interface $$Props extends VariantProps<typeof iconButton> {
-	"aria-label": string;
-	tooltipContent?: string;
-	disableTooltip?: boolean;
-	class?: string;
-}
+	interface $$Props extends HTMLButtonAttributes, VariantProps<typeof iconButton> {
+		tooltipContent?: string;
+		disableTooltip?: boolean;
+	}
 
-export const size: $$Props["size"] = undefined;
-export const activeAppearance: $$Props["activeAppearance"] = undefined;
-export const tooltipContent: string | undefined = undefined;
-export const disableTooltip = false;
-export { className as class };
-
-const className = "";
+	export const size: $$Props['size'] = undefined;
+	export const activeAppearance: $$Props['activeAppearance'] = undefined;
+	export const tooltipContent: string | undefined = undefined;
+	export const disableTooltip: boolean = false;
 </script>
 
 <svelte:element
 	this="button"
-	class={iconButton({ size, activeAppearance, class: className })}
+	class={iconButton({ size, activeAppearance, class: $$props.class })}
 	aria-label={$$props['aria-label']}
 	on:click
 	on:keydown

@@ -1,48 +1,22 @@
 <script lang="ts">
-import * as icons from "$icons";
-import type { AutocompletableString } from "$lib/util";
+	import * as icons from '$icons';
+	import type { IconProps } from './types';
 
-type IconProps = {
-	color?: "--figma-color-icon" | AutocompletableString;
-	spin?: boolean;
-	class?: string;
-} & (
-	| { icon: keyof typeof import("$icons"); iconText?: never }
-	| { icon?: never; iconText: string }
-);
+	type $$Props = IconProps;
 
-/**
- * icon: The icon identifier from the icons collection
- */
-export const icon: IconProps["icon"] = undefined;
+	const icon = $$props.icon;
+	const iconText = $$props.iconText;
+	const color = $$props.color ?? '--figma-color-icon';
+	const spin = $$props.spin ?? false;
 
-/**
- * A string that will be displayed as the icon.
- * If provided, it is displayed instead of the icon.
- * It is useful for using characters or emojis as icons.
- */
-export const iconText: IconProps["iconText"] = undefined;
-
-/**
- * color: The color of the icon. This should be a CSS color variable.
- */
-export const color: IconProps["color"] = "--figma-color-icon";
-
-/**
- * spin: Whether the icon should spin
- */
-export const spin: IconProps["spin"] = false;
-
-/**
- * className: Additional CSS classes that can be applied to the icon.
- */
-const className = "";
-export { className as class };
+	$: if (icon && iconText) {
+		throw new Error('Cannot set both icon and iconText at the same time');
+	}
 </script>
 
 {#if iconText}
 	<div
-		class="icon-component {className}"
+		class="icon-component {$$props.class}"
 		class:spin
 		style="color: var({color}); fill: var({color})"
 	>
@@ -50,7 +24,7 @@ export { className as class };
 	</div>
 {:else if icon}
 	<div
-		class="icon-component {className}"
+		class="icon-component {$$props.class}"
 		class:spin
 		style="color: var({color}); fill: var({color})"
 	>

@@ -1,10 +1,10 @@
 <script lang="ts">
 export const id = null;
 export const value = null;
-export const rows = 2;
+export const rows: number = 2;
 export const name = null;
-export const disabled = false;
-export const placeholder = "Input something here...";
+export const disabled: boolean = false;
+export const placeholder: string = "Input something here...";
 export { className as class };
 
 const className = "";

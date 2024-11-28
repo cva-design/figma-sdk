@@ -1,8 +1,8 @@
 <script lang="ts">
-export let checked = false;
-export const name = "";
-export const value = "";
-export const disabled = false;
+export let checked: boolean = false;
+export const name: string = "";
+export const value: string = "";
+export const disabled: boolean = false;
 export { className as class };
 
 const className = "";
@@ -84,9 +84,9 @@ input:disabled + label {
   cursor: not-allowed;
 }
 
-input:focus + label .switch-track {
-  //box-shadow: 0 0 0 2px var(--figma-color-border-selected);
-}
+// input:focus + label .switch-track {
+//   box-shadow: 0 0 0 2px var(--figma-color-border-selected);
+// }
 
 .switch-text {
   margin-left: 8px;

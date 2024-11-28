@@ -2,8 +2,8 @@
 import type { HTMLAttributes } from "svelte/elements";
 
 export let itemId: string | number;
-export const selected = false;
-export const class_name = "";
+export const selected: boolean = false;
+export const class_name: string = "";
 
 interface $$Props extends HTMLAttributes<HTMLLIElement> {
 	itemId: string | number;

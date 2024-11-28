@@ -2,3 +2,7 @@
 export { default as Icon } from './icon.svelte';
 export { default as Svg } from './svg.svelte';
 //@endindex
+
+//@index(['./types.ts'], (f) => `export * from '${f.path}';`)
+export * from './types';
+//@endindex

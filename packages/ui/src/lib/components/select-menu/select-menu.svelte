@@ -9,12 +9,12 @@ import type { SelectMenuItem } from "./types";
 
 export let icon: keyof typeof icons | undefined;
 export const iconText: string | null = null;
-export let disabled = false;
-export const macOSBlink = false;
+export let disabled: boolean = false;
+export const macOSBlink: boolean = false;
 export const menuItems: SelectMenuItem[] = []; //pass data in via this prop to generate menu items
-export const placeholder = "Please make a selection.";
+export const placeholder: string = "Please make a selection.";
 export let value: SelectMenuItem | null | undefined = null; //stores the current selection, note, the value will be an object from your array
-export const showGroupLabels = false; //default prop, true will show option group labels
+export const showGroupLabels: boolean = false; //default prop, true will show option group labels
 export { className as class };
 
 const dispatch = createEventDispatcher();
@@ -91,7 +91,7 @@ function menuClick(event: Event) {
 	if (!event.target) {
 		menuList.classList.add("hidden");
 	} else if ((event.target as HTMLElement).contains(menuButton)) {
-		const topPos = 0;
+		const topPos: number = 0;
 
 		if (value) {
 			//toggle menu
@@ -136,8 +136,8 @@ function menuClick(event: Event) {
 		dispatch("change", menuItems[itemId]);
 
 		if (macOSBlink) {
-			const x = 4;
-			const interval = 70;
+			const x: number = 4;
+			const interval: number = 70;
 
 			//blink the background
 			for (let i = 0; i < x; i++) {
@@ -167,7 +167,7 @@ function resizeAndPosition() {
 	//set the max height of the menu based on plugin/iframe window
 	const maxMenuHeight = window.innerHeight - 16;
 	const menuHeight = menuList.offsetHeight;
-	let menuResized = false;
+	let menuResized: boolean = false;
 
 	if (menuHeight > maxMenuHeight) {
 		menuList.style.height = `${maxMenuHeight}px`;

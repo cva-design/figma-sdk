@@ -4,6 +4,8 @@ import type { Meta } from "@storybook/svelte";
 import type { LayerTreeData } from "./layer-tree.svelte";
 import LayerTree from "./layer-tree.svelte";
 
+import type { SvelteComponent } from 'svelte';
+
 export const meta = {
 	component: LayerTree,
 	argTypes: {

@@ -6,13 +6,15 @@ import { Icon } from "../icon";
 import { IconButton } from "../icon-button";
 import ActionGroup from "./action-group.svelte";
 
+import type { SvelteComponent } from 'svelte';
+
 export const meta = {
 	title: "ActionGroup",
 	component: ActionGroup,
 	argTypes: {
 		class: { control: "text" },
 	},
-} satisfies Meta<typeof ActionGroup>;
+} satisfies Meta<SvelteComponent>;;
 </script>
 
 <Story name="Default">

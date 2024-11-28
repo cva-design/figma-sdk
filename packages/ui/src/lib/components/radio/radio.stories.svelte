@@ -2,6 +2,8 @@
 import { Radio } from "$ui";
 import { Story, Template } from "@storybook/addon-svelte-csf";
 const groupV = "option2";
+import type { SvelteComponent } from 'svelte';
+
 export const meta = {
 	title: "Radio",
 	component: Radio,
@@ -14,7 +16,8 @@ export const meta = {
 	},
 };
 
-const groupValue = "option1";
+// biome-ignore lint/style/useConst: it is used in svelte `bind:group`
+let groupValue = "option1";
 </script>
 
 <Template let:args>
@@ -58,9 +61,8 @@ const groupValue = "option1";
 />
 
 <Story name="Radio Group">
-
-	<Radio bind:group={groupV} value="option1">Option 1</Radio>
-	<Radio bind:group={groupV} value="option2">Option 2</Radio>
-	<Radio bind:group={groupV} value="option3">Option 3</Radio>
-	<p>Selected value: {groupV}</p>
+	<Radio bind:group={groupValue} value="option1">Option 1</Radio>
+	<Radio bind:group={groupValue} value="option2">Option 2</Radio>
+	<Radio bind:group={groupValue} value="option3">Option 3</Radio>
+	<p>Selected value: {groupValue}</p>
 </Story>

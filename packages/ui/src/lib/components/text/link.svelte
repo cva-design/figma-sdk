@@ -36,7 +36,7 @@ interface $$Props extends HTMLAnchorAttributes, VariantProps<typeof link> {
 export const size: $$Props["size"] = undefined;
 export const weight: $$Props["weight"] = undefined;
 export const align: $$Props["align"] = undefined;
-export const block = false;
+export const block: boolean = false;
 </script>
 
 <a class={link({ size, weight, align, block, class: $$props.class })} {...$$restProps}>

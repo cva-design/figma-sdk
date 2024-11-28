@@ -13,29 +13,30 @@ tasks:
   check:
     deps:
       - check-fix
-    command: "bun biome check"
-    args:
-      - "@dirs(lintable)"
-    inputs:
-      - "@group(lintable)"
-    options:
-      cache: false
-      # Enables the use of --affected option in the CLI
-      affectedFiles: true
+    command: "nr check"
+    # command: "bun biome check"
+    # args:
+    #   - ./src
+    # inputs:
+    #   - "@group(lintable)"
+    # options:
+    #   cache: false
+    #   # Enables the use of --affected option in the CLI
+    #   affectedFiles: true
 
   check-fix:
-    command: "bun biome check"
-    args:
-      - "--fix"
-      - "--no-errors-on-unmatched"
-      - "--files-ignore-unknown=true"
-      - "@dirs(lintable)"
-    inputs:
-      - "@group(lintable)"
-    options:
-      cache: false
-      # Enables the use of --affected option in the CLI
-      affectedFiles: true
+    command: "nr check:fix"
+    # args:
+    #   - "--fix"
+    #   - "--no-errors-on-unmatched"
+    #   - "--files-ignore-unknown=true"
+    #   - ./src
+    # inputs:
+    #   - "@group(lintable)"
+    # options:
+    #   cache: false
+    #   # Enables the use of --affected option in the CLI
+    #   affectedFiles: true
 
   ci:
     command:

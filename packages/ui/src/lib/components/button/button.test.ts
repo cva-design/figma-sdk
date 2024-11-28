@@ -4,7 +4,7 @@ import Button from './button.svelte';
 
 describe('Button Component', () => {
   it('renders with default props', () => {
-    const { getByRole } = render(Button, { props: { children: 'Click me' } });
+    const { getByRole } = render(Button, { props: { slot: 'Click me' } });
     const button = getByRole('button');
     expect(button.textContent).toBe('Click me');
     expect(button.className).toContain('button--primary');
@@ -13,7 +13,7 @@ describe('Button Component', () => {
 
   it('renders with custom variant', () => {
     const { getByRole } = render(Button, {
-      props: { variant: 'secondary', children: 'Secondary' },
+      props: { variant: 'secondary', slot: 'Secondary' },
     });
     const button = getByRole('button');
     expect(button.className).toContain('button--secondary');
@@ -21,7 +21,7 @@ describe('Button Component', () => {
 
   it('renders with custom size', () => {
     const { getByRole } = render(Button, {
-      props: { size: 'small', children: 'Small' },
+      props: { size: 'small', slot: 'Small' },
     });
     const button = getByRole('button');
     expect(button.className).toContain('button--small');
@@ -29,7 +29,7 @@ describe('Button Component', () => {
 
   it('applies fullWidth class when prop is true', () => {
     const { getByRole } = render(Button, {
-      props: { fullWidth: true, children: 'Full Width' },
+      props: { fullWidth: true, slot: 'Full Width' },
     });
     const button = getByRole('button');
     expect(button.className).toContain('button--full-width');
@@ -37,7 +37,7 @@ describe('Button Component', () => {
 
   it('passes through additional attributes', () => {
     const { getByRole } = render(Button, {
-      props: { 'data-testid': 'test-button', children: 'Test' },
+      props: { 'data-testid': 'test-button', slot: 'Test' },
     });
     const button = getByRole('button');
     expect(button.getAttribute('data-testid')).toBe('test-button');
@@ -46,7 +46,7 @@ describe('Button Component', () => {
   it('triggers onClick event', async () => {
     const handleClick = vi.fn();
     const { getByRole, component } = render(Button, {
-      props: { children: 'Click me' },
+      props: { slot: 'Click me' },
     });
     const button = getByRole('button');
 
@@ -58,7 +58,7 @@ describe('Button Component', () => {
 
   it('combines custom className with generated classes', () => {
     const { getByRole } = render(Button, {
-      props: { class: 'custom-class', children: 'Custom Class' },
+      props: { class: 'custom-class', slot: 'Custom Class' },
     });
     const button = getByRole('button');
     expect(button.className).toContain('custom-class');

@@ -7,7 +7,7 @@ export type PopoverPlacement = (typeof PopoverPlacements)[number];
 	import { createEventDispatcher, onDestroy, onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
 
-	export let isOpen = false;
+	export let isOpen: boolean = false;
 	export let placement: PopoverPlacement = 'top';
 	export let offset = 8;
 	export let className = '';

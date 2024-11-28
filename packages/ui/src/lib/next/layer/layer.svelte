@@ -40,8 +40,8 @@ export const component: boolean | undefined = false;
 export const description: string | undefined = undefined;
 export const icon: string | undefined = undefined;
 export let selected: boolean | undefined = false;
-export const propagateEscapeKeyDown = true;
-export let expanded = false;
+export const propagateEscapeKeyDown: boolean = true;
+export let expanded: boolean = false;
 
 const dispatch = createEventDispatcher();
 

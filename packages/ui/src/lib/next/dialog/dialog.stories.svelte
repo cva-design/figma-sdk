@@ -6,20 +6,22 @@ import { Button } from "../button";
 import DialogTitle from "./dialog-title.svelte";
 import Dialog from "./dialog.svelte";
 
+import type { SvelteComponent } from 'svelte';
+
 export const meta = {
 	component: Dialog,
 	argTypes: {
 		open: { control: "boolean" },
 		onClose: { action: "close" },
 	},
-} satisfies Meta<typeof Dialog>;
+} satisfies Meta<SvelteComponent>;;
 </script>
 
 <script lang="ts">
-	let isOpen = false;
-	let isLongContentOpen = false;
-	let isDestructiveOpen = false;
-	let isCustomOpen = false;
+	let isOpen: boolean = false;
+	let isLongContentOpen: boolean = false;
+	let isDestructiveOpen: boolean = false;
+	let isCustomOpen: boolean = false;
 </script>
 
 <Story name="Default">

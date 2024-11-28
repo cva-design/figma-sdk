@@ -4,6 +4,8 @@ import type { Meta } from "@storybook/svelte";
 import { TabsContent, TabsList, TabsTrigger } from ".";
 import Tabs from "./tabs.svelte";
 
+import type { SvelteComponent } from 'svelte';
+
 export const meta = {
 	title: "Tabs",
 	component: Tabs,
@@ -12,7 +14,7 @@ export const meta = {
 		defaultValue: { control: "text" },
 		class: { control: "text" },
 	},
-} satisfies Meta<typeof Tabs>;
+} satisfies Meta<SvelteComponent>;;
 </script>
 
 <Story name="Default">

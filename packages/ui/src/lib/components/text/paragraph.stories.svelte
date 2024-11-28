@@ -2,6 +2,8 @@
 import { Story } from "@storybook/addon-svelte-csf";
 import { Paragraph } from "./index";
 
+import type { SvelteComponent } from 'svelte';
+
 export const meta = {
 	title: "Paragraph",
 	component: Paragraph,

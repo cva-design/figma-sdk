@@ -1,17 +1,19 @@
 <script lang="ts">
-import { getContext } from "svelte";
+	import { getContext } from 'svelte';
+	import type { Writable } from 'svelte/store';
 
-export let value: string;
-const className: string | undefined = undefined;
-export { className as class };
-const { register } = getContext("tabs");
-const { isSelected } = register(value);
+	export let value: string;
 
-$: isVisible = $isSelected === value;
+	const { register } = getContext('tabs') as {
+		register: (value: string) => { isSelected: Writable<boolean>; select: () => void };
+	};
+	const { isSelected } = register(value);
+
+	$: isVisible = $isSelected;
 </script>
 
 {#if isVisible}
-	<div class="fps-TabsContent {className || ''}" role="tabpanel">
+	<div class="fps-TabsContent {$$props.class || ''}" role="tabpanel">
 		<slot />
 	</div>
 {/if}

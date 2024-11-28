@@ -1,23 +1,26 @@
 <script lang="ts">
-import { getContext, onMount } from "svelte";
+	import { getContext, onMount } from 'svelte';
+	import type { Writable } from 'svelte/store';
 
-export let value: string;
-const className: string | undefined = undefined;
-export { className as class };
-export const expand = false;
+	export let value: string;
+	const className: string | undefined = undefined;
+	export { className as class };
+	export const expand: boolean = false;
 
-const { register } = getContext("tabs");
-const { isSelected, select } = register(value);
+	const { register } = getContext('tabs') as {
+		register: (value: string) => { isSelected: Writable<boolean>; select: () => void };
+	};
+	const { isSelected, select } = register(value);
 
-let triggerElement: HTMLButtonElement;
+	let triggerElement: HTMLButtonElement;
 
-$: isActive = $isSelected === value;
+	$: isActive = $isSelected;
 
-onMount(() => {
-	if (triggerElement && !expand) {
-		triggerElement.style.width = `${triggerElement.getBoundingClientRect().width}px`;
-	}
-});
+	onMount(() => {
+		if (triggerElement && !expand) {
+			triggerElement.style.width = `${triggerElement.getBoundingClientRect().width}px`;
+		}
+	});
 </script>
 
 <button

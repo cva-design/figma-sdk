@@ -4,10 +4,10 @@ import { Icon } from "$ui/icon";
 import { slide } from "svelte/transition";
 
 export const class_: string | undefined = undefined;
-export const fullWidth = false;
-export const collapsible = false;
+export const fullWidth: boolean = false;
+export const collapsible: boolean = false;
 
-let isExpanded = false;
+let isExpanded: boolean = false;
 
 function toggleExpand() {
 	isExpanded = !isExpanded;

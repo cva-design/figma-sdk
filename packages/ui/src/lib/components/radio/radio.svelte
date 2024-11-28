@@ -1,10 +1,10 @@
 <script lang="ts">
 export let group: any = null;
 export const value: any = null;
-export const disabled = false;
-export const tabindex = 0;
-export const className = "";
-export let checked = false;
+export const disabled: boolean = false;
+export const tabindex: number = 0;
+export const className: string = "";
+export let checked: boolean = false;
 const uniqueId = `radio--${(Math.random() * 10000000).toFixed(0).toString()}`;
 $: checked = group === value;
 
