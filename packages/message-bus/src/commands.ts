@@ -1,4 +1,4 @@
-import type { SomeObject } from '@shared/types';
+import type { SomeObject } from './types';
 
 export interface CommandDefinition<
   Id extends string,

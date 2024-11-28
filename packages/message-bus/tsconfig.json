@@ -4,6 +4,7 @@
 		"rootDir": "./src",
 		"outDir": "../../.moon/cache/types/packages/message-bus",
 		"verbatimModuleSyntax": false,
+		"baseUrl": "./",
 		"paths": {
 			"@figma-plugin-sdk/message-bus": ["src/index.ts"],
 			"@figma-plugin-sdk/message-bus/*": ["src/*"]

@@ -107,6 +107,7 @@ export type LayerTreeData = {
 			<div class="layerTree--children">
 				{#each renderedTree.children as child}
 					<svelte:self data={child} {expandedNodes} on:select on:toggle />
+					<slot/>
 				{/each}
 			</div>
 		{/if}

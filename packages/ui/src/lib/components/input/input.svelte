@@ -3,7 +3,7 @@ import { Icon } from "$ui/icon";
 import { createEventDispatcher } from "svelte";
 
 export const id: string | null = null;
-export const value: string | null = null;
+export let value: string | null = null;
 export const name: string | null = null;
 export const iconText: string | null = null;
 export const icon: string | null = null;
