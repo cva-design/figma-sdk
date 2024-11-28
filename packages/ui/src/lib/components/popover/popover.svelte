@@ -1,126 +1,104 @@
 <script context="module" lang="ts">
-export const PopoverPlacements = ["top", "bottom", "left", "right"] as const;
-export type PopoverPlacement = (typeof PopoverPlacements)[number];
+	export const PopoverPlacements = ['top', 'bottom', 'left', 'right'] as const;
+	export type PopoverPlacement = (typeof PopoverPlacements)[number];
 </script>
 
 <script lang="ts">
-	import { createEventDispatcher, onDestroy, onMount } from 'svelte';
-	import { fade } from 'svelte/transition';
+	import { Icon } from '$ui';
+	import { createPopover, type CreatePopoverProps, melt } from '@melt-ui/svelte';
 
-	export let isOpen: boolean = false;
-	export let placement: PopoverPlacement = 'top';
-	export let offset = 8;
+	type $$Props = CreatePopoverProps;
+
 	export let className = '';
+	export let preventScroll = false;
+	export let ariaLabel: string | undefined = undefined;
+	export let positioning: CreatePopoverProps['positioning'] = {};
+	export let showArrow = false;
 
-	let containerElement: HTMLDivElement;
-	let popoverElement: HTMLDivElement;
-	const dispatch = createEventDispatcher();
-
-	function updatePosition() {
-		if (!containerElement || !popoverElement) return;
-
-		const anchorRect = containerElement.getBoundingClientRect();
-		const popoverRect = popoverElement.getBoundingClientRect();
-
-		let top = 0;
-		let left = 0;
-
-		switch (placement) {
-			case 'top':
-				top = anchorRect.top - popoverRect.height - offset;
-				left = anchorRect.left + (anchorRect.width - popoverRect.width) / 2;
-				break;
-			case 'bottom':
-				top = anchorRect.bottom + offset;
-				left = anchorRect.left + (anchorRect.width - popoverRect.width) / 2;
-				break;
-			case 'left':
-				top = anchorRect.top + (anchorRect.height - popoverRect.height) / 2;
-				left = anchorRect.left - popoverRect.width - offset;
-				break;
-			case 'right':
-				top = anchorRect.top + (anchorRect.height - popoverRect.height) / 2;
-				left = anchorRect.right + offset;
-				break;
-		}
-
-		popoverElement.style.top = `${top}px`;
-		popoverElement.style.left = `${left}px`;
-	}
-
-	function handleClick() {
-		isOpen = !isOpen;
-	}
-
-	function handleClickOutside(event: MouseEvent) {
-		if (
-			popoverElement &&
-			!popoverElement.contains(event.target as Node) &&
-			!containerElement.contains(event.target as Node)
-		) {
-			isOpen = false;
-			dispatch('close');
-		}
-	}
-
-	onMount(() => {
-		document.addEventListener('click', handleClickOutside);
-		window.addEventListener('resize', updatePosition);
-		updatePosition();
+	const {
+		elements: { trigger, content, arrow, close },
+		states: { open }
+	} = createPopover({
+		positioning,
+		defaultOpen: $$props.open,
+		preventScroll
 	});
-
-	onDestroy(() => {
-		document.removeEventListener('click', handleClickOutside);
-		window.removeEventListener('resize', updatePosition);
-	});
-
-	$: if (isOpen) {
-		setTimeout(updatePosition, 0);
-	}
 </script>
 
-<div bind:this={containerElement} class="fps-Popover-container" on:click={handleClick}>
+<button type="button" class="trigger" use:melt={$trigger} aria-label={ariaLabel}>
 	<slot name="trigger" />
+</button>
 
-	{#if isOpen}
-		<div
-			bind:this={popoverElement}
-			class={`fps-Popover fps-placement-${placement} ${className}`}
-			transition:fade={{ duration: 150 }}
-		>
+{#if $open}
+	<div use:melt={$content} class={`fps-popover__container ${className}`}>
+		{#if showArrow}<div use:melt={$arrow} />{/if}
+		<div class="fps-popover__header">
+			<slot name="header" class="fps-popover__title" />
+			<button class="fps-popover__controls" use:melt={$close}>
+				<slot name="close-icon">
+					<Icon icon="CloseSvg" />
+				</slot>
+			</button>
+		</div>
+		<div class="fps-popover__section">
 			<slot />
 		</div>
-	{/if}
-</div>
+	</div>
+{/if}
 
 <style lang="scss">
-	.fps-Popover-container {
-		display: inline-block;
-		cursor: pointer;
+	.fps-popover__container {
+		--arrow-size: var(--space-3);
+		font-family: var(--font-family-default);
+		color: var(--color-text);
+		background-color: var(--color-bg-menu);
+		border-radius: var(--radius-large);
+		box-shadow: var(--elevation-400-menu-panel);
+		outline: 0;
+		padding: var(--spacer-2);
+		border-radius: var(--radius-large);
 	}
 
-	.fps-Popover {
+	.fps-popover__header {
+		box-sizing: border-box;
+		display: flex;
+		align-items: center;
+		height: var(--space-10);
+		padding: var(--space-1) var(--space-2);
+		border-bottom: 1px solid var(--color-border-menu);
+	}
+
+	.fps-popover__title {
+		padding-left: var(--space-2);
+	}
+
+	.fps-popover__controls {
+		display: flex;
+		align-items: center;
+		margin-left: auto;
+	}
+
+	.fps-popover__section {
+		box-sizing: border-box;
+		padding: var(--space-4);
+		border-bottom: 1px solid var(--figma-color-border);
+
+		&:where(:last-child) {
+			border-bottom: 0;
+		}
+
+		&:where(.fps-popover__section--base) {
+			padding: var(--space-4);
+		}
+
+		&:where(.fps-popover__section--small) {
+			padding: var(--space-2) var(--space-4);
+		}
+	}
+
+	.fps-popover__overlay {
 		position: fixed;
-		z-index: 1000;
-		background-color: var(--figma-color-bg);
-		border-radius: 2px;
-		box-shadow: var(--figma-shadow-floating);
-		padding: 8px;
-	}
-
-	.fps-Popover.fps-placement-top {
-		transform-origin: bottom center;
-	}
-
-	.fps-Popover.fps-placement-bottom {
-		transform-origin: top center;
-	}
-
-	.fps-Popover.fps-placement-left {
-		transform-origin: right center;
-	}
-
-	.fps-Popover.fps-placement-right {
-		transform-origin: left center;
+		inset: 0;
+		background-color: var(--color-overlay-dialog);
 	}
 </style>

@@ -19,9 +19,6 @@ export const meta = {
 };
 </script>
 
-<script lang="ts">
-</script>
-
 <Story name="Default">
 	<div style="padding: 100px;">
 		<Popover placement="bottom" offset={8}>
