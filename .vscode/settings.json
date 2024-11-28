@@ -1,69 +1,77 @@
 {
-	"yaml.schemas": {
-		"https://moonrepo.dev/schemas/tasks.json": [
-			".moon/tasks.yml",
-			".moon/tasks/**/*.yml"
-		],
-		"https://moonrepo.dev/schemas/project.json": ["**/moon.yml"],
-		"https://moonrepo.dev/schemas/template.json": ["**/template.yml"],
-		"https://moonrepo.dev/schemas/workspace.json": ["**/.moon/workspace.yml"],
-		"https://moonrepo.dev/schemas/toolchain.json": ["**/.moon/toolchain.yml"]
-	},
-	"files.associations": {
-		"*.yml.tera": "jinja-yaml",
-		"*.md.tera": "jinja-md",
-		"*.json.tera": "jinja-json",
-		"*.tera": "jinja"
-	},
-	"cSpell.words": [
-		"archivable",
-		"citty",
-		"deno",
-		"moonrepo",
-		"nodenv",
-		"packemon",
-		"proto",
-		"prototools",
-		"svallory",
-		"tagit",
-		"tera",
-		"tokilabs",
-		"tsbuildinfo",
-		"typecheck",
-		"vite",
-		"vitest"
-	],
-	"explorer.fileNesting.enabled": true,
-	"explorer.fileNesting.patterns": {
-		".config*": ".git*, prettier.*, babel.*, *config.toml, *config.yaml, *config.yml, *rc, *rc.json, *rc.js, *rc.mjs, *rc.cjs, *rc.ts, *rc.toml, *rc.yaml, *rc.yml, .eslint*, .prettier*, .*",
-		"Configuration Files.md": ".git*, prettier.*, babel.*, *config.toml, *config.yaml, *config.yml, *rc, *rc.json, *rc.js, *rc.mjs, *rc.cjs, *rc.ts, *rc.toml, *rc.yaml, *rc.yml, .eslint*, .prettier*, .*",
-		"*.yml": "${basename}.*.yml"
-	},
-	"references.preferredLocation": "peek",
-	"typescript.tsdk": "node_modules/typescript/lib",
-	"svelte.plugin.svelte.compilerWarnings": {
-		"a11y-aria-attributes": "ignore",
-		"a11y-incorrect-aria-attribute-type": "ignore",
-		"a11y-unknown-aria-attribute": "ignore",
-		"a11y-hidden": "ignore",
-		"a11y-misplaced-role": "ignore",
-		"a11y-unknown-role": "ignore",
-		"a11y-no-abstract-role": "ignore",
-		"a11y-no-redundant-roles": "ignore",
-		"a11y-role-has-required-aria-props": "ignore",
-		"a11y-accesskey": "ignore",
-		"a11y-autofocus": "ignore",
-		"a11y-misplaced-scope": "ignore",
-		"a11y-positive-tabindex": "ignore",
-		"a11y-invalid-attribute": "ignore",
-		"a11y-missing-attribute": "ignore",
-		"a11y-img-redundant-alt": "ignore",
-		"a11y-label-has-associated-control": "ignore",
-		"a11y-media-has-caption": "ignore",
-		"a11y-distracting-elements": "ignore",
-		"a11y-structure": "ignore",
-		"a11y-mouse-events-have-key-events": "ignore",
-		"a11y-missing-content": "ignore",
-		"css-unused-selector": "ignore"
-	}
+  "yaml.schemas": {
+    "https://moonrepo.dev/schemas/tasks.json": [
+      ".moon/tasks.yml",
+      ".moon/tasks/**/*.yml"
+    ],
+    "https://moonrepo.dev/schemas/project.json": [
+      "**/moon.yml"
+    ],
+    "https://moonrepo.dev/schemas/template.json": [
+      "**/template.yml"
+    ],
+    "https://moonrepo.dev/schemas/workspace.json": [
+      "**/.moon/workspace.yml"
+    ],
+    "https://moonrepo.dev/schemas/toolchain.json": [
+      "**/.moon/toolchain.yml"
+    ]
+  },
+  "files.associations": {
+    "*.yml.tera": "jinja-yaml",
+    "*.md.tera": "jinja-md",
+    "*.json.tera": "jinja-json",
+    "*.tera": "jinja"
+  },
+  "cSpell.words": [
+    "archivable",
+    "citty",
+    "deno",
+    "moonrepo",
+    "nodenv",
+    "packemon",
+    "proto",
+    "prototools",
+    "svallory",
+    "tagit",
+    "tera",
+    "tokilabs",
+    "tsbuildinfo",
+    "typecheck",
+    "vite",
+    "vitest"
+  ],
+  "explorer.fileNesting.enabled": true,
+  "explorer.fileNesting.patterns": {
+    ".config*": ".git*, prettier.*, babel.*, *config.toml, *config.yaml, *config.yml, *rc, *rc.json, *rc.js, *rc.mjs, *rc.cjs, *rc.ts, *rc.toml, *rc.yaml, *rc.yml, .eslint*, .prettier*, .*",
+    "Configuration Files.md": ".git*, prettier.*, babel.*, *config.toml, *config.yaml, *config.yml, *rc, *rc.json, *rc.js, *rc.mjs, *rc.cjs, *rc.ts, *rc.toml, *rc.yaml, *rc.yml, .eslint*, .prettier*, .*",
+    "*.yml": "${basename}.*.yml"
+  },
+  "references.preferredLocation": "peek",
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "svelte.plugin.svelte.compilerWarnings": {
+    "a11y-aria-attributes": "ignore",
+    "a11y-incorrect-aria-attribute-type": "ignore",
+    "a11y-unknown-aria-attribute": "ignore",
+    "a11y-hidden": "ignore",
+    "a11y-misplaced-role": "ignore",
+    "a11y-unknown-role": "ignore",
+    "a11y-no-abstract-role": "ignore",
+    "a11y-no-redundant-roles": "ignore",
+    "a11y-role-has-required-aria-props": "ignore",
+    "a11y-accesskey": "ignore",
+    "a11y-autofocus": "ignore",
+    "a11y-misplaced-scope": "ignore",
+    "a11y-positive-tabindex": "ignore",
+    "a11y-invalid-attribute": "ignore",
+    "a11y-missing-attribute": "ignore",
+    "a11y-img-redundant-alt": "ignore",
+    "a11y-label-has-associated-control": "ignore",
+    "a11y-media-has-caption": "ignore",
+    "a11y-distracting-elements": "ignore",
+    "a11y-structure": "ignore",
+    "a11y-mouse-events-have-key-events": "ignore",
+    "a11y-missing-content": "ignore",
+    "css-unused-selector": "ignore"
+  }
 }

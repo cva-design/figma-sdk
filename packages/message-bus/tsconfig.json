@@ -6,11 +6,19 @@
 		"verbatimModuleSyntax": false,
 		"baseUrl": "./",
 		"paths": {
-			"@figma-plugin-sdk/message-bus": ["src/index.ts"],
-			"@figma-plugin-sdk/message-bus/*": ["src/*"]
+			"@figma-plugin-sdk/message-bus": [
+				"src/index.ts"
+			],
+			"@figma-plugin-sdk/message-bus/*": [
+				"src/*"
+			]
 		}
 	},
-	"include": ["**/*", "src/**/*", "tests/**/*"],
+	"include": [
+		"**/*",
+		"src/**/*",
+		"tests/**/*"
+	],
 	"references": [
 		{
 			"path": "./tsconfig.esm.json"

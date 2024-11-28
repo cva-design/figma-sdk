@@ -8,7 +8,8 @@
 	"repository": "https://github.com/moonrepo/examples",
   "scripts": {
     "check": "bun biome check ./src",
-    "check:fix": "bun biome check --fix ./src"
+    "check:fix": "bun biome check --fix ./src",
+    "check:types": "tsc --build tsconfig.project.json --pretty --verbose"
   },
 	"packemon": {
 		"format": ["esm"],
