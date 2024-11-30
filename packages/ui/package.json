@@ -94,6 +94,7 @@
   "devDependencies": {
     "@antfu/ni": "^0.23.0",
     "@chromatic-com/storybook": "^3.2.2",
+    "@tsconfig/svelte": "^4.0.1",
     "@dotenvx/dotenvx": "^1.24.4",
     "@eslint-community/eslint-utils": "^4",
     "@figma/plugin-typings": "^1.100.2",

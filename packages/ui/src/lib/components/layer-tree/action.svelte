@@ -1,27 +1,27 @@
 <script context="module" lang="ts">
-export type ActionKind = "toggle" | "button";
+	export type ActionKind = 'toggle' | 'button';
 
-type ActionBase<RequiredIcons extends string, OptionalIcons extends string> = {
-	id: string;
-	kind: ActionKind;
-	tooltip: string;
-	enabled?: boolean;
-	click?: (params: { action: Action; event: Event; layer: LayerProps }) => void;
-	icons: Record<RequiredIcons, keyof typeof import("$icons")> & {
-		[K in OptionalIcons]?: keyof typeof import("$icons");
+	type ActionBase<RequiredIcons extends string, OptionalIcons extends string> = {
+		id: string;
+		kind: ActionKind;
+		tooltip: string;
+		enabled?: boolean;
+		click?: (params: { action: Action; event: Event; layer: LayerProps }) => void;
+		icons: Record<RequiredIcons, keyof typeof import('$icons')> & {
+			[K in OptionalIcons]?: keyof typeof import('$icons');
+		};
 	};
-};
 
-export type ActionToggle = ActionBase<"on" | "off", "disabled"> & {
-	kind: "toggle";
-	isActive?: boolean;
-};
+	export type ActionToggle = ActionBase<'on' | 'off', 'disabled'> & {
+		kind: 'toggle';
+		isActive?: boolean;
+	};
 
-export type ActionButton = ActionBase<"default", "disabled"> & {
-	kind: "button";
-};
+	export type ActionButton = ActionBase<'default', 'disabled'> & {
+		kind: 'button';
+	};
 
-export type Action = ActionToggle | ActionButton;
+	export type Action = ActionToggle | ActionButton;
 </script>
 
 <script lang="ts">
@@ -34,7 +34,6 @@ export type Action = ActionToggle | ActionButton;
 		action: Action;
 		layer: LayerProps;
 	}
-
 	export let action: $$Props['action'];
 	export let layer: LayerProps;
 
@@ -83,15 +82,10 @@ export type Action = ActionToggle | ActionButton;
 		}
 	});
 
-	function handleClick(event: Event) {
-		if (action.enabled) {
-			if (action.kind === 'toggle') {
-				action.isActive = !action.isActive;
-			}
-
-			if (action.click) {
-				action.click({ action, event, layer });
-			}
+	function handleActionClick(event: MouseEvent) {
+		event.stopPropagation();
+		if (action?.click) {
+			action.click({ action, event, layer });
 		}
 	}
 
@@ -100,9 +94,10 @@ export type Action = ActionToggle | ActionButton;
 		state: !action.enabled
 			? 'disabled'
 			: action.kind === 'toggle' && action.isActive
-				? 'active'
-				: 'inactive'
+					? 'active'
+					: 'inactive'
 	}) as keyof typeof import('$icons');
+
 </script>
 
 <button
@@ -110,31 +105,32 @@ export type Action = ActionToggle | ActionButton;
 	class:active={action.kind === 'toggle' && action.isActive}
 	disabled={!action.enabled}
 	title={action.tooltip}
-	on:click={handleClick}
+	on:click={handleActionClick}
 	{...$$restProps}
 >
 	<Icon icon={iconKey} />
 </button>
 
 <style lang="scss">
-.action {
-	background: none;
-	border: none;
-	cursor: pointer;
-	padding: 2px;
-	margin: 0 2px;
-	color: var(--figma-color-icon-secondary);
-}
+	.action {
+		background: none;
+		border: none;
+		cursor: pointer;
+		padding: 2px;
+		margin: 0 2px;
+		color: var(--figma-color-icon-secondary);
+	}
 
-.action:disabled {
-	opacity: 0.5;
-	cursor: not-allowed;
-}
+	.action:disabled {
+		opacity: 0.5;
+		cursor: not-allowed;
+	}
 
-.action.active {
-	color: var(--figma-color-icon);
-}
+	.action.active {
+		color: var(--figma-color-icon);
+	}
 
-.action:hover:not(:disabled) {
-	color: var(--figma-color-icon);
-}</style>
+	.action:hover:not(:disabled) {
+		color: var(--figma-color-icon);
+	}
+</style>

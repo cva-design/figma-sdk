@@ -82,11 +82,24 @@
 		...sampleData,
 		disabled: true
 	};
+
+	const actionsData: LayerTreeData = {
+		...sampleData,
+		actions: [
+			{ id: 'lock', icons: { on: 'LockOffSvg', off: 'LockOnSvg' }, enabled: true, kind: 'toggle', tooltip: 'Lock', click: () => console.log('lock click') }
+		]
+	};
 </script>
 
 <Story name="Default">
 	<div style="width: 240px;">
 		<LayerTree data={sampleData} expandedNodes={new Set()} />
+	</div>
+</Story>
+
+<Story name="Single Select">
+	<div style="width: 240px;">
+		<LayerTree data={sampleData} singleSelect={true} expandedNodes={new Set()} />
 	</div>
 </Story>
 
@@ -102,6 +115,12 @@
 	</div>
 </Story>
 
+<Story name="With Actions">
+	<div style="width: 240px;">
+		<LayerTree data={actionsData} />
+	</div>
+</Story>
+
 <Story name="Mixed State">
 	<div style="width: 240px;">
 		<LayerTree data={mixedStateData} />
@@ -114,19 +133,7 @@
 	</div>
 </Story>
 
-<Story name="With Actions">
-	<div style="width: 240px;">
-		<LayerTree
-			data={{
-				...sampleData,
-				actions: [
-					{ icon: 'LockSvg', id: 'lock', tooltip: 'Lock' },
-					{ icon: 'HideSvg', id: 'hide', tooltip: 'Hide' }
-				]
-			}}
-		/>
-	</div>
-</Story>
+
 
 <style>
 	div {

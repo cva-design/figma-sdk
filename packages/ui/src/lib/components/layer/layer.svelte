@@ -1,10 +1,6 @@
-<script lang="ts">
-	import { Icon, Text } from '$ui';
-	import { cva, type VariantProps } from 'class-variance-authority';
-	import type { ComponentType } from 'svelte';
-	import { createEventDispatcher } from 'svelte';
-	import styles from './layer.module.css';
-	import { LayerIcon, type LayerType } from './types';
+<script lang="ts" context="module">
+	import type { Action as ActionType } from '../layer-tree/action.svelte';
+	import type { LayerType } from './types';
 	const layer = cva(styles.layer, {
 		variants: {
 			bold: {
@@ -21,29 +17,52 @@
 			}
 		}
 	});
+	export interface LayerProps extends VariantProps<typeof layer> {
+		description?: string;
+		icons: ComponentType | string;
+		value: boolean;
+		propagateEscapeKeyDown?: boolean;
+		onClick?: (event: MouseEvent) => void;
+		actions?: Array<ActionType>;
+	}
+</script>
 
-interface LayerProps extends VariantProps<typeof layer> {
-	description?: string;
-	icon: ComponentType | string;
-	value: boolean;
-	propagateEscapeKeyDown?: boolean;
-}
+<script lang="ts">
+	import { Icon, LayerIcon, Text, type IconProps } from '$ui';
+	import { cva, type VariantProps } from 'class-variance-authority';
+	import type { ComponentType } from 'svelte';
+	import { createEventDispatcher } from 'svelte';
+	import styles from './layer.module.css';
+	import Action from '../layer-tree/action.svelte';
 
-export let type: LayerType;
-/**
- * TODO: automatically set bold to true
- * if the layer is a FRAME or SECTION at the top-level
- */
-export const bold: boolean | undefined = false;
-export let name: string;
-export const component: boolean | undefined = false;
-export const description: string | undefined = undefined;
-export const icon: string | undefined = undefined;
-export let selected: boolean | undefined = false;
-export const propagateEscapeKeyDown: boolean = true;
-export let expanded: boolean = false;
 
-const dispatch = createEventDispatcher();
+
+	interface LayerProps extends VariantProps<typeof layer> {
+		description?: string;
+		icons: ComponentType | string;
+		value: boolean;
+		propagateEscapeKeyDown?: boolean;
+		onClick?: (event: MouseEvent) => void;
+		actions?: Array<ActionType>;
+	}
+	
+	export let type: LayerType;
+	/**
+	 * TODO: automatically set bold to true
+	 * if the layer is a FRAME or SECTION at the top-level
+	 */
+	export const bold: boolean | undefined = false;
+	export let name: string;
+	export const component: boolean | undefined = false;
+	export const description: string | undefined = undefined;
+	export const icon: string | undefined = undefined;
+	export let selected: boolean | undefined = false;
+	export const propagateEscapeKeyDown: boolean = true;
+	export let expanded: boolean = false;
+	export let onClick: ((event: MouseEvent) => void) | undefined = undefined;
+	export let actions: LayerProps['actions'] = [];
+
+	const dispatch = createEventDispatcher();
 
 	function handleChange(event: Event) {
 		if ($$slots.default) {
@@ -65,12 +84,25 @@ const dispatch = createEventDispatcher();
 		}
 	}
 
-
-
-const iconUrl = LayerIcon[type] ?? icon;
+	function handleLayerClick(event: MouseEvent) {
+		// Only handle layer clicks if the click didn't originate from an action
+		const target = event.target as HTMLElement;
+		console.log('target', target);
+		if (!target.closest('.actions')) {
+			if (onClick) {
+				onClick(event);
+			}
+			dispatch('click', event);
+		}
+	}
+	const allProps: LayerProps = {
+		...$$props,
+		...$$restProps,
+	} as LayerProps;
+	const iconUrl = LayerIcon[type] ?? icon;
 </script>
 
-<div class={layer({ bold, component, expanded, selected })} >
+<div class={layer({ bold, component, expanded, selected })} on:click={handleLayerClick}>
 	<div
 		class={`layer-content ${styles.layerContent} ${selected ? styles.layerIndentSelected : styles.layerIndent}`}
 	>
@@ -97,6 +129,12 @@ const iconUrl = LayerIcon[type] ?? icon;
 			<Text class={styles.description}>{description}</Text>
 		{/if}
 	</div>
+	<!-- If the actions stay inside the div, there is no way to click on it because it always clicks on the input again -->
+	{#if actions && actions.length > 0}
+		{#each actions as action}
+			<Action {action} layer={allProps} />
+		{/each}
+	{/if}
 	{#if $$slots.default}
 		<div class={styles.children}>
 			<slot />
@@ -193,4 +231,34 @@ const iconUrl = LayerIcon[type] ?? icon;
 	// .layer-indent-selected {
 	// 	padding-left: var(--space-medium);
 	// }
+
+	:global(.actions) {
+		display: none;
+		position: relative;
+		margin-left: auto;
+		gap: var(--space-extra-small);
+	}
+
+	:global(.layer:hover .actions) {
+		display: flex;
+	}
+
+	:global(.actionButton) {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 24px;
+		height: 24px;
+		padding: 0;
+		border: none;
+		background: none;
+		color: var(--figma-color-icon-secondary);
+		cursor: pointer;
+		border-radius: var(--border-radius-small);
+	}
+
+	:global(.actionButton:hover) {
+		background-color: var(--figma-color-bg-hover);
+		color: var(--figma-color-icon);
+	}
 </style>

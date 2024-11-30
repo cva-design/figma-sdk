@@ -2,8 +2,8 @@
   "extends": "@tsconfig/svelte/tsconfig.json",
   "compilerOptions": {
     "allowJs": true,
-    "allowImportingTsExtensions": true,
-    
+    "allowImportingTsExtensions": false,
+    "module": "ESNext",
     "noImplicitAny": false,
     "checkJs": true,
     "esModuleInterop": true,

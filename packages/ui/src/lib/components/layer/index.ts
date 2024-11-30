@@ -4,5 +4,5 @@ export { default as Layer } from './layer.svelte';
 
 //@index(['./[^\.]+.(svelte|ts)'], (f, {pascalCase}) => `export * from '${f.path}${f.ext}';`)
 export * from './layer.svelte';
-export * from './types.ts';
+export * from './types';
 //@endindex

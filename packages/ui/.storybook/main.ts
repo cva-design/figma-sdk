@@ -11,7 +11,7 @@ const groups = {
 	Next: ['checkbox'],
 	Actions: ['button', 'icon-button', 'icon-toggle', 'action-group', 'link'],
 	Communication: ['tooltip', 'popover'],
-	'Data Display': ['tree', 'disclosure'],
+	'Data Display': ['tree', 'layer-tree', 'layer', 'disclosure'],
 	Forms: ['input', 'textarea', 'radio', 'switch', 'select-menu'],
 	Navigation: ['tabs', 'sidebar'],
 	Visual: ['icon', 'onboarding-tip']
