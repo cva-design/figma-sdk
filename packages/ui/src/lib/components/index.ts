@@ -28,34 +28,35 @@
  *  For `changeCase` object documentation.
  */
 
-//@index(['*/index.ts'], (f, {pascalCase}) => `export * from '${f.path}${f.ext}';`)
-export * from './action-group/index.ts';
-export * from './button/index.ts';
-export * from './disclosure/index.ts';
-export * from './icon-button/index.ts';
-export * from './icon-toggle/index.ts';
-export * from './icon/index.ts';
-export * from './input/index.ts';
-export * from './onboarding-tip/index.ts';
-export * from './popover/index.ts';
-export * from './radio/index.ts';
-export * from './select-menu/index.ts';
-export * from './sidebar/index.ts';
-export * from './switch/index.ts';
-export * from './tabs/index.ts';
-export * from './text/index.ts';
-export * from './textarea/index.ts';
-export * from './tooltip/index.ts';
-export * from './tree/index.ts';
-export * from '../next/checkbox/index.ts';
-// export * from '../next/layer-tree/index.ts';
+//@index(['*/index'], (f, {pascalCase}) => `export * from '${f.path}${f.ext}';`)
+export * from './action-group/index';
+export * from './button/index';
+export * from './disclosure/index';
+export * from './icon-button/index';
+export * from './icon-toggle/index';
+export * from './icon/index';
+export * from './input/index';
+export * from './onboarding-tip/index';
+export * from './popover/index';
+export * from './radio/index';
+export * from './select-menu/index';
+export * from './sidebar/index';
+export * from './switch/index';
+export * from './tabs/index';
+export * from './text/index';
+export * from './textarea/index';
+export * from './tooltip/index';
+export * from './tree/index';
+export * from './layer-tree/index';
+export * from './layer/index';
+export * from '../next/checkbox/index';
 //@endindex
 
 //@index(['*/index.svelte'], (f, {pascalCase}) => `export { default as ${pascalCase(f.path.split('/').at(-2))} } from '${f.path}${f.ext}';`)
 
 //@endindex
 
-//@index(['*/types.ts'], f => `export * from '${f.path}';`)
+//@index(['*/types'], f => `export * from '${f.path}';`)
 export * from './select-menu/types';
 export * from './tooltip/types';
 export * from './tree/types';

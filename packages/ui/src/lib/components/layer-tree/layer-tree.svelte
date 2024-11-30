@@ -1,20 +1,20 @@
 <script lang="ts" context="module">
-import type { Action as ActionType } from "../../components/tree/types";
-export type LayerTreeData = {
-	id: string;
-	children: LayerTreeData[];
-	type: LayerType;
-	name: string;
-	description?: string;
-	component?: boolean;
-	selected?: boolean;
-	expanded?: boolean;
-	actions?: ActionType[];
-	depth?: number;
-	mixed?: boolean;
-	disabled?: boolean;
-	click?: (event: Event, node: LayerTreeData) => void;
-};
+	import type { Action as ActionType } from './action.svelte';
+	export type LayerTreeData = {
+		id: string;
+		children: LayerTreeData[];
+		type: LayerType;
+		name: string;
+		description?: string;
+		component?: boolean;
+		selected?: boolean;
+		expanded?: boolean;
+		actions?: ActionType[];
+		depth?: number;
+		mixed?: boolean;
+		disabled?: boolean;
+		click?: (event: Event, node: LayerTreeData) => void;
+	};
 </script>
 
 <script lang="ts">
@@ -22,6 +22,7 @@ export type LayerTreeData = {
 	import { createEventDispatcher, onMount } from 'svelte';
 	import { Layer } from '../layer';
 	import type { LayerType } from '../../components/layer/types';
+	import { selectedNodeStore } from './store';
 
 	const dispatch = createEventDispatcher<{
 		select: LayerTreeData;
@@ -31,7 +32,13 @@ export type LayerTreeData = {
 	export let data: LayerTreeData;
 	export let expandedNodes: Set<string> = new Set();
 	export let initiallyExpanded: boolean = false;
-
+	export let singleSelect: boolean = false;
+	let selected: boolean = false;
+	if (singleSelect) {
+		selectedNodeStore.subscribe((selectedId) => {
+			selected = selectedId === data.id;
+		});
+	}
 	function expandAll(node: LayerTreeData) {
 		expandedNodes.add(node.id);
 		node.children?.forEach(expandAll);
@@ -55,8 +62,16 @@ export type LayerTreeData = {
 	}
 
 	function handleNodeClick(event: Event, node: LayerTreeData) {
+		if (!node.disabled && singleSelect) {
+			selectedNodeStore.update((nodeId) => {
+				if (nodeId === node.id) {
+					return null; // Deselect if clicking the same node
+				}
+				// If another node was selected, deselect it and select the new one
+				return node.id;
+			});
+		}
 		if (node.click) {
-			console.log('node.click', node.click);
 			node.click(event, node);
 		}
 		dispatch('select', node);
@@ -81,7 +96,7 @@ export type LayerTreeData = {
 			{#if renderedTree.children?.length > 0}
 				<button
 					class="layerTree--caret"
-					on:click|stopPropagation={() => toggleExpand(renderedTree)}
+					on:click|stopPropagation={() => !renderedTree.disabled && toggleExpand(renderedTree)}
 					class:expanded={renderedTree.expanded}
 				>
 					{#if renderedTree.expanded}
@@ -97,17 +112,17 @@ export type LayerTreeData = {
 				name={renderedTree.name}
 				description={renderedTree.description}
 				component={renderedTree.component}
-				selected={renderedTree.selected}
-				actions={renderedTree.actions}
-				on:click={(e) => handleNodeClick(e, renderedTree)}
+				{selected}
+				actions={data.actions}
+				onClick={(e) => handleNodeClick(e, renderedTree)}
 			/>
 		</div>
 
 		{#if expandedNodes.has(renderedTree.id) && renderedTree.children?.length}
 			<div class="layerTree--children">
 				{#each renderedTree.children as child}
-					<svelte:self data={child} {expandedNodes} on:select on:toggle />
-					<slot/>
+					<svelte:self data={child} {expandedNodes} {singleSelect} on:select on:toggle />
+					<slot />
 				{/each}
 			</div>
 		{/if}

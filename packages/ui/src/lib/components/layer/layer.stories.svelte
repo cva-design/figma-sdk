@@ -38,7 +38,7 @@
 </Story>
 
 <Story name="With Children">
-	<Layer type="FRAME" name="Frame 1" on:change on:valueChange>
+	<Layer type="FRAME" name="Frame 1" on:change on:valueChange >
 		<Layer type="COMPONENT" name="Component 1" component on:change on:valueChange />
 		<Layer type="FRAME" name="Frame 2" on:change on:valueChange />
 	</Layer>

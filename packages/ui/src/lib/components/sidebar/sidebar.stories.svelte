@@ -2,7 +2,7 @@
 	import { Story } from '@storybook/addon-svelte-csf';
 	import type { Meta } from '@storybook/svelte';
 	import { Button } from '../button';
-	import { Disclosure, DisclosureItem } from '../disclosure/index.ts';
+	import { Disclosure, DisclosureItem } from '../disclosure/index';
 	import Text from '../text/text.svelte';
 	import Sidebar from './sidebar.svelte';
 	import type { SvelteComponent } from 'svelte';

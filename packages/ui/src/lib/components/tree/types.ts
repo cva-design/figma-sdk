@@ -1,4 +1,4 @@
-import type { Layer } from '../../next/layer';
+import type { Layer } from '../layer';
 
 export interface ITreeNode {
   id: string;
