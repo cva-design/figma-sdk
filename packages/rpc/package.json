@@ -2,6 +2,7 @@
 	"name": "@figma-plugin-sdk/rpc",
 	"version": "0.0.1",
 	"description": "A browser package.",
+	"type": "module",
 	"keywords": [
 		"node",
 		"lib",
@@ -13,7 +14,10 @@
 	"scripts": {
 		"check": "nr check:biome && nr check:types",
 		"check:biome": "biome check --fix ./src",
-		"check:types": "tsc --build tsconfig.project.json --pretty --verbose"
+		"check:types": "tsc --build tsconfig.project.json --pretty --verbose",
+		"test": "vitest",
+		"test:coverage": "vitest run --coverage",
+		"test:ui": "vitest --ui"
 	},
 	"packemon": {
 		"format": [
@@ -45,9 +49,5 @@
 			"default": "./lib/index.js"
 		}
 	},
-	"dependencies": {},
-	"devDependencies": {
-		"@figma/plugin-typings": "^1.102.0",
-		"@types/node": "^22.9.1"
-	}
+	"dependencies": {}
 }

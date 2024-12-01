@@ -2,6 +2,7 @@
 	"extends": "../../tsconfig.options.json",
 	"compilerOptions": {
 		"noEmit": true,
+		"emitDeclarationOnly": false,
 		"verbatimModuleSyntax": false,
 		"baseUrl": "./",
 		"paths": {

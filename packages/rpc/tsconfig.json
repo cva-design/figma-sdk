@@ -2,8 +2,10 @@
 	"extends": "../../tsconfig.options.json",
 	"compilerOptions": {
 		"noEmit": true,
+		"emitDeclarationOnly": false,
 		"verbatimModuleSyntax": false,
 		"baseUrl": "./",
+		"typeRoots": ["./node_modules/@types", "./node_modules/@figma"],
 		"paths": {
 			"@figma-plugin-sdk/message-bus": [
 				"./src/index.ts"

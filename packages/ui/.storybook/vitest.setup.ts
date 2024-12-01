@@ -1,7 +1,11 @@
-import { setProjectAnnotations } from '@storybook/test';
 import { beforeAll } from 'vitest';
-import * as preview from './preview';
+// 👇 If you're using Sveltekit, import from @storybook/sveltekit
+import { setProjectAnnotations } from '@storybook/svelte';
+// 👇 Import the exported annotations, if any, from the addons you're using; otherwise remove this
 
-beforeAll(() => {
-  setProjectAnnotations(preview);
-});
+import * as previewAnnotations from './preview';
+ 
+const annotations = setProjectAnnotations([previewAnnotations]);
+ 
+// Run Storybook's beforeAll hook
+beforeAll(annotations.beforeAll);
