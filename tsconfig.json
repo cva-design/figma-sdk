@@ -3,19 +3,13 @@
 	"files": [],
 	"references": [
 		{
-			"path": "apps/astro-app"
+			"path": "packages/message-bus/tsconfig.project.json"
 		},
 		{
-			"path": "apps/plugin-v1"
+			"path": "packages/rpc/tsconfig.project.json"
 		},
 		{
-			"path": "packages/message-bus"
-		},
-		{
-			"path": "packages/rpc"
-		},
-		{
-			"path": "packages/ui"
+			"path": "packages/ui/tsconfig.project.json"
 		}
 	]
 }

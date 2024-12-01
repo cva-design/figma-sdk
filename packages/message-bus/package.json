@@ -13,7 +13,10 @@
 	"scripts": {
 		"check": "na check:biome && na check:types",
 		"check:biome": "biome check --fix ./src",
-		"check:types": "tsc --build tsconfig.project.json --pretty --verbose"
+		"check:types": "tsc --build tsconfig.project.json --pretty --verbose",
+		"test": "vitest",
+		"test:coverage": "vitest run --coverage",
+		"test:ui": "vitest --ui"
 	},
 	"packemon": {
 		"format": [
@@ -44,11 +47,5 @@
 			},
 			"default": "./lib/index.js"
 		}
-	},
-	"dependencies": {
-		"@figma/plugin-typings": "latest"
-	},
-	"devDependencies": {
-		"typescript": "^5.0.0"
 	}
 }
