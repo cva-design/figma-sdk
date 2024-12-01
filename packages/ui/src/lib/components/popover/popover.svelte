@@ -36,7 +36,8 @@
 			<slot name="header" class="fps-popover__title" />
 			<button class="fps-popover__controls" use:melt={$close}>
 				<slot name="close-icon">
-					<Icon icon="CloseSvg" />
+					<!-- <Icon icon="CloseSvg" /> -->
+					<svg fill="none" height="32" viewBox="0 0 32 32" width="32" xmlns="http://www.w3.org/2000/svg"><path d="m16 15.293 4.6465-4.6464.7071.7071-4.6465 4.6464 4.6465 4.6465-.7071.7071-4.6465-4.6464-4.6464 4.6464-.7071-.7071 4.6464-4.6465-4.6464-4.6463.7071-.7071z" fill="currentColor"></path></svg>
 				</slot>
 			</button>
 		</div>
@@ -50,7 +51,7 @@
 	.fps-popover__container {
 		--arrow-size: var(--space-3);
 		font-family: var(--font-family-default);
-		color: var(--color-text);
+		color: var(--color-text-menu);
 		background-color: var(--color-bg-menu);
 		border-radius: var(--radius-large);
 		box-shadow: var(--elevation-400-menu-panel);
@@ -76,6 +77,12 @@
 		display: flex;
 		align-items: center;
 		margin-left: auto;
+		color: var(--color-text-menu);
+
+		&:hover {
+			background-color: var(--color-bg-menu-hover);
+			border-radius: var(--radius-medium);
+		}
 	}
 
 	.fps-popover__section {
@@ -101,4 +108,5 @@
 		inset: 0;
 		background-color: var(--color-overlay-dialog);
 	}
+
 </style>

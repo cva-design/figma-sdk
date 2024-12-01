@@ -35,11 +35,7 @@
 		class="header"
 	>
 		<div class="icon">
-			{#if expanded}
-				<Icon icon="CaretDownSvg" color="black" />
-			{:else}
-				<Icon icon="CaretDownSvg" color="black" />
-			{/if}
+				<Icon icon="CaretDownSvg" />
 		</div>
 		<div class="title">{title}</div>
 	</div>
@@ -85,9 +81,20 @@
 	.icon {
 		margin-left: -4px;
 		opacity: 0.3;
+		transition: transform .1s;
 	}
 	.expanded .icon {
 		opacity: 0.8;
+		transform: rotate(-90deg);
+		transition: transform .1s;
+	}
+
+	.figma-dark {
+		.icon {
+			color: #f00;
+			fill: #f00;
+			opacity: 0.3;
+		}
 	}
 
 	.section {

@@ -130,4 +130,6 @@ button:global(.on) {
 
 button:hover:not(:disabled) {
   color: var(--figma-color-icon);
-}</style>
+}
+
+</style>
