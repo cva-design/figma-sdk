@@ -1,37 +1,43 @@
 import { sendRequest } from "./rpc";
-import type { MakeAllFnAsync, RpcClientOptions } from "./types";
+import type { JsonValue, MakeAllFnAsync, RpcClientOptions } from "./types";
 
 function listMethods(classConstructor: NewableFunction): string[] {
-	const properties = new Set<string>();
-	let obj = classConstructor.prototype;
+	const prototype = classConstructor.prototype;
+	const props = Object.getOwnPropertyNames(prototype);
 
-	do {
-		if (obj === Object.prototype) break; // Stop traversing when reaching Object.prototype
+	const methods = props.filter((prop) => {
+		const descriptor = Object.getOwnPropertyDescriptor(prototype, prop);
 
-		for (const prop of Object.getOwnPropertyNames(obj)) {
-			if (prop !== "constructor" && typeof obj[prop] === "function") {
-				properties.add(prop);
-			}
+		if (
+			!descriptor ||
+			prop === "constructor" ||
+			prop.startsWith("_") ||
+			prop.startsWith("#")
+		) {
+			return false;
 		}
 
-		obj = Object.getPrototypeOf(obj);
-	} while (obj);
+		return (
+			typeof descriptor.value === "function" && descriptor.enumerable === true
+		);
+	});
 
-	return [...properties];
+	return methods;
 }
 
-export function createClient<T extends NewableFunction>(
+export function createClient<T extends new (...args: unknown[]) => unknown>(
 	stubClass: T,
 	options?: RpcClientOptions,
-): MakeAllFnAsync<T> {
+): MakeAllFnAsync<InstanceType<T>> {
 	const timeout = options?.timeout;
 	const methods = listMethods(stubClass);
+	const stub = {} as MakeAllFnAsync<InstanceType<T>>;
 
-	const stub = {} as MakeAllFnAsync<T>;
-
-	for (const p in methods) {
-		// @ts-ignore
-		stub[p] = (...params) => sendRequest(p, params, timeout);
+	for (const method of methods) {
+		const methodFn = (...params: JsonValue[]) =>
+			sendRequest(method, params, timeout);
+		stub[method as keyof typeof stub] = methodFn as any;
 	}
+
 	return stub;
 }

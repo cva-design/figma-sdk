@@ -22,9 +22,10 @@ export interface JsonRpcRequest {
 	error?: InternalMethodError;
 }
 
-export interface InternalMethodError extends Error {
-	code?: string;
-	data?: JsonObject;
+export interface InternalMethodError {
+	code: number;
+	message: string;
+	name?: string;
 }
 
 export type ApiMethodsDictionary = Record<
