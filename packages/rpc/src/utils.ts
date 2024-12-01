@@ -1,5 +1,6 @@
 import type { JsonObject, JsonValue } from "./types";
 
+// biome-ignore lint/complexity/noBannedTypes: we are testing for a function
 export function isFunction(value: unknown): value is Function {
 	return typeof value === "function";
 }
