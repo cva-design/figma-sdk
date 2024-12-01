@@ -28,14 +28,9 @@ const pending: {
 	};
 } = {};
 
-function sendJson(
-	req: JsonRpcRequest,
-	timeoutId?: ReturnType<typeof setTimeout>,
-): void {
+function sendJson(req: JsonRpcRequest): void {
 	try {
 		sendRaw(req);
-
-		if (timeoutId) clearTimeout(timeoutId);
 	} catch (err) {
 		console.error(err);
 	}
@@ -51,7 +46,11 @@ function sendResult(json: JsonRpcRequest, result: JsonValue) {
 function sendError(json: JsonRpcRequest, error: Error) {
 	sendJson({
 		...json,
-		error,
+		error: {
+			code: error instanceof MethodNotFound ? -32601 : -32000,
+			message: error.message,
+			name: error.name,
+		},
 	});
 }
 
@@ -172,8 +171,7 @@ export const sendRequest = (
 		}, timeout || 6000);
 
 		pending[id] = callback;
-		// test()
-		sendJson(req, callback.timeout);
+		sendJson(req);
 	});
 
 // export { RPCError };
