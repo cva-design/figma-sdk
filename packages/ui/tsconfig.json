@@ -1,5 +1,5 @@
 {
-  "extends": "@tsconfig/svelte/tsconfig.json",
+  "extends": "./.svelte-kit/tsconfig.json",
   "compilerOptions": {
     "allowJs": true,
     "allowImportingTsExtensions": false,
@@ -23,20 +23,9 @@
       "$icons": ["./src/lib/icons"],
       "$icons/*": ["./src/lib/icons/*"]
     },
-    "typeRoots": [
-      "./node_modules/@types",
-      "./src/svelte-typings.d.ts"
-    ],
-    "types": [
-      "vite/client",
-      
-    ]
+    "typeRoots": ["./node_modules/@types", "./src/svelte-typings.d.ts"],
+    "types": ["vite/client"]
   },
   "exclude": ["**/_bkp/**/*", "src/lib/next"],
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.d.ts",
-    "src/**/*.svelte",
-    "src/vite-env.d.ts"
-  ]
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.svelte", "src/vite-env.d.ts"]
 }

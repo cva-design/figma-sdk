@@ -1,6 +1,6 @@
 // https://www.npmjs.com/package/tsconfig-moon
 {
-  "extends": "./.svelte-kit/tsconfig.json",
+  "extends": "tsconfig-moon/tsconfig.json",
   "typeRoots": ["./node_modules/@types", "./node_modules/@figma"],
   "compilerOptions": {
     "allowJs": true,

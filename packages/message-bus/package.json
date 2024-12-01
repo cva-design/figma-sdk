@@ -11,7 +11,7 @@
 	"license": "MIT",
 	"repository": "https://github.com/moonrepo/examples",
 	"scripts": {
-		"check": "pnpm check:biome && pnpm check:types",
+		"check": "na check:biome && na check:types",
 		"check:biome": "biome check --fix ./src",
 		"check:types": "tsc --build tsconfig.project.json --pretty --verbose"
 	},

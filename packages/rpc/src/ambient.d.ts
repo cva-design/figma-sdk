@@ -1,1 +1,1 @@
-import '@figma/plugin-typings';
+import "@figma/plugin-typings";

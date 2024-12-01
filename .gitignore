@@ -37,3 +37,4 @@ node_modules/
 .output/
 .svelte-kit/
 .vercel/
+packages/message-bus/.tsc

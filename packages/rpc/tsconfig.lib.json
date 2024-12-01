@@ -1,7 +1,15 @@
 {
-	"extends": "../../tsconfig.options.json",
+	"extends": "./tsconfig.project.json",
 	"compilerOptions": {
-		"outDir": "lib"
+		"module": "CommonJS",
+		"moduleResolution": "node",
+		"outDir": "./lib",
+		"rootDir": "./src",
+		"composite": true,
+		"declaration": true,
+		"declarationDir": "./lib",
+		"noEmit": false
 	},
-	"include": ["./src/**/*"]
+	"include": ["src/**/*"],
+	"exclude": ["tests/**/*"]
 }

@@ -3,9 +3,20 @@
   "compilerOptions": {
     "allowImportingTsExtensions": true,
     "composite": true,
-    "noEmit": false,
-    "emitDeclarationOnly": true,
+    "noEmit": true,
+    "declaration": true,
+    "declarationDir": "./.tsc/types",
+    "rootDir": "./src",
     "outDir": "./.tsc"
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*"],
+  "exclude": ["tests/**/*"],
+  "references": [
+    {
+      "path": "./tsconfig.lib.json"
+    },
+    {
+      "path": "./tsconfig.esm.json"
+    }
+  ]
 }

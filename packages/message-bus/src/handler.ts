@@ -1,7 +1,7 @@
 // Copied from: https://github.com/yuanqing/create-figma-plugin/blob/main/packages/utilities/src/events.ts
 export type EventHandler = {
-  name: string;
-  handler: (...args: unknown[]) => void;
+	name: string;
+	handler: (...args: unknown[]) => void;
 };
 
 const eventHandlers: Record<string, EventHandler> = {};
@@ -15,15 +15,15 @@ let currentId = 0;
  * @category Events
  */
 export function on<Handler extends EventHandler>(
-  name: Handler['name'],
-  handler: Handler['handler'],
+	name: Handler["name"],
+	handler: Handler["handler"],
 ): () => void {
-  const id = `${currentId}`;
-  currentId += 1;
-  eventHandlers[id] = { handler, name };
-  return (): void => {
-    delete eventHandlers[id];
-  };
+	const id = `${currentId}`;
+	currentId += 1;
+	eventHandlers[id] = { handler, name };
+	return (): void => {
+		delete eventHandlers[id];
+	};
 }
 
 /**
@@ -34,17 +34,17 @@ export function on<Handler extends EventHandler>(
  * @category Events
  */
 export function once<Handler extends EventHandler>(
-  name: Handler['name'],
-  handler: Handler['handler'],
+	name: Handler["name"],
+	handler: Handler["handler"],
 ): () => void {
-  let done = false;
-  return on(name, (...args): void => {
-    if (done === true) {
-      return;
-    }
-    done = true;
-    handler(...args);
-  });
+	let done = false;
+	return on(name, (...args): void => {
+		if (done === true) {
+			return;
+		}
+		done = true;
+		handler(...args);
+	});
 }
 
 /**
@@ -62,49 +62,49 @@ export function once<Handler extends EventHandler>(
  * @category Events
  */
 export const emit =
-  typeof window === 'undefined'
-    ? <Handler extends EventHandler>(
-        name: Handler['name'],
-        ...args: Parameters<Handler['handler']>
-      ): void => {
-        figma.ui.postMessage([name, ...args]);
-      }
-    : <Handler extends EventHandler>(
-        name: Handler['name'],
-        ...args: Parameters<Handler['handler']>
-      ): void => {
-        window.parent.postMessage(
-          {
-            pluginMessage: [name, ...args],
-          },
-          '*',
-        );
-      };
+	typeof window === "undefined"
+		? <Handler extends EventHandler>(
+				name: Handler["name"],
+				...args: Parameters<Handler["handler"]>
+			): void => {
+				figma.ui.postMessage([name, ...args]);
+			}
+		: <Handler extends EventHandler>(
+				name: Handler["name"],
+				...args: Parameters<Handler["handler"]>
+			): void => {
+				window.parent.postMessage(
+					{
+						pluginMessage: [name, ...args],
+					},
+					"*",
+				);
+			};
 
 export function invokeEventHandler(name: string, args: Array<unknown>): void {
-  for (const id in eventHandlers) {
-    if (eventHandlers[id].name === name) {
-      eventHandlers[id].handler.apply(null, args);
-    }
-  }
+	for (const id in eventHandlers) {
+		if (eventHandlers[id].name === name) {
+			eventHandlers[id].handler.apply(null, args);
+		}
+	}
 }
 
-if (typeof window === 'undefined') {
-  figma.ui.on('message', (data: unknown): void => {
-    if (Array.isArray(data)) {
-      const [name, ...args] = data as [string, unknown[]];
-      invokeEventHandler(name, args);
-    }
-  });
+if (typeof window === "undefined") {
+	figma.ui.on("message", (data: unknown): void => {
+		if (Array.isArray(data)) {
+			const [name, ...args] = data as [string, unknown[]];
+			invokeEventHandler(name, args);
+		}
+	});
 } else {
-  window.addEventListener('message', (event: MessageEvent): void => {
-    if (typeof event.data.pluginMessage === 'undefined') {
-      return;
-    }
-    if (Array.isArray(event.data.pluginMessage)) {
-      const [name, ...args]: [string, Array<unknown>] =
-        event.data.pluginMessage;
-      invokeEventHandler(name, args);
-    }
-  });
+	window.addEventListener("message", (event: MessageEvent): void => {
+		if (typeof event.data.pluginMessage === "undefined") {
+			return;
+		}
+		if (Array.isArray(event.data.pluginMessage)) {
+			const [name, ...args]: [string, Array<unknown>] =
+				event.data.pluginMessage;
+			invokeEventHandler(name, args);
+		}
+	});
 }
