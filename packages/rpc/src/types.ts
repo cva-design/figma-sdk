@@ -1,40 +1,40 @@
 export type JsonValue =
-	| string
-	| number
-	| boolean
-	| JsonObject
-	| JsonArray
-	| null
-	| undefined;
+  | string
+  | number
+  | boolean
+  | JsonObject
+  | JsonArray
+  | null
+  | undefined;
 
 export interface JsonObject {
-	[x: string]: JsonValue;
+  [x: string]: JsonValue;
 }
 
 export interface JsonArray extends Array<JsonValue> {}
 
 export interface JsonRpcRequest {
-	jsonrpc: string;
-	method: string;
-	params?: JsonArray;
-	result?: JsonValue;
-	id: number;
-	error?: InternalMethodError;
+  jsonrpc: string;
+  method: string;
+  params?: JsonArray;
+  result?: JsonValue;
+  id: number;
+  error?: InternalMethodError;
 }
 
 export interface InternalMethodError {
-	code: number;
-	message: string;
-	name?: string;
+  code: number;
+  message: string;
+  name?: string;
 }
 
 export type ApiMethodsDictionary = Record<
-	string,
-	(...args: JsonValue[]) => Promise<JsonValue> | JsonValue
+  string,
+  (...args: JsonValue[]) => Promise<JsonValue> | JsonValue
 >;
 
 export interface RpcClientOptions {
-	timeout?: number;
+  timeout?: number;
 }
 
 export type RpcClient<T> = T & RpcClientOptions;
@@ -49,19 +49,19 @@ export type Promisify<T> = T extends Promise<unknown> ? T : Promise<T>;
 // @TODO: understand why the code below does not work
 //
 export type MakeFnAsync<T> = T extends (
-	...args: infer TParams
+  ...args: infer TParams
 ) => infer TMaybePromise
-	? TMaybePromise extends Promise<unknown>
-		? T
-		: (...args: TParams) => Promise<TMaybePromise>
-	: T;
+  ? TMaybePromise extends Promise<unknown>
+    ? T
+    : (...args: TParams) => Promise<TMaybePromise>
+  : T;
 
 /**
  * Wraps the return types of all functions with a Promise
  * ONLY when it is not already a promise.
  */
 export type MakeAllFnAsync<T> = {
-	[K in keyof T]: MakeFnAsync<T[K]>;
+  [K in keyof T]: MakeFnAsync<T[K]>;
 };
 
 /**
@@ -72,10 +72,10 @@ export type MakeAllFnAsync<T> = {
 export type MakeSync<T> = T extends Promise<infer R> ? R : T;
 
 export type MakeFnSync<T> = T extends (
-	...args: infer TParams
+  ...args: infer TParams
 ) => Promise<infer R>
-	? (...args: TParams) => R
-	: T;
+  ? (...args: TParams) => R
+  : T;
 
 /**
  * Makes all the functions in T synchronous.

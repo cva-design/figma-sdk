@@ -1,10 +1,20 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { MessageBusSingleton, getMessageBus } from '../src/MessageBus'
 import { FigmaEvent } from '../src/events'
-
+import { eventHandlers } from '../src/handler'
+  
 describe('MessageBus', () => {
   beforeEach(() => {
     vi.clearAllMocks()
+    window.parent.postMessage = vi.fn((args) => {
+       
+      for (const id in eventHandlers) {
+
+        if (eventHandlers[id].name === args[0] || eventHandlers[id].name === args.pluginMessage[0]) {
+          eventHandlers[id].handler.apply(null, [args.pluginMessage[1]]);
+        }
+      }
+    })
   })
 
   it('should be a singleton', () => {
@@ -25,12 +35,13 @@ describe('MessageBus', () => {
 
     it('should handle commands', () => {
       const bus = getMessageBus<TestCommands>()
-      const handler = vi.fn().mockReturnValue(42)
+      const handler = vi.fn().mockReturnValue({ message: 'hello' })
       
       bus.handleCommand('test', handler)
-      bus.sendCommand('test', 'hello')
-      
-      expect(handler).toHaveBeenCalledWith('hello')
+
+      bus.sendCommand('test', { message: 'hello' })
+      expect(handler).toHaveBeenCalledOnce()
+      expect(handler).toHaveBeenCalledWith({ message: 'hello' })
     })
 
     it('should allow deregistering command handlers', () => {
@@ -40,28 +51,39 @@ describe('MessageBus', () => {
       const deregister = bus.handleCommand('test', handler)
       deregister()
       
-      bus.sendCommand('test', 'hello')
+      bus.sendCommand('test', { message: 'hello' })
       expect(handler).not.toHaveBeenCalled()
     })
   })
 
   describe('Events', () => {
     interface TestEvents {
-      customEvent: {
-        $id: 'customEvent';
+      'custom:event': {
+        $id: 'custom:event';
         $type: 'event';
         message: string;
       }
     }
+    beforeEach(() => {
+      window.parent.postMessage = vi.fn((args) => {
+       
+        for (const id in eventHandlers) {
+
+          if (eventHandlers[id].name === args[0] || eventHandlers[id].name === args.pluginMessage[0]) {
+            eventHandlers[id].handler.apply(null, [args.pluginMessage[1]]);
+          }
+        }
+      })
+    })
 
     it('should handle custom events', () => {
       const bus = getMessageBus<unknown, TestEvents>()
       const listener = vi.fn()
       
-      bus.listenToEvent('customEvent', listener)
-      bus.publishEvent('customEvent', 'hello')
-      
-      expect(listener).toHaveBeenCalledWith('hello')
+      bus.listenToEvent('custom:event', listener)
+      bus.publishEvent('custom:event', { message: 'hello' })
+
+      expect(listener).toHaveBeenCalledWith({ message: 'hello' })
     })
 
     it('should handle Figma events', () => {
@@ -80,7 +102,7 @@ describe('MessageBus', () => {
       const deregister = bus.listenToEvent('customEvent', listener)
       deregister()
       
-      bus.publishEvent('customEvent', 'hello')
+      bus.publishEvent('custom:event', { message: 'hello' })
       expect(listener).not.toHaveBeenCalled()
     })
   })
