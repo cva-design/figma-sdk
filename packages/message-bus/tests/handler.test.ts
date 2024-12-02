@@ -1,6 +1,10 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { on, once, emit, invokeEventHandler } from '../src/handler'
 
+declare global {
+  var figma: { ui: { postMessage: any } }
+}
+
 describe('Event Handler', () => {
   beforeEach(() => {
     vi.clearAllMocks()
@@ -41,13 +45,17 @@ describe('Event Handler', () => {
   describe('emit', () => {
     it('should post message to figma UI when in main context', () => {
       const originalWindow = global.window
+      // Mock figma object
+      global.figma = { ui: { postMessage: vi.fn() } }
       // @ts-ignore
-      delete global.window
-      
+      global.window = undefined
       emit('test', 'data')
       expect(figma.ui.postMessage).toHaveBeenCalledWith(['test', 'data'])
       
       global.window = originalWindow
+      // Clean up mock
+      // @ts-ignore
+      delete global.figma
     })
 
     it('should post message to parent when in UI context', () => {
