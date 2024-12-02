@@ -98,6 +98,8 @@
 					: 'inactive'
 	}) as keyof typeof import('$icons');
 
+	$: dataId = action.id;
+
 </script>
 
 <button
@@ -106,6 +108,7 @@
 	disabled={!action.enabled}
 	title={action.tooltip}
 	on:click={handleActionClick}
+	data-id={dataId}
 	{...$$restProps}
 >
 	<Icon icon={iconKey} />
@@ -119,6 +122,9 @@
 		padding: 2px;
 		margin: 0 2px;
 		color: var(--figma-color-icon-secondary);
+		display: flex;
+		align-items: center;
+		justify-content: center;
 	}
 
 	.action:disabled {

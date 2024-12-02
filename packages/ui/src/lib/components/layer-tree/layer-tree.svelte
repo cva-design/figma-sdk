@@ -34,11 +34,13 @@
 	export let initiallyExpanded: boolean = false;
 	export let singleSelect: boolean = false;
 	let selected: boolean = false;
+
 	if (singleSelect) {
 		selectedNodeStore.subscribe((selectedId) => {
 			selected = selectedId === data.id;
 		});
 	}
+
 	function expandAll(node: LayerTreeData) {
 		expandedNodes.add(node.id);
 		node.children?.forEach(expandAll);
@@ -57,7 +59,7 @@
 		} else {
 			expandedNodes.add(node.id);
 		}
-		expandedNodes = new Set(expandedNodes); // Create new Set to trigger reactivity
+		expandedNodes = new Set(expandedNodes);
 		dispatch('toggle', { node, expanded: expandedNodes.has(node.id) });
 	}
 
@@ -78,11 +80,10 @@
 	}
 
 	function renderNode(node: LayerTreeData, depth: number = 0) {
-		const isExpanded = expandedNodes.has(node.id);
 		return {
 			...node,
 			depth,
-			expanded: isExpanded,
+			expanded: expandedNodes.has(node.id),
 			children: node.children?.map((child) => renderNode(child, depth + 1)) || []
 		};
 	}
@@ -97,9 +98,9 @@
 				<button
 					class="layerTree--caret"
 					on:click|stopPropagation={() => !renderedTree.disabled && toggleExpand(renderedTree)}
-					class:expanded={renderedTree.expanded}
+					class:expanded={expandedNodes.has(renderedTree.id)}
 				>
-					{#if renderedTree.expanded}
+					{#if expandedNodes.has(renderedTree.id)}
 						<Icon icon="ChevronDownSvg_16" />
 					{:else}
 						<Icon icon="ChevronRightSvg_16" />
@@ -121,8 +122,13 @@
 		{#if expandedNodes.has(renderedTree.id) && renderedTree.children?.length}
 			<div class="layerTree--children">
 				{#each renderedTree.children as child}
-					<svelte:self data={child} {expandedNodes} {singleSelect} on:select on:toggle />
-					<slot />
+					<svelte:self 
+						data={child} 
+						{expandedNodes} 
+						{singleSelect} 
+						on:select 
+						on:toggle 
+					/>
 				{/each}
 			</div>
 		{/if}
@@ -132,16 +138,21 @@
 <style lang="scss">
 	.layerTree-container {
 		width: 100%;
+		display: flex;
+		align-items: center;
 	}
 
 	.layerTree {
 		width: 100%;
+		display: flex;
+		flex-direction: column;
 	}
 
 	.layerTree--header {
 		display: flex;
 		align-items: center;
 		width: 100%;
+		min-height: 32px;
 	}
 
 	.layerTree--caret {
@@ -153,15 +164,30 @@
 		border: none;
 		cursor: pointer;
 		color: var(--figma-color-icon-secondary);
-	}
+		display: flex;
+		align-items: center;
+		justify-content: center;
 
-	.layerTree--caret:hover {
-		color: var(--figma-color-icon);
+		&:hover {
+			color: var(--figma-color-icon);
+		}
+
+		&.expanded :global(svg) {
+			transform: rotate(0deg);
+		}
+
+		:global(svg) {
+			transform: rotate(-90deg);
+			transition: transform 0.2s ease;
+		}
 	}
 
 	.layerTree--children {
 		width: 100%;
 		padding-left: 16px;
+		display: flex;
+		flex-direction: column;
+		 align-items: flex-start;
 	}
 
 	.disabled {

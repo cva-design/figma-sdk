@@ -1,9 +1,11 @@
 .layer {
   display: flex;
   align-items: center;
+  justify-content: flex-start;
   padding: 0 8px;
   height: 32px;
   border-radius: var(--radius-medium);
+  width: 100%;
 }
 
 .layer--icon {
@@ -11,6 +13,9 @@
   height: 16px;
   margin-right: 8px;
   color: var(--figma-color-icon-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .layer--name {
