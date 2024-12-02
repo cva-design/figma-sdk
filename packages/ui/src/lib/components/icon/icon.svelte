@@ -97,6 +97,8 @@
 		font-family: var(--font-family-default);
 		font-size: var(--text-body-medium-font-size);
 		user-select: none;
+		color: var(--figma-color-icon);
+		fill: var(--figma-color-icon);
 	}
 
 	.spin {

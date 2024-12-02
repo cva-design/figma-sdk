@@ -24,13 +24,13 @@
 			<TabsTrigger value="tab3">Settings</TabsTrigger>
 		</TabsList>
 		<TabsContent value="tab1">
-			<div class="content">Account settings content</div>
+			<div class="content fp-Text">Account settings content</div>
 		</TabsContent>
 		<TabsContent value="tab2">
-			<div class="content">Password settings content</div>
+			<div class="content fp-Text">Password settings content</div>
 		</TabsContent>
 		<TabsContent value="tab3">
-			<div class="content">Other settings content</div>
+			<div class="content fp-Text">Other settings content</div>
 		</TabsContent>
 	</Tabs>
 </Story>
@@ -52,13 +52,13 @@
 			</TabsTrigger>
 		</TabsList>
 		<TabsContent value="tab1">
-			<div class="content">Profile content</div>
+			<div class="content fp-Text">Profile content</div>
 		</TabsContent>
 		<TabsContent value="tab2">
-			<div class="content">Settings content</div>
+			<div class="content fp-Text">Settings content</div>
 		</TabsContent>
 		<TabsContent value="tab3">
-			<div class="content">Devices content</div>
+			<div class="content fp-Text">Devices content</div>
 		</TabsContent>
 	</Tabs>
 </Story>
@@ -70,10 +70,10 @@
 			<TabsTrigger value="tab2" class="custom-trigger">Tab 2</TabsTrigger>
 		</TabsList>
 		<TabsContent value="tab1" class="custom-content">
-			<div class="content">Content for Tab 1</div>
+			<div class="content fp-Text">Content for Tab 1</div>
 		</TabsContent>
 		<TabsContent value="tab2" class="custom-content">
-			<div class="content">Content for Tab 2</div>
+			<div class="content fp-Text">Content for Tab 2</div>
 		</TabsContent>
 	</Tabs>
 </Story>
@@ -86,13 +86,13 @@
 			<TabsTrigger value="tab3">Third Tab</TabsTrigger>
 		</TabsList>
 		<TabsContent value="tab1">
-			<div class="content">
+			<div class="content fp-Text">
 				<h3>First Tab Content</h3>
 				<p>This is the content for the first tab. It can contain any elements.</p>
 			</div>
 		</TabsContent>
 		<TabsContent value="tab2">
-			<div class="content">
+			<div class="content fp-Text">
 				<h3>Second Tab Content</h3>
 				<p>This tab has more content to demonstrate how the tabs handle longer content sections.</p>
 				<ul>
@@ -103,7 +103,7 @@
 			</div>
 		</TabsContent>
 		<TabsContent value="tab3">
-			<div class="content">
+			<div class="content fp-Text">
 				<h3>Third Tab Content</h3>
 				<p>Content for the third tab.</p>
 			</div>
@@ -119,13 +119,13 @@
 			<TabsTrigger value="tab3" expand>Tab 3</TabsTrigger>
 		</TabsList>
 		<TabsContent value="tab1">
-			<div class="content">First tab content</div>
+			<div class="content fp-Text">First tab content</div>
 		</TabsContent>
 		<TabsContent value="tab2">
-			<div class="content">Second tab content</div>
+			<div class="content fp-Text">Second tab content</div>
 		</TabsContent>
 		<TabsContent value="tab3">
-			<div class="content">Third tab content</div>
+			<div class="content fp-Text">Third tab content</div>
 		</TabsContent>
 	</Tabs>
 </Story>
@@ -138,13 +138,13 @@
 			<TabsTrigger value="tab3">Third Option</TabsTrigger>
 		</TabsList>
 		<TabsContent value="tab1">
-			<div class="content">First tab content</div>
+			<div class="content fp-Text">First tab content</div>
 		</TabsContent>
 		<TabsContent value="tab2">
-			<div class="content">Second tab content</div>
+			<div class="content fp-Text">Second tab content</div>
 		</TabsContent>
 		<TabsContent value="tab3">
-			<div class="content">Third tab content</div>
+			<div class="content fp-Text">Third tab content</div>
 		</TabsContent>
 	</Tabs>
 </Story>
@@ -157,13 +157,13 @@
 			<TabsTrigger value="tab3" expand>Third Option</TabsTrigger>
 		</TabsList>
 		<TabsContent value="tab1">
-			<div class="content">First tab content</div>
+			<div class="content fp-Text">First tab content</div>
 		</TabsContent>
 		<TabsContent value="tab2">
-			<div class="content">Second tab content</div>
+			<div class="content fp-Text">Second tab content</div>
 		</TabsContent>
 		<TabsContent value="tab3">
-			<div class="content">Third tab content</div>
+			<div class="content fp-Text">Third tab content</div>
 		</TabsContent>
 	</Tabs>
 </Story>

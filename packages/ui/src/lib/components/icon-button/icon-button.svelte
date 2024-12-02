@@ -77,9 +77,15 @@
 	}
 
 	.fps-IconButton:disabled {
-		color: var(--figma-color-icon-disabled);
 		cursor: not-allowed !important;
 		pointer-events: none;
+
+		&.icon-component {
+			svg {
+				fill: var(--figma-color-icon-disabled);
+				color: var(--figma-color-icon-disabled); // TODO: check if this is correct
+			}
+	}
 	}
 
 	.fps-IconButton:focus-visible {
