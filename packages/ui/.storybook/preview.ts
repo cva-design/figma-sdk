@@ -47,7 +47,7 @@ const preview: Preview = {
     },
   },
   decorators: [() => DualTheme],
-  tags: ['autodocs'],
+  tags: ['autodocs', 'autodocs'],
 };
 
 export default preview;
