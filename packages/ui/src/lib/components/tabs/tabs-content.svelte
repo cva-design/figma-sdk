@@ -1,15 +1,15 @@
 <script lang="ts">
 	import { getContext } from 'svelte';
 	import type { Writable } from 'svelte/store';
+	import { derived } from 'svelte/store';
 
 	export let value: string;
 
-	const { register } = getContext('tabs') as {
-		register: (value: string) => { isSelected: Writable<boolean>; select: () => void };
+	const { selectedTab } = getContext('tabs') as {
+		selectedTab: Writable<string>;
 	};
-	const { isSelected } = register(value);
 
-	$: isVisible = $isSelected;
+	$: isVisible = $selectedTab === value;
 </script>
 
 {#if isVisible}
@@ -19,7 +19,7 @@
 {/if}
 
 <style lang="scss">
-	.fp-TabsList {
+		.fp-TabsList {
   display: flex;
   overflow-y: auto;
   gap: var(--space-2);
@@ -52,6 +52,6 @@
     --color-icon: var(--figma-color-icon);
     background: var(--figma-color-bg-secondary);
     border-radius: var(--radius-medium);
-  }
+	}
 }
 </style>

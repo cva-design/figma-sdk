@@ -9,6 +9,10 @@
 	const color = $$props.color ?? '--figma-color-icon';
 	const spin = $$props.spin ?? false;
 
+	$: colorStyle = color?.startsWith('--') 
+		? `var(${color})`
+		: color ?? 'var(--figma-color-icon)';
+
 	$: if (icon && iconText) {
 		throw new Error('Cannot set both icon and iconText at the same time');
 	}
@@ -18,7 +22,7 @@
 	<div
 		class="icon-component {$$props.class}"
 		class:spin
-		style="color: var({color}); fill: var({color})"
+		style="color: {colorStyle}; fill: {colorStyle}"
 	>
 		{iconText}
 	</div>
@@ -26,7 +30,7 @@
 	<div
 		class="icon-component {$$props.class}"
 		class:spin
-		style="color: var({color}); fill: var({color})"
+		style="color: {colorStyle}; fill: {colorStyle}"
 	>
 		{@html icons[icon]}
 	</div>
@@ -97,8 +101,6 @@
 		font-family: var(--font-family-default);
 		font-size: var(--text-body-medium-font-size);
 		user-select: none;
-		color: var(--figma-color-icon);
-		fill: var(--figma-color-icon);
 	}
 
 	.spin {

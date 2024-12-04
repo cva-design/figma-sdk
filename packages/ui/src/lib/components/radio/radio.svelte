@@ -1,18 +1,15 @@
 <script lang="ts">
 export let group: any = null;
-export const value: any = null;
-export const disabled: boolean = false;
-export const tabindex: number = 0;
-export const className: string = "";
+export let value: any = null;
+export let disabled: boolean = false;
+export let tabindex: number = 0;
+export let className: string = "";
 export let checked: boolean = false;
 const uniqueId = `radio--${(Math.random() * 10000000).toFixed(0).toString()}`;
-$: checked = group === value;
 
 function handleClick(event: MouseEvent) {
 	const target = event.target as HTMLInputElement;
-	group = target.value;
-
-	target.blur();
+	group = value;
 }
 </script>
 
@@ -20,11 +17,10 @@ function handleClick(event: MouseEvent) {
 	<input
 		type="radio"
 		{value}
-		{checked}
+		bind:group
 		{disabled}
 		{tabindex}
 		id={uniqueId}
-		bind:group
 		on:click={handleClick}
 		on:change
 		on:focus
@@ -43,7 +39,7 @@ div {
   position: relative;
 }
 
-.fp-RadioRoot {
+.fp-RadioRoot input {
   opacity: 0;
   width: 10px;
   height: 10px;
@@ -51,13 +47,13 @@ div {
   padding: 0;
   flex-shrink: 0;
 }
-.fp-RadioRoot:checked + label:after {
+.fp-RadioRoot input:checked + label:after {
   background-color: var(--figma-color-icon);
 }
-.fp-RadioRoot:disabled + label {
+.fp-RadioRoot input:disabled + label {
   opacity: 0.3;
 }
-.fp-RadioRoot:checked:disabled + label:before {
+.fp-RadioRoot input:checked:disabled + label:before {
   border: 1px solid var(--figma-color-icon);
 }
 
@@ -98,15 +94,4 @@ label:before {
   flex-shrink: 0;
 }
 
-input:enabled:checked:focus + label:before {
-  border: 1px solid var(--figma-color-border-selected);
-  box-shadow: 0 0 0 1px var(--figma-color-border-selected);
-  border-radius: var(--border-radius-small);
-  border-radius: 50%;
-}
-
-input:enabled:focus + label:before {
-  border: 1px solid var(--figma-color-border-selected);
-  box-shadow: 0 0 0 1px var(--figma-color-border-selected);
-}
 </style>

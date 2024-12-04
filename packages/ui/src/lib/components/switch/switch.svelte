@@ -1,8 +1,8 @@
 <script lang="ts">
 export let checked: boolean = false;
-export const name: string = "";
-export const value: string = "";
-export const disabled: boolean = false;
+export let name: string = "";
+export let value: string = "";
+export let disabled: boolean = false;
 export { className as class };
 
 const className = "";

@@ -1,10 +1,10 @@
 <script lang="ts">
 import { setContext } from "svelte";
-import { type Writable, writable } from "svelte/store";
+import { type Writable, writable, derived } from "svelte/store";
 
 export let value = "";
-export const defaultValue: string | undefined = undefined;
-export const class_: string | undefined = undefined;
+export let defaultValue: string | undefined = undefined;
+export let class_: string | undefined = undefined;
 
 const selectedTab: Writable<string> = writable(value || defaultValue || "");
 
@@ -16,7 +16,7 @@ setContext("tabs", {
 	selectedTab,
 	register: (tabValue: string) => {
 		return {
-			isSelected: selectedTab,
+			isSelected: derived(selectedTab, $selectedTab => $selectedTab === tabValue),
 			select: () => {
 				selectedTab.set(tabValue);
 				value = tabValue;

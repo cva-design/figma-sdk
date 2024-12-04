@@ -15,14 +15,14 @@
 	};
 
 	export let value: string | null = null;
-	export const id: string | null = null;
-	export const name: string | null = null;
-	export const borders: boolean = false;
-	export const disabled: boolean = false;
-	export const type: string = 'text';
-	export const invalid: boolean = false;
-	export const errorMessage: string = 'Error message';
-	export const placeholder: string = 'Input something here...';
+	export let id: string | null = null;
+	export let name: string | null = null;
+	export let borders: boolean = false;
+	export let disabled: boolean = false;
+	export let type: string = 'text';
+	export let invalid: boolean = false;
+	export let errorMessage: string = 'Error message';
+	export let placeholder: string = 'Input something here...';
 
 	const dispatch = createEventDispatcher();
 

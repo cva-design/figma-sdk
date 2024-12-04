@@ -14,10 +14,14 @@
 </script>
 
 <Story name="Default">
-	<Icon icon="StylesSvg" color="#000000" />
+	<Icon icon="StylesSvg" color="--figma-color-icon" />
 </Story>
 
-<Story name="Custom Color">
+<Story name="Custom Color (CSS Variable)">
+	<Icon icon="StylesSvg" color="--figma-color-icon-warning" />
+</Story>
+
+<Story name="Custom Color (Direct)">
 	<Icon icon="StylesSvg" color="#ff0000" />
 </Story>
 

@@ -3,9 +3,9 @@ import { Button } from "$ui/button";
 import { Icon } from "$ui/icon";
 import { slide } from "svelte/transition";
 
-export const class_: string | undefined = undefined;
-export const fullWidth: boolean = false;
-export const collapsible: boolean = false;
+export let class_: string | undefined = undefined;
+export let fullWidth: boolean = false;
+export let collapsible: boolean = false;
 
 let isExpanded: boolean = false;
 
@@ -17,7 +17,7 @@ function toggleExpand() {
 {#if collapsible}
 	<div class="tabs-wrapper">
 		<Button variant="secondary" on:click={toggleExpand} class="toggle-button">
-			<Icon icon={isExpanded ? 'CaretDownSvg' : 'CaretRightSvg'} />
+			<Icon icon={isExpanded ? 'CaretDownSvg' : 'CaretRightSvg'} />  <!-- TODO: Será que precisa de um icone de seta? -->
 			<span class="toggle-text">Show Options</span>
 		</Button>
 
