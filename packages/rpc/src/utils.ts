@@ -1,19 +1,19 @@
-import type { JsonObject, JsonValue } from './types';
+import type { JsonObject, JsonValue } from "./types";
 
 // biome-ignore lint/complexity/noBannedTypes: we are testing for a function
 export function isFunction(value: unknown): value is Function {
-  return typeof value === 'function';
+	return typeof value === "function";
 }
 
 export function isPromise(
-  result: JsonValue | Promise<JsonValue>,
+	result: JsonValue | Promise<JsonValue>,
 ): result is Promise<JsonValue> {
-  return Boolean(
-    result &&
-      typeof result === 'object' &&
-      'then' in result &&
-      typeof result.then === 'function',
-  );
+	return Boolean(
+		result &&
+			typeof result === "object" &&
+			"then" in result &&
+			typeof result.then === "function",
+	);
 }
 /**
  * Converts the value to a valid JSON value.
@@ -25,34 +25,34 @@ export function isPromise(
  * @param value Anything
  */
 export function toJsonValue(value: unknown): JsonValue {
-  if (value === undefined || value === null) {
-    return value;
-  }
+	if (value === undefined || value === null) {
+		return value;
+	}
 
-  if (Array.isArray(value)) {
-    return value.map(toJsonValue);
-  }
+	if (Array.isArray(value)) {
+		return value.map(toJsonValue);
+	}
 
-  if (typeof value === 'object') {
-    return Object.fromEntries(
-      Object.entries(value).map(([key, val]) => [key, toJsonValue(val)]),
-    );
-  }
+	if (typeof value === "object") {
+		return Object.fromEntries(
+			Object.entries(value).map(([key, val]) => [key, toJsonValue(val)]),
+		);
+	}
 
-  if (
-    typeof value === 'string' ||
-    typeof value === 'number' ||
-    typeof value === 'boolean'
-  ) {
-    return value;
-  }
+	if (
+		typeof value === "string" ||
+		typeof value === "number" ||
+		typeof value === "boolean"
+	) {
+		return value;
+	}
 
-  // throw an error if we don't know what to do with the value
-  throw new Error(
-    `Can't convert value '''${value}''' (type: ${typeof value}) to JsonValue`,
-  );
+	// throw an error if we don't know what to do with the value
+	throw new Error(
+		`Can't convert value '''${value}''' (type: ${typeof value}) to JsonValue`,
+	);
 }
 
 export function toJsonObject(value: object): JsonObject {
-  return toJsonValue(value) as JsonObject;
+	return toJsonValue(value) as JsonObject;
 }

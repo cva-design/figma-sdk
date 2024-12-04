@@ -29,9 +29,9 @@
  */
 
 //@index(['./*.ts', './*/index.ts'], f => `export * from "${f.path}";`)
-export * from './createAPI';
-export * from './createClient';
-export * from './errors';
-export * from './rpc';
-export * from './types';
+export * from "./createAPI";
+export * from "./createClient";
+export * from "./errors";
+export * from "./rpc";
+export * from "./types";
 //@endindex
