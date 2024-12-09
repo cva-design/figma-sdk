@@ -44,6 +44,8 @@ export * from './sidebar/index';
 export * from './switch/index';
 export * from './tabs/index';
 export * from './text/index';
+export * from './title/index';
+export * from './tag/index';
 export * from './textarea/index';
 export * from './tooltip/index';
 export * from './tree/index';
