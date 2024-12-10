@@ -13,7 +13,7 @@ function getAbsolutePath(value: string): string {
 }
 
 const groups = {
-	Next: ['title', 'tag'],
+	Next: ['sidebarTitle', 'badge'],
 	Actions: ['button', 'icon-button', 'icon-toggle', 'action-group', 'link'],
 	Communication: ['tooltip', 'popover'],
 	'Data Display': ['tree', 'layer-tree', 'layer', 'disclosure'],
