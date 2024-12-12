@@ -21,7 +21,9 @@
       "$ui": ["./src/lib/components"],
       "$ui/*": ["./src/lib/components/*"],
       "$icons": ["./src/lib/icons"],
-      "$icons/*": ["./src/lib/icons/*"]
+      "$icons/*": ["./src/lib/icons/*"],
+      "$actions": ["./src/lib/actions"],
+      "$actions/*": ["./src/lib/actions/*"]
     },
     "typeRoots": ["./node_modules/@types", "./src/svelte-typings.d.ts"],
     "types": ["vite/client"]

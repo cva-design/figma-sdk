@@ -1,11 +1,11 @@
-import type { AutocompletableString } from '$lib/util';
+import type { AutocompleteString } from '$lib/util';
 
 type IconBaseProps = {
   /**
    * color: The color of the icon. This should be a CSS color variable.
    * @default "--figma-color-icon"
    */
-  color?: '--figma-color-icon' | AutocompletableString;
+  color?: '--figma-color-icon' | AutocompleteString;
 
   /**
    * spin: Whether the icon should spin

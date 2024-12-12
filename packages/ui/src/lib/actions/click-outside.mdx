@@ -1,0 +1,125 @@
+import { Canvas, Meta, Story } from '@storybook/blocks';
+import * as ClickOutsideStories from './click-outside.stories.svelte';
+
+<Meta of={ClickOutsideStories} />
+
+# Click Outside Action
+
+The Click Outside action helps you detect when a user clicks outside of a specific element. This is commonly used for:
+- Closing dropdown menus
+- Dismissing modals or popups
+- Hiding tooltips
+- Any UI that should close when clicking elsewhere
+
+## Basic Usage
+
+Here's a simple example of how to use the Click Outside action:
+
+~~~svelte
+<script>
+  import { clickOutside } from '@figma-plugin-sdk/actions/click-outside';
+  
+  function handleClickOutside() {
+    console.log('Clicked outside!');
+  }
+</script>
+
+<div use:clickOutside={handleClickOutside}>
+  This div will detect outside clicks
+</div>
+~~~
+
+## Interactive Demo
+
+Click outside the gray box to see it in action:
+
+<Canvas>
+  <Story of={ClickOutsideStories.Default} />
+</Canvas>
+
+## API Reference
+
+### Parameters
+
+The action takes a single parameter:
+
+~~~ts
+function clickOutside(node: HTMLElement, callback: (event: MouseEvent) => void)
+~~~
+
+- `node`: The element to detect outside clicks from (automatically provided by Svelte)
+- `callback`: A function that will be called when a click outside is detected. Receives the MouseEvent as an argument.
+
+### Updating the Callback
+
+You can update the callback function at any time by passing a new function to the action:
+
+~~~svelte
+<script>
+  let callback = () => console.log('First callback');
+  
+  function updateCallback() {
+    callback = () => console.log('New callback');
+  }
+</script>
+
+<div use:clickOutside={callback}>
+  The callback can be changed
+</div>
+~~~
+
+### Cleanup
+
+The action automatically removes event listeners when the element is destroyed, so you don't need to worry about cleanup.
+
+## Common Use Cases
+
+### Dropdown Menu
+
+~~~svelte
+<script>
+  import { clickOutside } from '$lib/actions/click-outside';
+  
+  let isOpen = false;
+  
+  function closeDropdown() {
+    isOpen = false;
+  }
+</script>
+
+<div class="dropdown" use:clickOutside={closeDropdown}>
+  <button on:click={() => isOpen = !isOpen}>
+    Toggle Menu
+  </button>
+  
+  {#if isOpen}
+    <div class="dropdown-content">
+      <!-- Menu items -->
+    </div>
+  {/if}
+</div>
+~~~
+
+### Modal Dialog
+
+~~~svelte
+<script>
+  import { clickOutside } from '$lib/actions/click-outside';
+  
+  let showModal = false;
+</script>
+
+{#if showModal}
+  <div class="modal-backdrop">
+    <div class="modal" use:clickOutside={() => showModal = false}>
+      Modal content here
+    </div>
+  </div>
+{/if}
+~~~
+
+## Tips
+
+- The action only detects clicks on elements that are not children of the target element
+- Make sure the element you apply the action to can receive focus (has a valid tabindex if not naturally focusable)
+- The callback is not called when clicking inside the element or any of its children

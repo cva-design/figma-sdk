@@ -85,12 +85,7 @@
       "default": "./dist/tokens/*.css"
     }
   },
-  "files": [
-    "dist",
-    "!dist/**/*.test.*",
-    "!dist/**/*.spec.*",
-    "src/**/*"
-  ],
+  "files": ["dist", "!dist/**/*.test.*", "!dist/**/*.spec.*", "src/**/*"],
   "devDependencies": {
     "@antfu/ni": "^0.23.0",
     "@chromatic-com/storybook": "^3.2.2",
@@ -152,9 +147,7 @@
   "svelte": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "eslintConfig": {
-    "extends": [
-      "plugin:storybook/recommended"
-    ]
+    "extends": ["plugin:storybook/recommended"]
   },
   "dependencies": {
     "@melt-ui/svelte": "^0.85.0",
@@ -162,7 +155,6 @@
     "class-variance-authority": "^0.7.0",
     "figma-kit": "1.0.0-beta.18",
     "svelte": "^4.2.0",
-    "svelte-click-outside": "^1.0.0",
     "tslib": "^2.8.0",
     "tty-table": "^4.2.3"
   }

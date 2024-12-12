@@ -1,7 +1,7 @@
 import type { SceneNode } from '@figma/plugin-typings/plugin-api-standalone';
 
 import * as icons from '../../icons';
-import type { AutocompletableString } from '../../util';
+import type { AutocompleteString } from '../../util';
 
 export type LayerType =
   | Exclude<
@@ -15,7 +15,7 @@ export type LayerType =
       | 'TABLE'
       | 'WASHI_TAPE'
     >
-  | AutocompletableString;
+  | AutocompleteString;
 
 export const LayerIcon: Record<LayerType, string> = {
   BOOLEAN_OPERATION: icons.LayerMaskSvg_16,

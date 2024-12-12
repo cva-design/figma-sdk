@@ -1,1 +1,1 @@
-export type AutocompletableString = string & {};
+export type AutocompleteString = string & {};

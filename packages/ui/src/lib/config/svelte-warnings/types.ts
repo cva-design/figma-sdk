@@ -1,4 +1,4 @@
-import type { AutocompletableString } from '$lib/util';
+import type { AutocompleteString } from '$lib/util';
 import type { Warning } from 'svelte/types/compiler/interfaces';
 
 /**
@@ -11,7 +11,7 @@ export type WarningMatcher =
   | RegExp
   | ((warning: Warning) => boolean)
   | KnownSvelteWarningCode
-  | AutocompletableString;
+  | AutocompleteString;
 
 /**
  * Configuration options for the svelteWarnings plugin.
