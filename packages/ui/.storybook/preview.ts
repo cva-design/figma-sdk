@@ -46,8 +46,11 @@ const preview: Preview = {
       },
     },
   },
-  decorators: [() => DualTheme],
-  tags: ['autodocs', 'autodocs'],
+  decorators: [
+    (story, { parameters }) =>
+      parameters.dualTheme !== false ? (DualTheme as any) : story(),
+  ],
+  tags: ['autodocs'],
 };
 
 export default preview;

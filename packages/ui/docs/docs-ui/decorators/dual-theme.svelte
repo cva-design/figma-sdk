@@ -20,10 +20,15 @@
 		height: 100vh;
 		min-height: 60px !important;
 		min-width: 100% !important;
+		flex: 1; /* Ensures equal space distribution */
 	}
 
 	:global(#storybook-root[hidden='true']) {
 		display: none;
+	}
+
+	:global(.docs-story #storybook-root) {
+		height: 400px;
 	}
 
 	.theme-split {

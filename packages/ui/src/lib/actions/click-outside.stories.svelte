@@ -11,6 +11,7 @@
 						'A Svelte action that detects clicks outside an element and triggers a callback'
 				}
 			},
+			dualTheme: false
 		}
 	};
 </script>
