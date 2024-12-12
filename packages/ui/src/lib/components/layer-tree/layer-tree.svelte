@@ -1,5 +1,7 @@
 <script lang="ts" context="module">
 	import type { Action as ActionType } from './action.svelte';
+	import { Icon } from '$ui/icon';
+	import { Input } from '$ui';
 	export type LayerTreeData = {
 		id: string;
 		children: LayerTreeData[];
@@ -14,32 +16,20 @@
 		mixed?: boolean;
 		disabled?: boolean;
 		click?: (event: Event, node: LayerTreeData) => void;
+		matches?: boolean;
+		opacity?: number;
 	};
 </script>
 
 <script lang="ts">
-	import { Icon } from '$ui/icon';
-	import { createEventDispatcher, onMount } from 'svelte';
-	import { Layer } from '../layer';
+	import { onMount } from 'svelte';
 	import type { LayerType } from '../../components/layer/types';
-	import { selectedNodeStore } from './store';
-
-	const dispatch = createEventDispatcher<{
-		select: LayerTreeData;
-		toggle: { node: LayerTreeData; expanded: boolean };
-	}>();
+	import LayerTreeNode from './layer-tree-node.svelte';
 
 	export let data: LayerTreeData;
 	export let expandedNodes: Set<string> = new Set();
 	export let initiallyExpanded: boolean = false;
 	export let singleSelect: boolean = false;
-	let selected: boolean = false;
-
-	if (singleSelect) {
-		selectedNodeStore.subscribe((selectedId) => {
-			selected = selectedId === data.id;
-		});
-	}
 
 	function expandAll(node: LayerTreeData) {
 		expandedNodes.add(node.id);
@@ -53,148 +43,107 @@
 		}
 	});
 
-	function toggleExpand(node: LayerTreeData) {
-		if (expandedNodes.has(node.id)) {
-			expandedNodes.delete(node.id);
-		} else {
+	// Search functionality
+	let searchQuery = '';
+
+	function matchesSearch(node: LayerTreeData): boolean {
+		if (!searchQuery) return true;
+		const nameMatches = node.name.toLowerCase().includes(searchQuery.toLowerCase());
+		const childrenMatch = node.children?.some(matchesSearch);
+		return nameMatches || !!childrenMatch;
+	}
+
+	function applySearchFilter(node: LayerTreeData, depth: number = 0): LayerTreeData {
+		const matches = matchesSearch(node);
+		const filteredChildren = node.children
+			?.map((child) => applySearchFilter(child, depth + 1))
+			.filter((child) => child.matches || child.children?.some((c) => c.matches));
+
+		// Auto-expand parent nodes that contain matches
+		if (searchQuery && (matches || filteredChildren?.some((child) => child.matches))) {
 			expandedNodes.add(node.id);
+		} else if (!searchQuery) {
+			// Optional: collapse when search is cleared
+			expandedNodes.delete(node.id);
 		}
-		expandedNodes = new Set(expandedNodes);
-		dispatch('toggle', { node, expanded: expandedNodes.has(node.id) });
-	}
 
-	function handleNodeClick(event: Event, node: LayerTreeData) {
-		if (!node.disabled && singleSelect) {
-			selectedNodeStore.update((nodeId) => {
-				if (nodeId === node.id) {
-					return null; // Deselect if clicking the same node
-				}
-				// If another node was selected, deselect it and select the new one
-				return node.id;
-			});
-		}
-		if (node.click) {
-			node.click(event, node);
-		}
-		dispatch('select', node);
-	}
-
-	function renderNode(node: LayerTreeData, depth: number = 0) {
 		return {
 			...node,
 			depth,
 			expanded: expandedNodes.has(node.id),
-			children: node.children?.map((child) => renderNode(child, depth + 1)) || []
+			children: filteredChildren || [],
+			matches,
+			opacity: matches ? 1 : 0.5
 		};
 	}
 
-	$: renderedTree = renderNode(data);
+	// Update expanded nodes when search query changes
+	$: {
+		if (searchQuery) {
+			applySearchFilter(data);
+			expandedNodes = new Set(expandedNodes); // Trigger reactivity
+		}
+	}
+
+	$: filteredTree = searchQuery ? applySearchFilter(data) : { ...data, depth: 0 };
 </script>
 
-<div class="layerTree-container">
-	<div class="layerTree" class:disabled={renderedTree.disabled} class:mixed={renderedTree.mixed}>
-		<div class="layerTree--header" style:padding-left="{renderedTree.depth * 16}px">
-			{#if renderedTree.children?.length > 0}
-				<button
-					class="layerTree--caret"
-					on:click|stopPropagation={() => !renderedTree.disabled && toggleExpand(renderedTree)}
-					class:expanded={expandedNodes.has(renderedTree.id)}
-				>
-					{#if expandedNodes.has(renderedTree.id)}
-						<Icon icon="ChevronDownSvg_16" />
-					{:else}
-						<Icon icon="ChevronRightSvg_16" />
-					{/if}
-				</button>
-			{/if}
+<div class="layerTree-wrapper">
+	<div class="search-container">
+		<Input icon="SearchSvg" class="search-input" bind:value={searchQuery} placeholder="Search layers..." />
+	</div>
 
-			<Layer
-				type={renderedTree.type}
-				name={renderedTree.name}
-				description={renderedTree.description}
-				component={renderedTree.component}
-				{selected}
-				actions={data.actions}
-				onClick={(e) => handleNodeClick(e, renderedTree)}
-			/>
-		</div>
-
-		{#if expandedNodes.has(renderedTree.id) && renderedTree.children?.length}
-			<div class="layerTree--children">
-				{#each renderedTree.children as child}
-					<svelte:self 
-						data={child} 
-						{expandedNodes} 
-						{singleSelect} 
-						on:select 
-						on:toggle 
-					/>
-				{/each}
-			</div>
-		{/if}
+	<div class="layerTree-container">
+		<LayerTreeNode
+			data={filteredTree}
+			{expandedNodes}
+			{singleSelect}
+			on:select
+			on:toggle
+		/>
 	</div>
 </div>
 
 <style lang="scss">
-	.layerTree-container {
-		width: 100%;
-		display: flex;
-		align-items: center;
-	}
-
-	.layerTree {
-		width: 100%;
+	.layerTree-wrapper {
 		display: flex;
 		flex-direction: column;
+		width: 100%;
+		height: 100%;
 	}
 
-	.layerTree--header {
+	.search-container {
 		display: flex;
 		align-items: center;
-		width: 100%;
-		min-height: 32px;
+		gap: 8px;
+		padding: 8px 16px;
+		border-bottom: 1px solid var(--figma-color-border);
+		background: var(--figma-color-bg);
+		position: sticky;
+		top: 0;
+		z-index: 1;
+
+		:global(.icon) {
+			color: var(--figma-color-icon-secondary);
+			width: 16px;
+			height: 16px;
+		}
 	}
 
-	.layerTree--caret {
-		flex: 0 0 16px;
-		height: 16px;
-		padding: 0;
-		margin-right: 8px;
-		background: none;
+	.search-input {
+		flex: 1;
+		min-width: 0;
+		background: transparent;
 		border: none;
-		cursor: pointer;
-		color: var(--figma-color-icon-secondary);
-		display: flex;
-		align-items: center;
-		justify-content: center;
-
-		&:hover {
-			color: var(--figma-color-icon);
-		}
-
-		&.expanded :global(svg) {
-			transform: rotate(0deg);
-		}
-
-		:global(svg) {
-			transform: rotate(-90deg);
-			transition: transform 0.2s ease;
+		font-size: 11px;
+		
+		&:focus {
+			outline: none;
 		}
 	}
 
-	.layerTree--children {
-		width: 100%;
-		padding-left: 16px;
-		display: flex;
-		flex-direction: column;
-		 align-items: flex-start;
-	}
-
-	.disabled {
-		opacity: 0.5;
-	}
-
-	.mixed {
-		opacity: 0.75;
+	.layerTree-container {
+		flex: 1;
+		overflow: auto;
 	}
 </style>
