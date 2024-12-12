@@ -8,17 +8,16 @@ import SelectItem from "./select-item.svelte";
 import type { SelectMenuItem } from "./types";
 
 export let icon: keyof typeof icons | undefined;
-export const iconText: string | null = null;
+export let iconText: string | null = null;
 export let disabled: boolean = false;
-export const macOSBlink: boolean = false;
-export const menuItems: SelectMenuItem[] = []; //pass data in via this prop to generate menu items
-export const placeholder: string = "Please make a selection.";
-export let value: SelectMenuItem | null | undefined = null; //stores the current selection, note, the value will be an object from your array
-export const showGroupLabels: boolean = false; //default prop, true will show option group labels
-export { className as class };
+export let macOSBlink: boolean = false;
+export let menuItems: SelectMenuItem[] = [];
+export let placeholder: string = "Please make a selection.";
+export let value: SelectMenuItem | null | undefined = null;
+export let showGroupLabels: boolean = false;
+export let className = "";
 
 const dispatch = createEventDispatcher();
-const className = "";
 const groups = checkGroups();
 let menuWrapper: HTMLDivElement,
 	menuButton: HTMLButtonElement,
@@ -88,116 +87,107 @@ function removeHighlight(event: Event) {
 function menuClick(event: Event) {
 	resetMenuProperties();
 
+	// If clicking outside or no target, hide menu
 	if (!event.target) {
 		menuList.classList.add("hidden");
-	} else if ((event.target as HTMLElement).contains(menuButton)) {
-		const topPos: number = 0;
+		menuButton.classList.remove("selected");
+		return;
+	}
 
-		if (value) {
-			//toggle menu
+	// Handle button click
+	if ((event.target as HTMLElement).contains(menuButton) || event.target === menuButton) {
+		if (menuList.classList.contains("hidden")) {
 			menuList.classList.remove("hidden");
-
-			const id = value.id!;
-			const selectedItem = menuList.querySelector(
-				`[itemId="${id}"]`,
+			menuButton.classList.add("selected");
+			
+			// Position menu and focus appropriate item
+			const selectedIndex = value ? value.id : 0;
+			const targetItem = menuList.querySelector(
+				`[itemId="${selectedIndex}"]`
 			) as HTMLElement;
-			selectedItem.focus(); //set focus to the currently selected item
 
-			// calculate distance from top so that we can position the dropdown menu
-			const parentTop = menuList.getBoundingClientRect().top;
-			const itemTop = selectedItem.getBoundingClientRect().top;
-			const topPos = itemTop - parentTop - 3;
-			menuList.style.top = `${-Math.abs(topPos)}px`;
-
-			//update size and position based on plugin UI
-			resizeAndPosition();
+			if (targetItem) {
+				targetItem.focus();
+				positionMenu(targetItem);
+			}
 		} else {
-			menuList.classList.remove("hidden");
-			menuList.style.top = "0px";
-			const firstItem = menuList.querySelector('[itemId="0"]') as HTMLElement;
-			firstItem.focus();
-
-			//update size and position based on plugin UI
-			resizeAndPosition();
+			menuList.classList.add("hidden");
+			menuButton.classList.remove("selected");
 		}
-	} else if (menuList.contains(event.target as Node)) {
-		//find selected item in array
+		return;
+	}
+
+	// Handle menu item click
+	if (menuList.contains(event.target as Node)) {
 		const itemId = Number.parseInt(
-			(event.target as HTMLElement).getAttribute("itemId")!,
+			(event.target as HTMLElement).getAttribute("itemId")!
 		);
 
-		//remove current selection if there is one
 		if (value) {
 			menuItems[value.id!].selected = false;
 		}
-		menuItems[itemId].selected = true; //select current item
-		value = menuItems[itemId]; // Update the value property
+		
+		menuItems[itemId].selected = true;
+		value = menuItems[itemId];
 		updateSelectedAndIds();
 		dispatch("change", menuItems[itemId]);
 
 		if (macOSBlink) {
-			const x: number = 4;
-			const interval: number = 70;
-
-			//blink the background
-			for (let i = 0; i < x; i++) {
-				setTimeout(() => {
-					(event.target as HTMLElement).classList.toggle("blink");
-				}, i * interval);
-			}
-			//delay closing the menu
-			setTimeout(
-				() => {
-					menuList.classList.add("hidden"); //hide the menu
-				},
-				interval * x + 40,
-			);
+			handleMacOSBlink(event);
 		} else {
-			menuList.classList.add("hidden"); //hide the menu
-			menuButton.classList.remove("selected"); //remove selected state from button
+			menuList.classList.add("hidden");
+			menuButton.classList.remove("selected");
 		}
 	}
 }
 
-// this function ensures that the select menu
-// fits inside the plugin viewport
-// if its too big, it will resize it and enable a scrollbar
-// if its off screen it will shift the position
-function resizeAndPosition() {
-	//set the max height of the menu based on plugin/iframe window
-	const maxMenuHeight = window.innerHeight - 16;
-	const menuHeight = menuList.offsetHeight;
-	let menuResized: boolean = false;
-
-	if (menuHeight > maxMenuHeight) {
-		menuList.style.height = `${maxMenuHeight}px`;
-		menuResized = true;
-	}
-
-	//lets adjust the position of the menu if its cut off from viewport
-	const bounding = menuList.getBoundingClientRect();
-	const parentBounding = menuButton.getBoundingClientRect();
-
-	if (bounding.top < 0) {
-		menuList.style.top = `${-Math.abs(parentBounding.top - 8)}px`;
-	}
-	if (
-		bounding.bottom >
-		(window.innerHeight || document.documentElement.clientHeight)
-	) {
-		const minTop = -Math.abs(
-			parentBounding.top - (window.innerHeight - menuHeight - 8),
-		);
-		const newTop = -Math.abs(bounding.bottom - window.innerHeight + 16);
-		if (menuResized) {
-			menuList.style.top = `${-Math.abs(parentBounding.top - 8)}px`;
-		} else if (newTop > minTop) {
-			menuList.style.top = `${minTop}px`;
-		} else {
-			menuList.style.top = `${newTop}px`;
-		}
+// New helper function for menu positioning
+function positionMenu(targetItem: HTMLElement) {
+	const menuRect = menuList.getBoundingClientRect();
+	const buttonRect = menuButton.getBoundingClientRect();
+	const windowHeight = window.innerHeight;
+	
+	// Calculate available space above and below
+	const spaceAbove = buttonRect.top;
+	const spaceBelow = windowHeight - buttonRect.bottom;
+	
+	// Reset menu size
+	menuList.style.maxHeight = "";
+	
+	// Determine if menu should open upward or downward
+	if (spaceBelow < menuRect.height && spaceAbove > spaceBelow) {
+		// Open upward
+		const maxHeight = Math.min(spaceAbove - 8, menuRect.height);
+		menuList.style.maxHeight = `${maxHeight}px`;
+		menuList.style.top = `auto`;
+		menuList.style.bottom = `${buttonRect.height + 4}px`;
+	} else {
+		// Open downward
+		const maxHeight = Math.min(spaceBelow - 8, menuRect.height);
+		menuList.style.maxHeight = `${maxHeight}px`;
+		menuList.style.top = `${buttonRect.height + 4}px`;
+		menuList.style.bottom = `auto`;
 	}
 }
+
+// New helper function for MacOS blink effect
+function handleMacOSBlink(event: Event) {
+	const target = event.target as HTMLElement;
+	const blinkCount = 4;
+	const interval = 70;
+
+	for (let i = 0; i < blinkCount; i++) {
+		setTimeout(() => {
+			target.classList.toggle("blink");
+		}, i * interval);
+	}
+
+	setTimeout(() => {
+		menuList.classList.add("hidden");
+		menuButton.classList.remove("selected");
+	}, interval * blinkCount + 40);
+}
+
 function resetMenuProperties() {
 	menuList.style.height = "auto";
 	menuList.style.top = "0px";
@@ -363,17 +353,16 @@ button * {
 
 .menu {
   position: absolute;
-  top: 32px;
   left: 0;
   width: 100%;
   background-color: #000000e5;
   box-shadow: var(--shadow-hud);
-  padding: var(--spacer-2) 0 var(--spacer-2) 0;
+  padding: var(--spacer-2) 0;
   border-radius: var(--border-radius-small);
   margin: 0;
   z-index: 50;
-  overflow-x: overlay;
   overflow-y: auto;
+  max-height: calc(100vh - 16px);
 }
 .menu::-webkit-scrollbar {
   width: 12px;
