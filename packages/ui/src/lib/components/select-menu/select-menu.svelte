@@ -266,58 +266,58 @@
 		display: none;
 	}
 
-	button {
-		display: flex;
-		align-items: center;
-		border: 1px solid transparent;
-		height: 30px;
-		width: 100%;
-		margin: 1px 0 1px 0;
-		padding: 4px var(--spacer-2) 0px var(--spacer-2);
-		overflow-y: hidden;
-		border-radius: var(--border-radius-small);
-		background-color: var(--figma-color-bg);
-	}
-	button:hover,
-	button:active {
-		border-color: var(--figma-color-border-onselected-strong);
-	}
-	button:hover .placeholder {
-		color: var(--figma-color-text);
-	}
-	button:hover .caret svg path,
-	button:focus .caret svg path {
-		fill: var(--figma-color-text);
-	}
-	button:hover .caret,
-	button:focus .caret {
-		margin-left: auto;
-	}
-	button:focus {
-		border: 1px solid var(--figma-color-bg-brand);
-		outline: 1px solid var(--figma-color-bg-brand);
-		outline-offset: -2px;
-		padding-left: calc(var(--spacer-2) + 1px);
-	}
-	button:focus .placeholder {
-		color: var(--figma-color-text);
-	}
-	button:disabled .label {
-		color: var(--figma-color-text-secondary);
-	}
-	button:disabled:hover {
-		justify-content: flex-start;
-		border-color: transparent;
-	}
-	button:disabled:hover .placeholder {
-		color: var(--figma-color-text-secondary);
-	}
-	button:disabled:hover .caret svg path {
-		fill: var(--figma-color-text-secondary);
-	}
-	button * {
-		pointer-events: none;
-	}
+button {
+  display: flex;
+  align-items: center;
+  border: 1px solid transparent;
+  height: 30px;
+  width: 100%;
+  margin: 1px 0 1px 0;
+  padding: 4px var(--spacer-2) 0px var(--spacer-2);
+  overflow-y: hidden;
+  border-radius: var(--radius-medium);
+  background-color: var(--figma-color-bg);
+}
+button:hover,
+button:active {
+  border-color: var(--figma-color-border-onselected-strong);
+}
+button:hover .placeholder {
+  color: var(--figma-color-text);
+}
+button:hover .caret svg path,
+button:focus .caret svg path {
+  fill: var(--figma-color-text);
+}
+button:hover .caret,
+button:focus .caret {
+  margin-left: auto;
+}
+button:focus {
+  border: 1px solid var(--figma-color-bg-brand);
+  outline: 1px solid var(--figma-color-bg-brand);
+  outline-offset: -2px;
+  padding-left: calc(var(--spacer-2) + 1px);
+}
+button:focus .placeholder {
+  color: var(--figma-color-text);
+}
+button:disabled .label {
+  color: var(--figma-color-text-secondary);
+}
+button:disabled:hover {
+  justify-content: flex-start;
+  border-color: transparent;
+}
+button:disabled:hover .placeholder {
+  color: var(--figma-color-text-secondary);
+}
+button:disabled:hover .caret svg path {
+  fill: var(--figma-color-text-secondary);
+}
+button * {
+  pointer-events: none;
+}
 
 	.label,
 	.placeholder {
@@ -352,35 +352,40 @@
 		margin-right: 0;
 	}
 
-	.menu {
-		position: absolute;
-		left: 0;
-		width: 100%;
-		background-color: #000000e5;
-		box-shadow: var(--shadow-hud);
-		padding: var(--spacer-2) 0;
-		border-radius: var(--border-radius-small);
-		margin: 0;
-		z-index: 50;
-		overflow-y: auto;
-		max-height: calc(100vh - 16px);
-	}
-	.menu::-webkit-scrollbar {
-		width: 12px;
-		background-color: transparent;
-		background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=);
-		background-repeat: repeat;
-		background-size: 100% auto;
-	}
-	.menu::-webkit-scrollbar-track {
-		border: solid 3px transparent;
-		-webkit-box-shadow: inset 0 0 10px 10px transparent;
-		box-shadow: inset 0 0 10px 10px transparent;
-	}
-	.menu::-webkit-scrollbar-thumb {
-		border: solid 3px transparent;
-		border-radius: 6px;
-		-webkit-box-shadow: inset 0 0 10px 10px rgba(255, 255, 255, 0.4);
-		box-shadow: inset 0 0 10px 10px rgba(255, 255, 255, 0.4);
-	}
-</style>
+.menu {
+  position: absolute;
+  left: 0;
+	margin-top: 0;
+  width: 100%;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  cursor: default;
+  padding: var(--space-2);
+  background-color: var(--color-bg-menu);
+  border-radius: var(--radius-large);
+  font-size: var(--font-size-menu);
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-default);
+  letter-spacing: var(--letter-spacing-default);
+  color: var(--color-text-menu);
+  box-shadow: var(--elevation-400);
+}
+.menu::-webkit-scrollbar {
+  width: 12px;
+  background-color: transparent;
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=);
+  background-repeat: repeat;
+  background-size: 100% auto;
+}
+.menu::-webkit-scrollbar-track {
+  border: solid 3px transparent;
+  -webkit-box-shadow: inset 0 0 10px 10px transparent;
+  box-shadow: inset 0 0 10px 10px transparent;
+}
+.menu::-webkit-scrollbar-thumb {
+  border: solid 3px transparent;
+  border-radius: 6px;
+  -webkit-box-shadow: inset 0 0 10px 10px rgba(255, 255, 255, 0.4);
+  box-shadow: inset 0 0 10px 10px rgba(255, 255, 255, 0.4);
+}</style>

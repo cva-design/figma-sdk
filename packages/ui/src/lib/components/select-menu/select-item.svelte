@@ -59,6 +59,7 @@ li {
 li:hover,
 li:focus {
   background-color: var(--figma-color-bg-brand);
+  border-radius: var(--radius-medium);
 }
 
 .icon {
