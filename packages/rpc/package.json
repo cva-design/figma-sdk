@@ -49,5 +49,8 @@
 			"default": "./lib/index.js"
 		}
 	},
-	"dependencies": {}
+	"dependencies": {},
+	"devDependencies": {
+		"type-fest": "^4.30.1"
+	}
 }

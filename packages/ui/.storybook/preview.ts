@@ -14,13 +14,6 @@ const preview: Preview = {
   },
   parameters: {
     layout: 'centered',
-    // backgrounds: {
-    //   default: 'figma-dark',
-    //   grid: {
-    //     cellSize: 8,
-    //     cellAmount: 4,
-    //   },
-    // },
     controls: {
       matchers: {
         color: /(background|color)$/i,
@@ -29,8 +22,6 @@ const preview: Preview = {
     },
     darkMode: {
       current: 'dark',
-      // dark: { ...themes.dark },
-      // light: { ...themes.normal },
       darkClass: 'figma-dark',
       lightClass: 'figma-light',
       figJamClass: 'figjam',
@@ -42,7 +33,41 @@ const preview: Preview = {
     },
     options: {
       storySort: {
-        order: ['Intro', 'Get Started', 'Architecture', 'Github Template', '*'],
+        order: [
+          '📦 UI 〉components',
+          [
+            // ❗❗ IMPORTANT ❗❗
+            // if you change this, you MUST COPY AND PASTE it
+            // to the `groups` array in `main.ts`
+            'Actions',
+            ['button', 'icon-button', 'icon-toggle', 'action-group', 'link'],
+            'Communication',
+            ['tooltip', 'popover'],
+            'Data Display',
+            ['tree', 'layer-tree', 'layer', 'disclosure'],
+            'Forms',
+            ['input', 'textarea', 'radio', 'switch', 'select-menu'],
+            'Navigation',
+            ['tabs', 'sidebar'],
+            'Visual',
+            ['icon', 'onboarding-tip'],
+            '🚧 Next',
+            ['sidebarTitle', 'badge'],
+          ],
+          '📦 UI 〉icons',
+          '📦 UI 〉(Svelte) actions',
+          '📦 Message Bus 〰️ 🚧 beta',
+          [
+            'Introduction',
+            'Quick Start',
+            'Get Started',
+            'Basic Concepts',
+            'Example',
+            'Advanced Usage',
+          ],
+          '📦 RPC 〰️ 🚧 beta',
+          ['*'],
+        ],
       },
     },
   },

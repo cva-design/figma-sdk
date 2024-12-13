@@ -1,9 +1,6 @@
 import type { ViteFinal } from '@storybook/builder-vite';
 import type { StorybookConfig } from '@storybook/sveltekit';
-import { dirname, join } from 'node:path';
-
-// Simplify paths
-import path from 'node:path';
+import path, { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const projectRoot = path.resolve(
@@ -15,44 +12,80 @@ function getAbsolutePath(value: string): string {
   return dirname(require.resolve(join(value, 'package.json')));
 }
 
-const groups = {
-  Actions: ['button', 'icon-button', 'icon-toggle', 'action-group', 'link'],
-  Communication: ['tooltip', 'popover'],
-  'Data Display': ['tree', 'layer-tree', 'layer', 'disclosure'],
-  Forms: ['input', 'textarea', 'radio', 'switch', 'select-menu'],
-  Navigation: ['tabs', 'sidebar'],
-  Visual: ['icon', 'onboarding-tip'],
-  '🚧 Next': ['sidebarTitle', 'badge'],
-};
+const DEFAULTS = {
+  STORIES_AND_DOCS_REGEX: '**/*.@(mdx|stories.@(js|ts|svelte))',
+  STORIES_ONLY_REGEX: '**/*.stories.@(js|ts|svelte)',
+  DOCS_ONLY_REGEX: '**/*.mdx',
+} as const;
+
+// NOTE TO SMART DEVS:
+// Yes, this is DUPLICATED code, COPIED AND PASTED from `preview.ts`
+// But Storybook 8 does NOT allow us to do it any other way.
+const groups = [
+  'Actions',
+  ['button', 'icon-button', 'icon-toggle', 'action-group', 'link'],
+  'Communication',
+  ['tooltip', 'popover'],
+  'Data Display',
+  ['tree', 'layer-tree', 'layer', 'disclosure'],
+  'Forms',
+  ['input', 'textarea', 'radio', 'switch', 'select-menu'],
+  'Navigation',
+  ['tabs', 'sidebar'],
+  'Visual',
+  ['icon', 'onboarding-tip'],
+  '🚧 Next',
+  ['sidebarTitle', 'badge'],
+];
 
 const config: StorybookConfig = {
   stories: [
+    // Top-level docs
     {
-      directory: '../docs',
-      files: '*.mdx',
-      // titlePrefix: 'Documentation',
+      titlePrefix: '',
+      directory: '../../../docs',
+      files: DEFAULTS.STORIES_AND_DOCS_REGEX,
     },
     {
-      directory: '../docs/packages',
-      files: '**/*.mdx',
-      titlePrefix: 'SDK Packages',
+      titlePrefix: '',
+      directory: '../../../docs',
+      files: DEFAULTS.STORIES_AND_DOCS_REGEX,
     },
+    ...(groups
+      .map((group, index) =>
+        index % 2 === 0
+          ? {
+              titlePrefix: `📦 UI 〉components / ${group}`,
+              directory: '../src/lib/components',
+              files: `**/@(${(groups[index + 1] as string[]).join('|')}).@(mdx|stories.@(js|ts|svelte))`,
+            }
+          : null,
+      )
+      .filter(Boolean) as any[]),
+    // UI / Icons
     {
+      titlePrefix: '📦 UI 〉icons',
+      directory: '../src/lib/icons',
+      files: DEFAULTS.STORIES_AND_DOCS_REGEX,
+    },
+    // Svelte Actions
+    {
+      titlePrefix: '📦 UI 〉(Svelte) actions',
       directory: '../src/lib/actions',
-      files: '*.@(mdx|stories.@(js|ts|svelte))',
-      titlePrefix: 'Svelte Actions',
+      files: DEFAULTS.STORIES_AND_DOCS_REGEX,
     },
-    ...Object.entries(groups).map(([group, components]) => ({
-      titlePrefix: `components/${group}`,
-      directory: '../src/lib/components',
-      files: `**/@(${components.join('|')}).@(mdx|stories.@(js|ts|svelte))`,
-    })),
-    // commented out for now, as it's not working
-    // {
-    //   directory: '../src/lib/components',
-    //   files: `**/(!${Object.values(groups).flat().join('|')}).@(mdx|stories.@(js|ts|svelte))`,
-    //   titlePrefix: 'Other Components',
-    // },
+    // Message Bus
+    {
+      titlePrefix: '📦 Message Bus 〰️ 🚧 beta',
+      directory: '../../message-bus/docs',
+      files: DEFAULTS.DOCS_ONLY_REGEX,
+    },
+    // RPC
+    {
+      titlePrefix: '📦 RPC 〰️ 🚧 beta',
+      directory: '../../rpc/docs',
+      files: DEFAULTS.DOCS_ONLY_REGEX,
+    },
   ],
 
   addons: [
@@ -62,7 +95,6 @@ const config: StorybookConfig = {
     getAbsolutePath('@storybook/addon-essentials'),
     getAbsolutePath('@storybook/addon-interactions'),
     getAbsolutePath('@chromatic-com/storybook'),
-    '@storybook/addon-mdx-gfm',
   ],
 
   framework: {
@@ -71,12 +103,6 @@ const config: StorybookConfig = {
   },
 
   docs: {},
-  // managerHead: (head) => {
-  //   console.log(head);
-  //   return `
-  //   ${head}
-  // `;
-  // },
 
   staticDirs: ['../docs/assets', '../static'],
 
@@ -90,6 +116,9 @@ const config: StorybookConfig = {
           allow: [
             ...(config.server?.fs?.allow || []),
             path.resolve(projectRoot, 'docs'),
+            path.resolve(projectRoot, '..', 'message-bus', 'docs'),
+            path.resolve(projectRoot, '..', 'rpc', 'docs'),
+            path.resolve(projectRoot, '..', '..', '..', 'docs'),
           ],
         },
       },

@@ -99,7 +99,6 @@
     "@storybook/addon-essentials": "8.4.6",
     "@storybook/addon-interactions": "8.4.6",
     "@storybook/addon-links": "8.4.6",
-    "@storybook/addon-mdx-gfm": "^8.4.6",
     "@storybook/addon-storysource": "8.4.6",
     "@storybook/addon-svelte-csf": "^4.2.0",
     "@storybook/blocks": "8.4.6",

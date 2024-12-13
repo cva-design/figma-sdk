@@ -26,8 +26,15 @@
       "$actions/*": ["./src/lib/actions/*"]
     },
     "typeRoots": ["./node_modules/@types", "./src/svelte-typings.d.ts"],
-    "types": ["vite/client"]
+    "types": ["vite/client"],
+    "jsx": "react-jsx",
+    "jsxImportSource": "react"
   },
   "exclude": ["**/_bkp/**/*", "src/lib/next"],
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.svelte", "src/vite-env.d.ts"]
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.svelte",
+    "src/vite-env.d.ts"
+  ]
 }

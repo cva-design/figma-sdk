@@ -15,7 +15,7 @@ The Click Outside action helps you detect when a user clicks outside of a specif
 
 Here's a simple example of how to use the Click Outside action:
 
-~~~svelte
+~~~html
 <script>
   import { clickOutside } from '@figma-plugin-sdk/actions/click-outside';
   
@@ -43,7 +43,7 @@ Click outside the gray box to see it in action:
 
 The action takes a single parameter:
 
-~~~ts
+~~~typescript
 function clickOutside(node: HTMLElement, callback: (event: MouseEvent) => void)
 ~~~
 
@@ -54,7 +54,7 @@ function clickOutside(node: HTMLElement, callback: (event: MouseEvent) => void)
 
 You can update the callback function at any time by passing a new function to the action:
 
-~~~svelte
+~~~html
 <script>
   let callback = () => console.log('First callback');
   
@@ -76,7 +76,7 @@ The action automatically removes event listeners when the element is destroyed, 
 
 ### Dropdown Menu
 
-~~~svelte
+~~~html
 <script>
   import { clickOutside } from '$lib/actions/click-outside';
   
@@ -102,7 +102,7 @@ The action automatically removes event listeners when the element is destroyed, 
 
 ### Modal Dialog
 
-~~~svelte
+~~~html
 <script>
   import { clickOutside } from '$lib/actions/click-outside';
   

@@ -2,7 +2,7 @@
   <g clip-path="url(#clip0_4_1053)">
     <mask id="mask0_4_1053" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0" y="0"
       width="24" height="24">
-      <path d="M0 0H24V24H0V0Z" fill="white" />
+      <path d="M0 0H24V24H0V0Z" fill="currentColor" />
     </mask>
     <g mask="url(#mask0_4_1053)">
       <path fill-rule="evenodd" clip-rule="evenodd"
@@ -12,7 +12,7 @@
   </g>
   <defs>
     <clipPath id="clip0_4_1053">
-      <rect width="24" height="24" fill="white" />
+      <rect width="24" height="24" fill="currentColor" />
     </clipPath>
   </defs>
 </svg>

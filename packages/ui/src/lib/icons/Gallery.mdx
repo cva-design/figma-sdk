@@ -1,0 +1,89 @@
+import * as icons from '$icons';
+import { Meta } from '@storybook/blocks';
+import { useState } from 'react';
+import { FilterControls } from '../../../docs/docs-ui/filter-controls';
+import { IconGrid } from '../../../docs/docs-ui/icon-grid';
+
+<Meta title="Gallery" />
+
+<style>
+{`
+  .docblock-icongallery > div > div:first-child {
+    width: var(--icon-item-size) !important;
+    height: var(--icon-item-size) !important;
+  }
+  .docblock-icongallery > div {
+    flex: 0 1 calc(25% - 10px);
+  }
+  
+  .icon-container svg {
+    transform: scale(var(--icon-scale));
+    transform-origin: center;
+  }
+
+  .sticky-header {
+    position: sticky;
+    top: 0;
+    background: rgb(27, 28, 29);
+    padding: 20px 0;
+    margin-top: -20px;
+    z-index: 100;
+  }
+
+  .sticky-header h1 {
+    margin-bottom: 16px;
+  }
+`}
+</style>
+
+{(() => {
+  const [filter, setFilter] = useState('');
+  const [size, setSize] = useState(32);
+
+  // Group icons by base name (without size suffix)
+  const groups = Object.entries(icons).reduce((acc, [name, svg]) => {
+    if (name === 'default') return acc;
+    
+    // Extract base name and size
+    const match = name.match(/^(.+)Svg_?(\d+)?$/);
+    if (!match) return acc;
+    
+    const [, baseName, iconSize] = match;
+    const formattedName = baseName
+      .replace(/([A-Z])/g, ' $1')
+      .trim()
+      .replace(/\b\w/g, c => c.toUpperCase());
+    
+    if (!acc[formattedName]) {
+      acc[formattedName] = { 
+        sizes: [], 
+        largestSvg: svg
+      };
+    }
+    
+    if (iconSize) {
+      acc[formattedName].sizes.push(parseInt(iconSize));
+    }
+    
+    return acc;
+  }, {});
+
+  return (
+    <>
+      <header className="sticky-header">
+        <h1>Icon Gallery</h1>
+        <FilterControls 
+          filter={filter}
+          setFilter={setFilter}
+          size={size}
+          setSize={setSize}
+        />
+      </header>
+      <IconGrid 
+        groups={groups}
+        filter={filter}
+        size={size}
+      />
+    </>
+  );
+})()}

@@ -41,11 +41,9 @@ export { default as GridPropertySvg_16 } from './grid-property-16.svg?raw';
 export { default as GridPropertySvg_24 } from './grid-property-24.svg?raw';
 export { default as LayerPolygonSvg_12 } from './layer-polygon-12.svg?raw';
 export { default as LayerPolygonSvg_16 } from './layer-polygon-16.svg?raw';
-export { default as LayerPolygonSvg_32 } from './layer-polygon-32.svg?raw';
 export { default as LayerSectionSvg_16 } from './layer-section-16.svg?raw';
 export { default as LayerStarSvg_12 } from './layer-star-12.svg?raw';
 export { default as LayerStarSvg_16 } from './layer-star-16.svg?raw';
-export { default as LayerStarSvg_32 } from './layer-star-32.svg?raw';
 export { default as LayerWidgetSvg_16 } from './layer-widget-16.svg?raw';
 export { default as NumberPropertySvg_16 } from './number-property-16.svg?raw';
 export { default as NumberPropertySvg_24 } from './number-property-24.svg?raw';
@@ -55,25 +53,25 @@ export { default as TextPropertySvg_16 } from './text-property-16.svg?raw';
 export { default as TextPropertySvg_24 } from './text-property-24.svg?raw';
 export { default as TogglePropertySvg_16 } from './toggle-property-16.svg?raw';
 export { default as TogglePropertySvg_24 } from './toggle-property-24.svg?raw';
-export { default as ToolbarActionsSvg } from './toolbar-actions.svg?raw';
-export { default as ToolbarArrowSvg } from './toolbar-arrow.svg?raw';
-export { default as ToolbarCommentSvg } from './toolbar-comment.svg?raw';
-export { default as ToolbarDevModeSvg } from './toolbar-dev-mode.svg?raw';
-export { default as ToolbarEllipseSvg } from './toolbar-ellipse.svg?raw';
-export { default as ToolbarFrameSvg } from './toolbar-frame.svg?raw';
-export { default as ToolbarHandToolSvg } from './toolbar-hand-tool.svg?raw';
-export { default as ToolbarLineSvg } from './toolbar-line.svg?raw';
-export { default as ToolbarMoveSvg } from './toolbar-move.svg?raw';
-export { default as ToolbarPenSvg } from './toolbar-pen.svg?raw';
-export { default as ToolbarPencilSvg } from './toolbar-pencil.svg?raw';
-export { default as ToolbarPolygonSvg } from './toolbar-polygon.svg?raw';
-export { default as ToolbarRectangleSvg } from './toolbar-rectangle.svg?raw';
-export { default as ToolbarRulerSvg } from './toolbar-ruler.svg?raw';
-export { default as ToolbarScaleSvg } from './toolbar-scale.svg?raw';
-export { default as ToolbarSectionSvg } from './toolbar-section.svg?raw';
-export { default as ToolbarSliceSvg } from './toolbar-slice.svg?raw';
-export { default as ToolbarStarSvg } from './toolbar-star.svg?raw';
-export { default as ToolbarTextSvg } from './toolbar-text.svg?raw';
+export { default as ToolbarActionsSvg_24 } from './toolbar-actions-24.svg?raw';
+export { default as ToolbarArrowSvg_24 } from './toolbar-arrow-24.svg?raw';
+export { default as ToolbarCommentSvg_24 } from './toolbar-comment-24.svg?raw';
+export { default as ToolbarDevModeSvg_24 } from './toolbar-dev-mode-24.svg?raw';
+export { default as ToolbarEllipseSvg_24 } from './toolbar-ellipse-24.svg?raw';
+export { default as ToolbarFrameSvg_24 } from './toolbar-frame-24.svg?raw';
+export { default as ToolbarHandToolSvg_24 } from './toolbar-hand-tool-24.svg?raw';
+export { default as ToolbarLineSvg_24 } from './toolbar-line-24.svg?raw';
+export { default as ToolbarMoveSvg_24 } from './toolbar-move-24.svg?raw';
+export { default as ToolbarPenSvg_24 } from './toolbar-pen-24.svg?raw';
+export { default as ToolbarPencilSvg_24 } from './toolbar-pencil-24.svg?raw';
+export { default as ToolbarPolygonSvg_24 } from './toolbar-polygon-24.svg?raw';
+export { default as ToolbarRectangleSvg_24 } from './toolbar-rectangle-24.svg?raw';
+export { default as ToolbarRulerSvg_24 } from './toolbar-ruler-24.svg?raw';
+export { default as ToolbarScaleSvg_24 } from './toolbar-scale-24.svg?raw';
+export { default as ToolbarSectionSvg_24 } from './toolbar-section-24.svg?raw';
+export { default as ToolbarSliceSvg_24 } from './toolbar-slice-24.svg?raw';
+export { default as ToolbarStarSvg_24 } from './toolbar-star-24.svg?raw';
+export { default as ToolbarTextSvg_24 } from './toolbar-text-24.svg?raw';
 export { default as VariableModePropertySvg_16 } from './variable-mode-property-16.svg?raw';
 export { default as VariableModePropertySvg_24 } from './variable-mode-property-24.svg?raw';
 export { default as VariablePropertySvg_16 } from './variable-property-16.svg?raw';
@@ -81,3 +79,57 @@ export { default as VariablePropertySvg_24 } from './variable-property-24.svg?ra
 export { default as VariantPropertySvg_16 } from './variant-property-16.svg?raw';
 export { default as VariantPropertySvg_24 } from './variant-property-24.svg?raw';
 //@endindex
+
+export default [
+  //@index('./**/*.{png,jpg,jpeg,svg,gif}', (f, _) => `'$icons/ui3/${f.path.replace(/^\.\//, '')}${f.ext}',`)
+  '$icons/ui3/boolean-property-16.svg',
+  '$icons/ui3/boolean-property-24.svg',
+  '$icons/ui3/color-palette-property-16.svg',
+  '$icons/ui3/color-palette-property-24.svg',
+  '$icons/ui3/color-property-16.svg',
+  '$icons/ui3/color-property-24.svg',
+  '$icons/ui3/effect-property-16.svg',
+  '$icons/ui3/effect-property-24.svg',
+  '$icons/ui3/grid-property-16.svg',
+  '$icons/ui3/grid-property-24.svg',
+  '$icons/ui3/layer-polygon-12.svg',
+  '$icons/ui3/layer-polygon-16.svg',
+  '$icons/ui3/layer-section-16.svg',
+  '$icons/ui3/layer-star-12.svg',
+  '$icons/ui3/layer-star-16.svg',
+  '$icons/ui3/layer-widget-16.svg',
+  '$icons/ui3/number-property-16.svg',
+  '$icons/ui3/number-property-24.svg',
+  '$icons/ui3/text-input-property-16.svg',
+  '$icons/ui3/text-input-property-24.svg',
+  '$icons/ui3/text-property-16.svg',
+  '$icons/ui3/text-property-24.svg',
+  '$icons/ui3/toggle-property-16.svg',
+  '$icons/ui3/toggle-property-24.svg',
+  '$icons/ui3/toolbar-actions-24.svg',
+  '$icons/ui3/toolbar-arrow-24.svg',
+  '$icons/ui3/toolbar-comment-24.svg',
+  '$icons/ui3/toolbar-dev-mode-24.svg',
+  '$icons/ui3/toolbar-ellipse-24.svg',
+  '$icons/ui3/toolbar-frame-24.svg',
+  '$icons/ui3/toolbar-hand-tool-24.svg',
+  '$icons/ui3/toolbar-line-24.svg',
+  '$icons/ui3/toolbar-move-24.svg',
+  '$icons/ui3/toolbar-pen-24.svg',
+  '$icons/ui3/toolbar-pencil-24.svg',
+  '$icons/ui3/toolbar-polygon-24.svg',
+  '$icons/ui3/toolbar-rectangle-24.svg',
+  '$icons/ui3/toolbar-ruler-24.svg',
+  '$icons/ui3/toolbar-scale-24.svg',
+  '$icons/ui3/toolbar-section-24.svg',
+  '$icons/ui3/toolbar-slice-24.svg',
+  '$icons/ui3/toolbar-star-24.svg',
+  '$icons/ui3/toolbar-text-24.svg',
+  '$icons/ui3/variable-mode-property-16.svg',
+  '$icons/ui3/variable-mode-property-24.svg',
+  '$icons/ui3/variable-property-16.svg',
+  '$icons/ui3/variable-property-24.svg',
+  '$icons/ui3/variant-property-16.svg',
+  '$icons/ui3/variant-property-24.svg',
+  //@endindex
+];
