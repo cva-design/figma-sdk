@@ -1,0 +1,206 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Type System" />
+
+# Type System
+
+The Message Bus uses TypeScript to provide compile-time safety for your plugin's communication. Let's explore how it works.
+
+## Message Registries
+
+> For details about how messages are structured and transported, see the 
+> [Internals documentation](/?path=/docs/📦-message-bus-〰️-🚧-beta-internals--docs#message-structure).
+
+> **Tip**: Keep your message types in a shared file to ensure consistency between UI and plugin code.
+
+At the core of the type system are message registries:
+
+~~~typescript
+import type { CommandRegistry, EventRegistry } from '@figma-plugin-sdk/message-bus';
+
+// Define your messages
+interface Commands {
+  SaveDocument: {
+    name: string;
+    content: string;
+    result: {
+      success: boolean;
+      error?: string;
+      timestamp?: number;
+    };
+  };
+}
+
+interface Events {
+  DocumentSaved: {
+    name: string;
+    timestamp: number;
+  };
+}
+
+// Create type-safe registries
+type MyCommandRegistry = CommandRegistry<Commands>;
+type MyEventRegistry = EventRegistry<Events>;
+
+// Use them with the message bus
+const messageBus = getMessageBus<MyCommandRegistry, MyEventRegistry>();
+
+// Type-safe command handling
+messageBus.handleCommand('SaveDocument', async ({ name, content }) => {
+  try {
+    await saveDocument(name, content);
+    return {
+      success: true,
+      timestamp: Date.now()
+    };
+  } catch (error) {
+    return {
+      success: false,
+      error: error.message
+    };
+  }
+});
+~~~
+
+## Type Inference
+
+The Message Bus automatically infers:
+1. Command parameters and return types
+2. Event payload types
+3. Message names (for autocomplete)
+
+~~~typescript
+// TypeScript knows the parameter type
+messageBus.handleCommand('SaveDocument', (data) => {
+  // data is typed as { name: string; content: string; }
+});
+
+// TypeScript knows the event payload type
+messageBus.listenToEvent('DocumentSaved', (data) => {
+  // data is typed as { name: string; timestamp: number; }
+});
+~~~
+
+## Message Scoping
+
+You can scope messages to specific domains:
+
+~~~typescript
+// User-related messages
+interface UserCommands {
+  Login: { username: string; password: string; };
+  Logout: void;
+}
+
+// System-related messages
+interface SystemEvents {
+  Error: { code: number; message: string; };
+  Ready: void;
+}
+
+// Create scoped registries
+type UserRegistry = CommandRegistry<UserCommands, 'user'>;
+type SystemRegistry = EventRegistry<SystemEvents, 'system'>;
+
+// Results in message IDs like:
+// - user:command/login
+// - system:event/error
+~~~
+
+## Figma Events Integration
+
+> The Message Bus automatically detects and handles Figma events differently from custom events.
+> See [Figma Event Integration](/?path=/docs/📦-message-bus-〰️-🚧-beta-internals--docs#figma-event-integration) 
+> for implementation details.
+
+Built-in type support for Figma's events:
+
+~~~typescript
+// TypeScript knows these event types
+messageBus.listenToEvent('SelectionChanged', () => {
+  // selection is typed as readonly SceneNode[]
+  const selection = figma.currentPage.selection;
+});
+
+messageBus.listenToEvent('DocumentChanged', (event) => {
+  // event is typed as DocumentChangeEvent
+  console.log(event.documentChanges);
+});
+~~~
+
+## Advanced Type Patterns
+
+### 1. Void Commands
+
+Commands that don't need parameters:
+
+~~~typescript
+interface Commands {
+  GetSelection: void;  // No parameters needed
+  Refresh: void;       // Just triggers an action
+}
+~~~
+
+### 2. Generic Responses
+
+Commands that return different types:
+
+~~~typescript
+interface Commands {
+  GetNode: {
+    id: string;
+    type: 'FRAME' | 'GROUP';
+  } & {
+    result: FrameNode | GroupNode;  // Return type depends on 'type'
+  };
+}
+~~~
+
+### 3. Union Types
+
+Events with different payload shapes:
+
+~~~typescript
+interface Events {
+  NodeChanged: {
+    type: 'created' | 'deleted' | 'modified';
+    node: SceneNode;
+    parent?: SceneNode;  // Only for 'created'
+    changes?: string[];  // Only for 'modified'
+  };
+}
+~~~
+
+### 4. Type Guards
+
+Safe type narrowing:
+
+~~~typescript
+messageBus.listenToEvent('NodeChanged', (event) => {
+  if (event.type === 'created') {
+    // TypeScript knows parent exists here
+    console.log(event.parent.name);
+  }
+});
+~~~
+
+## Type Safety Benefits
+
+1. **Compile-time Errors**
+   - Typos in message names
+   - Missing or extra parameters
+   - Wrong payload types
+
+2. **Better DX**
+   - Autocomplete for message names
+   - Parameter hints
+   - Quick documentation
+
+3. **Refactoring Support**
+   - Rename messages safely
+   - Update message shapes
+   - Find all usages 
+
+> **Note**: All message data must be JSON-serializable. See 
+> [Serialization Limitations](/?path=/docs/📦-message-bus-〰️-🚧-beta-internals--docs#limitations) 
+> for details.

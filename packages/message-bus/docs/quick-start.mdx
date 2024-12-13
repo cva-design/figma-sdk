@@ -1,0 +1,105 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Quick Start" />
+
+# Quick Start Guide
+
+Let's create a simple plugin that shows the number of selected nodes in its UI.
+
+## 1. Installation
+
+~~~bash
+npm install @figma-plugin-sdk/message-bus
+~~~
+
+## 2. Define Your Messages
+
+Create `types.ts`:
+
+~~~typescript
+// All your message types in one place
+interface Commands {
+  // Command to request current selection info
+  GetSelection: void;  // no parameters needed
+}
+
+interface Events {
+  // Event emitted when selection changes
+  SelectionChanged: {
+    count: number;
+    types: string[];
+  };
+}
+~~~
+
+## 3. Plugin Code
+
+> **Important**: The Message Bus is a singleton, but UI and plugin contexts are separate.
+> See [Internals](/?path=/docs/📦-message-bus-〰️-🚧-beta-internals--docs) for details about message handling and lifecycle.
+
+~~~typescript
+import { getMessageBus } from '@figma-plugin-sdk/message-bus';
+import type { Commands, Events } from './types';
+
+const messageBus = getMessageBus<Commands, Events>();
+
+// Handle GetSelection command
+messageBus.handleCommand('GetSelection', () => {
+  const selection = figma.currentPage.selection;
+  return {
+    count: selection.length,
+    types: selection.map(node => node.type)
+  };
+});
+
+// Listen to Figma's built-in selection changes
+messageBus.listenToEvent('SelectionChanged', () => {
+  const selection = figma.currentPage.selection;
+  
+  // Notify UI about the change
+  messageBus.publishEvent('SelectionChanged', {
+    count: selection.length,
+    types: selection.map(node => node.type)
+  });
+});
+~~~
+
+## 4. UI Code
+
+> **Note**: Always handle errors and cleanup event listeners in UI code to prevent memory leaks and provide good UX.
+
+In your UI code:
+
+~~~typescript
+import { getMessageBus } from '@figma-plugin-sdk/message-bus';
+import type { Commands, Events } from './types';
+
+const messageBus = getMessageBus<Commands, Events>();
+
+// Get initial selection with error handling
+messageBus.sendCommand('GetSelection')
+  .then(updateUI)
+  .catch(error => {
+    console.error('Failed to get selection:', error);
+    document.getElementById('info').textContent = 'Error: Failed to get selection';
+  });
+
+// Cleanup is important
+const cleanup = messageBus.listenToEvent('SelectionChanged', updateUI);
+
+// Always cleanup when UI closes
+window.onunload = () => {
+  cleanup();
+};
+
+// Update the UI when selection changes
+function updateUI({ count, types }) {
+  document.getElementById('info').textContent = 
+    `Selected ${count} ${types.join(', ')}`;
+}
+~~~
+
+## What's Next?
+
+- Learn about [Core Concepts](/?path=/docs/📦-message-bus-〰️-🚧-beta-core-concepts--docs)
+- See the [Todo App Example](/?path=/docs/📦-message-bus-〰️-🚧-beta-example--docs)

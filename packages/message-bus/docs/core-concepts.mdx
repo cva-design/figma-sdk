@@ -1,0 +1,148 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Core Concepts" />
+
+# Core Concepts
+
+The Message Bus is built around three core concepts that help you build reliable Figma plugins.
+
+## 1. Message Bus Instance
+
+> **Important**: While the Message Bus is a singleton, the UI and plugin contexts are separate.
+> Each context gets its own instance, but they communicate automatically.
+
+The Message Bus automatically handles communication between your plugin's UI and backend:
+
+~~~typescript
+import { getMessageBus } from '@figma-plugin-sdk/message-bus';
+
+// Same instance in both UI and plugin code
+const messageBus = getMessageBus<Commands, Events>();
+~~~
+
+Key characteristics:
+- Singleton instance (one per context)
+- Automatically routes messages between UI and plugin
+- Type-safe communication
+- Built-in support for Figma events
+
+## 2. Commands vs Events
+
+### Commands
+Commands are **requests for action** that expect a response:
+
+~~~typescript
+// Synchronous command
+messageBus.handleCommand('GetSelection', () => {
+  return figma.currentPage.selection;
+});
+
+// Async command
+messageBus.handleCommand('SaveDocument', async (data) => {
+  await figma.saveVersionHistoryAsync(data.name);
+  return { success: true };
+});
+
+// Error handling in commands
+messageBus.handleCommand('LoadData', async (key) => {
+  try {
+    const data = await figma.clientStorage.getAsync(key);
+    return { data };
+  } catch (error) {
+    throw new Error(`Failed to load ${key}: ${error.message}`);
+  }
+});
+~~~
+
+Key characteristics:
+- One handler per command
+- Returns a promise
+- Used for requests and queries
+- Handler must be in plugin code
+
+### Events
+Events are **notifications** that something happened:
+
+~~~typescript
+// In plugin code
+messageBus.publishEvent('SelectionUpdated', {
+  count: figma.currentPage.selection.length
+});
+
+// In UI code (or anywhere)
+messageBus.listenToEvent('SelectionUpdated', ({ count }) => {
+  console.log(`Selected ${count} nodes`);
+});
+~~~
+
+Key characteristics:
+- Multiple listeners allowed
+- No response expected
+- Used for notifications
+- Listeners can be anywhere
+
+## 3. Built-in Figma Events
+
+The Message Bus automatically handles Figma's native events:
+
+~~~typescript
+// These work automatically
+messageBus.listenToEvent('SelectionChanged', () => {
+  console.log('Selection:', figma.currentPage.selection);
+});
+
+messageBus.listenToEvent('CurrentPageChanged', () => {
+  console.log('Current page:', figma.currentPage);
+});
+
+messageBus.listenToEvent('DocumentChanged', (event) => {
+  console.log('Changes:', event.documentChanges);
+});
+~~~
+
+## 4. Message Scoping
+
+You can scope messages to specific domains:
+
+~~~typescript
+// Types
+interface UserCommands {
+  Login: { username: string; password: string; };
+}
+
+// Create scoped registry
+type UserRegistry = CommandRegistry<UserCommands, 'user'>;
+// Results in message IDs like: user:command/login
+
+// Usage
+const messageBus = getMessageBus<UserRegistry>();
+messageBus.handleCommand('Login', ({ username, password }) => {
+  // Handle login...
+});
+~~~
+
+## Important Notes
+
+1. **Serialization**
+   - Messages are automatically serialized for transport
+   - Complex objects like `Map` and `Set` are handled automatically
+   - Circular references are not supported
+
+2. **Event Cleanup**
+   - Always cleanup event listeners in UI code:
+   ~~~typescript
+   const cleanup = messageBus.listenToEvent('SomeEvent', () => {});
+   // Later...
+   cleanup();
+   ~~~
+
+3. **Error Handling**
+   - Commands can throw errors or return rejected promises
+   - Use try/catch when sending commands
+   - Consider using events for error notifications
+
+## Next Steps
+
+- Learn about the [Type System](/?path=/docs/📦-message-bus-〰️-🚧-beta-type-system--docs)
+- See a complete [Todo App Example](/?path=/docs/📦-message-bus-〰️-🚧-beta-example--docs)
+- Understand the [Internal Details](/?path=/docs/📦-message-bus-〰️-🚧-beta-internals--docs)

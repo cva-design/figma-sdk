@@ -1,0 +1,60 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Basic Concepts" />
+
+# Basic Concepts
+
+The message bus provides two main types of messages:
+
+1. **Commands**: Request-response style messages that expect a handler to process them
+2. **Events**: Broadcast style messages that notify listeners about changes
+
+## Commands vs Events
+
+- Use commands when you need to:
+  - Request an action to be performed
+  - Expect a response or result
+  - Need guaranteed handling
+
+- Use events when you:
+  - Want to notify about changes
+  - Don't need a response
+  - Have multiple interested listeners
+  - Want loose coupling
+
+## Message Registry
+
+The message registry is a type-safe way to define your messages:
+
+~~~typescript
+import type { CommandRegistry, EventRegistry } from '@figma-plugin-sdk/message-bus';
+
+// Command definitions
+interface MyCommands {
+  SaveData: {
+    key: string;
+    value: unknown;
+  };
+
+  LoadData: {
+    key: string;
+  };
+}
+
+// Event definitions
+interface MyEvents {
+  DataSaved: {
+    key: string;
+    timestamp: number;
+  };
+
+  DataLoaded: {
+    key: string;
+    value: unknown;
+  };
+}
+
+// Create registries
+type MyCommandRegistry = CommandRegistry<MyCommands>;
+type MyEventRegistry = EventRegistry<MyEvents>;
+~~~ 

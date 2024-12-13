@@ -1,0 +1,66 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Introduction" />
+
+# Message Bus for Figma Plugins
+
+The Message Bus provides type-safe communication between your plugin's UI and backend code. It helps you:
+- Keep your code organized and maintainable
+- Prevent runtime errors with TypeScript
+- Handle asynchronous operations elegantly
+
+## Learning Path
+
+1. **Getting Started** (15min)
+   - [Quick Start Guide](/?path=/docs/📦-message-bus-〰️-🚧-beta-quick-start--docs): Basic setup and first message
+   - [Core Concepts](/?path=/docs/📦-message-bus-〰️-🚧-beta-core-concepts--docs): Commands, Events, and Message Flow
+
+2. **Main Concepts** (30min)
+   - [Type System](/?path=/docs/📦-message-bus-〰️-🚧-beta-type-system--docs): Leveraging TypeScript for reliable plugins
+   - [Todo App Example](/?path=/docs/📦-message-bus-〰️-🚧-beta-example--docs): Complete working example
+
+## Quick Example
+
+Here's a minimal example to give you a taste:
+
+~~~typescript
+import { getMessageBus } from '@figma-plugin-sdk/message-bus';
+
+// types.ts
+interface Commands {
+  GetNodeCount: void;  // Command with no parameters
+}
+
+interface Events {
+  NodeCountChanged: {
+    count: number;
+  };
+}
+
+// plugin-code.ts
+const messageBus = getMessageBus<Commands, Events>();
+
+messageBus.handleCommand('GetNodeCount', () => {
+  const count = figma.currentPage.children.length;
+  messageBus.publishEvent('NodeCountChanged', { count });
+});
+
+// ui.ts
+messageBus.sendCommand('GetNodeCount');
+
+messageBus.listenToEvent('NodeCountChanged', ({ count }) => {
+  console.log(`Current page has ${count} nodes`);
+});
+~~~
+
+## Installation
+
+~~~bash
+npm install @figma-plugin-sdk/message-bus
+~~~
+
+## Next Steps
+
+- Follow the [Quick Start Guide](/?path=/docs/📦-message-bus-〰️-🚧-beta-quick-start--docs) to create your first message bus
+- Check the [Todo App Example](/?path=/docs/📦-message-bus-〰️-🚧-beta-example--docs) for a complete working example
+- Explore [Advanced Patterns](/?path=/docs/📦-message-bus-〰️-🚧-beta-advanced-patterns--docs) for best practices

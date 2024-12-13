@@ -1,0 +1,147 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Internals" />
+
+# Message Bus Internals
+
+Understanding the internal workings of the Message Bus can help you use it more effectively.
+
+## Message Structure
+
+Messages follow a standardized envelope structure:
+
+~~~typescript
+interface Envelope<Scope, Type, Name, Data> {
+  $id: MsgId<Type, Name, Scope>;  // e.g., "user:command/login"
+  $type: Type;                    // "command" or "event"
+  $name: Name;                    // e.g., "login"
+  $scope: Scope;                  // e.g., "user"
+  message: Data;                  // The actual payload
+}
+
+// Message IDs are constructed as: scope:type/name
+type MsgId<Name, Type, Scope> = Scope extends ''
+  ? `${Type}/${KebabCase<Name>}`
+  : `${Scope}:${Type}/${KebabCase<Name>}`;
+~~~
+
+## Serialization Utilities
+
+The Message Bus handles complex data types through custom serialization:
+
+### Map and Set Support
+
+~~~typescript
+// Automatically handles Map serialization
+const todos = new Map<string, Todo>();
+todos.set('123', { id: '123', text: 'Hello' });
+
+// When sent through the message bus:
+const serialized = JsonReplacer(null, todos);
+// Results in:
+{
+  dataType: 'Map',
+  value: [['123', { id: '123', text: 'Hello' }]]
+}
+
+// Automatically reconstructed on the other side:
+const deserialized = JsonReviver(null, serialized);
+// Back to Map instance
+~~~
+
+### Deep Cloning
+
+The Message Bus uses deep cloning to prevent shared references:
+
+~~~typescript
+import { deepClone } from '@figma-plugin-sdk/message-bus';
+
+const original = {
+  map: new Map([['key', 'value']]),
+  date: new Date(),
+  nested: { array: [1, 2, 3] }
+};
+
+// Creates a completely new instance
+const clone = deepClone(original);
+~~~
+
+## Figma Event Integration
+
+The Message Bus automatically detects and handles Figma events:
+
+~~~typescript
+import { isFigmaEvent } from '@figma-plugin-sdk/message-bus';
+
+// Checks if an event is a native Figma event
+isFigmaEvent('SelectionChanged');  // true
+isFigmaEvent('user:event/login'); // false
+
+// Used internally to route events:
+if (isFigmaEvent(eventName)) {
+  // Use figma.on/off
+  figma.on(eventName, listener);
+} else {
+  // Use message bus event system
+  eventHandler.on(eventName, listener);
+}
+~~~
+
+## Limitations
+
+1. **Serialization**
+   - Circular references will throw errors
+   - Functions cannot be serialized
+   - Some Figma objects might not serialize correctly
+
+2. **Event Handling**
+   - Events are not guaranteed to arrive in order
+   - Events might be dropped if the plugin reloads
+   - Figma events only work in plugin code
+
+3. **Memory**
+   - Keep message payloads reasonably sized
+   - Clean up event listeners to prevent memory leaks
+   - Large Maps/Sets will impact performance
+
+## Best Practices
+
+1. **Message Design**
+   ```typescript
+   // Good: Flat, serializable structure
+   interface GoodEvent {
+     nodeIds: string[];
+     operation: 'move' | 'resize';
+     timestamp: number;
+   }
+
+   // Bad: Complex, possibly non-serializable
+   interface BadEvent {
+     nodes: SceneNode[];  // Figma nodes don't serialize
+     callback: () => void;  // Functions don't serialize
+   }
+   ```
+
+2. **Error Handling**
+   ```typescript
+   // Always handle command failures
+   try {
+     const result = await messageBus.sendCommand('DoSomething');
+   } catch (error) {
+     // Handle or report error
+   }
+   ```
+
+3. **Cleanup**
+   ```typescript
+   // Group related cleanups
+   const cleanups: (() => void)[] = [];
+   
+   cleanups.push(
+     messageBus.listenToEvent('Event1', handler1),
+     messageBus.listenToEvent('Event2', handler2)
+   );
+
+   // Clean up all at once
+   const cleanup = () => cleanups.forEach(fn => fn());
+   
