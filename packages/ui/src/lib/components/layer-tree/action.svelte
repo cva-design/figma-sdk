@@ -1,5 +1,5 @@
 <script context="module" lang="ts">
-	export type ActionKind = 'toggle' | 'button';
+	export type ActionKind = 'toggle' | 'button' | 'color';
 
 	type ActionBase<RequiredIcons extends string, OptionalIcons extends string> = {
 		id: string;
@@ -21,7 +21,12 @@
 		kind: 'button';
 	};
 
-	export type Action = ActionToggle | ActionButton;
+	export type ActionColor = ActionBase<'default', 'disabled'> & {
+		kind: 'color';
+		colors?: string[];
+	};
+
+	export type Action = ActionToggle | ActionButton | ActionColor;
 </script>
 
 <script lang="ts">
@@ -41,7 +46,8 @@
 		variants: {
 			kind: {
 				toggle: '',
-				button: ''
+				button: '',
+				color: ''
 			},
 			state: {
 				active: '',
@@ -74,6 +80,16 @@
 				kind: 'button',
 				state: 'disabled',
 				class: (action as ActionButton).icons.disabled || (action as ActionButton).icons.default
+			},
+			{
+				kind: 'color',
+				state: ['active', 'inactive'],
+				class: (action as ActionColor).icons.default
+			},
+			{
+				kind: 'color',
+				state: 'disabled',
+				class: (action as ActionColor).icons.disabled || (action as ActionColor).icons.default
 			}
 		],
 		defaultVariants: {
@@ -111,7 +127,15 @@
 	data-id={dataId}
 	{...$$restProps}
 >
-	<Icon icon={iconKey} />
+	{#if action.kind === 'color' && (action).colors}
+		<div class="color-indicators">
+			{#each (action).colors as color}
+				<div class="color-circle" style="background-color: {color}"></div>
+			{/each}
+		</div>
+	{:else}
+		<Icon icon={iconKey} />
+	{/if}
 </button>
 
 <style lang="scss">
@@ -138,5 +162,18 @@
 
 	.action:hover:not(:disabled) {
 		color: var(--figma-color-icon);
+	}
+
+	.color-indicators {
+		display: flex;
+		gap: 2px;
+		align-items: center;
+		padding: 2px;
+	}
+
+	.color-circle {
+		width: 8px;
+		height: 8px;
+		border-radius: 50%;
 	}
 </style>
