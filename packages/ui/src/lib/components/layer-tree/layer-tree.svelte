@@ -116,7 +116,8 @@
 		display: flex;
 		align-items: center;
 		gap: 8px;
-		padding: 8px 16px;
+		padding: 8px 0;
+		width: 100%;
 		border-bottom: 1px solid var(--figma-color-border);
 		background: var(--figma-color-bg);
 		position: sticky;
@@ -136,7 +137,7 @@
 		background: transparent;
 		border: none;
 		font-size: 11px;
-		
+		width: 100%;
 		&:focus {
 			outline: none;
 		}

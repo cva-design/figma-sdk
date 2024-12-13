@@ -122,7 +122,8 @@
 	}
 
 	:global(.icon-component svg) {
-		width: 100%;
-		height: 100%;
+		// TODO: If you set the height and width to 100%, the icon becomes too large in the layer tree.
+		// width: 100%;
+		// height: 100%;
 	}
 </style>
