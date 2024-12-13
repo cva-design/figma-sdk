@@ -1,0 +1,246 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Events" />
+
+# Events
+
+Events in the Message Bus are broadcast-style messages that notify listeners about changes or important occurrences. Unlike commands, events can have multiple listeners and don't expect responses.
+
+## Core Concepts
+
+### 1. Event Definition
+
+Events are defined in your registry types:
+
+```typescript
+interface MyEvents {
+  // Simple event with no data
+  Ready: void;
+  
+  // Event with data
+  NodeSelected: {
+    id: string;
+    type: string;
+  };
+  
+  // Event with complex data
+  DocumentChanged: {
+    changes: Array<{
+      type: 'created' | 'deleted' | 'modified';
+      nodeId: string;
+      properties?: Record<string, unknown>;
+    }>;
+    timestamp: number;
+  };
+}
+```
+
+### 2. Publishing Events
+
+Events can be published from anywhere (UI or plugin code):
+
+```typescript
+// In plugin code
+messageBus.publishEvent('NodeSelected', {
+  id: node.id,
+  type: node.type
+});
+
+// In UI code
+messageBus.publishEvent('Ready', undefined);
+```
+
+### 3. Listening to Events
+
+Multiple listeners can subscribe to the same event:
+
+```typescript
+// In UI code
+const cleanup = messageBus.listenToEvent('NodeSelected', (data) => {
+  console.log(`Selected node: ${data.id} (${data.type})`);
+});
+
+// Always clean up when component unmounts
+onDestroy(cleanup);
+```
+
+## Best Practices
+
+### 1. Event Cleanup
+
+Always clean up event listeners to prevent memory leaks:
+
+```typescript
+// Bad: No cleanup
+messageBus.listenToEvent('SomeEvent', handler);
+
+// Good: Store cleanup function
+const cleanup = messageBus.listenToEvent('SomeEvent', handler);
+
+// Good: Multiple cleanups
+const cleanups: Array<() => void> = [];
+
+cleanups.push(
+  messageBus.listenToEvent('Event1', handler1),
+  messageBus.listenToEvent('Event2', handler2)
+);
+
+// Clean up all at once
+const cleanup = () => cleanups.forEach(fn => fn());
+```
+
+### 2. Event Granularity
+
+Keep events focused and specific:
+
+```typescript
+// Bad: Too broad
+interface BadEvents {
+  StateChanged: {
+    everything: unknown;
+  };
+}
+
+// Good: Specific events
+interface GoodEvents {
+  SelectionChanged: {
+    selectedIds: string[];
+  };
+  
+  LayerRenamed: {
+    id: string;
+    oldName: string;
+    newName: string;
+  };
+}
+```
+
+### 3. Event Naming
+
+Follow consistent naming conventions:
+
+```typescript
+interface Events {
+  // Use past tense for changes that happened
+  NodeCreated: { id: string };
+  NodeDeleted: { id: string };
+  
+  // Use present tense for ongoing states
+  ProcessStarting: { id: string };
+  ProcessComplete: { id: string };
+  
+  // Use adjective + 'Changed' for state changes
+  VisibilityChanged: { visible: boolean };
+  SelectionChanged: { ids: string[] };
+}
+```
+
+### 4. Error Events
+
+Use dedicated error events for error handling:
+
+```typescript
+interface Events {
+  Error: {
+    code: number;
+    message: string;
+    source?: string;
+    data?: unknown;
+  };
+  
+  ValidationError: {
+    field: string;
+    message: string;
+    value: unknown;
+  };
+}
+```
+
+## Working with Figma Events
+
+The Message Bus automatically handles Figma's native events:
+
+```typescript
+// These work automatically
+messageBus.listenToEvent('SelectionChanged', () => {
+  const selection = figma.currentPage.selection;
+  console.log('Selection:', selection);
+});
+
+messageBus.listenToEvent('DocumentChanged', (event) => {
+  console.log('Changes:', event.documentChanges);
+});
+```
+
+## Advanced Patterns
+
+### 1. Event Filtering
+
+Filter events before processing:
+
+```typescript
+messageBus.listenToEvent('NodeChanged', (event) => {
+  // Only handle specific change types
+  if (event.type === 'modified' && event.properties?.name) {
+    handleNameChange(event.nodeId, event.properties.name);
+  }
+});
+```
+
+### 2. Event Debouncing
+
+Debounce frequent events:
+
+```typescript
+import { debounce } from 'lodash';
+
+const debouncedHandler = debounce((data) => {
+  console.log('Document changed:', data);
+}, 250);
+
+messageBus.listenToEvent('DocumentChanged', debouncedHandler);
+```
+
+### 3. Event Composition
+
+Combine multiple events into higher-level events:
+
+```typescript
+// Listen to low-level events
+messageBus.listenToEvent('NodeCreated', handleChange);
+messageBus.listenToEvent('NodeDeleted', handleChange);
+messageBus.listenToEvent('NodeModified', handleChange);
+
+// Publish a higher-level event
+function handleChange(data) {
+  messageBus.publishEvent('DocumentStateChanged', {
+    timestamp: Date.now(),
+    change: data
+  });
+}
+```
+
+## Type Safety
+
+The Message Bus provides full type safety for events:
+
+```typescript
+interface Events {
+  NodeSelected: {
+    id: string;
+    type: NodeType;
+  };
+}
+
+// Error: Missing required properties
+messageBus.publishEvent('NodeSelected', { id: '123' });
+
+// Error: Unknown event
+messageBus.listenToEvent('UnknownEvent', () => {});
+
+// Correct usage with proper types
+messageBus.publishEvent('NodeSelected', {
+  id: '123',
+  type: 'FRAME'
+});
+```
