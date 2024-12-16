@@ -1,7 +1,26 @@
 <script lang="ts">
   import { type VariantProps, cva } from "class-variance-authority";
   import type { HTMLAttributes } from "svelte/elements";
-	import { Icon } from '$ui';
+
+  const sidebarTitleVariants = cva("sidebar-title", {
+    variants: {
+      size: {
+        one: "text-body-large-strong",
+        two: "text-body-medium-strong",
+        three: "text-body-small-strong"
+      }
+    },
+    defaultVariants: {
+      size: "one"
+    }
+  });
+
+  type SidebarTitleVariants = VariantProps<typeof sidebarTitleVariants>;
+
+  interface $$Props extends HTMLAttributes<HTMLDivElement>, SidebarTitleVariants {
+    text?: string;
+    disabled?: boolean;
+  }
 
   export let size: 'one' | 'two' | 'three' = 'one';
   export let text = '';
@@ -9,44 +28,14 @@
 </script>
 
 <div class="header--layerNameRow header--layerRowContainer">
-  <button 
-    type="button" 
-    class="header--copyableLayerName"
+  <div 
     class:header--layerName--levelOne={size === 'one'}
     class:header--layerName--levelTwo={size === 'two'}
     class:header--layerName--levelThree={size === 'three'}
     class:disabled
-    {disabled}
-  >
-    <span>{text}</span><Icon icon="ChevronDownSvg_16" />
-  </button>
-</div>
-
-<div class="header--layerNameRow header--layerRowContainer">
-  <button 
-    type="button" 
-    class="header--copyableLayerName header--border"
-    class:header--layerName--levelOne={size === 'one'}
-    class:header--layerName--levelTwo={size === 'two'}
-    class:header--layerName--levelThree={size === 'three'}
-    class:disabled
-    {disabled}
   >
     {text}
-  </button>
-</div>
-
-<div class="header--layerNameRow header--layerRowContainer">
-  <button 
-    type="button"
-    class:header--layerName--levelOne={size === 'one'}
-    class:header--layerName--levelTwo={size === 'two'}
-    class:header--layerName--levelThree={size === 'three'}
-    class:disabled
-    {disabled}
-  >
-    {text}
-  </button>
+  </div>
 </div>
 
 <style lang="scss">
@@ -90,26 +79,8 @@
     gap: 4px;
   }
 
-  .header--copyableLayerName:not(.disabled):hover {
-    background: var(--color-bg-hover);
-    color: var(--color-text);
-    border-radius: 6px;
-  }
-
   .disabled {
     color: var(--figma-color-text-disabled);
     pointer-events: none;
-  }
-
-  .header--border{
-    padding: 2px 8px;
-    border: 1px solid #f0f0f0;
-    border-radius: 6px;
-  }
-
-  .header--copyableLayerName {
-    display: flex;
-    align-items: center;
-    gap: 4px;
   }
 </style>
