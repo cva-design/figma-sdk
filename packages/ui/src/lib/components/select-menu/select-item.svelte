@@ -25,7 +25,8 @@ $: className = class_name || $$props.class || "";
 	on:click
 	on:keydown
 >
-	<div class="icon" class:selected />
+	<!-- todo: add icon correctly -->
+	<!-- <div class="icon" class:selected /> -->
 	<div class="label"><slot /></div>
 </li>
 

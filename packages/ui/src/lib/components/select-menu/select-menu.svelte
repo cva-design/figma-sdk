@@ -7,7 +7,7 @@
 	import SelectItem from './select-item.svelte';
 	import type { SelectMenuItem } from './types';
 
-	export let icon: keyof typeof icons | undefined;
+	export let icon: keyof typeof icons | null = null;
 	export let iconText: string | null = null;
 	export let disabled: boolean = false;
 	export let macOSBlink: boolean = false;
