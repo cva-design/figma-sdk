@@ -113,7 +113,7 @@
 	.input {
 		position: relative;
 		transition: flex 0s 0.2s;
-		width: 300px;
+		width: 100%;
 	}
 
 	input {

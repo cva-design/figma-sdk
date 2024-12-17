@@ -1,9 +1,9 @@
 <script lang="ts">
-	import type { LayerTreeData } from './layer-tree.svelte';
-	import { Layer } from '../layer';
 	import { Icon } from '$ui/icon';
-	import { selectedNodeStore } from './store';
 	import { createEventDispatcher } from 'svelte';
+	import { Layer } from '../layer';
+	import type { LayerTreeData } from './layer-tree.svelte';
+	import { selectedNodeStore } from './store';
 
 	const dispatch = createEventDispatcher<{
 		select: LayerTreeData;
@@ -23,7 +23,7 @@
 
 	function toggleExpand(node: LayerTreeData) {
 		if (expandedNodes.has(node.id)) {
-			if (!node.matches && !node.children?.some(child => child.matches)) {
+			if (!node.matches && !node.children?.some((child) => child.matches)) {
 				expandedNodes.delete(node.id);
 			}
 		} else {
@@ -60,7 +60,7 @@
 				class="layerTree--caret"
 				on:click|stopPropagation={() => !data.disabled && toggleExpand(data)}
 				class:expanded={expandedNodes.has(data.id)}
-				class:searching={data.matches || data.children.some(child => child.matches)}
+				class:searching={data.matches || data.children.some((child) => child.matches)}
 			>
 				{#if expandedNodes.has(data.id)}
 					<Icon icon="ChevronDownSvg_16" />
@@ -97,6 +97,7 @@
 		flex-direction: column;
 		opacity: 1;
 		transition: opacity 0.2s ease;
+		box-sizing: border-box;
 	}
 
 	.layerTree--header {
@@ -104,6 +105,7 @@
 		align-items: center;
 		width: 100%;
 		min-height: 32px;
+		box-sizing: border-box;
 	}
 
 	.layerTree--caret {
@@ -118,6 +120,7 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		box-sizing: border-box;
 
 		&:hover {
 			color: var(--figma-color-icon);
@@ -144,6 +147,7 @@
 		display: flex;
 		flex-direction: column;
 		align-items: flex-start;
+		box-sizing: border-box;
 	}
 
 	.disabled {
@@ -153,4 +157,4 @@
 	.mixed {
 		opacity: 0.75;
 	}
-</style> 
+</style>
