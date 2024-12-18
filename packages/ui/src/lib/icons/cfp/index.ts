@@ -65,6 +65,7 @@ export default [
   '$icons/cfp/size-16/orientation-portrait-16.svg',
   '$icons/cfp/size-16/padding-horizontal-16.svg',
   '$icons/cfp/size-16/padding-vertical-16.svg',
+  '$icons/cfp/size-16/side-panel-16.svg',
   '$icons/cfp/size-16/space-horizontal-16.svg',
   '$icons/cfp/size-16/space-vertical-16.svg',
   '$icons/cfp/size-16/star-16.svg',

@@ -89,6 +89,7 @@ export { default as OrientationLandscapeSvg_16 } from './orientation-landscape-1
 export { default as OrientationPortraitSvg_16 } from './orientation-portrait-16.svg?raw';
 export { default as PaddingHorizontalSvg_16 } from './padding-horizontal-16.svg?raw';
 export { default as PaddingVerticalSvg_16 } from './padding-vertical-16.svg?raw';
+export { default as SidePanelSvg_16 } from './side-panel-16.svg?raw';
 export { default as SpaceHorizontalSvg_16 } from './space-horizontal-16.svg?raw';
 export { default as SpaceVerticalSvg_16 } from './space-vertical-16.svg?raw';
 export { default as StarSvg_16 } from './star-16.svg?raw';

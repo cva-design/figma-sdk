@@ -9,9 +9,7 @@
 	const color = $$props.color ?? '--figma-color-icon';
 	const spin = $$props.spin ?? false;
 
-	$: colorStyle = color?.startsWith('--') 
-		? `var(${color})`
-		: color ?? 'var(--figma-color-icon)';
+	$: colorStyle = color?.startsWith('--') ? `var(${color})` : color ?? 'var(--figma-color-icon)';
 
 	$: if (icon && iconText) {
 		throw new Error('Cannot set both icon and iconText at the same time');
@@ -117,7 +115,7 @@
 	}
 
 	:global(.icon-component *) {
-		fill: inherit;
+		//fill: inherit; // TODO: If you set this the side-panel icon is filled in
 		color: inherit;
 	}
 

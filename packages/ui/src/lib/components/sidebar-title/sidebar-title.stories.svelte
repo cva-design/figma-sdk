@@ -1,6 +1,6 @@
 <script context="module" lang="ts">
 	import { Story } from '@storybook/addon-svelte-csf';
-	import SidebarTitle from './sidebarTitle.svelte';
+	import SidebarTitle from './sidebar-title.svelte';
 
 	export const meta = {
 		title: 'SidebarTitle',
@@ -31,4 +31,3 @@
 <Story name="Disabled">
 	<SidebarTitle size="one" text="Disabled Title" disabled={true} />
 </Story>
-

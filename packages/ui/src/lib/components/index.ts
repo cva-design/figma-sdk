@@ -29,29 +29,29 @@
  */
 
 //@index(['*/index'], (f, {pascalCase}) => `export * from '${f.path}${f.ext}';`)
+export * from '../next/checkbox/index';
 export * from './action-group/index';
+export * from './badge/index';
 export * from './button/index';
 export * from './disclosure/index';
 export * from './icon-button/index';
 export * from './icon-toggle/index';
 export * from './icon/index';
 export * from './input/index';
+export * from './layer-tree/index';
+export * from './layer/index';
 export * from './onboarding-tip/index';
 export * from './popover/index';
 export * from './radio/index';
 export * from './select-menu/index';
+export * from './sidebar-title/index';
 export * from './sidebar/index';
 export * from './switch/index';
 export * from './tabs/index';
 export * from './text/index';
-export * from './sidebarTitle/index';
-export * from './badge/index';
 export * from './textarea/index';
 export * from './tooltip/index';
 export * from './tree/index';
-export * from './layer-tree/index';
-export * from './layer/index';
-export * from '../next/checkbox/index';
 //@endindex
 
 //@index(['*/index.svelte'], (f, {pascalCase}) => `export { default as ${pascalCase(f.path.split('/').at(-2))} } from '${f.path}${f.ext}';`)

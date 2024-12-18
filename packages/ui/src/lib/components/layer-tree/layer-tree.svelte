@@ -1,7 +1,6 @@
 <script lang="ts" context="module">
-	import type { Action as ActionType } from './action.svelte';
-	import { Icon } from '$ui/icon';
 	import { Input } from '$ui';
+	import type { Action as ActionType } from './action.svelte';
 	export type LayerTreeData = {
 		id: string;
 		children: LayerTreeData[];
@@ -90,17 +89,16 @@
 
 <div class="layerTree-wrapper">
 	<div class="search-container">
-		<Input icon="SearchSvg" class="search-input" bind:value={searchQuery} placeholder="Search layers..." />
+		<Input
+			icon="SearchSvg"
+			class="search-input"
+			bind:value={searchQuery}
+			placeholder="Search layers..."
+		/>
 	</div>
 
 	<div class="layerTree-container">
-		<LayerTreeNode
-			data={filteredTree}
-			{expandedNodes}
-			{singleSelect}
-			on:select
-			on:toggle
-		/>
+		<LayerTreeNode data={filteredTree} {expandedNodes} {singleSelect} on:select on:toggle />
 	</div>
 </div>
 
@@ -146,5 +144,6 @@
 	.layerTree-container {
 		flex: 1;
 		overflow: auto;
+		height: 100%;
 	}
 </style>

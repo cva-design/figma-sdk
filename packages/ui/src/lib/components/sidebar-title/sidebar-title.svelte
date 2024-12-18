@@ -1,52 +1,58 @@
 <script lang="ts">
+	import { Icon } from '$ui';
+
 	export let size: 'one' | 'two' | 'three' = 'one';
 	export let text = '';
 	export let disabled = false;
+	export let variant: 'button' | 'border' | 'plain' = 'button';
 </script>
 
-<!-- <div class="header--layerNameRow header--layerRowContainer">
-  <button 
-    type="button" 
-    class="header--copyableLayerName"
-    class:header--layerName--levelOne={size === 'one'}
-    class:header--layerName--levelTwo={size === 'two'}
-    class:header--layerName--levelThree={size === 'three'}
-    class:disabled
-    {disabled}
-  >
-    <span>{text}</span><Icon icon="ChevronDownSvg_16" />
-  </button>
-</div> -->
-
-<!-- <div class="header--layerNameRow header--layerRowContainer">
-	<div
-		type="button"
-		class="header--copyableLayerName header--border"
-		class:header--layerName--levelOne={size === 'one'}
-		class:header--layerName--levelTwo={size === 'two'}
-		class:header--layerName--levelThree={size === 'three'}
-		class:disabled
-		{disabled}
-	>
-		{text}
+{#if variant === 'button'}
+	<div class="header--layerNameRow header--layerRowContainer">
+		<button
+			type="button"
+			class="header--copyableLayerName"
+			class:header--layerName--levelOne={size === 'one'}
+			class:header--layerName--levelTwo={size === 'two'}
+			class:header--layerName--levelThree={size === 'three'}
+			class:disabled
+			{disabled}
+		>
+			<span>{text}</span><Icon icon="ChevronDownSvg_16" />
+		</button>
 	</div>
-</div> -->
-
-<div class="header--layerNameRow header--layerRowContainer">
-	<div
-		class:header--layerName--levelOne={size === 'one'}
-		class:header--layerName--levelTwo={size === 'two'}
-		class:header--layerName--levelThree={size === 'three'}
-		class:disabled
-		{disabled}
-	>
-		{text}
+{:else if variant === 'border'}
+	<div class="header--layerNameRow header--layerRowContainer">
+		<button
+			type="button"
+			class="header--copyableLayerName header--border"
+			class:header--layerName--levelOne={size === 'one'}
+			class:header--layerName--levelTwo={size === 'two'}
+			class:header--layerName--levelThree={size === 'three'}
+			class:disabled
+			{disabled}
+		>
+			{text}
+		</button>
 	</div>
-</div>
+{:else}
+	<div class="header--layerNameRow header--layerRowContainer">
+		<span
+			class="header--copyableLayerName"
+			class:header--layerName--levelOne={size === 'one'}
+			class:header--layerName--levelTwo={size === 'two'}
+			class:header--layerName--levelThree={size === 'three'}
+			class:disabled
+			aria-disabled={disabled}
+		>
+			{text}
+		</span>
+	</div>
+{/if}
 
 <style lang="scss">
 	.header--layerName--levelOne {
-		padding-left: var(--spacer-2);
+		// padding-left: var(--spacer-2);
 		font-family: var(--text-body-large-strong-font-family);
 		font-size: var(--text-body-large-strong-font-size);
 		font-weight: var(--text-body-large-strong-font-weight);
@@ -73,11 +79,11 @@
 	}
 
 	.header--layerNameRow {
-		height: 40px;
+		// height: 40px;
 		flex-direction: row;
 		justify-content: space-between;
 		align-items: center;
-		padding: 4px 8px 4px 16px;
+		// padding: 4px 8px 4px 16px;
 	}
 
 	.header--layerRowContainer {
