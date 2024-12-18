@@ -1,22 +1,26 @@
 {
-	"extends": "../../tsconfig.options.json",
-	"compilerOptions": {
-		"noEmit": true,
-		"emitDeclarationOnly": false,
-		"verbatimModuleSyntax": false,
-		"baseUrl": "./",
-		"typeRoots": ["./node_modules/@types", "./node_modules/@figma"],
-		"paths": {
-			"@figma-plugin-sdk/message-bus": [
-				"./src/index.ts"
-			],
-			"@figma-plugin-sdk/message-bus/*": [
-				"./src/*"
-			]
-		}
-	},
-	"include": [
-		"./src/**/*",
-		"./tests/**/*"
-	]
+  "extends": "../../tsconfig.options.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "emitDeclarationOnly": false,
+    "verbatimModuleSyntax": false,
+    "baseUrl": "./",
+    "typeRoots": [
+      "./node_modules/@types",
+      "./node_modules/@figma"
+    ],
+    "paths": {
+      "@figma-plugin-sdk/message-bus": [
+        "./src/index.ts"
+      ],
+      "@figma-plugin-sdk/message-bus/*": [
+        "./src/*"
+      ]
+    },
+    "outDir": "../../.moon/cache/types/packages/rpc"
+  },
+  "include": [
+    "./src/**/*",
+    "./tests/**/*"
+  ]
 }

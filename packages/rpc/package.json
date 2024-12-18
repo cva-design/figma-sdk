@@ -1,56 +1,41 @@
 {
-	"name": "@figma-plugin-sdk/rpc",
-	"version": "0.0.1",
-	"description": "A browser package.",
-	"type": "module",
-	"keywords": [
-		"node",
-		"lib",
-		"esm"
-	],
-	"author": "moon",
-	"license": "MIT",
-	"repository": "https://github.com/moonrepo/examples",
-	"scripts": {
-		"check": "nr check:biome && nr check:types",
-		"check:biome": "biome check --fix ./src",
-		"check:types": "tsc --build tsconfig.project.json --pretty --verbose",
-		"test": "vitest",
-		"test:coverage": "vitest run --coverage",
-		"test:ui": "vitest --ui"
-	},
-	"packemon": {
-		"format": [
-			"esm"
-		],
-		"platform": "browser"
-	},
-	"engines": {
-		"node": ">=22"
-	},
-	"files": [
-		"esm/**/*",
-		"lib/**/*",
-		"src/**/*"
-	],
-	"main": "./lib/index.js",
-	"module": "./esm/index.js",
-	"types": "./lib/index.d.ts",
-	"exports": {
-		"./package.json": "./package.json",
-		".": {
-			"types": "./lib/index.d.ts",
-			"browser": {
-				"types": "./esm/index.d.ts",
-				"module": "./esm/index.js",
-				"import": "./esm/index.js",
-				"default": "./lib/index.js"
-			},
-			"default": "./lib/index.js"
-		}
-	},
-	"dependencies": {},
-	"devDependencies": {
-		"type-fest": "^4.30.1"
-	}
+  "name": "@figma-plugin-sdk/rpc",
+  "version": "0.0.1",
+  "description": "A browser package.",
+  "type": "module",
+  "keywords": ["node", "lib", "esm"],
+  "author": "moon",
+  "license": "MIT",
+  "repository": "https://github.com/moonrepo/examples",
+  "scripts": {
+    "bv": "biome version",
+    "check": "nr check:biome && nr check:types",
+    "check:biome": "biome check --fix ./src",
+    "check:types": "tsc --build tsconfig.project.json --pretty --verbose",
+    "test": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "test:ui": "vitest --ui"
+  },
+  "packemon": {
+    "format": ["esm"],
+    "platform": "browser"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "files": ["esm/**/*", "lib/**/*", "src/**/*"],
+  "main": "./esm/index.js",
+  "module": "./esm/index.js",
+  "types": "./esm/index.d.ts",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "types": "./esm/index.d.ts",
+      "import": "./esm/index.js"
+    }
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "type-fest": "^4.30.1"
+  }
 }
