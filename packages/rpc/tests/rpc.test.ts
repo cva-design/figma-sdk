@@ -1,25 +1,7 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import type { JsonValue, JsonRpcRequest } from "../src/types";
 
-// Add type declaration for figma
-declare global {
-	var figma: {
-		ui: {
-			postMessage: ReturnType<typeof vi.fn>;
-			on: ReturnType<typeof vi.fn>;
-		};
-	};
-}
-
-// Initialize the global `figma` object before importing the module
-globalThis.figma = {
-	ui: {
-		postMessage: vi.fn(),
-		on: vi.fn(),
-	},
-};
-
-// Import the module after `figma` is defined
+// Import the module
 import { init, handleRaw, sendRequest } from "../src/rpc";
 
 describe("RPC Module", () => {
@@ -32,10 +14,6 @@ describe("RPC Module", () => {
 	beforeEach(() => {
 		vi.clearAllMocks();
 		vi.useFakeTimers();
-
-		// Reassign mocks to ensure they're fresh for each test
-		figma.ui.postMessage = vi.fn();
-		figma.ui.on = vi.fn();
 
 		// Initialize the RPC methods
 		init(mockMethods);
@@ -91,13 +69,17 @@ describe("RPC Module", () => {
 					method: message.method,
 					result: "result",
 				};
-				// Simulate the handler registered in the rpc module
 				handleRaw(response);
 			});
 
 			const result = await sendRequest("asyncTest", ["arg"]);
 
 			expect(figma.ui.postMessage).toHaveBeenCalled();
+			expect(sentMessage).toEqual(expect.objectContaining({
+				jsonrpc: "2.0",
+				method: "asyncTest",
+				params: ["arg"]
+			}));
 			expect(result).toBe("result");
 		});
 

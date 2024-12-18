@@ -6,8 +6,8 @@ import type { JsonValue } from '../src/types'
 describe('createClient', () => {
   class TestAPI {
     public method1(): string { return 'result1' }
-    public method2(arg: string): string { return arg }
-    private secretMethod(): string { return 'secret' }
+    public method2(arg: string): string { return this.secretMethod(arg) }
+    private secretMethod(arg: string): string { return arg || 'secret' }
   }
 
   // Make public methods enumerable

@@ -1,24 +1,26 @@
 import '@figma/plugin-typings';
 import { vi } from 'vitest'
 
-declare global {
-  var parent: {
-    postMessage: (msg: unknown, targetOrigin: string) => void;
-  };
-}
+// Extend the existing figma types from @figma/plugin-typings
+export declare let figma: {
+    ui: {
+        postMessage: ReturnType<typeof vi.fn>;
+        on: ReturnType<typeof vi.fn>;
+    }
+} & PluginAPI;
 
-// Mock figma global
-global.figma = {
-  ui: {
-    postMessage: vi.fn(),
-    on: vi.fn()
-  }
-} as any
+// Initialize the global `figma` object
+(global as any).figma = {
+    ui: {
+        postMessage: vi.fn(),
+        on: vi.fn()
+    }
+};
 
 // Mock parent window
-global.parent = {
-  postMessage: vi.fn()
-}
+(global as any).parent = {
+    postMessage: vi.fn()
+} as unknown as Window;
 
 // Mock window.addEventListener
-window.addEventListener = vi.fn() 
+window.addEventListener = vi.fn();

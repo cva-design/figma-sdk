@@ -1,13 +1,13 @@
 {
-	"extends": "./tsconfig.project.json",
+	"extends": "./tsconfig.json",
 	"compilerOptions": {
 		"module": "CommonJS",
 		"moduleResolution": "node",
-		"outDir": "./lib",
+		"tsBuildInfoFile": "./.tsc/lib.tsbuildinfo",
+		"outDir": "./dist/lib",
 		"rootDir": "./src",
 		"composite": true,
 		"declaration": true,
-		"declarationDir": "./lib",
 		"noEmit": false
 	},
 	"include": ["src/**/*"],
