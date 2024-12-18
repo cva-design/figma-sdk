@@ -1,21 +1,30 @@
 {
-	"extends": "../../tsconfig.options.json",
-	"compilerOptions": {
-		"noEmit": true,
-		"emitDeclarationOnly": false,
-		"verbatimModuleSyntax": false,
-		"baseUrl": "./",
-		"paths": {
-			"@figma-plugin-sdk/message-bus": [
-				"./src/index.ts"
-			],
-			"@figma-plugin-sdk/message-bus/*": [
-				"./src/*"
-			]
-		}
-	},
-	"include": [
-		"./src/**/*",
-		"./tests/**/*"
-	]
+  "extends": "../../tsconfig.options.json",
+  "compilerOptions": {
+    "verbatimModuleSyntax": false,
+    "baseUrl": "./",
+    "paths": {
+      "@figma-plugin-sdk/message-bus": ["./src/index.ts"],
+      "@figma-plugin-sdk/message-bus/*": ["./src/*"],
+      "@/*": ["./src/*"],
+      "@tests/*": ["./tests/*"]
+    },
+    "plugins": [
+      {
+        "transform": "typia/lib/transform"
+      }
+    ],
+    "strictNullChecks": true,
+    "strict": true,
+    "declaration": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "isolatedModules": true,
+    "allowJs": false,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "tsBuildInfoFile": "./.tsc/tsconfig.tsbuildinfo"
+  }
 }

@@ -1,66 +1,56 @@
+// @filename: code.ts
+// Note: This is example code. In a real project, you would import from your installed package
 import { getMessageBus } from '@figma-plugin-sdk/message-bus';
 import type { Todo, TodoCommands, TodoEvents } from './types';
+import { TodoEventNames } from './types';
 
-// Create message bus instance
+// Create message bus instance for our todo app
+// The type parameters ensure type safety for our commands and events
 const messageBus = getMessageBus<TodoCommands, TodoEvents>();
 
 // In-memory storage for this example
 const todos = new Map<string, Todo>();
 
 // Command Handlers
-messageBus.handleCommand('AddTodo', ({ text, completed = false }) => {
-  try {
-    const id = Math.random().toString(36).slice(2);
-    const todo = { id, text, completed };
-    todos.set(id, todo);
-    messageBus.publishEvent('TodoAdded', todo);
-  } catch (error) {
-    messageBus.publishEvent('TodoError', {
-      message: error.message,
-      command: 'AddTodo',
-    });
-  }
+// Each handler is responsible for:
+// 1. Processing the command
+// 2. Publishing relevant events
+// 3. Returning a response
+
+messageBus.handleCommand('AddTodo', (data) => {
+  const id = Math.random().toString(36).slice(2);
+  const todo = { id, text: data.text, completed: data.completed ?? false };
+
+  todos.set(id, todo);
+  messageBus.publishEvent(TodoEventNames.TodoAdded, todo);
+
+  return { status: 'accepted', message: 'Todo added successfully' };
 });
 
 messageBus.handleCommand('GetTodos', () => {
-  try {
-    messageBus.publishEvent('TodosLoaded', {
-      todos: Array.from(todos.values()),
-    });
-  } catch (error) {
-    messageBus.publishEvent('TodoError', {
-      message: error.message,
-      command: 'GetTodos',
-    });
-  }
+  const todoList = Array.from(todos.values());
+  messageBus.publishEvent(TodoEventNames.TodosLoaded, { todos: todoList });
+  return { status: 'accepted' };
 });
 
-messageBus.handleCommand('UpdateTodo', ({ id, ...updates }) => {
-  try {
-    const todo = todos.get(id);
-    if (!todo) throw new Error(`Todo ${id} not found`);
-
-    const updatedTodo = { ...todo, ...updates };
-    todos.set(id, updatedTodo);
-    messageBus.publishEvent('TodoUpdated', updatedTodo);
-  } catch (error) {
-    messageBus.publishEvent('TodoError', {
-      message: error.message,
-      command: 'UpdateTodo',
-    });
+messageBus.handleCommand('UpdateTodo', (data) => {
+  const todo = todos.get(data.id);
+  if (!todo) {
+    return { status: 'rejected', message: 'Todo not found' };
   }
+
+  const updatedTodo = { ...todo, ...data };
+  todos.set(data.id, updatedTodo);
+  messageBus.publishEvent(TodoEventNames.TodoUpdated, updatedTodo);
+
+  return { status: 'accepted', message: 'Todo updated successfully' };
 });
 
-messageBus.handleCommand('DeleteTodo', ({ id }) => {
-  try {
-    if (!todos.delete(id)) {
-      throw new Error(`Todo ${id} not found`);
-    }
-    messageBus.publishEvent('TodoDeleted', { id });
-  } catch (error) {
-    messageBus.publishEvent('TodoError', {
-      message: error.message,
-      command: 'DeleteTodo',
-    });
+messageBus.handleCommand('DeleteTodo', (data) => {
+  if (!todos.delete(data.id)) {
+    return { status: 'rejected', message: 'Todo not found' };
   }
+
+  messageBus.publishEvent(TodoEventNames.TodoDeleted, { id: data.id });
+  return { status: 'accepted', message: 'Todo deleted successfully' };
 });

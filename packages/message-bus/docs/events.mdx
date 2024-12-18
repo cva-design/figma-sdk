@@ -4,159 +4,165 @@ import { Meta } from '@storybook/blocks';
 
 # Events
 
-Events in the Message Bus are broadcast-style messages that notify listeners about changes or important occurrences. Unlike commands, events can have multiple listeners and don't expect responses.
+Events in the Message Bus are fire-and-forget messages that notify listeners about changes or important occurrences. Unlike commands, events can have multiple listeners and don't expect responses.
 
-## Core Concepts
+## Defining Events
 
-### 1. Event Definition
-
-Events are defined in your registry types:
+Events are defined with TypeScript and Typia validation:
 
 ```typescript
-interface MyEvents {
-  // Simple event with no data
-  Ready: void;
-  
-  // Event with data
-  NodeSelected: {
-    id: string;
-    type: string;
+import type { tags } from 'typia';
+import typia from 'typia';
+
+interface Events {
+  // Simple event with validation
+  NodeCreated: {
+    id: string & tags.Format<"uuid">;
+    type: 'FRAME' | 'GROUP' | 'RECTANGLE';
+    name: string & tags.MinLength<1>;
   };
-  
-  // Event with complex data
-  DocumentChanged: {
-    changes: Array<{
-      type: 'created' | 'deleted' | 'modified';
-      nodeId: string;
-      properties?: Record<string, unknown>;
-    }>;
-    timestamp: number;
+
+  // Event with numeric constraints
+  NodeMoved: {
+    id: string & tags.Format<"uuid">;
+    /**
+     * New X position
+     * @minimum 0
+     */
+    x: number & tags.Minimum<0>;
+    /**
+     * New Y position
+     * @minimum 0
+     */
+    y: number & tags.Minimum<0>;
   };
+
+  // Event with array validation
+  SelectionChanged: {
+    nodes: Array<{
+      id: string & tags.Format<"uuid">;
+      type: string;
+    }> & tags.MinItems<0>;
+  };
+}
+
+// Create validation schemas
+const validators = {
+  nodeCreated: typia.createValidate<Events['NodeCreated']>(),
+  nodeMoved: typia.createValidate<Events['NodeMoved']>(),
+  selectionChanged: typia.createValidate<Events['SelectionChanged']>()
+};
+```
+
+## Publishing Events
+
+Always validate events before publishing:
+
+```typescript
+// Example: Publishing a node creation event
+const payload = {
+  id: node.id,
+  type: node.type,
+  name: node.name
+};
+
+// Validate before publishing
+if (validators.nodeCreated(payload)) {
+  messageBus.publishEvent('NodeCreated', payload);
+} else {
+  console.error('Invalid event payload:', payload);
+}
+
+// Example: Publishing a move event
+const movePayload = {
+  id: node.id,
+  x: node.x,
+  y: node.y
+};
+
+if (validators.nodeMoved(movePayload)) {
+  messageBus.publishEvent('NodeMoved', movePayload);
 }
 ```
 
-### 2. Publishing Events
+## Listening to Events
 
-Events can be published from anywhere (UI or plugin code):
-
-```typescript
-// In plugin code
-messageBus.publishEvent('NodeSelected', {
-  id: node.id,
-  type: node.type
-});
-
-// In UI code
-messageBus.publishEvent('Ready', undefined);
-```
-
-### 3. Listening to Events
-
-Multiple listeners can subscribe to the same event:
+Event listeners should handle validation failures gracefully:
 
 ```typescript
-// In UI code
-const cleanup = messageBus.listenToEvent('NodeSelected', (data) => {
-  console.log(`Selected node: ${data.id} (${data.type})`);
+// Listen and validate
+messageBus.listenToEvent('NodeCreated', (event) => {
+  if (validators.nodeCreated(event)) {
+    console.log(`Node ${event.name} (${event.id}) created`);
+  }
 });
 
-// Always clean up when component unmounts
-onDestroy(cleanup);
+// Multiple listeners for the same event
+const cleanup1 = messageBus.listenToEvent('NodeMoved', (event) => {
+  if (validators.nodeMoved(event)) {
+    updateUI(event.id, event.x, event.y);
+  }
+});
+
+const cleanup2 = messageBus.listenToEvent('NodeMoved', (event) => {
+  if (validators.nodeMoved(event)) {
+    saveToHistory(event);
+  }
+});
+
+// Clean up when done
+cleanup1();
+cleanup2();
 ```
 
 ## Best Practices
 
-### 1. Event Cleanup
+1. **Always Validate**
+   ```typescript
+   // Create validator once
+   const validator = typia.createValidate<Events['MyEvent']>();
 
-Always clean up event listeners to prevent memory leaks:
+   // Use in all publishers
+   if (validator(payload)) {
+     messageBus.publishEvent('MyEvent', payload);
+   }
+   ```
 
-```typescript
-// Bad: No cleanup
-messageBus.listenToEvent('SomeEvent', handler);
+2. **Type Constraints**
+   ```typescript
+   interface Events {
+     UserLoggedIn: {
+       // String validations
+       id: string & tags.Format<"uuid">;
+       email: string & tags.Format<"email">;
+       
+       // Numeric validations
+       loginCount: number & tags.Type<"uint32">;
+       
+       // Array validations
+       roles: Array<string> & tags.MinItems<1>;
+       
+       // Date validation
+       timestamp: number & tags.Type<"int64">;
+     };
+   }
+   ```
 
-// Good: Store cleanup function
-const cleanup = messageBus.listenToEvent('SomeEvent', handler);
+3. **Event Cleanup**
+   ```typescript
+   // Group related cleanups
+   const cleanups: Array<() => void> = [];
 
-// Good: Multiple cleanups
-const cleanups: Array<() => void> = [];
+   cleanups.push(
+     messageBus.listenToEvent('Event1', handler1),
+     messageBus.listenToEvent('Event2', handler2)
+   );
 
-cleanups.push(
-  messageBus.listenToEvent('Event1', handler1),
-  messageBus.listenToEvent('Event2', handler2)
-);
+   // Clean up all at once
+   const cleanup = () => cleanups.forEach(fn => fn());
+   ```
 
-// Clean up all at once
-const cleanup = () => cleanups.forEach(fn => fn());
-```
-
-### 2. Event Granularity
-
-Keep events focused and specific:
-
-```typescript
-// Bad: Too broad
-interface BadEvents {
-  StateChanged: {
-    everything: unknown;
-  };
-}
-
-// Good: Specific events
-interface GoodEvents {
-  SelectionChanged: {
-    selectedIds: string[];
-  };
-  
-  LayerRenamed: {
-    id: string;
-    oldName: string;
-    newName: string;
-  };
-}
-```
-
-### 3. Event Naming
-
-Follow consistent naming conventions:
-
-```typescript
-interface Events {
-  // Use past tense for changes that happened
-  NodeCreated: { id: string };
-  NodeDeleted: { id: string };
-  
-  // Use present tense for ongoing states
-  ProcessStarting: { id: string };
-  ProcessComplete: { id: string };
-  
-  // Use adjective + 'Changed' for state changes
-  VisibilityChanged: { visible: boolean };
-  SelectionChanged: { ids: string[] };
-}
-```
-
-### 4. Error Events
-
-Use dedicated error events for error handling:
-
-```typescript
-interface Events {
-  Error: {
-    code: number;
-    message: string;
-    source?: string;
-    data?: unknown;
-  };
-  
-  ValidationError: {
-    field: string;
-    message: string;
-    value: unknown;
-  };
-}
-```
-
-## Working with Figma Events
+## Figma Events
 
 The Message Bus automatically handles Figma's native events:
 
@@ -164,83 +170,22 @@ The Message Bus automatically handles Figma's native events:
 // These work automatically
 messageBus.listenToEvent('SelectionChanged', () => {
   const selection = figma.currentPage.selection;
-  console.log('Selection:', selection);
-});
+  
+  const payload = {
+    nodes: selection.map(node => ({
+      id: node.id,
+      type: node.type
+    }))
+  };
 
-messageBus.listenToEvent('DocumentChanged', (event) => {
-  console.log('Changes:', event.documentChanges);
-});
-```
-
-## Advanced Patterns
-
-### 1. Event Filtering
-
-Filter events before processing:
-
-```typescript
-messageBus.listenToEvent('NodeChanged', (event) => {
-  // Only handle specific change types
-  if (event.type === 'modified' && event.properties?.name) {
-    handleNameChange(event.nodeId, event.properties.name);
+  if (validators.selectionChanged(payload)) {
+    messageBus.publishEvent('SelectionChanged', payload);
   }
 });
 ```
 
-### 2. Event Debouncing
+## Next Steps
 
-Debounce frequent events:
-
-```typescript
-import { debounce } from 'lodash';
-
-const debouncedHandler = debounce((data) => {
-  console.log('Document changed:', data);
-}, 250);
-
-messageBus.listenToEvent('DocumentChanged', debouncedHandler);
-```
-
-### 3. Event Composition
-
-Combine multiple events into higher-level events:
-
-```typescript
-// Listen to low-level events
-messageBus.listenToEvent('NodeCreated', handleChange);
-messageBus.listenToEvent('NodeDeleted', handleChange);
-messageBus.listenToEvent('NodeModified', handleChange);
-
-// Publish a higher-level event
-function handleChange(data) {
-  messageBus.publishEvent('DocumentStateChanged', {
-    timestamp: Date.now(),
-    change: data
-  });
-}
-```
-
-## Type Safety
-
-The Message Bus provides full type safety for events:
-
-```typescript
-interface Events {
-  NodeSelected: {
-    id: string;
-    type: NodeType;
-  };
-}
-
-// Error: Missing required properties
-messageBus.publishEvent('NodeSelected', { id: '123' });
-
-// Error: Unknown event
-messageBus.listenToEvent('UnknownEvent', () => {});
-
-// Correct usage with proper types
-messageBus.publishEvent('NodeSelected', {
-  id: '123',
-  type: 'FRAME'
-});
-```
+- Learn about [Commands](/?path=/docs/📦-message-bus-〰️-🚧-beta-commands--docs)
+- See the [Todo App Example](/?path=/docs/📦-message-bus-〰️-🚧-beta-example--docs)
+- Explore [Advanced Patterns](/?path=/docs/📦-message-bus-〰️-🚧-beta-advanced-patterns--docs)

@@ -1,109 +1,223 @@
-import * as evtHandler from './handler';
-import type { EventRegistry } from './types/figma-events';
-import type {
-  CommandHandlers,
-  CommandRegistry,
-  DeregisterFn,
-  EventListeners,
-} from './types/utils';
-import { isFigmaEvent } from './utils';
+import type { JsonObject } from 'type-fest';
+import type { ValidationManager } from './ValidationManager';
+import type { Accepted, Rejected } from './types/message-handling';
+import type { Handler, Listener } from './types/message-handling';
+import { deepClone } from './utils/serialization';
 
 /**
- * A simple message bus implementation which magically works in both the main thread and the plugin UI.
- * No need to worry about sending messages in the right direction.
- *
- * @remarks
- * * Important: This class is a singleton but the main thread and the plugin UI are separate environments
- * * so each have their own instance.
- *
- * `@create-figma-plugin` package handles sending messages in the right direction.
- * I.e. it will send messages to the plugin UI when the emitter is the main thread,
- * or to the main thread when the emitter is the plugin UI.
+ * Options for creating a MessageBus instance
  */
-export class MessageBusSingleton<TCommands = unknown, TEvents = unknown> {
-  private static instance?: MessageBusSingleton<unknown, unknown>;
+export interface MessageBusOptions {
+  /**
+   * Validation manager instance
+   */
+  validator?: ValidationManager;
 
-  protected $handlers: Partial<CommandHandlers<TCommands>> = {};
+  /**
+   * Maximum number of listeners per event
+   */
+  maxListenersPerEvent?: number;
 
-  protected $listeners: Partial<EventListeners<TEvents>> = {};
+  /**
+   * Batch size for event processing
+   */
+  batchSize?: number;
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  private constructor() {}
+  /**
+   * Batch timeout in milliseconds
+   */
+  batchTimeout?: number;
+}
 
-  public static getInstance<T = unknown, E = unknown>(): MessageBusSingleton<
-    T,
-    E
-  > {
-    if (!MessageBusSingleton.instance) {
-      MessageBusSingleton.instance = new MessageBusSingleton();
+/**
+ * Core message bus implementation
+ */
+export class MessageBus<
+  Commands extends Record<string, JsonObject>,
+  Events extends Record<string, JsonObject>,
+> {
+  private commandHandlers = new Map<
+    keyof Commands,
+    Handler<Commands, string>
+  >();
+  private eventListeners = new Map<
+    keyof Events,
+    Set<Listener<Events, string>>
+  >();
+  private validator?: ValidationManager;
+  private maxListenersPerEvent: number;
+  private eventBatches = new Map<
+    keyof Events,
+    { events: Events[keyof Events][]; timer: NodeJS.Timeout }
+  >();
+
+  constructor(options: MessageBusOptions = {}) {
+    this.validator = options.validator;
+    this.maxListenersPerEvent = options.maxListenersPerEvent ?? 100;
+  }
+
+  /**
+   * Register a command handler
+   */
+  handleCommand<K extends keyof Commands>(
+    name: K,
+    handler: Handler<Commands, string>,
+  ): void {
+    this.commandHandlers.set(name, handler);
+  }
+
+  /**
+   * Unregister a command handler
+   */
+  unregisterCommand(name: keyof Commands): void {
+    this.commandHandlers.delete(name);
+  }
+
+  /**
+   * Register an event listener
+   */
+  listenToEvent<K extends keyof Events>(
+    name: K,
+    listener: Listener<Events, string>,
+  ): () => void {
+    let listeners = this.eventListeners.get(name);
+    if (!listeners) {
+      listeners = new Set();
+      this.eventListeners.set(name, listeners);
     }
-    return MessageBusSingleton.instance as MessageBusSingleton<T, E>;
+
+    if (listeners.size >= this.maxListenersPerEvent) {
+      throw new Error('Maximum number of listeners exceeded');
+    }
+
+    listeners.add(listener);
+
+    // Return cleanup function
+    return () => {
+      const listenerSet = this.eventListeners.get(name);
+      if (listenerSet) {
+        listenerSet.delete(listener);
+        if (listenerSet.size === 0) {
+          this.eventListeners.delete(name);
+        }
+      }
+    };
   }
 
-  public handleCommand<Id extends keyof CommandHandlers<TCommands>>(
-    command: Id,
-    handler: CommandHandlers<TCommands>[Id],
-  ): DeregisterFn {
-    this.$handlers[command] = handler as Partial<
-      CommandHandlers<TCommands>
-    >[Id];
-    return evtHandler.on(String(command), (data: unknown) => {
-      return handler(data as CommandRegistry<TCommands>[Id]['message']);
-    });
-  }
-
-  public sendCommand<Id extends keyof CommandRegistry<TCommands>>(
-    command: Id,
-    data: CommandRegistry<TCommands>[Id]['message'],
-  ): CommandRegistry<TCommands>[Id]['result'] | undefined {
-    evtHandler.emit(String(command), data);
-    return undefined;
-  }
-
-  public listenToEvent<Id extends keyof EventListeners<TEvents>>(
-    event: Id,
-    listener: EventListeners<TEvents>[Id],
-  ): DeregisterFn {
-    this.$listeners[event] = listener as Partial<EventListeners<TEvents>>[Id];
-
-    if (isFigmaEvent(event as string)) {
-      figma.on(
-        event as ArgFreeEventType,
-        listener as (...args: unknown[]) => void,
-      );
-      return (): void => {
-        figma.off(
-          event as ArgFreeEventType,
-          listener as (...args: unknown[]) => void,
-        );
+  /**
+   * Send a command
+   */
+  async sendCommand<K extends keyof Commands>(
+    name: K,
+    payload: Commands[K],
+    scope?: string,
+  ): Promise<Accepted | Rejected> {
+    const handler = this.commandHandlers.get(name);
+    if (!handler) {
+      return {
+        status: 'rejected',
+        message: `No handler registered for command: ${String(name)}`,
+        errors: [
+          {
+            field: '',
+            message: 'Command handler not found',
+          },
+        ],
       };
     }
 
-    return evtHandler.on(String(event), (data: unknown) => {
-      listener(data as EventRegistry<TEvents>[Id]['message']);
-    });
+    // Validate command payload if validation manager is available
+    if (this.validator) {
+      const result = this.validator.validate(
+        `command/${String(name)}`,
+        payload,
+      );
+      if (!result.success) {
+        return {
+          status: 'rejected',
+          message: result.errors?.[0]?.message || 'Invalid command parameters',
+          errors: result.errors || [
+            {
+              field: '',
+              message: 'Invalid command parameters',
+            },
+          ],
+        };
+      }
+    }
+
+    try {
+      // Clone payload to prevent mutations
+      const clonedPayload = deepClone(payload);
+      return await handler.call(null, clonedPayload);
+    } catch (error) {
+      const isValidationError =
+        error instanceof Error &&
+        (error.message === 'Invalid command parameters' ||
+          error.message === 'Type validation failed' ||
+          error.message.includes('validation'));
+
+      return {
+        status: 'rejected',
+        message: error instanceof Error ? error.message : 'Unknown error',
+        errors: [
+          {
+            field: '',
+            message: isValidationError
+              ? 'Invalid command parameters'
+              : 'Command handler error',
+          },
+        ],
+      };
+    }
   }
 
-  public publishEvent<Id extends keyof EventRegistry<TEvents>>(
-    event: Id,
-    data: EventRegistry<TEvents>[Id]['message'],
+  /**
+   * Publish an event
+   */
+  publishEvent<K extends keyof Events>(
+    name: K,
+    payload: Events[K],
+    scope?: string,
   ): void {
-    evtHandler.emit(String(event), data);
+    const listeners = this.eventListeners.get(name);
+    if (!listeners) return;
+
+    // Validate event payload if validation manager is available
+    if (this.validator) {
+      const result = this.validator.validate(`event/${String(name)}`, payload);
+      if (!result.success) {
+        const error = new Error(
+          result.errors?.[0]?.message || 'Event validation failed',
+        );
+        error.name = 'ValidationError';
+        throw error;
+      }
+    }
+
+    // Clone payload to prevent mutations
+    const clonedPayload = deepClone(payload);
+
+    // Notify all listeners
+    for (const listener of listeners) {
+      try {
+        // Call the listener with the payload as the first argument
+        listener.call(null, clonedPayload);
+      } catch (error) {
+        console.error('Event listener error:', error);
+      }
+    }
   }
-}
 
-const singleton = MessageBusSingleton.getInstance();
-
-// ensure the API is never changed
-// -------------------------------
-Object.freeze(singleton);
-
-// export the singleton instance only
-// -----------------------------
-
-export function getMessageBus<
-  TCmdRegistry = unknown,
-  TEvtRegistry = unknown,
->(): MessageBusSingleton<TCmdRegistry, TEvtRegistry> {
-  return MessageBusSingleton.getInstance<TCmdRegistry, TEvtRegistry>();
+  /**
+   * Clean up all handlers and listeners
+   */
+  cleanup(): void {
+    this.commandHandlers.clear();
+    this.eventListeners.clear();
+    for (const batch of this.eventBatches.values()) {
+      clearTimeout(batch.timer);
+    }
+    this.eventBatches.clear();
+  }
 }

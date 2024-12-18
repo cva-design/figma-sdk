@@ -1,0 +1,20 @@
+$schema: "https://moonrepo.dev/schemas/tasks.json"
+
+fileGroups:
+  docs:
+    - ./docs
+
+# Biome main commands:
+#   check          Runs formatter, linter and import sorting to the requested files.
+#   lint           Run various checks on a set of files.
+#   format         Run the formatter on a set of files.
+#   ci             Command to use in CI environments. Runs formatter, linter and import sorting
+tasks:
+  docs:
+    command:
+      - "markserv"
+      - "@group(docs)"
+    inputs:
+      - "@group(docs)"
+    options:
+      cache: true

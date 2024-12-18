@@ -1,3 +1,12 @@
+// Event names as const to ensure type safety
+export const TodoEventNames = {
+  TodoAdded: 'TodoAdded',
+  TodosLoaded: 'TodosLoaded',
+  TodoUpdated: 'TodoUpdated',
+  TodoDeleted: 'TodoDeleted',
+  TodoError: 'TodoError',
+} as const;
+
 export interface Todo {
   id: string;
   text: string;
@@ -12,7 +21,7 @@ export interface TodoCommands {
   };
 
   // Read
-  GetTodos: void;
+  GetTodos: null;
 
   // Update
   UpdateTodo: {
@@ -29,23 +38,23 @@ export interface TodoCommands {
 
 export interface TodoEvents {
   // Create
-  TodoAdded: Todo;
+  [TodoEventNames.TodoAdded]: Todo;
 
   // Read
-  TodosLoaded: {
+  [TodoEventNames.TodosLoaded]: {
     todos: Todo[];
   };
 
   // Update
-  TodoUpdated: Todo;
+  [TodoEventNames.TodoUpdated]: Todo;
 
   // Delete
-  TodoDeleted: {
+  [TodoEventNames.TodoDeleted]: {
     id: string;
   };
 
   // Error
-  TodoError: {
+  [TodoEventNames.TodoError]: {
     message: string;
     command?: keyof TodoCommands;
   };

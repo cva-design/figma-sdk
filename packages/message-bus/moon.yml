@@ -10,7 +10,7 @@ stack: systems
 
 # type
 #   The type of project. Supports the following values:
-#   
+#
 #   - application - An application of any kind.
 #   - automation - An automated testing suite, like E2E, integration, or visual tests. v1.16.0
 #   - configuration - Configuration files or infrastructure. v1.22.0
@@ -25,6 +25,13 @@ platform: bun
 
 tags:
   - biome
+  - markserv
+
+fileGroups:
+  sources:
+    - src/**/*
+  lintable:
+    - src/**/*
 
 tasks:
   build:

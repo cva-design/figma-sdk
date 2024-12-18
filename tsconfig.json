@@ -1,15 +1,21 @@
 {
-	"extends": "./tsconfig.options.json",
-	"files": [],
-	"references": [
-		{
-			"path": "packages/message-bus/tsconfig.project.json"
-		},
-		{
-			"path": "packages/rpc/tsconfig.project.json"
-		},
-		{
-			"path": "packages/ui/tsconfig.project.json"
-		}
-	]
+  "extends": "./tsconfig.options.json",
+  "files": [],
+  "references": [
+    {
+      "path": "packages/message-bus"
+    },
+    {
+      "path": "packages/message-bus/tsconfig.project.json"
+    },
+    {
+      "path": "packages/rpc"
+    },
+    {
+      "path": "packages/rpc/tsconfig.project.json"
+    },
+    {
+      "path": "packages/ui/tsconfig.project.json"
+    }
+  ]
 }

@@ -1,34 +1,22 @@
-import type { JsonObject, Simplify } from 'type-fest';
-import type { Envelope } from './messages';
+import type { JsonObject } from 'type-fest';
+import type { Handler, Listener } from './message-handling';
 
-export type DeregisterFn = () => void;
-
-export type MessageRegistry<
-  Messages extends Record<string, JsonObject>,
-  Scope extends string,
-  Type extends 'message' | 'command' | 'event' = 'message',
+/**
+ * Command registry type
+ */
+export type CommandRegistry<
+  T extends Record<string, JsonObject>,
+  Scope extends string = '',
 > = {
-  [K in keyof Messages]: K extends string
-    ? Simplify<Envelope<Scope, Type, K, Messages[K]>>
-    : never;
+  [K in keyof T]: Handler<T, Scope>;
 };
 
-export type CommandRegistry<
-  Commands extends Record<string, JsonObject>,
-  Scope extends string = '',
-> = MessageRegistry<Commands, Scope, 'command'>;
-
+/**
+ * Event registry type
+ */
 export type EventRegistry<
-  Events extends Record<string, JsonObject>,
+  T extends Record<string, JsonObject>,
   Scope extends string = '',
-> = MessageRegistry<Events, Scope, 'event'>;
-
-// export type MessageData<
-//   TCmd = unknown,
-//   TEvt = unknown,
-//   Key extends keyof CommandRegistry<TCmd> | keyof EventRegistry<TEvt> = never,
-// > = Key extends keyof CommandRegistry<TCmd>
-//   ? CommandRegistry<TCmd>[Key]['message']
-//   : Key extends keyof EventRegistry<TEvt>
-//     ? EventRegistry<TEvt>[Key]['message']
-//     : never;
+> = {
+  [K in keyof T]: Set<Listener<T, Scope>>;
+};

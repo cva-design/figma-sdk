@@ -6,7 +6,7 @@ import { Meta } from '@storybook/blocks';
 
 The Message Bus provides type-safe communication between your plugin's UI and backend code. It helps you:
 - Keep your code organized and maintainable
-- Prevent runtime errors with TypeScript
+- Prevent runtime errors with TypeScript and runtime validation using Typia
 - Handle asynchronous operations elegantly
 
 ## Learning Path
@@ -16,7 +16,7 @@ The Message Bus provides type-safe communication between your plugin's UI and ba
    - [Core Concepts](/?path=/docs/📦-message-bus-〰️-🚧-beta-core-concepts--docs): Commands, Events, and Message Flow
 
 2. **Main Concepts** (30min)
-   - [Type System](/?path=/docs/📦-message-bus-〰️-🚧-beta-type-system--docs): Leveraging TypeScript for reliable plugins
+   - [Type System](/?path=/docs/📦-message-bus-〰️-🚧-beta-type-system--docs): Leveraging TypeScript and Runtime Validation with Typia
    - [Todo App Example](/?path=/docs/📦-message-bus-〰️-🚧-beta-example--docs): Complete working example
 
 ## Quick Example
@@ -24,7 +24,9 @@ The Message Bus provides type-safe communication between your plugin's UI and ba
 Here's a minimal example to give you a taste:
 
 ~~~typescript
-import { getMessageBus } from '@figma-plugin-sdk/message-bus';
+import type { tags } from 'typia';
+import typia from 'typia';
+import type { Accepted, Rejected } from '@figma-plugin-sdk/message-bus';
 
 // types.ts
 interface Commands {
@@ -33,30 +35,95 @@ interface Commands {
 
 interface Events {
   NodeCountChanged: {
-    count: number;
+    /**
+     * @minimum 0
+     */
+    count: number & tags.Type<"uint32">;
   };
 }
 
+// Define runtime validation schemas
+const nodeCountChangedSchema = typia.createValidate<Events['NodeCountChanged']>();
+
 // plugin-code.ts
 const messageBus = getMessageBus<Commands, Events>();
+let lastCount = 0;
 
-messageBus.handleCommand('GetNodeCount', () => {
-  const count = figma.currentPage.children.length;
-  messageBus.publishEvent('NodeCountChanged', { count });
+// Listen to Figma's selection change event
+figma.on('selectionchange', () => {
+  // When selection changes, request a node count update
+  messageBus.sendCommand('GetNodeCount');
+});
+
+messageBus.handleCommand('GetNodeCount', async () => {
+  try {
+    const count = figma.currentPage.children.length;
+    
+    // Only publish if count changed
+    if (count !== lastCount) {
+      lastCount = count;
+      const payload = { count };
+      
+      // Validate event payload at runtime
+      if (nodeCountChangedSchema(payload)) {
+        messageBus.publishEvent('NodeCountChanged', payload);
+      } else {
+        console.error('Invalid payload:', payload);
+        return {
+          status: 'rejected',
+          message: 'Invalid node count data',
+          errors: [{ field: 'count', message: 'Failed validation' }]
+        } satisfies Rejected;
+      }
+    }
+    
+    return { 
+      status: 'accepted',
+      message: 'Node count retrieved successfully'
+    } satisfies Accepted;
+  } catch (error) {
+    return {
+      status: 'rejected',
+      message: error.message,
+      errors: [{ field: 'unknown', message: error.message }]
+    } satisfies Rejected;
+  }
 });
 
 // ui.ts
-messageBus.sendCommand('GetNodeCount');
-
-messageBus.listenToEvent('NodeCountChanged', ({ count }) => {
-  console.log(`Current page has ${count} nodes`);
+messageBus.listenToEvent('NodeCountChanged', (event) => {
+  if (nodeCountChangedSchema(event)) {
+    console.log(`Current page has ${event.count} nodes`);
+  }
 });
 ~~~
+
+## Key Features
+
+- **Type Safety**: Full TypeScript support with compile-time checks
+- **Runtime Validation**: Automatic runtime validation using Typia
+- **Command Responses**: Commands always return either an `Accepted` or `Rejected` response:
+  ```typescript
+  // Success case
+  type Accepted = { 
+    status: 'accepted';
+    message?: string;  // Optional success message
+  };
+
+  // Error case
+  type Rejected = { 
+    status: 'rejected';
+    message?: string;  // Optional error message
+    errors: NonEmptyTuple<ValidationError>;  // At least one error
+  };
+  ```
+- **Event Broadcasting**: Fire-and-forget events for state updates
+- **Figma Events Integration**: Seamlessly integrate with Figma's native events
 
 ## Installation
 
 ~~~bash
-npm install @figma-plugin-sdk/message-bus
+npm install @figma-plugin-sdk/message-bus typia
 ~~~
 
 ## Next Steps

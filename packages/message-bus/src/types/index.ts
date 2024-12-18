@@ -7,6 +7,9 @@ export * from './ambient.d';
 export * from './figma-events';
 export * from './message-handling';
 export * from './messages';
-export * from './registries';
+export type {
+  CommandRegistry,
+  EventRegistry,
+} from './registries';
 export * from './utils';
 //@endindex

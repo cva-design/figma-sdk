@@ -1,54 +1,59 @@
 {
-	"name": "@figma-plugin-sdk/message-bus",
-	"version": "0.0.0",
-	"description": "A browser package.",
-	"keywords": [
-		"node",
-		"lib",
-		"esm"
-	],
-	"author": "moon",
-	"license": "MIT",
-	"repository": "https://github.com/moonrepo/examples",
-	"scripts": {
-		"check": "na check:biome && na check:types",
-		"check:biome": "biome check --fix ./src",
-		"check:types": "tsc --build tsconfig.project.json --pretty --verbose",
-		"test": "vitest",
-		"test:coverage": "vitest run --coverage",
-		"test:ui": "vitest --ui"
-	},
-	"packemon": {
-		"format": [
-			"esm"
-		],
-		"platform": "browser"
-	},
-	"engines": {
-		"node": ">=14.15.0"
-	},
-	"files": [
-		"esm/**/*",
-		"lib/**/*",
-		"src/**/*"
-	],
-	"main": "./lib/index.js",
-	"module": "./esm/index.js",
-	"types": "./lib/index.d.ts",
-	"exports": {
-		"./package.json": "./package.json",
-		".": {
-			"types": "./lib/index.d.ts",
-			"browser": {
-				"types": "./esm/index.d.ts",
-				"module": "./esm/index.js",
-				"import": "./esm/index.js",
-				"default": "./lib/index.js"
-			},
-			"default": "./lib/index.js"
-		}
-	},
-	"devDependencies": {
-		"type-fest": "^4.30.0"
-	}
+  "name": "@figma-plugin-sdk/message-bus",
+  "version": "0.0.0",
+  "description": "A browser package.",
+  "keywords": ["node", "lib", "esm"],
+  "author": "moon",
+  "license": "MIT",
+  "repository": "https://github.com/moonrepo/examples",
+  "scripts": {
+    "check": "na check:biome && na check:types",
+    "check:biome": "biome check --fix ./src",
+    "check:types": "tsc --build tsconfig.project.json --pretty --verbose",
+    "build": "tsc --build tsconfig.project.json",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "test:ui": "vitest --ui",
+    "test:validation": "tsc --build tsconfig.project.json && vitest run tests/validation/",
+    "prepare": "ts-patch install && typia patch"
+  },
+  "packemon": {
+    "format": ["esm"],
+    "platform": "browser"
+  },
+  "engines": {
+    "bun": ">=1.0.0"
+  },
+  "files": ["esm/**/*", "lib/**/*", "src/**/*"],
+  "main": "./lib/index.js",
+  "module": "./esm/index.js",
+  "types": "./lib/index.d.ts",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "types": "./lib/index.d.ts",
+      "browser": {
+        "types": "./esm/index.d.ts",
+        "module": "./esm/index.js",
+        "import": "./esm/index.js",
+        "default": "./lib/index.js"
+      },
+      "default": "./lib/index.js"
+    }
+  },
+  "devDependencies": {
+    "@figma-plugin-sdk/message-bus": "./src",
+    "@types/bun": "latest",
+    "ts-patch": "^3.3.0",
+    "type-fest": "^4.30.0",
+    "typescript": "~5.7.2",
+    "typia": "^7.4.1",
+    "vitest": "latest",
+    "@vitest/coverage-v8": "latest",
+    "@vitest/ui": "latest"
+  },
+  "peerDependencies": {
+    "typia": "^7.4.1"
+  }
 }

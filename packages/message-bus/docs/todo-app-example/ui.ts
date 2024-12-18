@@ -1,55 +1,54 @@
 import { getMessageBus } from '@figma-plugin-sdk/message-bus';
-import type { TodoCommands, TodoEvents } from './types';
+import type { Todo, TodoCommands, TodoEvents } from './types';
+import { TodoEventNames } from './types';
 
+// Create message bus instance for our UI
 const messageBus = getMessageBus<TodoCommands, TodoEvents>();
 
 // UI State
-let todos = [];
+let todos: Todo[] = [];
 
 // Event Listeners
-messageBus.listenToEvent('TodosLoaded', ({ todos: loadedTodos }) => {
-  todos = loadedTodos;
+// The UI subscribes to events to stay in sync with the backend state
+messageBus.listenToEvent(TodoEventNames.TodosLoaded, (event) => {
+  todos = event.todos;
   renderTodos();
 });
 
-messageBus.listenToEvent('TodoAdded', (todo) => {
+messageBus.listenToEvent(TodoEventNames.TodoAdded, (todo) => {
   todos.push(todo);
   renderTodos();
 });
 
-messageBus.listenToEvent('TodoUpdated', (updatedTodo) => {
-  const index = todos.findIndex((t) => t.id === updatedTodo.id);
+messageBus.listenToEvent(TodoEventNames.TodoUpdated, (todo) => {
+  const index = todos.findIndex((t) => t.id === todo.id);
   if (index !== -1) {
-    todos[index] = updatedTodo;
+    todos[index] = todo;
     renderTodos();
   }
 });
 
-messageBus.listenToEvent('TodoDeleted', ({ id }) => {
+messageBus.listenToEvent(TodoEventNames.TodoDeleted, ({ id }) => {
   todos = todos.filter((t) => t.id !== id);
   renderTodos();
 });
 
-messageBus.listenToEvent('TodoError', ({ message }) => {
-  console.error('Todo Error:', message);
-  // Show error in UI
-});
-
 // UI Actions
-function addTodo(text: string) {
-  messageBus.sendCommand('AddTodo', { text });
+// These functions send commands to the backend
+async function addTodo(text: string) {
+  await messageBus.sendCommand('AddTodo', { text });
 }
 
-function toggleTodo(id: string, completed: boolean) {
-  messageBus.sendCommand('UpdateTodo', { id, completed });
+async function toggleTodo(id: string, completed: boolean) {
+  await messageBus.sendCommand('UpdateTodo', { id, completed });
 }
 
-function deleteTodo(id: string) {
-  messageBus.sendCommand('DeleteTodo', { id });
+async function deleteTodo(id: string) {
+  await messageBus.sendCommand('DeleteTodo', { id });
 }
 
-function loadTodos() {
-  messageBus.sendCommand('GetTodos', undefined);
+async function loadTodos() {
+  await messageBus.sendCommand('GetTodos', null);
 }
 
 // UI Rendering (pseudo-code)

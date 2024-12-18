@@ -1,144 +1,123 @@
-import type { RunEvent } from '@figma/plugin-typings';
-import type { Jsonify, Simplify } from 'type-fest';
-import type { EventRegistry } from './registries';
+/**
+ * Figma event types
+ */
+export const FigmaEventTypes = {
+  selectionchange: 'selectionchange',
+  currentpagechange: 'currentpagechange',
+  close: 'close',
+  documentchange: 'documentchange',
+  run: 'run',
+  viewportchange: 'viewportchange',
+} as const;
+
+export type FigmaEvent = (typeof FigmaEventTypes)[keyof typeof FigmaEventTypes];
 
 /**
- * Core Figma events that handle the main plugin functionality
+ * Figma event map
  */
-export type CoreEvents = Jsonify<{
-  /**
-   * Triggered when the selection changes in the current page
-   */
-  SelectionChanged: () => void;
-
-  /**
-   * Triggered when the user switches to a different page or when 
-   * figma.currentPage is changed programmatically
-   */
-  CurrentPageChanged: () => void;
-
-  /**
-   * Triggered when any changes are made to the document
-   */
-  DocumentChanged: DocumentChangeEvent;
-
-  /**
-   * Triggered when external content is dropped onto the canvas
-   */
-  OnDrop: DropEvent;
-
-  /**
-   * Triggered when the plugin is about to close
-   */
-  OnClose: () => void;
-
-  /**
-   * Triggered when the plugin starts
-   */
-  OnRun: RunEvent;
-
-  /**
-   * Triggered when a node is created in the document
-   * @since Figma 2.0
-   */
-  CreateNode: {
-    node: SceneNode;
-    parent: BaseNode | null;
+export interface FigmaEventMap {
+  SelectionChanged: {
+    nodes: Array<{
+      id: string;
+      type: string;
+    }>;
   };
 
-  /**
-   * Triggered when a node is deleted from the document
-   * @since Figma 2.0
-   */
-  DeleteNode: {
-    node: SceneNode;
-  };
-
-  /**
-   * Triggered when the viewport changes (pan/zoom)
-   * @since Figma 2.0
-   */
-  ViewportChanged: {
-    viewport: {
-      bounds: Rect;
-      zoom: number;
+  CurrentPageChanged: {
+    page: {
+      id: string;
+      name: string;
     };
   };
 
-  /**
-   * Triggered when the user interacts with a plugin menu item
-   * @since Figma 2.0
-   */
-  PluginMenuItemClick: {
-    menuId: string;
+  DocumentChanged: {
+    origin: 'local' | 'remote';
+    documentChanges: Array<{
+      id: string;
+      type: string;
+      property?: string;
+      value?: unknown;
+      node?: {
+        id: string;
+        type: string;
+      };
+    }>;
   };
 
-  /**
-   * Triggered when the network status changes
-   * @since Figma 2.0
-   */
-  NetworkStatusChanged: {
-    isOnline: boolean;
+  ViewportChanged: {
+    center: { x: number; y: number };
+    zoom: number;
   };
-}>;
 
-/**
- * Timer-related events for managing plugin timing functionality
- */
-export type TimerEvents = Jsonify<{
-  TimerStarted: () => void;
-  TimerPaused: () => void;
-  TimerStopped: () => void;
-  TimerDone: () => void;
-  TimerResume: () => void;
-  TimerAdjust: () => void;
-}>;
+  PluginRun: {
+    command: string;
+    parameters?: Record<string, unknown>;
+  };
 
-// Combined event names type
-export type FigmaEventName = keyof CoreEvents | keyof TimerEvents;
+  PluginClose: Record<string, never>;
 
-// Combined registry type
-export type FigmaEventRegistry = Simplify<
-  EventRegistry<CoreEvents, 'figma'> | EventRegistry<TimerEvents, 'timer'>
->;
+  Error: {
+    error: string;
+  };
 
-// Event types that don't take arguments
-export type ArgFreeEventType =
-  | 'selectionchange'
-  | 'currentpagechange'
-  | 'close'
-  | 'timerstart'
-  | 'timerstop'
-  | 'timerpause'
-  | 'timerresume'
-  | 'timeradjust'
-  | 'timerdone'
-  | 'networkstatuschange';
+  TimerStart: {
+    id: string;
+  };
 
-// Enum for backward compatibility
-export enum FigmaEvent {
-  SelectionChanged = 'figma:event/selection-changed',
-  CurrentPageChanged = 'figma:event/current-page-changed',
-  DocumentChanged = 'figma:event/document-changed',
-  OnDrop = 'figma:event/on-drop',
-  OnClose = 'figma:event/on-close',
-  OnRun = 'figma:event/on-run',
-  CreateNode = 'figma:event/create-node',
-  DeleteNode = 'figma:event/delete-node',
-  ViewportChanged = 'figma:event/viewport-changed',
-  PluginMenuItemClick = 'figma:event/plugin-menu-item-click',
-  NetworkStatusChanged = 'figma:event/network-status-changed',
-  TimerStarted = 'timer:event/timer-started',
-  TimerPaused = 'timer:event/timer-paused',
-  TimerStopped = 'timer:event/timer-stopped',
-  TimerDone = 'timer:event/timer-done',
-  TimerResume = 'timer:event/timer-resume',
-  TimerAdjust = 'timer:event/timer-adjust'
+  TimerStop: {
+    id: string;
+  };
+
+  TimerPause: {
+    id: string;
+  };
+
+  TimerResume: {
+    id: string;
+  };
+
+  UIVisibilityChanged: {
+    visible: boolean;
+  };
+
+  UIResized: {
+    width: number;
+    height: number;
+  };
+
+  CommandExecuted: {
+    command: string;
+    parameters: Record<string, unknown>;
+  };
+
+  ContextInitialized: {
+    viewport: {
+      center: { x: number; y: number };
+      zoom: number;
+    };
+    selection: Array<{
+      id: string;
+      type: string;
+    }>;
+  };
 }
 
-// Event definition type (kept for backward compatibility)
-export interface FigmaEventDefinition<T extends FigmaEvent, Message> {
-  $id: T;
-  $type: 'figma-event';
-  message: Message;
-}
+// Export individual event types from the FigmaEventMap
+export type SelectionChangedEvent = FigmaEventMap['SelectionChanged'];
+export type CurrentPageChangedEvent = FigmaEventMap['CurrentPageChanged'];
+export type DocumentChangedEvent = FigmaEventMap['DocumentChanged'];
+export type ViewportChangedEvent = FigmaEventMap['ViewportChanged'];
+export type PluginRunEvent = FigmaEventMap['PluginRun'];
+export type PluginCloseEvent = FigmaEventMap['PluginClose'];
+export type ErrorEvent = FigmaEventMap['Error'];
+export type TimerStartEvent = FigmaEventMap['TimerStart'];
+export type TimerStopEvent = FigmaEventMap['TimerStop'];
+export type TimerPauseEvent = FigmaEventMap['TimerPause'];
+export type TimerResumeEvent = FigmaEventMap['TimerResume'];
+export type UIVisibilityChangedEvent = FigmaEventMap['UIVisibilityChanged'];
+export type UIResizedEvent = FigmaEventMap['UIResized'];
+export type CommandExecutedEvent = FigmaEventMap['CommandExecuted'];
+export type ContextInitializedEvent = FigmaEventMap['ContextInitialized'];
+
+// Export event name type
+export type FigmaEventName = keyof FigmaEventMap;

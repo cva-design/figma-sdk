@@ -39,12 +39,12 @@ export function deepClone<T>(obj: T): T {
   return deserialize(serialize(obj)) as T;
 }
 
-import { FigmaEvent, type FigmaEventName } from './types/figma-events';
+import { type FigmaEventName, FigmaEventTypes } from './types/figma-events';
 
 export function isFigmaEvent(eventName: string): eventName is FigmaEventName {
   if (!eventName) {
     throw new Error(
-      `eventName must be one of the Event enum values:${serialize(FigmaEvent)}`,
+      `eventName must be one of the Figma event types: ${Object.values(FigmaEventTypes).join(', ')}`,
     );
   }
 
