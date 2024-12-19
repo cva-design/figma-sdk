@@ -1,15 +1,9 @@
 {
-	"extends": "./tsconfig.project.json",
-	"compilerOptions": {
-		"module": "ESNext",
-		"moduleResolution": "bundler",
-		"outDir": "./esm",
-		"rootDir": "./src",
-		"composite": true,
-		"declaration": true,
-		"declarationDir": "./esm",
-		"noEmit": false
-	},
-	"include": ["src/**/*"],
-	"exclude": ["tests/**/*"]
+  "extends": "./tsconfig.project.json",
+  "compilerOptions": {
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "outDir": "./esm",
+    "tsBuildInfoFile": "./.tsc/esm.tsbuildinfo"
+  }
 }

@@ -1,0 +1,84 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Advanced Usage" />
+
+# Advanced Usage
+
+## Scoped Messages
+
+You can scope your messages to specific domains using the registry types:
+
+~~~typescript
+import type { CommandRegistry, EventRegistry } from '@figma-plugin-sdk/message-bus';
+
+interface UserCommands {
+  Login: {
+    username: string;
+    password: string;
+  };
+}
+
+type UserCommandRegistry = CommandRegistry<UserCommands, 'user'>;
+// Results in: user:command/login
+
+interface SystemEvents {
+  Error: {
+    code: number;
+    message: string;
+  };
+}
+
+type SystemEventRegistry = EventRegistry<SystemEvents, 'system'>;
+// Results in: system:event/error
+~~~
+
+## Figma Events
+
+The message bus automatically handles Figma events:
+
+~~~typescript
+messageBus.listenToEvent('SelectionChanged', () => {
+  const selection = figma.currentPage.selection;
+  console.log('New selection:', selection);
+});
+
+messageBus.listenToEvent('CurrentPageChanged', () => {
+  console.log('Current page:', figma.currentPage);
+});
+
+messageBus.listenToEvent('DocumentChanged', (event) => {
+  console.log('Document changes:', event.documentChanges);
+});
+~~~
+
+## Error Handling
+
+Implement error handling in your command handlers:
+
+~~~typescript
+messageBus.handleCommand('SaveData', async (data) => {
+  try {
+    await saveToStorage(data);
+    return { success: true };
+  } catch (error) {
+    messageBus.publishEvent('Error', {
+      code: 500,
+      message: error.message,
+    });
+    return { success: false, error: error.message };
+  }
+});
+~~~
+
+## Cleanup
+
+Always cleanup your event listeners:
+
+~~~typescript
+const deregister = messageBus.listenToEvent('DataChanged', (data) => {
+  // Handle data change
+});
+
+// Later when component unmounts
+deregister();
+~~~ 

@@ -1,4 +1,4 @@
-$schema: 'https://moonrepo.dev/schemas/tasks.json'
+$schema: "https://moonrepo.dev/schemas/tasks.json"
 
 fileGroups:
   lintable:
@@ -13,7 +13,7 @@ tasks:
   check:
     deps:
       - check-fix
-    command: "nr check"
+    command: "biome check ./src"
     # command: "bun biome check"
     # args:
     #   - ./src
@@ -25,7 +25,7 @@ tasks:
     #   affectedFiles: true
 
   check-fix:
-    command: "nr check:fix"
+    command: "biome check --fix ./src"
     # args:
     #   - "--fix"
     #   - "--no-errors-on-unmatched"
