@@ -1,0 +1,231 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Core Concepts" />
+
+# Core Concepts
+
+The Message Bus is built around three core concepts that help you build reliable Figma plugins.
+
+## 1. Commands vs Events
+
+There are two types of messages in the Message Bus:
+
+### Commands
+Commands are **request-response messages** that always return either an `Accepted` or `Rejected` response:
+
+~~~typescript
+import { getMessageBus } from '@figma-plugin-sdk/message-bus';
+import typia from 'typia';
+
+// Define command types
+interface Commands {
+  SaveDocument: {
+    name: string;
+    content: string;
+  };
+}
+
+// Create validation schema
+const saveDocumentSchema = typia.createValidator<Commands['SaveDocument']>();
+
+// Handle command with validation
+messageBus.handleCommand('SaveDocument', async (data) => {
+  // Validate command payload
+  if (!saveDocumentSchema(data)) {
+    return {
+      status: 'rejected',
+      message: 'Invalid command data',
+      errors: [{ field: 'data', message: 'Failed schema validation' }]
+    };
+  }
+
+  try {
+    await figma.saveVersionHistoryAsync(data.name);
+    return { 
+      status: 'accepted',
+      message: 'Document saved successfully'
+    };
+  } catch (error) {
+    return {
+      status: 'rejected',
+      message: error.message,
+      errors: [{ field: 'save', message: error.message }]
+    };
+  }
+});
+
+// Send command with error handling
+try {
+  const result = await messageBus.sendCommand('SaveDocument', {
+    name: 'My Document',
+    content: '...'
+  });
+
+  if (result.status === 'rejected') {
+    console.error('Save failed:', result.errors);
+  }
+} catch (error) {
+  console.error('Command failed:', error);
+}
+~~~
+
+Key characteristics:
+- One handler per command
+- Must return `Accepted` or `Rejected` response
+- Validated at runtime with Typia
+- Used for requests and queries
+- Handler must be in plugin code
+
+### Events
+Events are **fire-and-forget notifications** that don't expect responses:
+
+~~~typescript
+// Define event types
+interface Events {
+  DocumentSaved: {
+    name: string;
+    timestamp: number;
+  };
+}
+
+// Create validation schema
+const documentSavedSchema = typia.createValidator<Events['DocumentSaved']>();
+
+// In plugin code
+const payload = {
+  name: 'My Document',
+  timestamp: Date.now()
+};
+
+// Validate before publishing
+if (documentSavedSchema(payload)) {
+  messageBus.publishEvent('DocumentSaved', payload);
+}
+
+// In UI code
+const cleanup = messageBus.listenToEvent('DocumentSaved', ({ name, timestamp }) => {
+  console.log(`Saved ${name} at ${new Date(timestamp)}`);
+});
+
+// Always cleanup when component unmounts
+onDestroy(cleanup);
+~~~
+
+Key characteristics:
+- Multiple listeners allowed
+- No response expected
+- Validated at runtime with Typia
+- Used for notifications
+- Listeners can be anywhere
+
+## 2. Runtime Validation
+
+The Message Bus uses Typia to validate all messages at runtime:
+
+~~~typescript
+import typia from 'typia';
+
+// Define your types
+interface Commands {
+  UpdateNode: {
+    id: string;
+    /**
+     * @minimum 0
+     * @maximum 1
+     */
+    opacity: number;
+  };
+}
+
+// Create validator
+const updateNodeSchema = typia.createValidator<Commands['UpdateNode']>();
+
+// Use in command handler
+messageBus.handleCommand('UpdateNode', async (data) => {
+  if (!updateNodeSchema(data)) {
+    return {
+      status: 'rejected',
+      message: 'Invalid command data',
+      errors: [{ field: 'data', message: 'Failed schema validation' }]
+    };
+  }
+
+  // Safe to use data here
+  const node = figma.getNodeById(data.id);
+  if (!node) {
+    return {
+      status: 'rejected',
+      message: 'Node not found',
+      errors: [{ field: 'id', message: 'Invalid node ID' }]
+    };
+  }
+
+  node.opacity = data.opacity;
+  return { status: 'accepted' };
+});
+~~~
+
+## 3. Figma Event Integration
+
+The Message Bus seamlessly integrates with Figma's native events:
+
+~~~typescript
+// These work automatically
+messageBus.listenToEvent('SelectionChanged', () => {
+  const selection = figma.currentPage.selection;
+  console.log('Selection:', selection);
+});
+
+messageBus.listenToEvent('CurrentPageChanged', () => {
+  console.log('Current page:', figma.currentPage);
+});
+
+// Custom events can respond to Figma events
+figma.on('selectionchange', () => {
+  const selection = figma.currentPage.selection;
+  
+  // Validate event payload
+  const payload = { count: selection.length };
+  if (selectionChangedSchema(payload)) {
+    messageBus.publishEvent('SelectionChanged', payload);
+  }
+});
+~~~
+
+## Important Notes
+
+1. **Command Responses**
+   - Commands must return either:
+     ~~~typescript
+     // Success case
+     { 
+       status: 'accepted';
+       message?: string;
+     }
+     
+     // Error case
+     {
+       status: 'rejected';
+       message?: string;
+       errors: ValidationError[];
+     }
+     ~~~
+
+2. **Event Cleanup**
+   - Always cleanup event listeners in UI code:
+   ~~~typescript
+   const cleanup = messageBus.listenToEvent('SomeEvent', () => {});
+   // Later...
+   cleanup();
+   ~~~
+
+3. **Validation**
+   - Always validate both commands and events
+   - Use Typia's runtime validation
+   - Handle validation errors appropriately
+
+## Next Steps
+
+- Learn about the [Type System](/?path=/docs/📦-message-bus-〰️-🚧-beta-type-system--docs)
+- See a complete [Todo App Example](/?path=/docs/📦-message-bus-〰️-🚧-beta-example--docs)
+- Explore [Advanced Patterns](/?path=/docs/📦-message-bus-〰️-🚧-beta-advanced-patterns--docs)
