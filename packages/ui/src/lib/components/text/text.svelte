@@ -1,51 +1,54 @@
 <script lang="ts">
-import { type VariantProps, cva } from "class-variance-authority";
-import type { HTMLAttributes } from "svelte/elements";
+	import { type VariantProps, cva } from 'class-variance-authority';
+	import type { HTMLAttributes } from 'svelte/elements';
 
-const text = cva("fps-Text", {
-	variants: {
-		size: {
-			small: "fps-size-small",
-			medium: "fps-size-medium",
-			large: "fps-size-large",
+	const text = cva('fps-Text', {
+		variants: {
+			size: {
+				small: 'fps-size-small',
+				medium: 'fps-size-medium',
+				large: 'fps-size-large'
+			},
+			weight: {
+				default: 'fps-weight-default',
+				strong: 'fps-weight-strong'
+			},
+			align: {
+				left: 'fps-align-start',
+				center: 'fps-align-center',
+				right: 'fps-align-end'
+			},
+			block: {
+				true: 'fps-block'
+			},
+			inverse: {
+				true: 'fps-inverse'
+			},
+			disabled: {
+				true: 'fps-disabled'
+			}
 		},
-		weight: {
-			default: "fps-weight-default",
-			strong: "fps-weight-strong",
-		},
-		align: {
-			left: "fps-align-start",
-			center: "fps-align-center",
-			right: "fps-align-end",
-		},
-		block: {
-			true: "fps-block",
-		},
-		inverse: {
-			true: "fps-inverse",
-		},
-	},
-	defaultVariants: {
-		size: "medium",
-		weight: "default",
-		align: "left",
-		block: false,
-		inverse: false,
-	},
-});
+		defaultVariants: {
+			size: 'medium',
+			weight: 'default',
+			align: 'left',
+			block: false,
+			inverse: false,
+			disabled: false
+		}
+	});
 
-interface $$Props
-	extends HTMLAttributes<HTMLSpanElement>,
-		VariantProps<typeof text> {}
+	interface $$Props extends HTMLAttributes<HTMLSpanElement>, VariantProps<typeof text> {}
 
-export const size: $$Props["size"] = undefined;
-export const weight: $$Props["weight"] = undefined;
-export const align: $$Props["align"] = undefined;
-export const block: $$Props["block"] = false;
-export const inverse: $$Props["inverse"] = false;
+	export const size: $$Props['size'] = undefined;
+	export const weight: $$Props['weight'] = undefined;
+	export const align: $$Props['align'] = undefined;
+	export const block: $$Props['block'] = false;
+	export const inverse: $$Props['inverse'] = false;
+	export const disabled: $$Props['disabled'] = false;
 </script>
 
-<span class={`${text({ size, weight, align, block, inverse })} ${$$props.class}`}>
+<span class={`${text({ size, weight, align, block, inverse, disabled })} ${$$props.class}`}>
 	<slot />
 </span>
 
@@ -103,6 +106,10 @@ export const inverse: $$Props["inverse"] = false;
 
 		&:where(.fps-block) {
 			display: block;
+		}
+
+		&:where(.fps-disabled) {
+			color: var(--figma-color-text-disabled);
 		}
 
 		& strong {

@@ -94,8 +94,8 @@
 		align-items: center;
 		justify-content: center;
 		cursor: default;
-		width: var(--spacer-5);
-		height: var(--spacer-5);
+		// width: var(--spacer-5);
+		// height: var(--spacer-5);
 		font-family: var(--font-family-default);
 		font-size: var(--text-body-medium-font-size);
 		user-select: none;
