@@ -83,6 +83,11 @@
 	function closeMenu() {
 		menuList.classList.add('hidden');
 		menuButton.classList.remove('selected');
+		// Clear inline styles
+		menuList.style.height = '';
+		menuList.style.maxHeight = '472px';
+		menuList.style.top = '';
+		menuList.style.bottom = '34px';
 	}
 
 	//run for all menu click events
@@ -188,7 +193,9 @@
 
 	function resetMenuProperties() {
 		menuList.style.height = 'auto';
+		menuList.style.maxHeight = '';
 		menuList.style.top = '0px';
+		menuList.style.bottom = '';
 	}
 </script>
 
