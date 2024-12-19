@@ -38,7 +38,7 @@
 {:else}
 	<div class="header--layerNameRow header--layerRowContainer">
 		<span
-			class="header--copyableLayerName"
+			class="header--copyableLayerName header--plain"
 			class:header--layerName--levelOne={size === 'one'}
 			class:header--layerName--levelTwo={size === 'two'}
 			class:header--layerName--levelThree={size === 'three'}
@@ -91,7 +91,7 @@
 		gap: 4px;
 	}
 
-	.header--copyableLayerName:not(.disabled):hover {
+	.header--copyableLayerName:not(.disabled):not(.header--plain):hover {
 		background: var(--color-bg-hover);
 		color: var(--color-text);
 		border-radius: 6px;
@@ -113,5 +113,9 @@
 		display: flex;
 		align-items: center;
 		gap: 4px;
+	}
+
+	.header--plain {
+		padding: var(--space-1) 0 var(--space-2) 0;
 	}
 </style>

@@ -324,6 +324,7 @@
 		white-space: nowrap;
 		overflow-x: hidden;
 		text-overflow: ellipsis;
+		text-transform: lowercase;
 	}
 
 	.placeholder {
@@ -364,6 +365,7 @@
 		color: var(--color-text-menu);
 		box-shadow: var(--elevation-400);
 		z-index: 1000;
+		text-transform: lowercase;
 	}
 	.menu::-webkit-scrollbar {
 		width: 12px;
