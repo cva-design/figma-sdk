@@ -1,0 +1,152 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Quick Start" />
+
+# Quick Start Guide
+
+Let's create a simple plugin that shows the number of selected nodes in its UI.
+
+## 1. Installation
+
+~~~bash
+npm install @figma-plugin-sdk/message-bus typia
+~~~
+
+## 2. Define Your Messages
+
+Create `types.ts`:
+
+~~~typescript
+import typia from 'typia';
+
+// All your message types in one place
+interface Commands {
+  // Command to request current selection info
+  GetSelection: void;  // no parameters needed
+}
+
+interface Events {
+  // Event emitted when selection changes
+  SelectionChanged: {
+    count: number;
+    types: string[];
+  };
+}
+
+// Create validation schemas
+export const selectionChangedSchema = typia.createValidator<Events['SelectionChanged']>();
+~~~
+
+## 3. Plugin Code
+
+~~~typescript
+import { getMessageBus } from '@figma-plugin-sdk/message-bus';
+import type { Commands, Events } from './types';
+import { selectionChangedSchema } from './types';
+
+const messageBus = getMessageBus<Commands, Events>();
+
+// Handle GetSelection command
+messageBus.handleCommand('GetSelection', async () => {
+  const selection = figma.currentPage.selection;
+  const payload = {
+    count: selection.length,
+    types: selection.map(node => node.type)
+  };
+
+  // Validate response data
+  if (!selectionChangedSchema(payload)) {
+    return {
+      status: 'rejected',
+      message: 'Invalid selection data',
+      errors: [{ field: 'data', message: 'Failed schema validation' }]
+    };
+  }
+
+  return { 
+    status: 'accepted',
+    message: 'Selection retrieved successfully'
+  };
+});
+
+// Listen to Figma's built-in selection changes
+figma.on('selectionchange', () => {
+  const selection = figma.currentPage.selection;
+  const payload = {
+    count: selection.length,
+    types: selection.map(node => node.type)
+  };
+  
+  // Validate event payload before publishing
+  if (selectionChangedSchema(payload)) {
+    messageBus.publishEvent('SelectionChanged', payload);
+  }
+});
+~~~
+
+## 4. UI Code
+
+~~~typescript
+import { getMessageBus } from '@figma-plugin-sdk/message-bus';
+import type { Commands, Events } from './types';
+
+const messageBus = getMessageBus<Commands, Events>();
+
+// Get initial selection with error handling
+async function getInitialSelection() {
+  try {
+    const result = await messageBus.sendCommand('GetSelection');
+    
+    if (result.status === 'rejected') {
+      console.error('Failed to get selection:', result.errors);
+      document.getElementById('info').textContent = 'Error: ' + result.message;
+      return;
+    }
+
+    updateUI(result);
+  } catch (error) {
+    console.error('Command failed:', error);
+    document.getElementById('info').textContent = 'Error: Failed to get selection';
+  }
+}
+
+// Cleanup is important
+const cleanup = messageBus.listenToEvent('SelectionChanged', updateUI);
+
+// Always cleanup when UI closes
+window.onunload = () => {
+  cleanup();
+};
+
+// Update the UI when selection changes
+function updateUI({ count, types }) {
+  document.getElementById('info').textContent = 
+    `Selected ${count} ${types.join(', ')}`;
+}
+
+// Start the app
+getInitialSelection();
+~~~
+
+## Key Points
+
+1. **Command Responses**
+   - Commands must return either `Accepted` or `Rejected`
+   - Handle both success and error cases
+   - Include helpful error messages
+
+2. **Runtime Validation**
+   - Use Typia to validate all data
+   - Validate before sending events
+   - Validate command responses
+
+3. **Event Cleanup**
+   - Always cleanup event listeners
+   - Use the cleanup function returned by `listenToEvent`
+   - Clean up on window unload
+
+## What's Next?
+
+- Learn about [Core Concepts](/?path=/docs/📦-message-bus-〰️-🚧-beta-core-concepts--docs)
+- See the [Todo App Example](/?path=/docs/📦-message-bus-〰️-🚧-beta-example--docs)
+- Explore [Advanced Patterns](/?path=/docs/📦-message-bus-〰️-🚧-beta-advanced-patterns--docs)

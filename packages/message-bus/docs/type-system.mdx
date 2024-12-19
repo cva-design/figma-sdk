@@ -1,0 +1,222 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Type System" />
+
+# Type System
+
+The Message Bus uses TypeScript and Typia to provide both compile-time and runtime type safety for your plugin's communication.
+
+## Message Types
+
+### 1. Command Types
+
+Commands must define their input parameters and always return either an `Accepted` or `Rejected` response:
+
+~~~typescript
+import typia from 'typia';
+import type { Accepted, Rejected } from '@figma-plugin-sdk/message-bus';
+
+interface Commands {
+  // Command with parameters
+  SaveDocument: {
+    name: string;
+    content: string;
+  };
+
+  // Command without parameters
+  GetSelection: void;
+
+  // Command with validation annotations
+  UpdateOpacity: {
+    id: string;
+    /**
+     * @minimum 0
+     * @maximum 1
+     */
+    opacity: number;
+  };
+}
+
+// Create validation schemas
+const saveDocumentSchema = typia.createValidator<Commands['SaveDocument']>();
+const updateOpacitySchema = typia.createValidator<Commands['UpdateOpacity']>();
+
+// Example command handler
+messageBus.handleCommand('UpdateOpacity', async (data) => {
+  // Validate input
+  if (!updateOpacitySchema(data)) {
+    return {
+      status: 'rejected',
+      message: 'Invalid opacity value',
+      errors: [{ field: 'opacity', message: 'Must be between 0 and 1' }]
+    } satisfies Rejected;
+  }
+
+  try {
+    const node = figma.getNodeById(data.id);
+    if (!node) throw new Error('Node not found');
+    
+    node.opacity = data.opacity;
+    return {
+      status: 'accepted',
+      message: 'Opacity updated'
+    } satisfies Accepted;
+  } catch (error) {
+    return {
+      status: 'rejected',
+      message: error.message,
+      errors: [{ field: 'id', message: error.message }]
+    } satisfies Rejected;
+  }
+});
+~~~
+
+### 2. Event Types
+
+Events define their payload type and are validated at runtime:
+
+~~~typescript
+interface Events {
+  // Simple event
+  DocumentSaved: {
+    name: string;
+    timestamp: number;
+  };
+
+  // Event with validation annotations
+  NodeMoved: {
+    id: string;
+    /**
+     * @minimum 0
+     */
+    x: number;
+    /**
+     * @minimum 0
+     */
+    y: number;
+  };
+}
+
+// Create validation schemas
+const nodeMoveSchema = typia.createValidator<Events['NodeMoved']>();
+
+// Example event publishing with validation
+const payload = {
+  id: node.id,
+  x: node.x,
+  y: node.y
+};
+
+if (nodeMoveSchema(payload)) {
+  messageBus.publishEvent('NodeMoved', payload);
+} else {
+  console.error('Invalid node move payload:', payload);
+}
+~~~
+
+## Runtime Validation with Typia
+
+Typia provides powerful runtime validation with TypeScript-first annotations:
+
+~~~typescript
+interface ValidationExample {
+  // String validations
+  email: string & tags.Format<"email">;
+  uuid: string & tags.Format<"uuid">;
+  
+  // Numeric validations
+  age: number & tags.Type<"uint32"> & tags.Minimum<18>;
+  score: number & tags.Maximum<100>;
+  
+  // Array validations
+  tags: Array<string> & tags.MinItems<1>;
+  
+  // Object validations
+  metadata: {
+    /**
+     * @minLength 3
+     * @maxLength 50
+     */
+    title: string;
+    
+    /**
+     * @minimum 0
+     */
+    order: number;
+  };
+}
+
+const validator = typia.createValidator<ValidationExample>();
+~~~
+
+## Type Safety Benefits
+
+1. **Compile-time Checks**
+   - Catch typos in message names
+   - Ensure correct parameter types
+   - Prevent missing required fields
+
+2. **Runtime Validation**
+   - Validate data formats (email, UUID, etc.)
+   - Check numeric ranges
+   - Ensure array constraints
+   - Validate nested objects
+
+3. **Better DX**
+   - Full IDE support
+   - Autocomplete for message names
+   - Inline documentation
+   - Type hints
+
+## Best Practices
+
+1. **Centralize Types**
+   ~~~typescript
+   // types.ts
+   export interface Commands {
+     // All command types
+   }
+   
+   export interface Events {
+     // All event types
+   }
+   
+   // Export validators
+   export const validators = {
+     command1: typia.createValidator<Commands['Command1']>(),
+     event1: typia.createValidator<Events['Event1']>()
+   };
+   ~~~
+
+2. **Validate Everything**
+   ~~~typescript
+   // Validate command input
+   if (!validators.command1(data)) {
+     return {
+       status: 'rejected',
+       message: 'Invalid input',
+       errors: [{ field: 'data', message: 'Validation failed' }]
+     };
+   }
+
+   // Validate event payload
+   if (!validators.event1(payload)) {
+     console.error('Invalid event payload');
+     return;
+   }
+   ~~~
+
+3. **Use Type Assertions**
+   ~~~typescript
+   // Help TypeScript understand your types
+   return {
+     status: 'accepted',
+     message: 'Success'
+   } satisfies Accepted;
+   ~~~
+
+## Next Steps
+
+- See the [Todo App Example](/?path=/docs/📦-message-bus-〰️-🚧-beta-example--docs) for a complete implementation
+- Learn about [Advanced Patterns](/?path=/docs/📦-message-bus-〰️-🚧-beta-advanced-patterns--docs)
+- Explore [Internals](/?path=/docs/📦-message-bus-〰️-🚧-beta-internals--docs) for more details

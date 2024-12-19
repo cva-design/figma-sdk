@@ -1,0 +1,191 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Events" />
+
+# Events
+
+Events in the Message Bus are fire-and-forget messages that notify listeners about changes or important occurrences. Unlike commands, events can have multiple listeners and don't expect responses.
+
+## Defining Events
+
+Events are defined with TypeScript and Typia validation:
+
+```typescript
+import type { tags } from 'typia';
+import typia from 'typia';
+
+interface Events {
+  // Simple event with validation
+  NodeCreated: {
+    id: string & tags.Format<"uuid">;
+    type: 'FRAME' | 'GROUP' | 'RECTANGLE';
+    name: string & tags.MinLength<1>;
+  };
+
+  // Event with numeric constraints
+  NodeMoved: {
+    id: string & tags.Format<"uuid">;
+    /**
+     * New X position
+     * @minimum 0
+     */
+    x: number & tags.Minimum<0>;
+    /**
+     * New Y position
+     * @minimum 0
+     */
+    y: number & tags.Minimum<0>;
+  };
+
+  // Event with array validation
+  SelectionChanged: {
+    nodes: Array<{
+      id: string & tags.Format<"uuid">;
+      type: string;
+    }> & tags.MinItems<0>;
+  };
+}
+
+// Create validation schemas
+const validators = {
+  nodeCreated: typia.createValidate<Events['NodeCreated']>(),
+  nodeMoved: typia.createValidate<Events['NodeMoved']>(),
+  selectionChanged: typia.createValidate<Events['SelectionChanged']>()
+};
+```
+
+## Publishing Events
+
+Always validate events before publishing:
+
+```typescript
+// Example: Publishing a node creation event
+const payload = {
+  id: node.id,
+  type: node.type,
+  name: node.name
+};
+
+// Validate before publishing
+if (validators.nodeCreated(payload)) {
+  messageBus.publishEvent('NodeCreated', payload);
+} else {
+  console.error('Invalid event payload:', payload);
+}
+
+// Example: Publishing a move event
+const movePayload = {
+  id: node.id,
+  x: node.x,
+  y: node.y
+};
+
+if (validators.nodeMoved(movePayload)) {
+  messageBus.publishEvent('NodeMoved', movePayload);
+}
+```
+
+## Listening to Events
+
+Event listeners should handle validation failures gracefully:
+
+```typescript
+// Listen and validate
+messageBus.listenToEvent('NodeCreated', (event) => {
+  if (validators.nodeCreated(event)) {
+    console.log(`Node ${event.name} (${event.id}) created`);
+  }
+});
+
+// Multiple listeners for the same event
+const cleanup1 = messageBus.listenToEvent('NodeMoved', (event) => {
+  if (validators.nodeMoved(event)) {
+    updateUI(event.id, event.x, event.y);
+  }
+});
+
+const cleanup2 = messageBus.listenToEvent('NodeMoved', (event) => {
+  if (validators.nodeMoved(event)) {
+    saveToHistory(event);
+  }
+});
+
+// Clean up when done
+cleanup1();
+cleanup2();
+```
+
+## Best Practices
+
+1. **Always Validate**
+   ```typescript
+   // Create validator once
+   const validator = typia.createValidate<Events['MyEvent']>();
+
+   // Use in all publishers
+   if (validator(payload)) {
+     messageBus.publishEvent('MyEvent', payload);
+   }
+   ```
+
+2. **Type Constraints**
+   ```typescript
+   interface Events {
+     UserLoggedIn: {
+       // String validations
+       id: string & tags.Format<"uuid">;
+       email: string & tags.Format<"email">;
+       
+       // Numeric validations
+       loginCount: number & tags.Type<"uint32">;
+       
+       // Array validations
+       roles: Array<string> & tags.MinItems<1>;
+       
+       // Date validation
+       timestamp: number & tags.Type<"int64">;
+     };
+   }
+   ```
+
+3. **Event Cleanup**
+   ```typescript
+   // Group related cleanups
+   const cleanups: Array<() => void> = [];
+
+   cleanups.push(
+     messageBus.listenToEvent('Event1', handler1),
+     messageBus.listenToEvent('Event2', handler2)
+   );
+
+   // Clean up all at once
+   const cleanup = () => cleanups.forEach(fn => fn());
+   ```
+
+## Figma Events
+
+The Message Bus automatically handles Figma's native events:
+
+```typescript
+// These work automatically
+messageBus.listenToEvent('SelectionChanged', () => {
+  const selection = figma.currentPage.selection;
+  
+  const payload = {
+    nodes: selection.map(node => ({
+      id: node.id,
+      type: node.type
+    }))
+  };
+
+  if (validators.selectionChanged(payload)) {
+    messageBus.publishEvent('SelectionChanged', payload);
+  }
+});
+```
+
+## Next Steps
+
+- Learn about [Commands](/?path=/docs/📦-message-bus-〰️-🚧-beta-commands--docs)
+- See the [Todo App Example](/?path=/docs/📦-message-bus-〰️-🚧-beta-example--docs)
+- Explore [Advanced Patterns](/?path=/docs/📦-message-bus-〰️-🚧-beta-advanced-patterns--docs)
