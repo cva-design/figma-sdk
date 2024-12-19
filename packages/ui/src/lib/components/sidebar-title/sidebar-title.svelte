@@ -54,10 +54,10 @@
 	.header--layerName--levelOne {
 		// padding-left: var(--spacer-2);
 		font-family: var(--text-body-large-strong-font-family);
-		font-size: var(--text-body-large-strong-font-size);
+		font-size: var(--text-body-medium-strong-font-size);
 		font-weight: var(--text-body-large-strong-font-weight);
 		letter-spacing: var(--text-body-large-strong-letter-spacing);
-		line-height: var(--text-body-large-strong-line-height);
+		// line-height: var(--text-body-large-strong-line-height);
 	}
 
 	.header--layerName--levelTwo {
