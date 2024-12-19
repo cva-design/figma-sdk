@@ -146,30 +146,19 @@
 
 	// New helper function for menu positioning
 	function positionMenu(targetItem: HTMLElement) {
-		const menuRect = menuList.getBoundingClientRect();
 		const buttonRect = menuButton.getBoundingClientRect();
-		const windowHeight = window.innerHeight;
-
-		// Calculate available space above and below
 		const spaceAbove = buttonRect.top;
-		const spaceBelow = windowHeight - buttonRect.bottom;
 
-		// Reset menu size
-		menuList.style.maxHeight = '';
+		// Always position menu above the button
+		menuList.style.bottom = '34px'; // Fixed position above button
+		menuList.style.top = 'auto';
+		menuList.style.maxHeight = '472px';
 
-		// Determine if menu should open upward or downward
-		if (spaceBelow < menuRect.height && spaceAbove > spaceBelow) {
-			// Open upward
-			const maxHeight = Math.min(spaceAbove - 8, menuRect.height);
-			menuList.style.maxHeight = `${maxHeight}px`;
-			menuList.style.top = `auto`;
-			menuList.style.bottom = `${buttonRect.height + 4}px`;
-		} else {
-			// Open downward
-			const maxHeight = Math.min(spaceBelow - 8, menuRect.height);
-			menuList.style.maxHeight = `${maxHeight}px`;
-			menuList.style.top = `${buttonRect.height + 4}px`;
-			menuList.style.bottom = `auto`;
+		// Scroll to selected item
+		if (targetItem) {
+			setTimeout(() => {
+				menuList.scrollTop = targetItem.offsetTop;
+			}, 0);
 		}
 	}
 
@@ -359,7 +348,7 @@
 	.menu {
 		position: absolute;
 		left: 0;
-		margin-top: 0;
+		bottom: 34px; // Forces menu to open upwards
 		width: 100%;
 		box-sizing: border-box;
 		-webkit-font-smoothing: antialiased;
