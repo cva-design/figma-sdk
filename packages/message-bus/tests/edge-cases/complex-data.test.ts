@@ -1,13 +1,11 @@
-import { MessageBus } from '../../src';
-import type { JsonObject, JsonValue } from 'type-fest';
+import { MessageBus } from '#source';
 import { describe, expect, it, vi } from 'vitest';
 import { createMockListener } from '../utils/helpers';
 
-interface BaseNodeOperation extends JsonObject {
+interface BaseNodeOperation {
   id: string;
   type: string;
   children?: BaseNodeOperation[];
-  [key: string]: JsonValue | BaseNodeOperation[] | undefined;
 }
 
 interface NodeOperation extends BaseNodeOperation {
@@ -16,12 +14,10 @@ interface NodeOperation extends BaseNodeOperation {
 
 interface NodeCommands {
   CreateNode: NodeOperation;
-  [key: string]: JsonObject;
 }
 
 interface NodeEvents {
   NodeCreated: NodeOperation;
-  [key: string]: JsonObject;
 }
 
 describe('Complex Data Handling', () => {
@@ -64,7 +60,7 @@ describe('Complex Data Handling', () => {
     });
 
     it('should handle empty collections', async () => {
-      const bus = new MessageBus<NodeCommands>();
+      const bus = new MessageBus<NodeCommands, NodeEvents>();
       const handler = vi
         .fn()
         .mockImplementation(() => ({ status: 'accepted' as const }));
@@ -84,7 +80,7 @@ describe('Complex Data Handling', () => {
 
   describe('Group Operations', () => {
     it('should handle group operations with mixed node types', async () => {
-      const bus = new MessageBus<NodeCommands>();
+      const bus = new MessageBus<NodeCommands, NodeEvents>();
       const handler = vi
         .fn()
         .mockImplementation(() => ({ status: 'accepted' as const }));
@@ -112,7 +108,7 @@ describe('Complex Data Handling', () => {
 
   describe('Large Payloads', () => {
     it('should handle large nested structures', async () => {
-      const bus = new MessageBus<NodeCommands>();
+      const bus = new MessageBus<NodeCommands, NodeEvents>();
       const handler = vi
         .fn()
         .mockImplementation(() => ({ status: 'accepted' as const }));
@@ -146,7 +142,7 @@ describe('Complex Data Handling', () => {
     });
 
     it('should handle Map objects and complex structures', async () => {
-      const bus = new MessageBus<NodeCommands>();
+      const bus = new MessageBus<NodeCommands, NodeEvents>();
       const handler = vi
         .fn()
         .mockImplementation(() => ({ status: 'accepted' as const }));
@@ -171,7 +167,7 @@ describe('Complex Data Handling', () => {
 
   describe('Deep Cloning', () => {
     it('should handle deep cloning of complex objects', async () => {
-      const bus = new MessageBus<NodeCommands>();
+      const bus = new MessageBus<NodeCommands, NodeEvents>();
       const handler = vi.fn().mockImplementation((data: NodeOperation) => {
         // Modify the input data to ensure we're working with a clone
         if (data.children) {

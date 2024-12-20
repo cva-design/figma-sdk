@@ -2,6 +2,7 @@
   "name": "@figma-plugin-sdk/message-bus",
   "version": "0.0.0",
   "description": "A browser package.",
+  "type": "module",
   "keywords": ["node", "lib", "esm"],
   "author": "moon",
   "license": "MIT",
@@ -10,48 +11,45 @@
     "check": "na check:biome && na check:types",
     "check:biome": "biome check --fix ./src",
     "check:types": "tsc --build tsconfig.project.json --pretty --verbose",
-    "build": "tsc --build tsconfig.project.json",
+    "build": "na prepare && tsc -b tsconfig.build.json",
     "test": "vitest run",
-    "test:watch": "vitest",
-    "test:coverage": "vitest run --coverage",
+    "test:watch": "vitest --watch",
+    "test:coverage": "vitest --coverage",
     "test:ui": "vitest --ui",
-    "test:validation": "tsc --build tsconfig.project.json && vitest run tests/validation/",
+    "test:validation": "tsc --build tsconfig.project.json && vitest tests/validation/",
     "prepare": "ts-patch install && typia patch"
-  },
-  "packemon": {
-    "format": ["esm"],
-    "platform": "browser"
   },
   "engines": {
     "bun": ">=1.0.0"
   },
-  "files": ["esm/**/*", "lib/**/*", "src/**/*"],
-  "main": "./lib/index.js",
-  "module": "./esm/index.js",
-  "types": "./lib/index.d.ts",
+  "files": ["dist", "src"],
+  "main": "./dist/lib/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/lib/index.d.ts",
+  "imports": {
+    "#source": "./src/index.ts",
+    "#source/*": "./src/*",
+    "#tests": "./tests/index.ts",
+    "#tests/*": "./tests/*"
+  },
   "exports": {
     "./package.json": "./package.json",
     ".": {
-      "types": "./lib/index.d.ts",
-      "browser": {
-        "types": "./esm/index.d.ts",
-        "module": "./esm/index.js",
-        "import": "./esm/index.js",
-        "default": "./lib/index.js"
-      },
-      "default": "./lib/index.js"
+      "types": "./dist/lib/index.d.ts",
+      "import": "./dist/esm/index.js",
+      "require": "./dist/lib/index.js"
     }
   },
   "devDependencies": {
-    "@figma-plugin-sdk/message-bus": "./src",
-    "@types/bun": "latest",
+    "@ryoppippi/unplugin-typia": "^1.1.0",
+    "@types/bun": "^1.1.14",
+    "@vitest/coverage-v8": "^2.1.8",
+    "@vitest/ui": "^2.1.8",
     "ts-patch": "^3.3.0",
     "type-fest": "^4.30.0",
-    "typescript": "~5.7.2",
+    "typescript": "^5.7.2",
     "typia": "^7.4.1",
-    "vitest": "latest",
-    "@vitest/coverage-v8": "latest",
-    "@vitest/ui": "latest"
+    "vitest": "^2.1.8"
   },
   "peerDependencies": {
     "typia": "^7.4.1"

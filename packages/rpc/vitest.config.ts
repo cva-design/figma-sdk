@@ -10,5 +10,5 @@ export default mergeConfig(
       setupFiles: ['./tests/setup.ts'],
       include: ['./tests/**/*.test.ts'],
     },
-  })
-); 
+  }),
+);

@@ -2,9 +2,9 @@ import type { JsonObject } from 'type-fest';
 import type { Handler, Listener } from './message-handling';
 
 /**
- * Command registry type
+ * Command Handlers registry type
  */
-export type CommandRegistry<
+export type HandlersRegistry<
   T extends Record<string, JsonObject>,
   Scope extends string = '',
 > = {
@@ -12,9 +12,9 @@ export type CommandRegistry<
 };
 
 /**
- * Event registry type
+ * Event Listeners registry type
  */
-export type EventRegistry<
+export type ListenersRegistry<
   T extends Record<string, JsonObject>,
   Scope extends string = '',
 > = {

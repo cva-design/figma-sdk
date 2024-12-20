@@ -1,34 +1,11 @@
-import type { JsonObject, JsonValue } from 'type-fest';
 import { describe, expect, it, vi } from 'vitest';
 import { MessageBus } from '../../src';
-import { createMockListener } from '../utils/helpers';
-
-interface TestCommand extends JsonObject {
-  id: string;
-  data: string;
-  [key: string]: JsonValue;
-}
-
-interface TestCommands {
-  TestCommand: TestCommand;
-  [key: string]: JsonObject;
-}
-
-interface TestEvent extends JsonObject {
-  id: string;
-  data: string;
-  [key: string]: JsonValue;
-}
-
-interface TestEvents {
-  TestEvent: TestEvent;
-  [key: string]: JsonObject;
-}
+import { TestCommands, TestEvents, createMockListener, createTestCommand, createTestEvent } from '../utils';
 
 describe('Load Testing', () => {
   describe('High Message Volume', () => {
     it('should handle high volume of commands', async () => {
-      const bus = new MessageBus<TestCommands>();
+      const bus = new MessageBus<TestCommands, TestEvents>();
       const handler = vi
         .fn()
         .mockImplementation(() => ({ status: 'accepted' as const }));
@@ -37,10 +14,7 @@ describe('Load Testing', () => {
       const count = 1000;
       const commands = Array(count)
         .fill(0)
-        .map((_, i) => ({
-          id: `cmd-${i}`,
-          data: `data-${i}`,
-        }));
+        .map((_, i) => createTestCommand(`cmd-${i}`, `data-${i}`));
 
       const results = await Promise.all(
         commands.map((cmd) => bus.sendCommand('TestCommand', cmd)),
@@ -60,10 +34,7 @@ describe('Load Testing', () => {
       const count = 1000;
       const events = Array(count)
         .fill(0)
-        .map((_, i) => ({
-          id: `evt-${i}`,
-          data: `data-${i}`,
-        }));
+        .map((_, i) => createTestEvent(`evt-${i}`, `data-${i}`));
 
       for (const evt of events) {
         bus.publishEvent('TestEvent', evt);
@@ -110,7 +81,7 @@ describe('Load Testing', () => {
 
   describe('Operation Batching', () => {
     it('should efficiently batch operations', async () => {
-      const bus = new MessageBus<TestCommands>();
+      const bus = new MessageBus<TestCommands, TestEvents>();
       const handler = vi
         .fn()
         .mockImplementation(() => ({ status: 'accepted' as const }));
@@ -143,10 +114,10 @@ describe('Load Testing', () => {
     });
 
     it('should maintain order in batched operations', async () => {
-      const bus = new MessageBus<TestCommands>();
+      const bus = new MessageBus<TestCommands, TestEvents>();
       const processedIds: string[] = [];
 
-      const handler = vi.fn().mockImplementation((data: TestCommand) => {
+      const handler = vi.fn().mockImplementation((data: TestCommands['TestCommand']) => {
         processedIds.push(data.id);
         return { status: 'accepted' as const };
       });

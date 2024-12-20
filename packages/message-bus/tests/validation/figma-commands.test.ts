@@ -7,13 +7,8 @@
  * ```
  */
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { MessageBus } from '../../esm';
-import { FigmaIntegration } from '@/integrations/figma';
-import {
-  createTestBus,
-  createMockListener,
-} from '../utils/helpers';
-import type { FigmaCommands, FigmaEvents } from '../utils/types';
+import { createTestBus, createMockListener } from '../utils';
+import { FigmaEvents, FigmaIntegration, MessageBus } from '#source';
 
 // Mock Figma API
 const mockFigma = {
@@ -33,14 +28,14 @@ const mockFigma = {
   },
 };
 
-describe.skip('Figma Commands Validation', () => {
-  let messageBus: MessageBus<FigmaCommands, FigmaEvents>;
-  let figmaIntegration: FigmaIntegration<FigmaCommands, FigmaEvents>;
+describe('Figma Commands Validation', () => {
+  let messageBus: MessageBus<{}, FigmaEvents>;
+  let figmaIntegration: FigmaIntegration;
 
   beforeEach(() => {
     vi.clearAllMocks();
     (global as any).figma = mockFigma;
-    const { bus } = createTestBus<FigmaCommands, FigmaEvents>();
+    const { bus } = createTestBus<{}, FigmaEvents>();
     messageBus = bus;
     figmaIntegration = new FigmaIntegration(messageBus);
     figmaIntegration.initialize();
@@ -84,4 +79,4 @@ describe.skip('Figma Commands Validation', () => {
 
     expect(commandListener).toHaveBeenCalledWith(validCommand);
   });
-}); 
+});

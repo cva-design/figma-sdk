@@ -1,29 +1,6 @@
-import type { JsonObject, JsonValue } from 'type-fest';
-import { describe, expect, it, vi } from 'vitest';
-import { MessageBus } from '../../src';
-import { createMockListener } from '../utils/helpers';
-
-interface TestCommand extends JsonObject {
-  id: string;
-  data: string;
-  [key: string]: JsonValue;
-}
-
-interface TestCommands {
-  TestCommand: TestCommand;
-  [key: string]: JsonObject;
-}
-
-interface TestEvent extends JsonObject {
-  id: string;
-  data: string;
-  [key: string]: JsonValue;
-}
-
-interface TestEvents {
-  TestEvent: TestEvent;
-  [key: string]: JsonObject;
-}
+import { describe, expect, it } from 'vitest';
+import { MessageBus } from '#source';
+import { TestCommands, TestEvents, createMockListener } from '../utils';
 
 describe('Memory Management', () => {
   describe('Cleanup', () => {

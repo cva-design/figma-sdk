@@ -31,8 +31,27 @@
       "require": "./dist/lib/index.js"
     }
   },
-  "dependencies": {},
+  "imports": {
+    "#source": "./src/index.ts",
+    "#source/*": "./src/*",
+    "#tests": "./tests/index.ts",
+    "#tests/*": "./tests/*"
+  },
+  "dependencies": {
+    "@figma-plugin-sdk/message-bus": "^0.0.1"
+  },
   "devDependencies": {
-    "type-fest": "^4.30.1"
+    "@ryoppippi/unplugin-typia": "^1.1.0",
+    "@types/bun": "^1.1.14",
+    "@vitest/coverage-v8": "^2.1.8",
+    "@vitest/ui": "^2.1.8",
+    "ts-patch": "^3.3.0",
+    "type-fest": "^4.30.0",
+    "typescript": "^5.7.2",
+    "typia": "^7.4.1",
+    "vitest": "^2.1.8"
+  },
+  "peerDependencies": {
+    "typia": "^7.4.1"
   }
 }

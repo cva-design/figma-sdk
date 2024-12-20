@@ -1,7 +1,9 @@
 import type { JsonObject } from 'type-fest';
 
 /**
- * Deep clone an object
+ * Deep clones any value, handling special types like Date, RegExp, Map, Set, Error, and TypedArrays
+ * @param obj The value to clone
+ * @returns A deep clone of the input value
  */
 export function deepClone<T>(obj: T): T {
   if (obj === null || typeof obj !== 'object') {
@@ -77,7 +79,10 @@ interface SerializedError {
 }
 
 /**
- * Custom JSON replacer for handling special types
+ * Custom JSON replacer that handles special types during serialization
+ * @param _ The key being processed (unused)
+ * @param value The value being serialized
+ * @returns The processed value ready for serialization
  */
 export function jsonReplacer(_: string, value: unknown): unknown {
   if (value === undefined) {
@@ -132,7 +137,10 @@ export function jsonReplacer(_: string, value: unknown): unknown {
 }
 
 /**
- * Custom JSON reviver for handling special types
+ * Custom JSON reviver that restores special types during deserialization
+ * @param _ The key being processed (unused)
+ * @param value The value being deserialized
+ * @returns The restored value
  */
 export function jsonReviver(_: string, value: unknown): unknown {
   if (
@@ -179,21 +187,31 @@ export function jsonReviver(_: string, value: unknown): unknown {
 }
 
 /**
- * Serialize an object to JSON with special type handling
+ * Serializes any value to a JSON string, handling special types
+ * @param obj The value to serialize
+ * @returns A JSON string representation of the value
  */
 export function serialize<T>(obj: T): string {
   return JSON.stringify(obj, jsonReplacer);
 }
 
 /**
- * Deserialize JSON with special type handling
+ * Deserializes a JSON string back into its original form, restoring special types
+ * @param json The JSON string to deserialize
+ * @returns The restored value
+ * @throws {Error} If the input is not a string
  */
 export function deserialize<T>(json: string): T {
+  if (typeof json !== 'string') {
+    throw new Error('Input must be a string');
+  }
   return JSON.parse(json, jsonReviver) as T;
 }
 
 /**
- * Check if an object is serializable
+ * Checks if a value can be serialized to JSON
+ * @param obj The value to check
+ * @returns True if the value can be serialized, false otherwise
  */
 export function isSerializable(obj: unknown): boolean {
   try {
@@ -205,14 +223,18 @@ export function isSerializable(obj: unknown): boolean {
 }
 
 /**
- * Convert an object to a serializable form
+ * Converts an object to a serializable form
+ * @param obj The object to convert
+ * @returns A serializable version of the object
  */
 export function toSerializable<T extends JsonObject>(obj: T): JsonObject {
   return JSON.parse(JSON.stringify(obj, jsonReplacer));
 }
 
 /**
- * Convert a serialized object back to its original form
+ * Converts a serialized object back to its original form
+ * @param obj The serialized object to convert
+ * @returns The restored object
  */
 export function fromSerializable<T extends JsonObject>(obj: JsonObject): T {
   return JSON.parse(JSON.stringify(obj), jsonReviver) as T;

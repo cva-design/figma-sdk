@@ -2,15 +2,10 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "composite": true,
-    "declaration": true,
-    "declarationMap": true,
-    "sourceMap": true,
-    "rootDir": "./src",
-    "outDir": "./.tsc",
-    "emitDeclarationOnly": false,
-    "incremental": true,
-    "tsBuildInfoFile": "./.tsc/project.tsbuildinfo"
+    "declarationDir": "./.tsc/types",
+    "tsBuildInfoFile": "./.tsc/project.tsbuildinfo",
+    "rootDir": "./src"
   },
-  "include": ["./src/**/*"],
-  "exclude": ["tests/**/*", "docs/**/*"]
+  "include": ["src/**/*"],
+  "exclude": ["tests/**/*"]
 }

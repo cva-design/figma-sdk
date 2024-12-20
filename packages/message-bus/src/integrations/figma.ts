@@ -1,18 +1,14 @@
-import type { JsonObject } from 'type-fest';
 import type { MessageBus } from '../MessageBus';
-import type { FigmaEventMap } from '../types/figma-events';
+import type { FigmaEvents } from '../types/figma-events';
 
 // type ArgFreeEventType = keyof typeof FigmaEventTypes;
 
-export class FigmaIntegration<
-  Commands extends Record<string, JsonObject>,
-  Events extends Record<string, JsonObject> & FigmaEventMap,
-> {
+export class FigmaIntegration {
   private cleanupFns: Array<() => void> = [];
-  private messageBus: MessageBus<Commands, Events & FigmaEventMap>;
+  private messageBus: MessageBus<{}, FigmaEvents>;
   private eventHandlers: Map<string, () => void> = new Map();
 
-  constructor(messageBus: MessageBus<Commands, Events & FigmaEventMap>) {
+  constructor(messageBus: MessageBus<{}, FigmaEvents>) {
     this.messageBus = messageBus;
   }
 
@@ -46,10 +42,10 @@ export class FigmaIntegration<
   /**
    * Set up a Figma event listener
    */
-  private setupEventListener<E extends keyof Events>(
+  private setupEventListener<E extends keyof FigmaEvents>(
     figmaEvent: ArgFreeEventType,
     busEvent: E,
-    payloadFactory: () => Events[E],
+    payloadFactory: () => FigmaEvents[E],
     isUIEvent = false,
   ): void {
     const handler = () => {
@@ -119,10 +115,10 @@ export class FigmaIntegration<
     const errorMessage =
       error instanceof Error ? error.message : 'Unknown error';
     this.messageBus.publishEvent(
-      'Error' as keyof Events,
+      'Error' as keyof FigmaEvents,
       {
         error: errorMessage,
-      } as Events[keyof Events] & FigmaEventMap['Error'],
+      } as FigmaEvents[keyof FigmaEvents] & FigmaEvents['Error'],
     );
   }
 
@@ -148,83 +144,85 @@ export class FigmaIntegration<
         switch (event.type) {
           case 'run':
             this.messageBus.publishEvent(
-              'PluginRun' as keyof Events,
+              'PluginRun' as keyof FigmaEvents,
               {
                 command: (event.command as string) || '',
                 parameters: (event.parameters as Record<string, unknown>) || {},
-              } as Events[keyof Events] & FigmaEventMap['PluginRun'],
+              } as FigmaEvents[keyof FigmaEvents] & FigmaEvents['PluginRun'],
             );
             break;
 
           case 'close':
             this.messageBus.publishEvent(
-              'PluginClose' as keyof Events,
-              {} as Events[keyof Events] & FigmaEventMap['PluginClose'],
+              'PluginClose' as keyof FigmaEvents,
+              {} as FigmaEvents[keyof FigmaEvents] & FigmaEvents['PluginClose'],
             );
             break;
 
           case 'timerstart':
             this.messageBus.publishEvent(
-              'TimerStart' as keyof Events,
+              'TimerStart' as keyof FigmaEvents,
               {
                 id: (event.id as string) || '',
-              } as Events[keyof Events] & FigmaEventMap['TimerStart'],
+              } as FigmaEvents[keyof FigmaEvents] & FigmaEvents['TimerStart'],
             );
             break;
 
           case 'timerstop':
             this.messageBus.publishEvent(
-              'TimerStop' as keyof Events,
+              'TimerStop' as keyof FigmaEvents,
               {
                 id: (event.id as string) || '',
-              } as Events[keyof Events] & FigmaEventMap['TimerStop'],
+              } as FigmaEvents[keyof FigmaEvents] & FigmaEvents['TimerStop'],
             );
             break;
 
           case 'timerpause':
             this.messageBus.publishEvent(
-              'TimerPause' as keyof Events,
+              'TimerPause' as keyof FigmaEvents,
               {
                 id: (event.id as string) || '',
-              } as Events[keyof Events] & FigmaEventMap['TimerPause'],
+              } as FigmaEvents[keyof FigmaEvents] & FigmaEvents['TimerPause'],
             );
             break;
 
           case 'timerresume':
             this.messageBus.publishEvent(
-              'TimerResume' as keyof Events,
+              'TimerResume' as keyof FigmaEvents,
               {
                 id: (event.id as string) || '',
-              } as Events[keyof Events] & FigmaEventMap['TimerResume'],
+              } as FigmaEvents[keyof FigmaEvents] & FigmaEvents['TimerResume'],
             );
             break;
 
           case 'visibility':
             this.messageBus.publishEvent(
-              'UIVisibilityChanged' as keyof Events,
+              'UIVisibilityChanged' as keyof FigmaEvents,
               {
                 visible: Boolean(event.visible),
-              } as Events[keyof Events] & FigmaEventMap['UIVisibilityChanged'],
+              } as FigmaEvents[keyof FigmaEvents] &
+                FigmaEvents['UIVisibilityChanged'],
             );
             break;
 
           case 'resize':
             this.messageBus.publishEvent(
-              'UIResized' as keyof Events,
+              'UIResized' as keyof FigmaEvents,
               {
                 width: Number(event.width) || 0,
                 height: Number(event.height) || 0,
-              } as Events[keyof Events] & FigmaEventMap['UIResized'],
+              } as FigmaEvents[keyof FigmaEvents] & FigmaEvents['UIResized'],
             );
             break;
 
           case 'command':
             this.messageBus.publishEvent(
-              'CommandExecuted' as keyof Events,
+              'CommandExecuted' as keyof FigmaEvents,
               {
                 command: (event.command as string) || '',
                 parameters: (event.parameters as Record<string, unknown>) || {},
-              } as Events[keyof Events] & FigmaEventMap['CommandExecuted'],
+              } as FigmaEvents[keyof FigmaEvents] &
+                FigmaEvents['CommandExecuted'],
             );
             break;
 
@@ -242,27 +240,27 @@ export class FigmaIntegration<
     // Figma Events
     this.setupEventListener(
       'selectionchange',
-      'SelectionChanged' as keyof Events,
+      'SelectionChanged' as keyof FigmaEvents,
       () =>
         ({
           nodes: figma.currentPage.selection.map((node) => ({
             id: node.id,
             type: node.type,
           })),
-        }) as Events[keyof Events] & FigmaEventMap['SelectionChanged'],
+        }) as FigmaEvents[keyof FigmaEvents] & FigmaEvents['SelectionChanged'],
     );
 
     // Handle viewport changes through the viewport property
     const handleViewportChange = () => {
       this.messageBus.publishEvent(
-        'ViewportChanged' as keyof Events,
+        'ViewportChanged' as keyof FigmaEvents,
         {
           center: {
             x: figma.viewport.center.x,
             y: figma.viewport.center.y,
           },
           zoom: figma.viewport.zoom,
-        } as Events[keyof Events] & FigmaEventMap['ViewportChanged'],
+        } as FigmaEvents[keyof FigmaEvents] & FigmaEvents['ViewportChanged'],
       );
     };
 
@@ -274,7 +272,7 @@ export class FigmaIntegration<
 
     this.setupEventListener(
       'currentpagechange',
-      'ContextInitialized' as keyof Events,
+      'ContextInitialized' as keyof FigmaEvents,
       () =>
         ({
           viewport: {
@@ -288,12 +286,13 @@ export class FigmaIntegration<
             id: node.id,
             type: node.type,
           })),
-        }) as Events[keyof Events] & FigmaEventMap['ContextInitialized'],
+        }) as FigmaEvents[keyof FigmaEvents] &
+          FigmaEvents['ContextInitialized'],
     );
 
     // Initialize context
     this.messageBus.publishEvent(
-      'ContextInitialized' as keyof Events,
+      'ContextInitialized' as keyof FigmaEvents,
       {
         viewport: {
           center: {
@@ -306,7 +305,7 @@ export class FigmaIntegration<
           id: node.id,
           type: node.type,
         })),
-      } as Events[keyof Events] & FigmaEventMap['ContextInitialized'],
+      } as FigmaEvents[keyof FigmaEvents] & FigmaEvents['ContextInitialized'],
     );
   }
 }

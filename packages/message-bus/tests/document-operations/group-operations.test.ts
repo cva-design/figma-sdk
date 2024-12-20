@@ -1,6 +1,5 @@
-import type { JsonObject, JsonValue } from 'type-fest';
+import type { JsonObject } from 'type-fest';
 import { describe, expect, it, vi } from 'vitest';
-import { MessageBus } from '../../src';
 import { createTestBus, createMockListener } from '../utils/helpers';
 
 // Base interface for node properties

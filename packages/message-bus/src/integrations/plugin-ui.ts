@@ -1,10 +1,10 @@
-import type { JsonObject } from 'type-fest';
 import type { MessageBus } from '../MessageBus';
-import type { FigmaEventMap } from '../types/figma-events';
+import type { CommandsDefinition, EventsDefinition } from '../types';
+import type { FigmaEvents } from '../types/figma-events';
 
 export class PluginUIIntegration<
-  Commands extends Record<string, JsonObject>,
-  Events extends Record<string, JsonObject> & FigmaEventMap,
+  Commands extends CommandsDefinition<Commands>,
+  Events extends EventsDefinition<Events>,
 > {
   private eventHandlers: Map<string, (event: unknown) => void> = new Map();
   private errorHandlers: Set<(error: Error) => void> = new Set();
@@ -15,7 +15,7 @@ export class PluginUIIntegration<
   private messageHandlers: Set<(message: unknown) => void> = new Set();
 
   constructor(
-    private readonly messageBus: MessageBus<Commands, Events & FigmaEventMap>,
+    private readonly messageBus: MessageBus<Commands, Events & FigmaEvents>,
   ) {
     // Subscribe to message bus events that need to be forwarded to the UI
     this.messageBus.listenToEvent('Error' as keyof Events, (event) => {

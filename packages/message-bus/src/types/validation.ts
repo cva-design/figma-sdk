@@ -6,14 +6,16 @@ import type { JsonObject } from 'type-fest';
 export interface ValidationError {
   field: string;
   message: string;
+  value?: unknown;
 }
 
 /**
  * Validation result type
  */
-export interface ValidationResult<T extends JsonObject> {
+export interface ValidationResult<T = unknown> {
   success: boolean;
   errors?: [ValidationError, ...ValidationError[]];
+  data?: T;
 }
 
 /**

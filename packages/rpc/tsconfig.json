@@ -12,11 +12,13 @@
     ],
     "paths": {
       "@figma-plugin-sdk/message-bus": [
-        "./src/index.ts"
+        "../message-bus/src/index.ts"
       ],
       "@figma-plugin-sdk/message-bus/*": [
-        "./src/*"
-      ]
+        "../message-bus/src/*"
+      ],
+      "#source*": ["./src*"],
+      "#tests*": ["./tests*"]
     },
   },
   "include": [

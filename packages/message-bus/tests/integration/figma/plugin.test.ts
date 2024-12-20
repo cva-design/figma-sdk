@@ -1,13 +1,9 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { MessageBus } from '@/index';
-import { FigmaIntegration } from '@/integrations/figma';
+import { FigmaEvents, FigmaIntegration, MessageBus } from '#source';
 import {
   createTestBus,
-  createValidationError,
-  generateUUID,
   createMockListener,
-} from '@tests/utils/helpers';
-import type { FigmaCommands, FigmaEvents } from '@tests/utils/types';
+} from '#tests/utils/helpers';
 
 // Mock Figma API
 const mockFigma = {
@@ -19,7 +15,7 @@ const mockFigma = {
   on: vi.fn(),
   off: vi.fn(),
   currentPage: {
-    selection: [],
+    selection: [] as SceneNode[],
   },
   viewport: {
     center: { x: 0, y: 0 },
@@ -28,14 +24,14 @@ const mockFigma = {
 };
 
 describe('Plugin Lifecycle', () => {
-  let messageBus: MessageBus<FigmaCommands, FigmaEvents>;
-  let figmaIntegration: FigmaIntegration<FigmaCommands, FigmaEvents>;
+  let messageBus: MessageBus<{}, FigmaEvents>;
+  let figmaIntegration: FigmaIntegration;
   let messageHandler: (message: unknown) => void;
 
   beforeEach(() => {
     vi.clearAllMocks();
     (global as any).figma = mockFigma;
-    const { bus } = createTestBus<FigmaCommands, FigmaEvents>();
+    const { bus } = createTestBus<{}, FigmaEvents>();
     messageBus = bus;
     figmaIntegration = new FigmaIntegration(messageBus);
 
@@ -158,7 +154,7 @@ describe('Plugin Lifecycle', () => {
 
       // Simulate selection change
       mockFigma.currentPage.selection = [{ id: 'node1', type: 'RECTANGLE' }];
-      selectionHandler();
+      selectionHandler!();
 
       expect(listener).toHaveBeenCalledWith({
         nodes: mockFigma.currentPage.selection,

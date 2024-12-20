@@ -1,80 +1,52 @@
 import type { JsonObject, JsonValue } from 'type-fest';
 import { describe, expect, it, vi } from 'vitest';
 import { MessageBus } from '../../src';
-import { createMockListener } from '../utils/helpers';
-
-interface TestCommand extends JsonObject {
-  required: string;
-  [key: string]: JsonValue;
-}
-
-interface TestCommands {
-  TestCommand: TestCommand;
-  [key: string]: JsonObject;
-}
-
-interface TestEvents {
-  ErrorEvent: { error: string; [key: string]: JsonValue };
-  ValidationError: { field: string; message: string; [key: string]: JsonValue };
-  [key: string]: JsonObject;
-}
-
-interface ValidationError {
-  field: string;
-  message: string;
-}
-
-interface ValidationResult {
-  success: boolean;
-  errors?: ValidationError[];
-}
-
-// Mock validator for testing
-const createMockValidator = (validateFn: (data: any) => ValidationResult) => ({
-  schemas: new Map(),
-  validate: validateFn,
-  validateCommand: (command: string, data: any) => validateFn(data),
-  get: () => undefined,
-  register: () => {},
-  unregister: () => {},
-  formatErrors: (errors: ValidationError[]) => errors,
-});
+import {
+  ErrorEvents,
+  TestCommands,
+  TestEvents,
+  ValidationError,
+  createErrorEvent,
+  createMockListener,
+  createMockValidator,
+  createTestCommand,
+} from '../utils';
 
 describe('Error Handling', () => {
   describe('Runtime Errors', () => {
     it('should handle not found errors', async () => {
-      const bus = new MessageBus<TestCommands>();
-      const result = await bus.sendCommand('TestCommand', { required: 'test' });
+      const bus = new MessageBus<TestCommands, TestEvents>();
+      const result = await bus.sendCommand('TestCommand', createTestCommand('test', 'test'));
 
       expect(result.status).toBe('rejected');
       expect(result.message).toContain('No handler registered');
     });
 
     it('should broadcast error events', () => {
-      const bus = new MessageBus<Record<string, JsonObject>, TestEvents>();
+      const bus = new MessageBus<Record<string, JsonObject>, ErrorEvents>();
       const listener = createMockListener();
 
       bus.listenToEvent('ErrorEvent', listener);
-      bus.publishEvent('ErrorEvent', { error: 'Test error' });
+      bus.publishEvent('ErrorEvent', createErrorEvent('Test error'));
 
       expect(listener).toHaveBeenCalledWith({ error: 'Test error' });
     });
 
     it('should handle missing Figma API', async () => {
-      const bus = new MessageBus<TestCommands>();
+      const bus = new MessageBus<TestCommands, TestEvents>();
       const handler = vi.fn().mockImplementation(() => {
         throw new Error('Figma API not available');
       });
 
       bus.handleCommand('TestCommand', handler);
-      const result = await bus.sendCommand('TestCommand', { required: 'test' });
+      const result = await bus.sendCommand('TestCommand', createTestCommand('test', 'test'));
 
       expect(result.status).toBe('rejected');
       expect(result.message).toBe('Figma API not available');
     });
 
     it('should handle circular references', async () => {
-      const bus = new MessageBus<TestCommands>();
+      const bus = new MessageBus<TestCommands, TestEvents>();
       const circular: any = { prop: 'value' };
       circular.self = circular;
 
@@ -83,14 +55,14 @@ describe('Error Handling', () => {
       });
 
       bus.handleCommand('TestCommand', handler);
-      const result = await bus.sendCommand('TestCommand', { required: 'test' });
+      const result = await bus.sendCommand('TestCommand', createTestCommand('test', 'test'));
 
       expect(result.status).toBe('accepted');
       expect(() => JSON.stringify(result)).toThrow(/cyclic|circular/i);
     });
 
     it('should handle invalid JSON', async () => {
-      const bus = new MessageBus<TestCommands>();
+      const bus = new MessageBus<TestCommands, TestEvents>();
       const handler = vi.fn().mockImplementation(() => {
         const invalid = {
           toJSON() {
@@ -101,33 +73,33 @@ describe('Error Handling', () => {
       });
 
       bus.handleCommand('TestCommand', handler);
-      const result = await bus.sendCommand('TestCommand', { required: 'test' });
+      const result = await bus.sendCommand('TestCommand', createTestCommand('test', 'test'));
 
       expect(result.status).toBe('accepted');
       expect(() => JSON.stringify(result)).toThrow(/invalid json/i);
     });
 
     it('should handle API errors gracefully', async () => {
-      const bus = new MessageBus<TestCommands>();
+      const bus = new MessageBus<TestCommands, TestEvents>();
       const handler = vi.fn().mockImplementation(() => {
         throw new Error('API rate limit exceeded');
       });
 
       bus.handleCommand('TestCommand', handler);
-      const result = await bus.sendCommand('TestCommand', { required: 'test' });
+      const result = await bus.sendCommand('TestCommand', createTestCommand('test', 'test'));
 
       expect(result.status).toBe('rejected');
       expect(result.message).toBe('API rate limit exceeded');
     });
 
     it('should handle concurrent error scenarios', async () => {
-      const bus = new MessageBus<TestCommands>();
+      const bus = new MessageBus<TestCommands, TestEvents>();
       const errorListener = createMockListener();
       bus.listenToEvent('Error' as any, errorListener);
 
       const promises = Array(10)
         .fill(0)
-        .map(() => bus.sendCommand('TestCommand', { required: 'test' }));
+        .map(() => bus.sendCommand('TestCommand', createTestCommand('test', 'test')));
 
       const results = await Promise.all(promises);
       for (const result of results) {
@@ -146,11 +118,11 @@ describe('Error Handling', () => {
         ],
       }));
 
-      const bus = new MessageBus<TestCommands>({ validator });
+      const bus = new MessageBus<TestCommands, TestEvents>({ validator });
       const handler = vi.fn();
       bus.handleCommand('TestCommand', handler);
 
-      const result = await bus.sendCommand('TestCommand', { required: '' });
+      const result = await bus.sendCommand('TestCommand', createTestCommand('test', 'test'));
       expect(result.status).toBe('rejected');
       if (result.status === 'rejected') {
         expect(result.errors[0].message).toBe('Required field cannot be empty');
@@ -174,7 +146,7 @@ describe('Error Handling', () => {
         errors: [{ field: 'email', message: 'Invalid email format' }],
       }));
 
-      const bus = new MessageBus<EmailCommands>({ validator: emailValidator });
+      const bus = new MessageBus<EmailCommands, TestEvents>({ validator: emailValidator });
       const handler = vi.fn();
       bus.handleCommand('EmailCommand', handler);
 
@@ -220,7 +192,7 @@ describe('Error Handling', () => {
         ],
       }));
 
-      const bus = new MessageBus<NestedCommands>({
+      const bus = new MessageBus<NestedCommands, TestEvents>({
         validator: nestedValidator,
       });
       const handler = vi.fn();
@@ -264,7 +236,7 @@ describe('Error Handling', () => {
         errors: [{ field: 'items', message: 'Array items cannot be empty' }],
       }));
 
-      const bus = new MessageBus<ArrayCommands>({ validator: arrayValidator });
+      const bus = new MessageBus<ArrayCommands, TestEvents>({ validator: arrayValidator });
       const handler = vi.fn();
       bus.handleCommand('ArrayCommand', handler);
 
@@ -295,7 +267,7 @@ describe('Error Handling', () => {
         errors: [{ field: 'value', message: 'Value must be between 1 and 10' }],
       }));
 
-      const bus = new MessageBus<CustomCommands>({
+      const bus = new MessageBus<CustomCommands, TestEvents>({
         validator: customValidator,
       });
       const handler = vi.fn();
@@ -332,7 +304,9 @@ describe('Error Handling', () => {
         ],
       }));
 
-      const bus = new MessageBus<MultiCommands>({ validator: multiValidator });
+      const bus = new MessageBus<MultiCommands, TestEvents>({
+        validator: multiValidator,
+      });
       const handler = vi.fn();
       bus.handleCommand('MultiCommand', handler);
 
@@ -357,7 +331,7 @@ describe('Error Handling', () => {
 
   describe('API Errors', () => {
     it('should handle network timeouts', async () => {
-      const bus = new MessageBus<TestCommands>();
+      const bus = new MessageBus<TestCommands, TestEvents>();
       const handler = vi.fn().mockImplementation(() => {
         const error = new Error('Network timeout');
         (error as any).code = 'NETWORK_ERROR';
@@ -378,7 +352,7 @@ describe('Error Handling', () => {
     });
 
     it('should handle rate limiting', async () => {
-      const bus = new MessageBus<TestCommands>();
+      const bus = new MessageBus<TestCommands, TestEvents>();
       let attempts = 0;
 
       const handler = vi.fn().mockImplementation(() => {
@@ -406,7 +380,7 @@ describe('Error Handling', () => {
     });
 
     it('should handle API version mismatches', async () => {
-      const bus = new MessageBus<TestCommands>();
+      const bus = new MessageBus<TestCommands, TestEvents>();
       const handler = vi.fn().mockImplementation(() => {
         const error = new Error('API version not supported');
         (error as any).code = 'VERSION_ERROR';
@@ -429,7 +403,7 @@ describe('Error Handling', () => {
 
   describe('Complex Error Scenarios', () => {
     it('should handle nested circular references', async () => {
-      const bus = new MessageBus<TestCommands>();
+      const bus = new MessageBus<TestCommands, TestEvents>();
       const circular: any = {
         level1: {
           level2: {
@@ -516,7 +490,7 @@ describe('Error Handling', () => {
         ],
       }));
 
-      const bus = new MessageBus<TestCommands>({ validator });
+      const bus = new MessageBus<TestCommands, TestEvents>({ validator });
       bus.handleCommand('TestCommand', vi.fn());
 
       const invalidCommands = Array(5)

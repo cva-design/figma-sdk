@@ -1,6 +1,6 @@
-import type { JsonObject, JsonValue } from 'type-fest';
-import { describe, expect, it, vi } from 'vitest';
-import { MessageBus } from '../../src';
+import type { JsonObject } from 'type-fest';
+import { describe, expect, it } from 'vitest';
+import { MessageBus } from '#source';
 import { createMockListener } from '../utils/helpers';
 
 // Base interface for node properties
@@ -15,19 +15,19 @@ interface NodeBase {
 type Node = NodeBase & JsonObject;
 
 // Command interfaces
-interface CreateNodeCommand extends JsonObject {
+interface CreateNodeCommand {
   id: string;
   type: string;
   children?: Node[];
   parent?: string;
 }
 
-interface AddChildCommand extends JsonObject {
+interface AddChildCommand {
   parentId: string;
   child: Node;
 }
 
-interface MoveNodeCommand extends JsonObject {
+interface MoveNodeCommand {
   nodeId: string;
   newParentId: string;
 }
@@ -36,11 +36,10 @@ interface NodeCommands {
   CreateNode: CreateNodeCommand;
   AddChild: AddChildCommand;
   MoveNode: MoveNodeCommand;
-  [key: string]: JsonObject;
 }
 
 // Event interfaces
-interface NodeMovedEvent extends JsonObject {
+interface NodeMovedEvent {
   node: Node;
   oldParentId?: string;
   newParentId: string;
@@ -50,7 +49,6 @@ interface NodeEvents {
   NodeCreated: Node;
   NodeUpdated: Node;
   NodeMoved: NodeMovedEvent;
-  [key: string]: JsonObject;
 }
 
 describe('Nested Operations', () => {
@@ -73,18 +71,18 @@ describe('Nested Operations', () => {
       };
 
       // Handle CreateNode command
-      bus.handleCommand('CreateNode', (node) => {
+      bus.handleCommand('CreateNode', (node: any) => {
         bus.publishEvent('NodeCreated', node);
-        return { status: 'accepted' as const };
+        return Promise.resolve({ status: 'accepted' as const });
       });
 
       // Handle AddChild command
-      bus.handleCommand('AddChild', ({ parentId, child }) => {
+      bus.handleCommand('AddChild', ({ parentId, child }: any) => {
         bus.publishEvent('NodeCreated', {
           ...child,
           parent: parentId,
         });
-        return { status: 'accepted' as const };
+        return Promise.resolve({ status: 'accepted' as const });
       });
 
       await bus.sendCommand('CreateNode', parent);
@@ -124,18 +122,18 @@ describe('Nested Operations', () => {
       };
 
       // Handle CreateNode command
-      bus.handleCommand('CreateNode', (node) => {
+      bus.handleCommand('CreateNode', (node: any) => {
         bus.publishEvent('NodeCreated', node);
-        return { status: 'accepted' as const };
+        return Promise.resolve({ status: 'accepted' as const });
       });
 
       // Handle AddChild command
-      bus.handleCommand('AddChild', ({ parentId, child }) => {
+      bus.handleCommand('AddChild', ({ parentId, child }: any) => {
         bus.publishEvent('NodeCreated', {
           ...child,
           parent: parentId,
         });
-        return { status: 'accepted' as const };
+        return Promise.resolve({ status: 'accepted' as const });
       });
 
       await bus.sendCommand('CreateNode', root);
@@ -169,7 +167,7 @@ describe('Nested Operations', () => {
       };
 
       // Handle CreateNode command with validation
-      bus.handleCommand('CreateNode', (node) => {
+      bus.handleCommand('CreateNode', (node: any) => {
         const validTypes = ['FRAME', 'GROUP', 'RECTANGLE', 'ELLIPSE', 'TEXT'];
         if (!validTypes.includes(node.type)) {
           return {
@@ -178,7 +176,7 @@ describe('Nested Operations', () => {
           };
         }
         bus.publishEvent('NodeCreated', node);
-        return { status: 'accepted' as const };
+        return Promise.resolve({ status: 'accepted' as const });
       });
 
       const result = await bus.sendCommand('CreateNode', invalidNode);
@@ -189,7 +187,7 @@ describe('Nested Operations', () => {
     it('should preserve creation order', async () => {
       const bus = new MessageBus<NodeCommands, NodeEvents>();
       const createdNodes: Node[] = [];
-      bus.listenToEvent('NodeCreated', (node) => {
+      bus.listenToEvent('NodeCreated', (node: any) => {
         createdNodes.push(node);
       });
 
@@ -208,18 +206,18 @@ describe('Nested Operations', () => {
         }));
 
       // Handle CreateNode command
-      bus.handleCommand('CreateNode', (node) => {
+      bus.handleCommand('CreateNode', (node: any) => {
         bus.publishEvent('NodeCreated', node);
-        return { status: 'accepted' as const };
+        return Promise.resolve({ status: 'accepted' as const });
       });
 
       // Handle AddChild command
-      bus.handleCommand('AddChild', ({ parentId, child }) => {
+      bus.handleCommand('AddChild', ({ parentId, child }: any) => {
         bus.publishEvent('NodeCreated', {
           ...child,
           parent: parentId,
         });
-        return { status: 'accepted' as const };
+        return Promise.resolve({ status: 'accepted' as const });
       });
 
       await bus.sendCommand('CreateNode', parent);
@@ -275,22 +273,22 @@ describe('Nested Operations', () => {
       };
 
       // Handle CreateNode command
-      bus.handleCommand('CreateNode', (node) => {
+      bus.handleCommand('CreateNode', (node: any) => {
         bus.publishEvent('NodeCreated', node);
-        return { status: 'accepted' as const };
+        return Promise.resolve({ status: 'accepted' as const });
       });
 
       // Handle AddChild command
-      bus.handleCommand('AddChild', ({ parentId, child }) => {
+      bus.handleCommand('AddChild', ({ parentId, child }: any) => {
         bus.publishEvent('NodeCreated', {
           ...child,
           parent: parentId,
         });
-        return { status: 'accepted' as const };
+        return Promise.resolve({ status: 'accepted' as const });
       });
 
       // Handle MoveNode command
-      bus.handleCommand('MoveNode', ({ nodeId, newParentId }) => {
+      bus.handleCommand('MoveNode', ({ nodeId, newParentId }: any) => {
         const movedNode = {
           ...child,
           parent: newParentId,
@@ -300,7 +298,7 @@ describe('Nested Operations', () => {
           oldParentId: child.parent,
           newParentId,
         });
-        return { status: 'accepted' as const };
+        return Promise.resolve({ status: 'accepted' as const });
       });
 
       // Create initial structure

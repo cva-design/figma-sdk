@@ -38,6 +38,8 @@
     "tokilabs",
     "tsbuildinfo",
     "typecheck",
+    "Typia",
+    "Unplugin",
     "vite",
     "vitest"
   ],

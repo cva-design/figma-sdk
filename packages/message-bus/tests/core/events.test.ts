@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { MessageBus, ValidationManager } from '../../src';
-import type { JsonObject } from '../../src/types';
+import { MessageBus, ValidationManager } from '#source';
+import type { JsonObject } from '#source/types';
 
 describe('Event Broadcasting', () => {
   let messageBus: MessageBus<{}, Record<string, JsonObject>>;

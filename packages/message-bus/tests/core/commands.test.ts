@@ -1,9 +1,9 @@
-import { describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { MessageBus, ValidationManager } from '../../src';
-import type { Accepted, Rejected } from '../../src';
+import { TestEvents } from '#tests/utils/fixtures/message-bus.js';
 
 describe('Command Handling', () => {
-  let messageBus: MessageBus;
+  let messageBus: MessageBus<{}, {}>;
   let validationManager: ValidationManager;
 
   beforeEach(() => {
@@ -21,7 +21,7 @@ describe('Command Handling', () => {
         TestCommand: { data: string };
       }
 
-      const bus = new MessageBus<TestCommands>();
+      const bus = new MessageBus<TestCommands, TestEvents>();
       const handler = vi
         .fn()
         .mockResolvedValue({ status: 'accepted' as const });
@@ -49,7 +49,7 @@ describe('Command Handling', () => {
         },
       });
 
-      const bus = new MessageBus<TestCommands>({ validator });
+      const bus = new MessageBus<TestCommands, TestEvents>({ validator });
       const handler = vi.fn();
 
       bus.handleCommand('TestCommand', handler);
@@ -65,7 +65,7 @@ describe('Command Handling', () => {
         TestCommand: { data: string };
       }
 
-      const bus = new MessageBus<TestCommands>();
+      const bus = new MessageBus<TestCommands, TestEvents>();
       const result = await bus.sendCommand('TestCommand', { data: 'test' });
 
       expect(result.status).toBe('rejected');
@@ -90,7 +90,7 @@ describe('Command Handling', () => {
         },
       });
 
-      const bus = new MessageBus<TestCommands>({ validator });
+      const bus = new MessageBus<TestCommands, TestEvents>({ validator });
       const handler = vi
         .fn()
         .mockResolvedValue({ status: 'accepted' as const });
@@ -130,7 +130,7 @@ describe('Command Handling', () => {
         },
       });
 
-      const bus = new MessageBus<TestCommands>({ validator });
+      const bus = new MessageBus<TestCommands, TestEvents>({ validator });
       const handler = vi
         .fn()
         .mockResolvedValue({ status: 'accepted' as const });
@@ -156,7 +156,7 @@ describe('Command Handling', () => {
         TestCommand: { input: string };
       }
 
-      const bus = new MessageBus<TestCommands>();
+      const bus = new MessageBus<TestCommands, TestEvents>();
       const responseData = { result: 'processed' };
       const handler = vi.fn().mockResolvedValue({
         status: 'accepted' as const,
@@ -175,7 +175,7 @@ describe('Command Handling', () => {
         TestCommand: { input: string };
       }
 
-      const bus = new MessageBus<TestCommands>();
+      const bus = new MessageBus<TestCommands, TestEvents>();
       const errors = [{ field: 'input', message: 'Invalid input' }];
       const handler = vi.fn().mockResolvedValue({
         status: 'rejected' as const,
@@ -187,7 +187,7 @@ describe('Command Handling', () => {
       const result = await bus.sendCommand('TestCommand', { input: 'test' });
 
       expect(result.status).toBe('rejected');
-      expect(result.errors).toEqual(errors);
+      expect((result as any).errors).toEqual(errors);
       expect(result.message).toBe('Validation failed');
     });
   });
@@ -222,7 +222,7 @@ describe('Command Handling', () => {
         },
       });
 
-      const bus = new MessageBus<TestCommands>({ validator });
+      const bus = new MessageBus<TestCommands, TestEvents>({ validator });
       const handler = vi
         .fn()
         .mockResolvedValue({ status: 'accepted' as const });
@@ -280,7 +280,7 @@ describe('Command Handling', () => {
         },
       });
 
-      const bus = new MessageBus<TestCommands>({ validator });
+      const bus = new MessageBus<TestCommands, TestEvents>({ validator });
       const handler = vi
         .fn()
         .mockResolvedValue({ status: 'accepted' as const });

@@ -1,12 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { MessageBus } from '@/index';
-import { PluginUIIntegration } from '@/integrations/plugin-ui';
-import {
-  createTestBus,
-  createValidationError,
-  generateUUID,
-} from '@tests/utils/helpers';
-import type { TestCommands, TestEvents } from '@tests/utils/types';
+import { MessageBus, PluginUIIntegration } from '#source';
+import { createTestBus } from '#tests/utils';
+import type { TestCommands, TestEvents } from '#tests/utils';
 
 // Mock window for UI context
 const mockWindow = {

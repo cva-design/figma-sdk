@@ -1,5 +1,5 @@
-import type { JsonObject, JsonValue } from 'type-fest';
-import { describe, expect, it, vi } from 'vitest';
+import type { JsonObject } from 'type-fest';
+import { describe, expect, it } from 'vitest';
 import { MessageBus } from '../../src';
 import { createMockListener } from '../utils/helpers';
 
@@ -7,20 +7,17 @@ interface Todo extends JsonObject {
   id: string;
   text: string;
   completed: boolean;
-  [key: string]: JsonValue;
 }
 
 interface TodoCommands {
   AddTodo: Todo;
   UpdateTodo: Todo;
-  [key: string]: JsonObject;
 }
 
 interface TodoEvents {
   TodoAdded: Todo;
   TodoUpdated: Todo;
   TodoSearched: Todo[];
-  [key: string]: JsonObject;
 }
 
 describe('Text Search', () => {

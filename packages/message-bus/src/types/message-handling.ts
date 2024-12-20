@@ -1,4 +1,4 @@
-import type { JsonObject } from 'type-fest';
+import type { ValidationError } from './validation';
 
 /**
  * Command accepted response
@@ -19,19 +19,10 @@ export interface Rejected {
 }
 
 /**
- * Validation error type
- */
-export interface ValidationError {
-  field: string;
-  message: string;
-  value?: unknown;
-}
-
-/**
  * Command handler function type
  */
 export type Handler<
-  T extends Record<string, JsonObject>,
+  T extends CommandsDefinition<any>,
   Scope extends string = '',
 > = <K extends keyof T>(
   payload: T[K],
@@ -42,7 +33,7 @@ export type Handler<
  * Event listener function type
  */
 export type Listener<
-  T extends Record<string, JsonObject>,
+  T extends EventsDefinition<any>,
   Scope extends string = '',
 > = <K extends keyof T>(payload: T[K], scope?: Scope) => void;
 
@@ -50,3 +41,6 @@ export type Listener<
  * Function to deregister a handler or listener
  */
 export type DeregisterFn = () => void;
+
+export type CommandsDefinition<T> = { [K in keyof T]: unknown };
+export type EventsDefinition<T> = { [K in keyof T]: unknown };

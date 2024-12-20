@@ -116,7 +116,7 @@ describe('Validation', () => {
         bus.listenToEvent('TodoAdded', listener);
 
         // Mock event validation to reject invalid events
-        bus.mockEventValidation('TodoAdded', (event) => {
+        bus.mockEventValidation('TodoAdded', (event: any) => {
           if (typeof event.id !== 'string' ||
               !event.id.match(/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/) ||
               typeof event.text !== 'string' ||
@@ -151,7 +151,7 @@ describe('Validation', () => {
 
   describe('Complex Validations', () => {
     it('should validate array constraints', async () => {
-      const { bus } = createTestBus<unknown, TodoEvents>();
+      const { bus } = createTestBus<{}, TodoEvents>();
       const listener = vi.fn();
       bus.listenToEvent('TodosLoaded', listener);
 
@@ -161,7 +161,7 @@ describe('Validation', () => {
           throw new Error('Invalid todos array');
         }
         const isValid = event.todos.every(
-          (todo) =>
+          (todo: any) =>
             typeof todo.id === 'string' &&
             todo.id.match(/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/) !== null &&
             typeof todo.text === 'string' &&

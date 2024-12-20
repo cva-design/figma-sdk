@@ -2,12 +2,10 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import {
   createTestBus,
   createMockListener,
-  createValidationError,
-  generateUUID,
+  createValidationError
 } from '../../utils/helpers';
-import type { FigmaCommands, FigmaEvents } from '../../utils/types';
-import { MessageBus } from '@/index';
-import { FigmaIntegration } from '@/integrations/figma';
+
+import { FigmaEvents, FigmaIntegration, MessageBus } from '#source';
 
 // Mock Figma API
 const mockFigma = {
@@ -28,13 +26,13 @@ const mockFigma = {
 };
 
 describe('Figma Events Integration', () => {
-  let messageBus: MessageBus<FigmaCommands, FigmaEvents>;
-  let figmaIntegration: FigmaIntegration<FigmaCommands, FigmaEvents>;
+  let messageBus: MessageBus<{}, FigmaEvents> & { mockEventValidation: (eventName: keyof FigmaEvents, validator: (event: FigmaEvents[keyof FigmaEvents]) => boolean) => void };
+  let figmaIntegration: FigmaIntegration;
 
   beforeEach(() => {
     vi.clearAllMocks();
     (global as any).figma = mockFigma;
-    const { bus } = createTestBus<FigmaCommands, FigmaEvents>();
+    const { bus } = createTestBus<{}, FigmaEvents>();
     messageBus = bus;
     figmaIntegration = new FigmaIntegration(messageBus);
   });
@@ -47,10 +45,10 @@ describe('Figma Events Integration', () => {
   describe('Custom Plugin Events', () => {
     it('should validate custom plugin event payload', async () => {
       const listener = createMockListener();
-      messageBus.listenToEvent('CustomPluginEvent', listener);
+      messageBus.listenToEvent('CommandExecuted', listener);
 
       // Mock event validation to reject invalid events
-      messageBus.mockEventValidation('CustomPluginEvent', (event) => {
+      messageBus.mockEventValidation('CommandExecuted', (event: any) => {
         if (!event || typeof event !== 'object') {
           throw createValidationError('Invalid event data');
         }
@@ -59,7 +57,7 @@ describe('Figma Events Integration', () => {
 
       // Invalid event should not trigger listener
       expect(() => {
-        messageBus.publishEvent('CustomPluginEvent', null as any);
+        messageBus.publishEvent('CommandExecuted', null as any);
       }).toThrow('Invalid event data');
       expect(listener).not.toHaveBeenCalled();
     });
@@ -71,7 +69,7 @@ describe('Figma Events Integration', () => {
       messageBus.listenToEvent('SelectionChanged', listener);
 
       // Mock event validation to reject invalid events
-      messageBus.mockEventValidation('SelectionChanged', (event) => {
+      messageBus.mockEventValidation('SelectionChanged', (event: any) => {
         if (!event || !Array.isArray((event as any).nodes)) {
           throw createValidationError('Invalid selection data');
         }
@@ -90,8 +88,8 @@ describe('Figma Events Integration', () => {
       messageBus.listenToEvent('DocumentChanged', listener);
 
       // Mock event validation to reject invalid events
-      messageBus.mockEventValidation('DocumentChanged', (event) => {
-        if (!event || !Array.isArray((event as any).changes)) {
+      messageBus.mockEventValidation('DocumentChanged', (event: any) => {
+        if (!event || !Array.isArray((event as any).documentChanges)) {
           throw createValidationError('Invalid document changes');
         }
         return true;
@@ -109,7 +107,7 @@ describe('Figma Events Integration', () => {
       messageBus.listenToEvent('PluginDataChanged', listener);
 
       // Mock event validation to reject invalid events
-      messageBus.mockEventValidation('PluginDataChanged', (event) => {
+      messageBus.mockEventValidation('PluginDataChanged', (event: any) => {
         if (!event || typeof (event as any).key !== 'string' || !(event as any).value) {
           throw createValidationError('Invalid plugin data');
         }

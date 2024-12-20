@@ -1,6 +1,10 @@
-import type { JsonObject } from 'type-fest';
 import type { ValidationManager } from './ValidationManager';
-import type { Accepted, Rejected } from './types/message-handling';
+import type {
+  Accepted,
+  CommandsDefinition,
+  EventsDefinition,
+  Rejected,
+} from './types/message-handling';
 import type { Handler, Listener } from './types/message-handling';
 import { deepClone } from './utils/serialization';
 
@@ -33,8 +37,8 @@ export interface MessageBusOptions {
  * Core message bus implementation
  */
 export class MessageBus<
-  Commands extends Record<string, JsonObject>,
-  Events extends Record<string, JsonObject>,
+  Commands extends CommandsDefinition<Commands>,
+  Events extends EventsDefinition<Events>,
 > {
   private commandHandlers = new Map<
     keyof Commands,
@@ -48,7 +52,7 @@ export class MessageBus<
   private maxListenersPerEvent: number;
   private eventBatches = new Map<
     keyof Events,
-    { events: Events[keyof Events][]; timer: NodeJS.Timeout }
+    { events: Events[keyof Events][]; timer: ReturnType<typeof setTimeout> }
   >();
 
   constructor(options: MessageBusOptions = {}) {
