@@ -145,7 +145,7 @@
 	}
 	input::selection {
 		color: var(--figma-color-text);
-		background-color: var(--color-texthighlight);
+		background-color: var(--figma-color-bg-selected-pressed);
 	}
 	input::placeholder {
 		color: var(--figma-color-text-tertiary);

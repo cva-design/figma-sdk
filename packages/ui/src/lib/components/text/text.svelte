@@ -137,4 +137,8 @@
 			outline: 1px solid var(--figma-color-border-selected-strong);
 		}
 	}
+
+	.fps-inverse {
+		color: var(--figma-color-text-oninverse);
+	}
 </style>
