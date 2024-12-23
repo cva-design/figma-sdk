@@ -1,6 +1,5 @@
 import type { Preview } from '@storybook/svelte';
 import { themes } from '@storybook/theming';
-import DualTheme from '../docs/docs-ui/decorators/dual-theme.svelte';
 
 import '../docs/assets/storybook/index.scss';
 
@@ -72,8 +71,8 @@ const preview: Preview = {
     },
   },
   decorators: [
-    (story, { parameters }) =>
-      parameters.dualTheme !== false ? (DualTheme as any) : story(),
+    // (story, { parameters }) =>
+    //   parameters.dualTheme !== false ? (DualTheme as any) : story(),
   ],
   tags: ['autodocs'],
 };
