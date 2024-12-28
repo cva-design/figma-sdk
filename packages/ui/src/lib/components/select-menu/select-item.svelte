@@ -47,15 +47,13 @@
 		outline: none;
 		transition-property: background-color;
 		transition-duration: 30ms;
-		text-transform: lowercase;
+		text-wrap: nowrap;
+		white-space: nowrap;
 	}
 
 	.label {
-		overflow-x: hidden;
 		white-space: nowrap;
-		text-overflow: ellipsis;
 		pointer-events: none;
-		text-transform: lowercase;
 	}
 
 	.highlight,

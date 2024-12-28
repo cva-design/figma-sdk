@@ -16,6 +16,15 @@
 	export let value: SelectMenuItem | null | undefined = null;
 	export let showGroupLabels: boolean = false;
 	export let className = '';
+	export let anchor:
+		| 'top'
+		| 'right'
+		| 'bottom'
+		| 'left'
+		| 'top-left'
+		| 'top-right'
+		| 'bottom-left'
+		| 'bottom-right' = 'bottom-left';
 
 	const dispatch = createEventDispatcher();
 	const groups = checkGroups();
@@ -101,8 +110,11 @@
 			return;
 		}
 
-		// Handle button click
-		if ((event.target as HTMLElement).contains(menuButton) || event.target === menuButton) {
+		// Handle button click - check if click is on button or any of its children
+		const clickedElement = event.target as HTMLElement;
+		const isButtonClick = menuButton.contains(clickedElement) || clickedElement === menuButton;
+
+		if (isButtonClick) {
 			if (menuList.classList.contains('hidden')) {
 				menuList.classList.remove('hidden');
 				menuButton.classList.add('selected');
@@ -147,12 +159,53 @@
 	// New helper function for menu positioning
 	function positionMenu(targetItem: HTMLElement) {
 		const buttonRect = menuButton.getBoundingClientRect();
-		const spaceAbove = buttonRect.top;
 
-		// Always position menu above the button
-		menuList.style.bottom = '34px'; // Fixed position above button
-		menuList.style.top = 'auto';
+		// Set width to fit content but not smaller than button
+		menuList.style.width = 'max-content';
+		menuList.style.minWidth = `${buttonRect.width}px`;
+
+		const menuRect = menuList.getBoundingClientRect();
+		const spaceAbove = buttonRect.top;
+		const spaceBelow = window.innerHeight - buttonRect.bottom;
+
+		// Reset styles
+		menuList.style.left = '';
+		menuList.style.right = '';
+		menuList.style.top = '';
+		menuList.style.bottom = '';
 		menuList.style.maxHeight = '472px';
+		menuList.style.transform = '';
+
+		// Handle vertical positioning
+		if (anchor.includes('top') || anchor === 'top') {
+			menuList.style.top = `${buttonRect.top - menuRect.height - 4}px`;
+			menuList.style.maxHeight = `${Math.min(472, spaceAbove - 10)}px`;
+		} else if (anchor.includes('bottom') || anchor === 'bottom') {
+			menuList.style.top = `${buttonRect.bottom + 4}px`;
+			menuList.style.maxHeight = `${Math.min(472, spaceBelow - 10)}px`;
+		}
+
+		// Handle horizontal positioning
+		if (anchor.includes('right') || anchor === 'right') {
+			menuList.style.left = `${buttonRect.right - menuRect.width}px`;
+		} else if (anchor.includes('left') || anchor === 'left') {
+			menuList.style.left = `${buttonRect.left}px`;
+		}
+
+		// Handle single direction anchors
+		if (anchor === 'top' || anchor === 'bottom') {
+			// Center horizontally
+			menuList.style.left = `${buttonRect.left + (buttonRect.width - menuRect.width) / 2}px`;
+		} else if (anchor === 'left' || anchor === 'right') {
+			// Center vertically
+			menuList.style.top = `${buttonRect.top + buttonRect.height / 2}px`;
+			menuList.style.transform = 'translateY(-50%)';
+			if (anchor === 'left') {
+				menuList.style.left = `${buttonRect.right + 4}px`;
+			} else {
+				menuList.style.left = `${buttonRect.left - menuRect.width - 4}px`;
+			}
+		}
 
 		// Scroll to selected item
 		if (targetItem) {
@@ -208,13 +261,13 @@
 		{/if}
 
 		{#if value}
-			<Text class="label">{value.label}</Text>
+			<Text class="selected-value">{value.label}</Text>
 		{:else}
 			<Text emphasis="tertiary" class="placeholder">{placeholder}</Text>
 		{/if}
 
 		{#if !disabled}
-			<span class="caret">
+			<div class="caret">
 				<svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
 					<path
 						fill-rule="evenodd"
@@ -223,7 +276,7 @@
 						fill="black"
 					/>
 				</svg>
-			</span>
+			</div>
 		{/if}
 	</button>
 
@@ -298,7 +351,7 @@
 	button:focus .placeholder {
 		color: var(--figma-color-text);
 	}
-	button:disabled .label {
+	button:disabled .selected-value {
 		color: var(--figma-color-text-secondary);
 	}
 	button:disabled:hover {
@@ -315,14 +368,15 @@
 		pointer-events: none;
 	}
 
-	.label,
+	.selected-value,
 	.placeholder {
+		display: inline-block;
 		font-size: var(--text-body-medium-font-size);
 		font-weight: var(--font-weight-default);
 		letter-spacing: var(--font-letter-spacing-neg-xsmall);
 		line-height: var(--line-height);
 		color: var(--figma-color-text);
-		margin-right: 6px;
+		margin-right: var(--space-2);
 		margin-top: -3px;
 		white-space: nowrap;
 		overflow-x: hidden;
@@ -350,10 +404,10 @@
 	}
 
 	.menu {
-		position: absolute;
-		left: 0;
-		bottom: 34px; // Forces menu to open upwards
-		width: 100%;
+		position: fixed;
+		width: max-content;
+		min-width: auto;
+		max-width: max(400px, 90vw);
 		box-sizing: border-box;
 		-webkit-font-smoothing: antialiased;
 		-moz-osx-font-smoothing: grayscale;
@@ -367,7 +421,7 @@
 		letter-spacing: var(--letter-spacing-default);
 		color: var(--color-text-menu);
 		box-shadow: var(--elevation-400);
-		z-index: 1000;
+		z-index: 2147483647;
 		text-transform: lowercase;
 	}
 	.menu::-webkit-scrollbar {
