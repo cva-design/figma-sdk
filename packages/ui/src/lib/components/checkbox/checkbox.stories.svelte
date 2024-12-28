@@ -1,6 +1,7 @@
 <script context="module" lang="ts">
 	import { Story } from '@storybook/addon-svelte-csf';
 	import type { Meta } from '@storybook/svelte';
+	import type { SvelteComponent } from 'svelte';
 	import Checkbox from './checkbox.svelte';
 
 	export const meta = {
