@@ -1,9 +1,5 @@
 {
-  "moon.rootPrefixes": [
-    "..",
-    "../..",
-    "../../..",
-  ]
+  "moon.rootPrefixes": ["..", "../..", "../../.."],
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
     "source.fixAll": "always",

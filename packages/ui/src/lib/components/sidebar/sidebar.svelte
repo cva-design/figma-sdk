@@ -4,8 +4,8 @@
 
 	export let collapsed: boolean = false;
 	export let position: 'left' | 'right' = 'left';
-	export const width: string = '240px';
-	export const collapsedWidth: string = '48px';
+	export let width: string = '240px';
+	export let collapsedWidth: string = '48px';
 	export { className as class };
 
 	const className = '';

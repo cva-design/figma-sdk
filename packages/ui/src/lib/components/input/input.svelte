@@ -1,6 +1,33 @@
 <script lang="ts">
 	import { Icon, type IconProps } from '$ui/icon';
+	import { cva, type VariantProps } from 'class-variance-authority';
 	import { createEventDispatcher } from 'svelte';
+
+	const input = cva('input-base', {
+		variants: {
+			variant: {
+				default: '',
+				quiet: 'quiet',
+				bordered: 'borders'
+			},
+			state: {
+				invalid: 'invalid',
+				disabled: 'disabled'
+			},
+			hasIcon: {
+				true: 'indent'
+			}
+		},
+		defaultVariants: {
+			variant: 'default',
+			state: undefined,
+			hasIcon: undefined
+		}
+	});
+
+	type InputVariants = VariantProps<typeof input>;
+	type InputVariant = NonNullable<InputVariants['variant']>;
+	type InputState = NonNullable<InputVariants['state']>;
 
 	type $$Props = Partial<IconProps> & {
 		value?: string | null;
@@ -12,6 +39,7 @@
 		invalid?: boolean;
 		errorMessage?: string;
 		placeholder?: string;
+		quiet?: boolean;
 	};
 
 	export let value: string | null = null;
@@ -23,6 +51,7 @@
 	export let invalid: boolean = false;
 	export let errorMessage: string = 'Error message';
 	export let placeholder: string = 'Input something here...';
+	export let quiet: boolean = false;
 
 	const dispatch = createEventDispatcher();
 
@@ -53,10 +82,26 @@
 	const icon = $$props.icon;
 	const iconText = $$props.iconText;
 	const spin = $$props.spin;
+
+	$: variant = borders
+		? ('bordered' as InputVariant)
+		: quiet
+			? ('quiet' as InputVariant)
+			: ('default' as InputVariant);
+	$: state = invalid
+		? ('invalid' as InputState)
+		: disabled
+			? ('disabled' as InputState)
+			: undefined;
+	$: inputClass = input({
+		variant,
+		state,
+		hasIcon: !!icon || !!iconText || undefined
+	});
 </script>
 
 {#if icon || iconText}
-	<div class="input {$$props.class}">
+	<div class="input-wrapper {$$props.class}">
 		<div class="icon">
 			<Icon {icon} {iconText} {spin} color="--figma-color-icon" />
 		</div>
@@ -72,9 +117,7 @@
 			{name}
 			{disabled}
 			{placeholder}
-			class="indent"
-			class:borders
-			class:invalid
+			class={inputClass}
 			data-error-message={errorMessage}
 		/>
 		{#if invalid}
@@ -84,7 +127,7 @@
 		{/if}
 	</div>
 {:else}
-	<div class="input {$$props.class}">
+	<div class="input-wrapper {$$props.class}">
 		<input
 			use:typeAction
 			on:input={handleInput}
@@ -97,8 +140,7 @@
 			{name}
 			{disabled}
 			{placeholder}
-			class:borders
-			class:invalid
+			class={inputClass}
 			data-error-message={errorMessage}
 		/>
 		{#if invalid}
@@ -110,13 +152,13 @@
 {/if}
 
 <style lang="scss">
-	.input {
+	.input-wrapper {
 		position: relative;
 		transition: flex 0s 0.2s;
 		width: 100%;
 	}
 
-	input {
+	:global(.input-base) {
 		font-size: var(--font-size-default);
 		font-weight: var(--font-weight-default);
 		font-family: var(--font-family-default);
@@ -136,75 +178,82 @@
 		border-radius: var(--radius-medium);
 		outline: none;
 		background-color: var(--figma-color-bg-secondary);
-	}
-	input:hover,
-	input:placeholder-shown:hover {
-		color: var(--figma-color-text-hover);
-		border: 1px solid var(--figma-color-border);
-		background-image: none;
-	}
-	input::selection {
-		color: var(--figma-color-text);
-		background-color: var(--figma-color-bg-selected-pressed);
-	}
-	input::placeholder {
-		color: var(--figma-color-text-tertiary);
-		border: 1px solid transparent;
-	}
-	input:placeholder-shown {
-		color: var(--figma-color-text);
-		background-image: none;
-	}
-	input:focus:placeholder-shown {
-		border: 1px solid var(--figma-color-border-selected);
-		outline-offset: -2px;
-	}
-	input:disabled:hover {
-		border: 1px solid transparent;
-	}
-	input:active,
-	input:focus {
-		color: var(--figma-color-text);
-		border: 1px solid var(--figma-color-border-selected);
-		outline-offset: -2px;
-	}
-	input:disabled {
-		position: relative;
-		color: var(--figma-color-text-disabled);
-		background-image: none;
-	}
-	input:disabled:active {
-		outline: none;
+
+		&:hover,
+		&:placeholder-shown:hover {
+			color: var(--figma-color-text-hover);
+			border: 1px solid var(--figma-color-border);
+			background-image: none;
+		}
+
+		&::selection {
+			color: var(--figma-color-text);
+			background-color: var(--figma-color-bg-selected-pressed);
+		}
+
+		&::placeholder {
+			color: var(--figma-color-text-tertiary);
+			border: 1px solid transparent;
+		}
+
+		&:placeholder-shown {
+			color: var(--figma-color-text);
+			background-image: none;
+		}
+
+		&:focus:placeholder-shown {
+			border: 1px solid var(--figma-color-border-selected);
+			outline-offset: -2px;
+		}
+
+		&:active,
+		&:focus {
+			color: var(--figma-color-text);
+			border: 1px solid var(--figma-color-border-selected);
+			outline-offset: -2px;
+		}
+
+		&.disabled {
+			position: relative;
+			color: var(--figma-color-text-disabled);
+			background-image: none;
+
+			&:hover {
+				border: 1px solid transparent;
+			}
+
+			&:active {
+				outline: none;
+			}
+
+			&:placeholder-shown {
+				border: 1px solid transparent;
+				background-image: none;
+
+				&:active {
+					border: 1px solid transparent;
+					outline: none;
+				}
+			}
+		}
 	}
 
-	.borders {
-		border: 1px solid var(--figma-color-border);
-		background-image: none;
-	}
-	.borders:disabled {
-		border: 1px solid transparent;
-		background-image: none;
-	}
-	.borders:disabled:placeholder-shown {
-		border: 1px solid transparent;
-		background-image: none;
-	}
-	.borders:disabled:placeholder-shown:active {
-		border: 1px solid transparent;
-		outline: none;
-	}
-	.borders:placeholder-shown {
+	:global(.borders) {
 		border: 1px solid var(--figma-color-border);
 		background-image: none;
 	}
 
-	.indent {
+	:global(.quiet:not(.disabled):hover) {
+		border: 1px solid var(--figma-color-border);
+	}
+
+	:global(.indent) {
 		padding-left: 32px;
 	}
 
-	.invalid,
-	.invalid:hover,
-	.invalid:focus {
+	:global(.invalid),
+	:global(.invalid:hover),
+	:global(.invalid:focus) {
 		border: 1px solid var(--figma-color-border-danger-strong);
 	}
 

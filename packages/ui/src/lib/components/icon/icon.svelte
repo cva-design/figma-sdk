@@ -1,5 +1,5 @@
 <script lang="ts">
-	import * as icons from '$icons';
+	import * as icons from '#icons';
 	import type { IconProps } from './types';
 
 	type $$Props = IconProps;
@@ -9,7 +9,7 @@
 	const color = $$props.color ?? '--figma-color-icon';
 	const spin = $$props.spin ?? false;
 
-	$: colorStyle = color?.startsWith('--') ? `var(${color})` : color ?? 'var(--figma-color-icon)';
+	$: colorStyle = color?.startsWith('--') ? `var(${color})` : (color ?? 'var(--figma-color-icon)');
 
 	$: if (icon && iconText) {
 		throw new Error('Cannot set both icon and iconText at the same time');

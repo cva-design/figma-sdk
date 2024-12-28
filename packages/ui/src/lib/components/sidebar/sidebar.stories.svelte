@@ -1,11 +1,11 @@
 <script context="module" lang="ts">
 	import { Story } from '@storybook/addon-svelte-csf';
 	import type { Meta } from '@storybook/svelte';
+	import type { SvelteComponent } from 'svelte';
 	import { Button } from '../button';
 	import { Disclosure, DisclosureItem } from '../disclosure/index';
-	import Text from '../text/text.svelte';
+	import Text from '../typography/text.svelte';
 	import Sidebar from './sidebar.svelte';
-	import type { SvelteComponent } from 'svelte';
 
 	export const meta = {
 		title: 'Sidebar',
