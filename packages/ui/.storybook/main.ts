@@ -29,13 +29,15 @@ const groups = [
   'Data Display',
   ['tree', 'layer-tree', 'layer', 'disclosure'],
   'Forms',
-  ['input', 'textarea', 'radio', 'switch', 'select-menu'],
+  ['checkbox', 'input', 'label', 'radio', 'select-menu', 'textarea', 'switch'],
   'Navigation',
   ['tabs', 'sidebar'],
+  'Typography',
+  ['heading', 'paragraph', 'text'],
   'Visual',
   ['icon', 'onboarding-tip'],
   '🚧 Next',
-  ['sidebarTitle', 'badge'],
+  ['sidebar', 'badge'],
 ];
 
 const config: StorybookConfig = {
