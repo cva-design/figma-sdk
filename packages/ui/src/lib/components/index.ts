@@ -28,11 +28,11 @@
  *  For `changeCase` object documentation.
  */
 
-//@index(['*/index'], (f, {pascalCase}) => `export * from '${f.path}${f.ext}';`)
-export * from '../next/checkbox/index';
+//@index(['*/index.ts'], (f, {pascalCase}) => `export * from '${f.path}';`)
 export * from './action-group/index';
 export * from './badge/index';
 export * from './button/index';
+export * from './checkbox/index';
 export * from './disclosure/index';
 export * from './icon-button/index';
 export * from './icon-toggle/index';
@@ -48,17 +48,19 @@ export * from './sidebar-title/index';
 export * from './sidebar/index';
 export * from './switch/index';
 export * from './tabs/index';
-export * from './text/index';
 export * from './textarea/index';
 export * from './tooltip/index';
 export * from './tree/index';
+export * from './typography/index';
 //@endindex
 
 //@index(['*/index.svelte'], (f, {pascalCase}) => `export { default as ${pascalCase(f.path.split('/').at(-2))} } from '${f.path}${f.ext}';`)
 
 //@endindex
 
-//@index(['*/types'], f => `export * from '${f.path}';`)
+//@index(['*/types.ts'], f => `export * from '${f.path}';`)
+export * from './icon/types';
+export * from './layer/types';
 export * from './select-menu/types';
 export * from './tooltip/types';
 export * from './tree/types';

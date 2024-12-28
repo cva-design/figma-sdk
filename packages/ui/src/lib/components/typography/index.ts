@@ -1,4 +1,5 @@
 //@index(['./[^\.]+.svelte'], (f, {pascalCase}) => `export { default as ${pascalCase(f.path)} } from '${f.path}${f.ext}';`)
+export { default as Heading } from './heading.svelte';
 export { default as Label } from './label.svelte';
 export { default as Link } from './link.svelte';
 export { default as Paragraph } from './paragraph.svelte';
