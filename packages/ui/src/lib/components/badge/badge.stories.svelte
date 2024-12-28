@@ -1,8 +1,8 @@
 <script context="module" lang="ts">
 	import { Story } from '@storybook/addon-svelte-csf';
-	import Badge from './badge.svelte';
-	import { IconButton } from '../icon-button';
 	import { Icon } from '../icon';
+	import { IconButton } from '../icon-button';
+	import Badge from './badge.svelte';
 
 	export const meta = {
 		title: 'Badge',
@@ -30,11 +30,11 @@
 </Story>
 
 <Story name="Without Actions">
-	<Badge text="Simple Tag" color="#ffcc00" showActions={false} />
+	<Badge text="Simple Tag" color="#ffcc00" />
 </Story>
 
 <Story name="Disabled">
-	<Badge text="Disabled Tag" color="#1BC47D" disabled={true}>
+	<Badge text="Disabled Tag" color="#1BC47D">
 		<svelte:fragment slot="actions">
 			<IconButton>
 				<Icon icon="AdjustSvg" />
@@ -45,4 +45,3 @@
 		</svelte:fragment>
 	</Badge>
 </Story>
-
