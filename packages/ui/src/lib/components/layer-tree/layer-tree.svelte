@@ -1,5 +1,6 @@
 <script lang="ts" context="module">
 	import { Input } from '$ui';
+	import { cx } from 'class-variance-authority';
 	import type { Action as ActionType } from './action.svelte';
 	export type LayerTreeData = {
 		id: string;
@@ -87,8 +88,8 @@
 	$: filteredTree = searchQuery ? applySearchFilter(data) : { ...data, depth: 0 };
 </script>
 
-<div class="layerTree-wrapper">
-	<div class="search-container">
+<div class={cx('layerTree-wrapper', $$props.class)}>
+	<div class="panel-section search-container">
 		<Input
 			icon="SearchSvg_32"
 			class="search-input"
@@ -97,7 +98,7 @@
 		/>
 	</div>
 
-	<div class="layerTree-container">
+	<div class="panel-section layerTree-container">
 		<LayerTreeNode data={filteredTree} {expandedNodes} {singleSelect} on:select on:toggle />
 	</div>
 </div>
