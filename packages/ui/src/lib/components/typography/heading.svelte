@@ -32,35 +32,35 @@
 		aria-disabled={disabled}
 	>
 		{text}
+		<slot />
 	</svelte:element>
 {/if}
 
 <style lang="scss">
-	.fps-Heading--level1 {
-		// padding-left: var(--spacer-2);
-		font-family: var(--text-body-large-strong-font-family);
-		font-size: var(--text-body-medium-strong-font-size);
-		font-weight: var(--text-body-large-strong-font-weight);
-		letter-spacing: var(--text-body-large-strong-letter-spacing);
-		// line-height: var(--text-body-large-strong-line-height);
-	}
+	.fps-Heading {
+		margin-top: 0;
+		color: var(--color-text);
+		outline: none;
 
-	.fps-Heading--level2 {
-		padding-left: var(--spacer-2);
-		font-family: var(--text-body-medium-strong-font-family);
-		font-size: var(--text-body-medium-strong-font-size);
-		font-weight: var(--text-body-medium-strong-font-weight);
-		letter-spacing: var(--text-body-medium-strong-letter-spacing);
-		line-height: var(--text-body-medium-strong-line-height);
-	}
+		&:where(.fps-Heading--level1) {
+			font-family: var(--text-body-large-strong-font-family);
+			font-size: var(--text-body-large-strong-font-size);
+			font-weight: var(--text-body-large-strong-font-weight);
+			letter-spacing: var(--text-body-large-strong-letter-spacing);
+			line-height: var(--text-body-large-strong-line-height);
+		}
 
-	.fps-Heading--level3 {
-		padding-left: var(--spacer-2);
-		font-family: var(--text-body-small-strong-font-family);
-		font-size: var(--text-body-small-strong-font-size);
-		font-weight: var(--text-body-small-strong-font-weight);
-		letter-spacing: var(--text-body-small-strong-letter-spacing);
-		line-height: var(--text-body-small-strong-line-height);
+		&:where(.fps-Heading--level2, .fps-Heading--level3) {
+			font-family: var(--text-body-medium-strong-font-family);
+			font-size: var(--text-body-medium-strong-font-size);
+			font-weight: var(--text-body-medium-strong-font-weight);
+			letter-spacing: var(--text-body-medium-strong-letter-spacing);
+			line-height: var(--text-body-medium-strong-line-height);
+		}
+
+		&:where(.fps-Heading--level3) {
+			color: var(--color-text-secondary);
+		}
 	}
 
 	.disabled {

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import type { Color } from '$lib/types/colors';
 	import Text from '$ui/typography/text.svelte';
 	import { type VariantProps, cva } from 'class-variance-authority';
 	import type { HTMLAttributes } from 'svelte/elements';
@@ -26,48 +27,53 @@
 	/** Configuration object for badge colors */
 	interface ColorConfig {
 		/** Color of the dot indicator */
-		dot?: string;
+		dot?: Color;
 		/** Background color of the badge */
-		bg?: string;
+		bg?: Color;
 		/** Text color of the badge */
-		text?: string;
+		text?: Color;
+		/** Border color of the badge */
+		border?: Color;
 	}
 
 	interface $$Props extends HTMLAttributes<HTMLDivElement>, VariantProps<typeof badge> {
 		/** Text content of the badge */
 		text?: string;
-		/** Color configuration for the badge */
-		colors?: ColorConfig;
+		/** Color configuration for the badge or a string to be used for all colors except bg */
+		colors?: ColorConfig | Color;
 		/** Whether to hide the dot indicator */
 		'no-dot'?: boolean;
 		/** @deprecated Use colors.dot instead */
-		color?: string;
+		color?: Color;
 	}
 
 	/** Text content of the badge */
 	export let text = '';
 	/** Color configuration for the badge */
-	export let colors: ColorConfig = {};
+	export let colors: ColorConfig | Color = {};
 	/** @deprecated Use colors.dot instead */
-	export let color = '';
+	export let color: Color = 'currentColor';
 	/** Whether to show action buttons */
 	export let showActions = true;
 	/** Size of the badge: 'small' | 'medium' */
 	export let size: $$Props['size'] = 'medium';
 
-  const noDot = $$props['no-dot'];
+	const noDot = $$props['no-dot'];
 
-	// Handle deprecated color prop
-	$: if (color && !colors.dot) {
-		colors = { ...colors, dot: color };
+	// Handle deprecated color prop and string colors
+	$: colorConfig =
+		typeof colors === 'string' ? { dot: colors, text: colors, border: colors } : colors;
+	$: if (color && !colorConfig.dot) {
+		colorConfig = { ...colorConfig, dot: color };
 	}
 </script>
 
 <div class="fps-Badge-wrapper">
 	<div
 		class={badge({ hasActions: showActions, size, noDot, class: $$props.class })}
-		style:background-color={colors.bg}
-		style:color={colors.text}
+		style:background-color={colorConfig.bg}
+		style:color={colorConfig.text}
+		style:border-color={colorConfig.border}
 	>
 		{#if !$$props['no-dot']}
 			<svg
@@ -80,13 +86,13 @@
 			>
 				<path
 					d="M12 8C12 10.2091 10.2091 12 8 12C5.79086 12 4 10.2091 4 8C4 5.79086 5.79086 4 8 4C10.2091 4 12 5.79086 12 8Z"
-					fill={colors.dot || color}
+					fill={colorConfig.dot || color}
 				/>
 			</svg>
 		{/if}
-		<Text emphasis="secondary" size={size}>
-      <span style:color={colors.text}>{text}</span>
-    </Text>
+		<Text emphasis="secondary" {size}>
+			<span style:color={colorConfig.text}>{text}</span>
+		</Text>
 		{#if showActions}
 			<slot name="actions">
 				<slot />

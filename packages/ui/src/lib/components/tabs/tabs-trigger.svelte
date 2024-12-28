@@ -80,7 +80,7 @@
 		}
 
 		&:where(.fps-disabled) {
-			cursor: not-allowed;
+			cursor: default;
 			opacity: 0.5;
 		}
 

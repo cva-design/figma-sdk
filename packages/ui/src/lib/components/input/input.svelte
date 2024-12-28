@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { Icon, type IconProps } from '$ui/icon';
+	import { Icon } from '$ui';
+	import type { IconProps } from '$ui/icon';
 	import { cva, type VariantProps } from 'class-variance-authority';
 	import { createEventDispatcher } from 'svelte';
 
@@ -29,7 +30,7 @@
 	type InputVariant = NonNullable<InputVariants['variant']>;
 	type InputState = NonNullable<InputVariants['state']>;
 
-	type $$Props = Partial<IconProps> & {
+	type $$Props = {
 		value?: string | null;
 		id?: string | null;
 		name?: string | null;
@@ -40,6 +41,12 @@
 		errorMessage?: string;
 		placeholder?: string;
 		quiet?: boolean;
+		icon?: IconProps['icon'];
+		iconText?: string;
+		spin?: boolean;
+		class?: string;
+		'aria-label'?: string;
+		'aria-describedby'?: string;
 	};
 
 	export let value: string | null = null;
@@ -52,6 +59,9 @@
 	export let errorMessage: string = 'Error message';
 	export let placeholder: string = 'Input something here...';
 	export let quiet: boolean = false;
+	export let icon: IconProps['icon'] = undefined;
+	export let iconText: string | undefined = undefined;
+	export let spin = false;
 
 	const dispatch = createEventDispatcher();
 
@@ -79,10 +89,6 @@
 		dispatch('blur', event);
 	}
 
-	const icon = $$props.icon;
-	const iconText = $$props.iconText;
-	const spin = $$props.spin;
-
 	$: variant = borders
 		? ('bordered' as InputVariant)
 		: quiet
@@ -100,56 +106,40 @@
 	});
 </script>
 
-{#if icon || iconText}
-	<div class="input-wrapper {$$props.class}">
+<div class="input-wrapper {$$props.class}">
+	{#if icon}
 		<div class="icon">
-			<Icon {icon} {iconText} {spin} color="--figma-color-icon" />
+			<Icon {icon} {spin} color="--figma-color-icon" />
 		</div>
-		<input
-			use:typeAction
-			on:input={handleInput}
-			on:change={handleChange}
-			on:keydown={handleKeydown}
-			on:focus={handleFocus}
-			on:blur={handleBlur}
-			bind:value
-			{id}
-			{name}
-			{disabled}
-			{placeholder}
-			class={inputClass}
-			data-error-message={errorMessage}
-		/>
-		{#if invalid}
-			<div class="error">
-				{errorMessage}
-			</div>
-		{/if}
-	</div>
-{:else}
-	<div class="input-wrapper {$$props.class}">
-		<input
-			use:typeAction
-			on:input={handleInput}
-			on:change={handleChange}
-			on:keydown={handleKeydown}
-			on:focus={handleFocus}
-			on:blur={handleBlur}
-			bind:value
-			{id}
-			{name}
-			{disabled}
-			{placeholder}
-			class={inputClass}
-			data-error-message={errorMessage}
-		/>
-		{#if invalid}
-			<div class="error">
-				{errorMessage}
-			</div>
-		{/if}
-	</div>
-{/if}
+	{:else if iconText}
+		<div class="icon">
+			<Icon {iconText} {spin} color="--figma-color-icon" />
+		</div>
+	{/if}
+	<input
+		use:typeAction
+		on:input={handleInput}
+		on:change={handleChange}
+		on:keydown={handleKeydown}
+		on:focus={handleFocus}
+		on:blur={handleBlur}
+		bind:value
+		{id}
+		{name}
+		{disabled}
+		{placeholder}
+		class={inputClass}
+		data-error-message={errorMessage}
+		aria-invalid={invalid}
+		aria-label={$$props['aria-label']}
+		aria-describedby={invalid ? `${id}-error` : $$props['aria-describedby']}
+	/>
+	{#if invalid}
+		<div class="error" id="{id}-error" role="alert">
+			{errorMessage}
+		</div>
+	{/if}
+</div>
 
 <style lang="scss">
 	.input-wrapper {
@@ -248,7 +238,7 @@
 	}
 
 	:global(.indent) {
-		padding-left: 32px;
+		padding-left: calc(32px + var(--spacer-2));
 	}
 
 	:global(.invalid),
@@ -259,11 +249,14 @@
 
 	.icon {
 		position: absolute;
-		top: -4px;
-		left: 0;
-		width: var(--spacer-5);
-		height: var(--spacer-5);
+		top: 50%;
+		left: var(--spacer-2);
+		transform: translateY(-50%);
 		z-index: 1;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		pointer-events: none;
 	}
 
 	.error {

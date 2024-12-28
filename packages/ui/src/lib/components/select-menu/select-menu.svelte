@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { clickOutside } from '$actions/click-outside';
 	import type * as icons from '$icons';
-	import { Icon } from '$ui/icon';
+	import { Icon, Text } from '$ui';
 	import { createEventDispatcher, onMount } from 'svelte';
 	import SelectDivider from './select-divider.svelte';
 	import SelectItem from './select-item.svelte';
@@ -174,10 +174,13 @@
 			}, i * interval);
 		}
 
-		setTimeout(() => {
-			menuList.classList.add('hidden');
-			menuButton.classList.remove('selected');
-		}, interval * blinkCount + 40);
+		setTimeout(
+			() => {
+				menuList.classList.add('hidden');
+				menuButton.classList.remove('selected');
+			},
+			interval * blinkCount + 40
+		);
 	}
 
 	function resetMenuProperties() {
@@ -205,9 +208,9 @@
 		{/if}
 
 		{#if value}
-			<span class="label">{value.label}</span>
+			<Text class="label">{value.label}</Text>
 		{:else}
-			<span class="placeholder">{placeholder}</span>
+			<Text emphasis="tertiary" class="placeholder">{placeholder}</Text>
 		{/if}
 
 		{#if !disabled}

@@ -90,7 +90,7 @@
 <div class="layerTree-wrapper">
 	<div class="search-container">
 		<Input
-			icon="SearchSvg"
+			icon="SearchSvg_32"
 			class="search-input"
 			bind:value={searchQuery}
 			placeholder="Search layers..."
