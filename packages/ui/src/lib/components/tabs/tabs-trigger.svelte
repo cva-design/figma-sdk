@@ -1,11 +1,33 @@
 <script lang="ts">
-	import { getContext, onMount } from 'svelte';
-	import type { Writable } from 'svelte/store';
+	import { type VariantProps, cva } from 'class-variance-authority';
+	import { getContext } from 'svelte';
+	import type { HTMLAttributes } from 'svelte/elements';
+	import { type Writable } from 'svelte/store';
+
+	const tabsTrigger = cva('fps-TabsTrigger', {
+		variants: {
+			expand: {
+				true: 'fps-expand'
+			},
+			disabled: {
+				true: 'fps-disabled'
+			}
+		},
+		defaultVariants: {
+			expand: false,
+			disabled: false
+		}
+	});
+
+	interface $$Props extends HTMLAttributes<HTMLButtonElement>, VariantProps<typeof tabsTrigger> {
+		value: string;
+	}
 
 	export let value: string;
+	export let expand: $$Props['expand'] = false;
+	export let disabled: $$Props['disabled'] = false;
 	const className: string | undefined = undefined;
 	export { className as class };
-	export const expand: boolean = false;
 
 	const { register } = getContext('tabs') as {
 		register: (value: string) => { isSelected: Writable<boolean>; select: () => void };
@@ -16,20 +38,21 @@
 
 	$: isActive = $isSelected;
 
-	onMount(() => {
-		if (triggerElement && !expand) {
-			triggerElement.style.width = `${triggerElement.getBoundingClientRect().width}px`;
+	function handleClick() {
+		if (!disabled) {
+			select();
 		}
-	});
+	}
 </script>
 
 <button
 	bind:this={triggerElement}
-	class="fps-TabsTrigger {expand ? 'expand' : ''} {className || ''}"
+	class={tabsTrigger({ expand, disabled, class: className })}
 	role="tab"
 	aria-selected={isActive}
 	data-state={isActive ? 'active' : 'inactive'}
-	on:click={select}
+	{disabled}
+	on:click={handleClick}
 >
 	<slot />
 </button>
@@ -52,8 +75,13 @@
 		white-space: nowrap;
 		cursor: pointer;
 
-		&.expand {
+		&:where(.fps-expand) {
 			width: 100%;
+		}
+
+		&:where(.fps-disabled) {
+			cursor: not-allowed;
+			opacity: 0.5;
 		}
 
 		&[data-state='inactive'] {

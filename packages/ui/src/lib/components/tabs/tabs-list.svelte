@@ -1,34 +1,52 @@
 <script lang="ts">
-import { Button } from "$ui/button";
-import { Icon } from "$ui/icon";
-import { slide } from "svelte/transition";
+	import { Button } from '$ui/button';
+	import { Icon } from '$ui/icon';
+	import { type VariantProps, cva } from 'class-variance-authority';
+	import type { HTMLAttributes } from 'svelte/elements';
+	import { slide } from 'svelte/transition';
 
-export let class_: string | undefined = undefined;
-export let fullWidth: boolean = false;
-export let collapsible: boolean = false;
+	const tabsList = cva('fps-TabsList', {
+		variants: {
+			fullWidth: {
+				true: 'fps-full-width'
+			},
+			collapsible: {
+				true: 'fps-collapsible'
+			}
+		},
+		defaultVariants: {
+			fullWidth: false,
+			collapsible: false
+		}
+	});
 
-let isExpanded: boolean = false;
+	interface $$Props extends HTMLAttributes<HTMLDivElement>, VariantProps<typeof tabsList> {}
 
-function toggleExpand() {
-	isExpanded = !isExpanded;
-}
+	export let fullWidth: $$Props['fullWidth'] = false;
+	export let collapsible: $$Props['collapsible'] = false;
+
+	let isExpanded: boolean = false;
+
+	function toggleExpand() {
+		isExpanded = !isExpanded;
+	}
 </script>
 
 {#if collapsible}
 	<div class="tabs-wrapper">
 		<Button variant="secondary" on:click={toggleExpand} class="toggle-button">
-			<Icon icon={isExpanded ? 'CaretDownSvg' : 'CaretRightSvg'} />  <!-- TODO: Será que precisa de um icone de seta? -->
+			<Icon icon={isExpanded ? 'CaretDownSvg' : 'CaretRightSvg'} />
 			<span class="toggle-text">Show Options</span>
 		</Button>
 
 		{#if isExpanded}
-			<div class="fps-TabsList {fullWidth ? 'full-width' : ''} {class_ || ''}" transition:slide>
+			<div class={tabsList({ fullWidth, collapsible, class: $$props.class })} transition:slide>
 				<slot />
 			</div>
 		{/if}
 	</div>
 {:else}
-	<div class="fps-TabsList {fullWidth ? 'full-width' : ''} {class_ || ''}">
+	<div class={tabsList({ fullWidth, collapsible, class: $$props.class })}>
 		<slot />
 	</div>
 {/if}
@@ -39,13 +57,17 @@ function toggleExpand() {
 		overflow-y: auto;
 		gap: var(--space-2);
 
-		&.full-width {
+		&:where(.fps-full-width) {
 			width: 100%;
 
 			:global(.fps-TabsTrigger) {
 				flex: 1;
-				width: 100% !important; // Override the fixed width
+				width: 100% !important;
 			}
+		}
+
+		&:where(.fps-collapsible) {
+			flex-direction: column;
 		}
 	}
 

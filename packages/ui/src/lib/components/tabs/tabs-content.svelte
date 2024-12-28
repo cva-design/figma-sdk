@@ -1,9 +1,28 @@
 <script lang="ts">
+	import { type VariantProps, cva } from 'class-variance-authority';
 	import { getContext } from 'svelte';
+	import type { HTMLAttributes } from 'svelte/elements';
 	import type { Writable } from 'svelte/store';
-	import { derived } from 'svelte/store';
+
+	const tabsContent = cva('fps-TabsContent', {
+		variants: {
+			animate: {
+				true: 'fps-animate'
+			}
+		},
+		defaultVariants: {
+			animate: false
+		}
+	});
+
+	interface $$Props extends HTMLAttributes<HTMLDivElement>, VariantProps<typeof tabsContent> {
+		value: string;
+	}
 
 	export let value: string;
+	export let animate: $$Props['animate'] = false;
+	const className: string | undefined = undefined;
+	export { className as class };
 
 	const { selectedTab } = getContext('tabs') as {
 		selectedTab: Writable<string>;
@@ -13,45 +32,26 @@
 </script>
 
 {#if isVisible}
-	<div class="fps-TabsContent {$$props.class || ''}" role="tabpanel">
+	<div class={tabsContent({ animate, class: className })} role="tabpanel">
 		<slot />
 	</div>
 {/if}
 
 <style lang="scss">
-		.fp-TabsList {
-  display: flex;
-  overflow-y: auto;
-  gap: var(--space-2);
-}
-
-.fp-TabsTrigger {
-  all: unset;
-  box-sizing: border-box;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  height: var(--space-6);
-  padding: 0 var(--space-2);
-  font-family: var(--font-family-default);
-  font-size: var(--font-size-default);
-  font-weight: var(--font-weight-default);
-  letter-spacing: var(--letter-spacing-default);
-  line-height: var(--line-height-default);
-  white-space: nowrap;
-
-  &:where([data-state='inactive']) {
-    color: var(--figma-color-text-secondary);
-    --color-icon: var(--figma-color-icon-secondary);
-  }
-
-  &:where([data-state='active']) {
-    font-weight: var(--font-weight-strong);
-    color: var(--figma-color-text);
-    --color-icon: var(--figma-color-icon);
-    background: var(--figma-color-bg-secondary);
-    border-radius: var(--radius-medium);
+	.fps-TabsContent {
+		&:where(.fps-animate) {
+			animation: contentShow 200ms ease-out;
+		}
 	}
-}
+
+	@keyframes contentShow {
+		from {
+			opacity: 0;
+			transform: translateY(2px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
 </style>
