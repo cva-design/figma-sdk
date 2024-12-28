@@ -89,6 +89,12 @@
     "./tokens/*": {
       "cva-dev": "./src/lib/tokens/*.css",
       "default": "./dist/tokens/*.css"
+    },
+    "./types": {
+      "default": "./src/lib/types/index.ts*"
+    },
+    "./types/*": {
+      "default": "./src/lib/types/*"
     }
   },
   "files": ["dist", "!dist/**/*.test.*", "!dist/**/*.spec.*", "src/**/*"],
