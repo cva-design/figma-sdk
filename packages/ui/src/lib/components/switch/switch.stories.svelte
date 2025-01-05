@@ -1,5 +1,5 @@
 <script context="module" lang="ts">
-	import { Switch } from '$ui';
+	import { Switch } from '#ui';
 	import { Story, Template } from '@storybook/addon-svelte-csf';
 
 	export const meta = {

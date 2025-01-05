@@ -1,5 +1,5 @@
 <script context="module" lang="ts">
-	import { Disclosure, DisclosureItem } from '$ui';
+	import { Disclosure, DisclosureItem } from '#ui';
 	import { Story, Template } from '@storybook/addon-svelte-csf';
 
 	export const meta = {

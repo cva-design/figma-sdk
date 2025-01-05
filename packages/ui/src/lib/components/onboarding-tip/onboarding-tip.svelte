@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Icon, type IconProps } from '$ui';
+	import { Icon, type IconProps } from '#ui';
 
 	type $$Props = IconProps;
 

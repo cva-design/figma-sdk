@@ -1,5 +1,5 @@
 <script context="module" lang="ts">
-import { Textarea } from "$ui";
+import { Textarea } from "#ui";
 import { Story, Template } from "@storybook/addon-svelte-csf";
 
 

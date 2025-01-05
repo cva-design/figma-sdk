@@ -1,6 +1,6 @@
 <script context="module" lang="ts">
 	import { Story, Template } from "@storybook/addon-svelte-csf";
-	import { Text } from "$ui";
+	import { Text } from "#ui";
 	
 	export const meta = {
 		title: "Text",

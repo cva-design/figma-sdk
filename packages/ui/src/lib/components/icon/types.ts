@@ -1,4 +1,4 @@
-import type { AutocompleteString } from '$lib/util';
+import type { AutocompleteString } from '#lib/util';
 
 type IconBaseProps = {
   /**
@@ -18,7 +18,7 @@ type NamedIconProps = IconBaseProps & {
   /**
    * icon: The icon identifier from the icons collection
    */
-  icon: keyof typeof import('$icons');
+  icon: keyof typeof import('#icons');
 
   /**
    * iconText: The iconText cannot be set when icon is provided

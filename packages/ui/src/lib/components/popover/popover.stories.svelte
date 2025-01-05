@@ -1,5 +1,5 @@
 <script context="module" lang="ts">
-	import { Popover } from '$ui';
+	import { Popover } from '#ui';
 	import { Story } from '@storybook/addon-svelte-csf';
 	import { PopoverPlacements } from './popover.svelte';
 

@@ -1,5 +1,5 @@
 <script context="module" lang="ts">
-import { Tree } from "$ui";
+import { Tree } from "#ui";
 import { Story, Template } from "@storybook/addon-svelte-csf";
 
 

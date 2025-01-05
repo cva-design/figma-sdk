@@ -1,6 +1,6 @@
 <script context="module" lang="ts">
 export type ToggleState = {
-	icon: keyof typeof import("$icons");
+	icon: keyof typeof import("#icons");
 	tooltip?: string;
 };
 
@@ -17,8 +17,8 @@ export type ToggleStates = {
 </script>
 
 <script lang="ts">
-	import { Icon } from '$ui/icon';
-	import { Tooltip } from '$ui/tooltip';
+	import { Icon } from '#ui/icon';
+	import { Tooltip } from '#ui/tooltip';
 	import { cva } from 'class-variance-authority';
 	import { createEventDispatcher } from 'svelte';
 	import type { HTMLAttributes } from 'svelte/elements';

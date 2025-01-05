@@ -37,7 +37,18 @@
     "chromatic": "chromatic --project-token=$(dotenvx get CHROMATIC_PROJECT_TOKEN)"
   },
   "imports": {
-    "#icons": "./src/lib/icons/index.ts"
+    "#actions": "./src/lib/actions",
+    "#actions/*": "./src/lib/actions/*",
+    "#lib": "./src/lib",
+    "#lib/*": "./src/lib/*",
+    "#ui": "./src/lib/components",
+    "#ui/*": "./src/lib/components/*",
+    "#icons": "./src/lib/icons/index.ts",
+    "#icons/16": "./src/lib/icons/cfp/size-16/index.ts",
+    "#icons/16/*": "./src/lib/icons/cfp/size-16/*",
+    "#icons/32": "./src/lib/icons/cfp/size-32/index.ts",
+    "#icons/32/*": "./src/lib/icons/cfp/size-32/*",
+    "#icons/*": "./src/lib/icons/*"
   },
   "exports": {
     ".": {
@@ -91,7 +102,7 @@
       "default": "./dist/tokens/*.css"
     },
     "./types": {
-      "default": "./src/lib/types/index.ts*"
+      "default": "./src/lib/types/index.ts"
     },
     "./types/*": {
       "default": "./src/lib/types/*"
@@ -152,7 +163,7 @@
     "ts-node": "^10.9.2",
     "typescript": "^5.6.3",
     "typescript-eslint": "^8.12.2",
-    "vite": "^6.0.1",
+    "vite": "5",
     "vite-tsconfig-paths": "^5.0.1"
   },
   "svelte": "./dist/index.js",

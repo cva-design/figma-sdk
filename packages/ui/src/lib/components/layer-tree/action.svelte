@@ -7,8 +7,8 @@
 		tooltip: string;
 		enabled?: boolean;
 		click?: (params: { action: Action; event: Event; layer: LayerProps }) => void;
-		icons: Record<RequiredIcons, keyof typeof import('$icons')> & {
-			[K in OptionalIcons]?: keyof typeof import('$icons');
+		icons: Record<RequiredIcons, keyof typeof import('#icons')> & {
+			[K in OptionalIcons]?: keyof typeof import('#icons');
 		};
 	};
 
@@ -30,7 +30,7 @@
 </script>
 
 <script lang="ts">
-	import { Icon } from '$ui/icon';
+	import { Icon } from '#ui/icon';
 	import { cva } from 'class-variance-authority';
 	import type { HTMLAttributes } from 'svelte/elements';
 	import type { LayerProps } from '../layer/layer.svelte';
@@ -112,7 +112,7 @@
 			: action.kind === 'toggle' && action.isActive
 					? 'active'
 					: 'inactive'
-	}) as keyof typeof import('$icons');
+	}) as keyof typeof import('#icons');
 
 	$: dataId = action.id;
 

@@ -1,5 +1,5 @@
 <script context="module" lang="ts">
-	import { Icon } from '$ui/icon';
+	import { Icon } from '#ui/icon';
 	import { Story } from '@storybook/addon-svelte-csf';
 	import IconButton from './icon-button.svelte';
 

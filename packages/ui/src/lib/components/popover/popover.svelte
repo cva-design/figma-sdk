@@ -4,7 +4,7 @@
 </script>
 
 <script lang="ts">
-	import { Icon } from '$ui';
+	import { Icon } from '#ui';
 	import { createPopover, type CreatePopoverProps, melt } from '@melt-ui/svelte';
 
 	type $$Props = CreatePopoverProps;

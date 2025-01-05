@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Icon } from '$ui';
+	import { Icon } from '#ui';
 
 	export let size: 'one' | 'two' | 'three' = 'one';
 	export let text = '';

@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { Icon } from '$ui';
-	import type { IconProps } from '$ui/icon';
+	import { Icon } from '#ui';
+	import type { IconProps } from '#ui/icon';
 	import { cva, type VariantProps } from 'class-variance-authority';
 	import { createEventDispatcher } from 'svelte';
 

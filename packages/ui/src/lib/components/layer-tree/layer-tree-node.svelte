@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Icon } from '$ui/icon';
+	import { Icon } from '#ui/icon';
 	import { createEventDispatcher } from 'svelte';
 	import { Layer } from '../layer';
 	import type { LayerTreeData } from './layer-tree.svelte';

@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { Button } from '$ui/button';
-	import { Icon } from '$ui/icon';
+	import { Button } from '#ui/button';
+	import { Icon } from '#ui/icon';
 	import { type VariantProps, cva } from 'class-variance-authority';
 	import type { HTMLAttributes } from 'svelte/elements';
 	import { slide } from 'svelte/transition';

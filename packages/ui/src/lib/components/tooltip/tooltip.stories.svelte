@@ -1,5 +1,5 @@
 <script context="module" lang="ts">
-import { Tooltip } from "$ui";
+import { Tooltip } from "#ui";
 import { Story } from "@storybook/addon-svelte-csf";
 
 

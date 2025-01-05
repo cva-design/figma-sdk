@@ -28,7 +28,7 @@
 </script>
 
 <script lang="ts">
-	import { Icon, LayerIcon, Text, type IconProps } from '$ui';
+	import { Icon, LayerIcon, Text, type IconProps } from '#ui';
 	import { cva, type VariantProps } from 'class-variance-authority';
 	import type { ComponentType } from 'svelte';
 	import { createEventDispatcher } from 'svelte';

@@ -1,5 +1,5 @@
 <script context="module" lang="ts">
-	import { IconToggle, type ToggleStates } from '$ui';
+	import { IconToggle, type ToggleStates } from '#ui';
 	import { Story } from '@storybook/addon-svelte-csf';
 
 	export const meta = {

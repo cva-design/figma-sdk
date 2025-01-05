@@ -1,5 +1,5 @@
-import type { AutocompleteString } from '$lib/util';
 import type { Warning } from 'svelte/types/compiler/interfaces';
+import type { AutocompleteString } from '#lib/util';
 
 /**
  * Represents a way to match Svelte compiler warnings.

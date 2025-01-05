@@ -1,5 +1,5 @@
 <script context="module" lang="ts">
-	import { OnboardingTip } from '$ui';
+	import { OnboardingTip } from '#ui';
 	import { Story, Template } from '@storybook/addon-svelte-csf';
 
 	export const meta = {

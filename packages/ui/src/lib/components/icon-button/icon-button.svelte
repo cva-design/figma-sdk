@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Tooltip } from '$ui/tooltip';
+	import { Tooltip } from '#ui/tooltip';
 	import { type VariantProps, cva } from 'class-variance-authority';
 	import type { HTMLButtonAttributes } from 'svelte/elements';
 

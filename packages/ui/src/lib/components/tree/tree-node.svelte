@@ -1,5 +1,5 @@
 <script lang="ts">
-import { ChevronDownSvg_16, ChevronRightSvg_16 } from "$icons";
+import { ChevronDownSvg_16, ChevronRightSvg_16 } from "#icons";
 import { createEventDispatcher } from "svelte";
 import type { Action, ITreeNode, TreeOptions } from "./types";
 

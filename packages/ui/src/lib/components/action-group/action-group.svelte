@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Button, IconButton } from '$ui';
+	import type { Button, IconButton } from '#ui';
 
 	type AllowedComponents = Button | IconButton;
 

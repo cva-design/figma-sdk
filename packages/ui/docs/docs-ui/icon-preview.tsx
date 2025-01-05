@@ -11,7 +11,7 @@ const IconPreview: React.FC<IconPreviewProps> = ({ icon, size = 24 }) => {
   if (icon.startsWith('$') || icon.includes('/')) {
     // For dynamic imports, we need to use React.lazy
     const IconComponent = React.lazy(() => {
-      const path = icon.startsWith('$') ? icon.replace('$icons', '../../src/lib/icons') : icon;
+      const path = icon.startsWith('$') ? icon.replace('#icons', '../../src/lib/icons') : icon;
       return import(path);
     });
 

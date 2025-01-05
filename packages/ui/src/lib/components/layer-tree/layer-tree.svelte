@@ -1,5 +1,5 @@
 <script lang="ts" context="module">
-	import { Input } from '$ui';
+	import { Input } from '#ui';
 	import { cx } from 'class-variance-authority';
 	import type { Action as ActionType } from './action.svelte';
 	export type LayerTreeData = {

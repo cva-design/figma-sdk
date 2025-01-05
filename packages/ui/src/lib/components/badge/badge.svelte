@@ -1,6 +1,6 @@
 <script lang="ts">
-	import type { Color } from '$lib/types/colors';
-	import Text from '$ui/typography/text.svelte';
+	import type { Color } from '#lib/types/colors';
+	import Text from '#ui/typography/text.svelte';
 	import { type VariantProps, cva } from 'class-variance-authority';
 	import type { HTMLAttributes } from 'svelte/elements';
 

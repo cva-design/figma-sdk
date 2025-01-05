@@ -1,14 +1,14 @@
 <script lang="ts">
-	import { clickOutside } from '$actions/click-outside';
-	import type * as icons from '$icons';
-	import { Icon, Text } from '$ui';
+	import { clickOutside } from '#actions/click-outside';
+	import type * as icons from '#icons';
+	import { Icon, Text } from '#ui';
 	import { createEventDispatcher, onMount } from 'svelte';
 	import SelectDivider from './select-divider.svelte';
 	import SelectItem from './select-item.svelte';
 	import type { SelectMenuItem } from './types';
 
-	export let icon: keyof typeof icons | null = null;
-	export let iconText: string | null = null;
+	export let icon: keyof typeof icons | undefined = undefined;
+	export let iconText: string | undefined = undefined;
 	export let disabled: boolean = false;
 	export let macOSBlink: boolean = false;
 	export let menuItems: SelectMenuItem[] = [];
