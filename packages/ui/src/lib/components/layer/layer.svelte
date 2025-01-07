@@ -14,6 +14,9 @@
 			},
 			selected: {
 				true: styles.selected
+			},
+			disabled: {
+				true: styles.disabled
 			}
 		}
 	});
@@ -24,18 +27,17 @@
 		propagateEscapeKeyDown?: boolean;
 		onClick?: (event: MouseEvent) => void;
 		actions?: Array<ActionType>;
+		disabled?: boolean;
 	}
 </script>
 
 <script lang="ts">
-	import { Icon, LayerIcon, Text, type IconProps } from '#ui';
+	import { Icon, LayerIcon, Text } from '#ui';
 	import { cva, type VariantProps } from 'class-variance-authority';
 	import type { ComponentType } from 'svelte';
 	import { createEventDispatcher } from 'svelte';
-	import styles from './layer.module.css';
 	import Action from '../layer-tree/action.svelte';
-
-
+	import styles from './layer.module.css';
 
 	interface LayerProps extends VariantProps<typeof layer> {
 		description?: string;
@@ -45,7 +47,7 @@
 		onClick?: (event: MouseEvent) => void;
 		actions?: Array<ActionType>;
 	}
-	
+
 	export let type: LayerType;
 	/**
 	 * TODO: automatically set bold to true
@@ -61,6 +63,7 @@
 	export let expanded: boolean = false;
 	export let onClick: ((event: MouseEvent) => void) | undefined = undefined;
 	export let actions: LayerProps['actions'] = [];
+	export let disabled: boolean = false;
 
 	const dispatch = createEventDispatcher();
 
@@ -85,6 +88,11 @@
 	}
 
 	function handleLayerClick(event: MouseEvent) {
+		if (disabled) {
+			event.preventDefault();
+			event.stopPropagation();
+			return;
+		}
 		// Only handle layer clicks if the click didn't originate from an action
 		const target = event.target as HTMLElement;
 		console.log('target', target);
@@ -97,7 +105,7 @@
 	}
 	const allProps: LayerProps = {
 		...$$props,
-		...$$restProps,
+		...$$restProps
 	} as LayerProps;
 	const iconUrl = LayerIcon[type] ?? icon;
 </script>
@@ -119,6 +127,7 @@
 			on:keydown={handleKeyDown}
 			tabindex="0"
 			type="checkbox"
+			{disabled}
 		/>
 		<div class={styles.box} />
 		<div class={styles.icon}>

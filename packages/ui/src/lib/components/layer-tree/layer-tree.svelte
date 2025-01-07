@@ -30,6 +30,7 @@
 	export let expandedNodes: Set<string> = new Set();
 	export let initiallyExpanded: boolean = false;
 	export let singleSelect: boolean = false;
+	export let clickable: boolean = false;
 
 	function expandAll(node: LayerTreeData) {
 		expandedNodes.add(node.id);
@@ -99,7 +100,14 @@
 	</div>
 
 	<div class="panel-section layerTree-container">
-		<LayerTreeNode data={filteredTree} {expandedNodes} {singleSelect} on:select on:toggle />
+		<LayerTreeNode
+			data={filteredTree}
+			{expandedNodes}
+			{singleSelect}
+			{clickable}
+			on:select
+			on:toggle
+		/>
 	</div>
 </div>
 

@@ -13,6 +13,7 @@
 	export let data: LayerTreeData;
 	export let expandedNodes: Set<string>;
 	export let singleSelect: boolean = false;
+	export let clickable: boolean = true;
 	let selected: boolean = false;
 
 	if (singleSelect) {
@@ -33,20 +34,20 @@
 		dispatch('toggle', { node, expanded: expandedNodes.has(node.id) });
 	}
 
-	function handleNodeClick(event: Event, node: LayerTreeData) {
-		if (!node.disabled && singleSelect) {
-			selectedNodeStore.update((nodeId) => {
-				if (nodeId === node.id) {
-					return null;
-				}
-				return node.id;
-			});
-		}
-		if (node.click) {
-			node.click(event, node);
-		}
-		dispatch('select', node);
-	}
+	// function handleNodeClick(event: Event, node: LayerTreeData) {
+	// 	if (!node.disabled && singleSelect) {
+	// 		selectedNodeStore.update((nodeId) => {
+	// 			if (nodeId === node.id) {
+	// 				return null;
+	// 			}
+	// 			return node.id;
+	// 		});
+	// 	}
+	// 	if (node.click) {
+	// 		node.click(event, node);
+	// 	}
+	// 	dispatch('select', node);
+	// }
 </script>
 
 <div class="layerTree" class:disabled={data.disabled} class:mixed={data.mixed}>
@@ -77,14 +78,15 @@
 			component={data.component}
 			{selected}
 			actions={data.actions}
-			onClick={(e) => handleNodeClick(e, data)}
+			disabled={!clickable}
+
 		/>
 	</div>
 
 	{#if expandedNodes.has(data.id) && data.children?.length}
 		<div class="layerTree--children">
 			{#each data.children as child}
-				<svelte:self {expandedNodes} data={child} {singleSelect} on:select on:toggle />
+				<svelte:self {expandedNodes} data={child} {singleSelect} {clickable} on:select on:toggle />
 			{/each}
 		</div>
 	{/if}
