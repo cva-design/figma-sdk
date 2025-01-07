@@ -1,6 +1,6 @@
 import type { Warning } from 'svelte/types/compiler/interfaces';
 import Table, { type Header } from 'tty-table';
-import type { Plugin } from 'vite';
+import type { Logger, Plugin } from 'vite';
 import type {
   SvelteWarningsConfig,
   WarningCounter,
@@ -9,6 +9,7 @@ import type {
 
 import type { Options as SveltePluginOptions } from '@sveltejs/vite-plugin-svelte';
 import chalk from 'chalk';
+import { formatWarningLog } from './log-formatter';
 
 type SveltePlugin = Plugin<SveltePluginOptions> & {
   api: { options: SveltePluginOptions };
@@ -31,10 +32,13 @@ export function svelteWarnings(config: SvelteWarningsConfig): Plugin {
   const warningCounter: WarningCounter = {};
   const seenCodes: Set<string> = new Set();
 
+  let logger: Logger;
+
   return {
     name: 'vite-plugin-svelte-warnings',
     enforce: 'pre',
     configResolved(viteConfig) {
+      logger = viteConfig.logger;
       const sveltePlugin = viteConfig.plugins?.find(
         (plugin: Plugin): plugin is SveltePlugin => {
           return (<Plugin>plugin)?.name === 'vite-plugin-svelte';
@@ -52,24 +56,13 @@ export function svelteWarnings(config: SvelteWarningsConfig): Plugin {
         );
       }
 
-      // console.log(
-      //   '--------------------------- sveltePlugin.api ---------------------------',
-      //   sveltePlugin.api,
-      //   '------------------------------------------------------',
-      // );
-
-      const originalOnwarn = sveltePlugin.api.options.onwarn;
+      const formatWarning =
+        config.formatWarning ?? ((warning: Warning) => warning);
 
       sveltePlugin.api.options.onwarn = (
         warning: Warning,
         defaultHandler?: (warning: Warning) => void,
       ) => {
-        /**
-         * Checks if a warning matches any of the provided matchers.
-         *
-         * @param matchers - Array of WarningMatchers to check against.
-         * @returns True if the warning matches any matcher, false otherwise.
-         */
         const isMatched = (matchers: WarningMatcher[] | undefined) =>
           matchers?.some(
             (matcher) =>
@@ -93,31 +86,15 @@ export function svelteWarnings(config: SvelteWarningsConfig): Plugin {
           return; // Skip the warning
         }
 
-        // Use the original onwarn function if it exists, otherwise use the default handler
-        if (originalOnwarn) {
-          originalOnwarn(
-            warning,
-            defaultHandler ??
-              ((w: Warning) => {
-                return w;
-              }),
-          );
-        } else if (defaultHandler) {
-          defaultHandler(warning);
-        }
+        logger.warn(formatWarningLog(formatWarning(warning)));
       };
     },
-    /**
-     * Displays a summary of warnings at the end of compilation.
-     */
     closeBundle() {
       if (config.summary) {
         const title =
           config.summary === 'ignored'
             ? 'Svelte Ignored Warnings Summary:'
             : 'Svelte Warnings Summary:';
-
-        console.log(`\n${chalk.bold(title)}`);
 
         const { total, ignored } = Object.values(warningCounter).reduce(
           (acc, { total, ignored }) => ({
@@ -163,14 +140,22 @@ export function svelteWarnings(config: SvelteWarningsConfig): Plugin {
           footerColor: 'yellow',
         });
 
-        console.log(table.render());
+        const summary = [chalk.bold(title), table.render()];
 
         if (config.listAllCodes) {
-          console.log(chalk.gray('\nSeen warning codes:'));
-          console.log(
-            chalk.gray(`\n  - ${Array.from(seenCodes).sort().join('\n  - ')}`),
+          summary.push(
+            chalk.gray(
+              [
+                '',
+                'Seen warning codes:',
+                '',
+                `- ${Array.from(seenCodes).sort().join('\n  - ')}`,
+              ].join('\n'),
+            ),
           );
         }
+
+        (logger || this).info(`[svelte-warnings] ${summary.join('\n')}`);
       }
     },
   };

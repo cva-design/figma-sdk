@@ -20,6 +20,7 @@ function handleClick(event: MouseEvent) {
 		bind:group
 		{disabled}
 		{tabindex}
+		{checked}
 		id={uniqueId}
 		on:click={handleClick}
 		on:change

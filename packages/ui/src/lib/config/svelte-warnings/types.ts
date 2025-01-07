@@ -38,6 +38,11 @@ export interface SvelteWarningsConfig {
    * @default false
    */
   listAllCodes?: boolean;
+
+  /**
+   * Handles warning emitted from the Svelte compiler
+   */
+  formatWarning?: (warning: Warning) => Warning;
 }
 
 /**
