@@ -52,8 +52,14 @@
 <style lang="scss">
 	.fps-TabsRoot {
 		display: flex;
-		flex-direction: column;
 		gap: var(--space-2);
+		flex-shrink: 0;
+		padding-bottom: 2px;
+		// justify-content: flex-start;
+		// align-items: center;
+		// height: 40px;
+
+		word-break: keep-all;
 
 		&:where(.fps-orientation-horizontal) {
 			flex-direction: column;

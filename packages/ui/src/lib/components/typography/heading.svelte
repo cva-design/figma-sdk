@@ -48,6 +48,7 @@
 			font-weight: var(--text-body-large-strong-font-weight);
 			letter-spacing: var(--text-body-large-strong-letter-spacing);
 			line-height: var(--text-body-large-strong-line-height);
+			margin-block-end: var(--spacer-2);
 		}
 
 		&:where(.fps-Heading--level2, .fps-Heading--level3) {
@@ -56,10 +57,12 @@
 			font-weight: var(--text-body-medium-strong-font-weight);
 			letter-spacing: var(--text-body-medium-strong-letter-spacing);
 			line-height: var(--text-body-medium-strong-line-height);
+			margin-block-end: var(--spacer-2);
 		}
 
 		&:where(.fps-Heading--level3) {
 			color: var(--color-text-secondary);
+			margin-block-end: var(--spacer-1);
 		}
 	}
 

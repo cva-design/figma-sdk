@@ -27,7 +27,7 @@
 		propagateEscapeKeyDown?: boolean;
 		onClick?: (event: MouseEvent) => void;
 		actions?: Array<ActionType>;
-		disabled?: boolean;
+		disabled: boolean;
 	}
 </script>
 
@@ -46,6 +46,7 @@
 		propagateEscapeKeyDown?: boolean;
 		onClick?: (event: MouseEvent) => void;
 		actions?: Array<ActionType>;
+		disabled: boolean;
 	}
 
 	export let type: LayerType;
@@ -79,11 +80,15 @@
 
 	function handleKeyDown(event: KeyboardEvent) {
 		dispatch('keydown', event);
+
 		if (event.key === 'Escape') {
 			if (!propagateEscapeKeyDown) {
 				event.stopPropagation();
 			}
 			(event.currentTarget as HTMLInputElement).blur();
+		} else if (event.key === 'Enter' || event.key === ' ') {
+			event.preventDefault();
+			handleLayerClick(event as unknown as MouseEvent);
 		}
 	}
 
@@ -105,12 +110,19 @@
 	}
 	const allProps: LayerProps = {
 		...$$props,
-		...$$restProps
+		...$$restProps,
+		disabled: disabled ?? false
 	} as LayerProps;
 	const iconUrl = LayerIcon[type] ?? icon;
 </script>
 
-<div class={layer({ bold, component, expanded, selected })} on:click={handleLayerClick}>
+<div
+	class={layer({ bold, component, expanded, selected })}
+	on:click={handleLayerClick}
+	on:keydown={handleKeyDown}
+	role="button"
+	tabindex="0"
+>
 	<div
 		class={`layer-content ${styles.layerContent} ${selected ? styles.layerIndentSelected : styles.layerIndent}`}
 	>

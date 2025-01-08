@@ -6,10 +6,11 @@
 
 	const input = cva('input-base', {
 		variants: {
-			variant: {
-				default: '',
-				quiet: 'quiet',
-				bordered: 'borders'
+			quiet: {
+				true: 'quiet'
+			},
+			bordered: {
+				true: 'bordered'
 			},
 			state: {
 				invalid: 'invalid',
@@ -17,24 +18,27 @@
 			},
 			hasIcon: {
 				true: 'indent'
+			},
+			textStyle: {
+				strong: 'fps-text-strong',
+				large: 'fps-text-large'
 			}
 		},
 		defaultVariants: {
-			variant: 'default',
 			state: undefined,
-			hasIcon: undefined
+			hasIcon: undefined,
+			textStyle: undefined
 		}
 	});
 
 	type InputVariants = VariantProps<typeof input>;
-	type InputVariant = NonNullable<InputVariants['variant']>;
 	type InputState = NonNullable<InputVariants['state']>;
 
 	type $$Props = {
 		value?: string | null;
 		id?: string | null;
 		name?: string | null;
-		borders?: boolean;
+		bordered?: boolean;
 		disabled?: boolean;
 		type?: string;
 		invalid?: boolean;
@@ -47,18 +51,17 @@
 		class?: string;
 		'aria-label'?: string;
 		'aria-describedby'?: string;
+		textStyle?: 'strong' | 'large';
 	};
 
 	export let value: string | null = null;
 	export let id: string | null = null;
 	export let name: string | null = null;
-	export let borders: boolean = false;
 	export let disabled: boolean = false;
 	export let type: string = 'text';
 	export let invalid: boolean = false;
 	export let errorMessage: string = 'Error message';
 	export let placeholder: string = 'Input something here...';
-	export let quiet: boolean = false;
 	export let icon: IconProps['icon'] = undefined;
 	export let iconText: string | undefined = undefined;
 	export let spin = false;
@@ -89,18 +92,14 @@
 		dispatch('blur', event);
 	}
 
-	$: variant = borders
-		? ('bordered' as InputVariant)
-		: quiet
-			? ('quiet' as InputVariant)
-			: ('default' as InputVariant);
 	$: state = invalid
 		? ('invalid' as InputState)
 		: disabled
 			? ('disabled' as InputState)
 			: undefined;
+
 	$: inputClass = input({
-		variant,
+		...$$props,
 		state,
 		hasIcon: !!icon || !!iconText || undefined
 	});
@@ -148,7 +147,7 @@
 		width: 100%;
 	}
 
-	:global(.input-base) {
+	.input-base {
 		font-size: var(--font-size-default);
 		font-weight: var(--font-weight-default);
 		font-family: var(--font-family-default);
@@ -203,7 +202,7 @@
 			outline-offset: -2px;
 		}
 
-		&.disabled {
+		&:where(.disabled) {
 			position: relative;
 			color: var(--figma-color-text-disabled);
 			background-image: none;
@@ -226,25 +225,47 @@
 				}
 			}
 		}
-	}
 
-	:global(.borders) {
-		border: 1px solid var(--figma-color-border);
-		background-image: none;
-	}
+		&:where(.fps-text-large) {
+			font-family: var(--text-body-large-strong-font-family);
+			font-size: var(--text-body-large-strong-font-size);
+			font-weight: var(--text-body-large-strong-font-weight);
+			letter-spacing: var(--text-body-large-strong-letter-spacing);
+			line-height: var(--text-body-large-strong-line-height);
+		}
 
-	:global(.quiet:not(.disabled):hover) {
-		border: 1px solid var(--figma-color-border);
-	}
+		&:where(.fps-text-strong) {
+			font-family: var(--text-body-medium-strong-font-family);
+			font-size: var(--text-body-medium-strong-font-size);
+			font-weight: var(--text-body-medium-strong-font-weight);
+			letter-spacing: var(--text-body-medium-strong-letter-spacing);
+			line-height: var(--text-body-medium-strong-line-height);
+		}
 
-	:global(.indent) {
-		padding-left: calc(32px + var(--spacer-2));
-	}
+		&:where(.bordered) {
+			border: 1px solid var(--figma-color-border);
+			background-image: none;
+		}
 
-	:global(.invalid),
-	:global(.invalid:hover),
-	:global(.invalid:focus) {
-		border: 1px solid var(--figma-color-border-danger-strong);
+		&:where(.quiet) {
+			background-color: transparent;
+			padding-left: calc(var(--spacer-2) - 1px);
+			margin-left: calc(0px - var(--spacer-2));
+
+			&:not(:where(.disabled)):hover {
+				border: 1px solid var(--figma-color-border);
+			}
+		}
+
+		&:where(.indent) {
+			padding-left: 32px;
+		}
+
+		&:where(.invalid),
+		&:where(.invalid:hover),
+		&:where(.invalid:focus) {
+			border: 1px solid var(--figma-color-border-danger-strong);
+		}
 	}
 
 	.icon {

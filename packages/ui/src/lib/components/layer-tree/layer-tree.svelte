@@ -123,9 +123,9 @@
 		display: flex;
 		align-items: center;
 		gap: 8px;
-		padding: 8px 0;
+		padding: 8px;
 		width: 100%;
-		border-bottom: 1px solid var(--figma-color-border);
+		// border-bottom: 1px solid var(--figma-color-border);
 		background: var(--figma-color-bg);
 		position: sticky;
 		top: 0;

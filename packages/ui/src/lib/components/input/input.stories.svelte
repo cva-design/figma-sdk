@@ -1,8 +1,8 @@
 <script context="module" lang="ts">
 	import { Story } from '@storybook/addon-svelte-csf';
 	import type { Meta } from '@storybook/svelte';
-	import Input from './input.svelte';
 	import type { SvelteComponent } from 'svelte';
+	import Input from './input.svelte';
 
 	export const meta = {
 		title: 'Input',
@@ -38,7 +38,7 @@
 </Story>
 
 <Story name="WithBorders">
-	<Input borders placeholder="With borders..." />
+	<Input bordered placeholder="With borders..." />
 </Story>
 
 <Story name="Disabled">
