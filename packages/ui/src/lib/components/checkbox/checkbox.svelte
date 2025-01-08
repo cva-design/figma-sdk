@@ -1,43 +1,43 @@
 <script lang="ts">
-import { createCheckbox } from "@melt-ui/svelte";
-import CheckmarkIndeterminateIcon from "./assets/checkmark-indeterminate.svelte";
-import CheckmarkIcon from "./assets/checkmark.svelte";
+	import { createCheckbox } from '@melt-ui/svelte';
+	import { Icon } from '../icon';
+	import Text from '../typography/text.svelte';
 
-export const className: string = "";
-export let checked: boolean = false;
-export let indeterminate: boolean = false;
-export const disabled: boolean = false;
-export const required: boolean = false;
-export const name: string | undefined = undefined;
-export const value: string | undefined = undefined;
-export const id: string | undefined = undefined;
-export const label: string | undefined = undefined;
+	export let className: string = '';
+	export let checked: boolean = false;
+	export let indeterminate: boolean = false;
+	export let disabled: boolean = false;
+	export let required: boolean = false;
+	export let name: string | undefined = undefined;
+	export let value: string | undefined = undefined;
+	export let id: string | undefined = undefined;
+	export let label: string | undefined = undefined;
 
-const {
-	elements: { root, input },
-	states: { checked: checkedState },
-	helpers: { isChecked, isIndeterminate },
-} = createCheckbox({
-	defaultChecked: indeterminate ? "indeterminate" : checked,
-	disabled,
-	required,
-	name,
-	value,
-});
+	const {
+		elements: { root, input },
+		states: { checked: checkedState },
+		helpers: { isChecked, isIndeterminate }
+	} = createCheckbox({
+		defaultChecked: indeterminate ? 'indeterminate' : checked,
+		disabled,
+		required,
+		name,
+		value
+	});
 
-$: {
-	if (indeterminate) {
-		checkedState.set("indeterminate");
-	} else {
-		checkedState.set(checked);
+	$: {
+		if (indeterminate) {
+			checkedState.set('indeterminate');
+		} else {
+			checkedState.set(checked);
+		}
 	}
-}
 
-$: checked = $isChecked;
-$: indeterminate = $isIndeterminate;
+	$: checked = $isChecked;
+	$: indeterminate = $isIndeterminate;
 
-const labelId = `checkbox-label-${id ?? ""}`;
-const descriptionId = `checkbox-description-${id ?? ""}`;
+	const labelId = `checkbox-label-${id ?? ''}`;
+	const descriptionId = `checkbox-description-${id ?? ''}`;
 </script>
 
 <div class="fp-CheckboxRoot {className}" use:root {...$root}>
@@ -48,20 +48,26 @@ const descriptionId = `checkbox-description-${id ?? ""}`;
 		{...$input}
 		aria-labelledby={labelId}
 		aria-describedby={descriptionId}
+		on:change
+		on:click
+		on:keydown
+		on:keyup
+		on:focus
+		on:blur
 	/>
 	<div class="fp-CheckboxCustomInput" aria-hidden="true">
 		<span class="fp-CheckboxIndicator">
 			{#if $isIndeterminate}
-				<CheckmarkIndeterminateIcon />
+				<Icon icon="CheckboxMixedSvg_12" color="var(--figma-color-icon-onbrand)" />
 			{:else if $isChecked}
-				<CheckmarkIcon />
+				<Icon icon="CheckboxCheckedSvg_12" color="var(--figma-color-icon-onbrand)" />
 			{/if}
 		</span>
 	</div>
 
 	{#if label}
-		<label class="fp-Text fp-CheckboxLabel" for={id} aria-hidden="true" id={labelId}>
-			{label}
+		<label class="fp-CheckboxLabel" for={id} aria-hidden="true" id={labelId}>
+			<Text>{label}</Text>
 		</label>
 	{/if}
 	{#if $$slots.description}
@@ -78,101 +84,116 @@ const descriptionId = `checkbox-description-${id ?? ""}`;
 		grid-template-columns: var(--space-4) auto;
 		min-height: 24px;
 		gap: var(--space-1) var(--space-2);
+		cursor: pointer;
+
+		&:has(.fp-CheckboxHiddenInput:disabled) {
+			cursor: not-allowed;
+		}
 	}
 
 	.fp-CheckboxHiddenInput {
 		position: absolute;
 		opacity: 0;
-		pointer-events: none;
 		margin: 0;
-		transform: translateX(-100%);
+		// Create a larger touch target while keeping it invisible
+		width: var(--space-11); // 44px
+		height: var(--space-11); // 44px
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		cursor: inherit;
+
+		&:focus-visible ~ .fp-CheckboxCustomInput {
+			outline: 2px solid var(--figma-color-border-selected);
+			outline-offset: 2px;
+			border-color: var(--figma-color-border-selected-strong);
+		}
+
+		&:checked ~ .fp-CheckboxCustomInput {
+			background-color: var(--figma-color-bg-brand);
+			border-color: var(--figma-color-bg-brand);
+
+			.fp-CheckboxIndicator svg {
+				opacity: 1;
+				transform: scale(1);
+				color: white;
+			}
+		}
+
+		&:disabled ~ .fp-CheckboxCustomInput {
+			background-color: var(--figma-color-bg-disabled);
+			border-color: var(--figma-color-border-disabled);
+
+			.fp-CheckboxIndicator {
+				color: var(--figma-color-icon-disabled);
+			}
+		}
+
+		&:disabled:checked ~ .fp-CheckboxCustomInput {
+			background-color: var(--figma-color-border-disabled);
+			border-color: transparent;
+		}
+
+		&:disabled ~ .fp-CheckboxDescription {
+			color: var(--figma-color-text-disabled);
+		}
 	}
 
 	.fp-CheckboxCustomInput {
 		box-sizing: border-box;
-		display: block;
+		display: flex;
+		align-items: center;
+		justify-content: center;
 		width: var(--space-4);
 		height: var(--space-4);
 		margin: var(--space-1) 0;
-		background-color: transparent;
+		background-color: var(--figma-color-bg);
 		border: 1px solid var(--figma-color-border-strong);
 		border-radius: var(--radius-medium);
 		flex-shrink: 0;
 		position: relative;
+		transition: all 100ms ease-out;
 	}
 
-	:global(.fp-CheckboxHiddenInput:focus-visible) ~ .fp-CheckboxCustomInput {
-		outline-offset: -1px;
-		outline: 1px solid var(--figma-color-border-selected);
-	}
+	// Hover states
+	@media (hover: hover) {
+		.fp-CheckboxRoot:hover:not(:has(.fp-CheckboxHiddenInput:disabled)) .fp-CheckboxCustomInput {
+			border-color: var(--figma-color-border-selected-strong);
+			background-color: var(--figma-color-bg-hover);
+		}
 
-	:global(.fp-CheckboxHiddenInput:focus-visible:checked) ~ .fp-CheckboxCustomInput {
-		outline-offset: 0;
-		outline: 1px solid var(--figma-color-border-selected-strong);
-		border-color: var(--figma-color-icon-onbrand);
-	}
-
-	:global(.fp-CheckboxHiddenInput:checked) ~ .fp-CheckboxCustomInput {
-		background-color: var(--figma-color-bg-brand);
-		border-color: transparent;
-	}
-
-	:global(.fp-CheckboxHiddenInput:disabled) ~ .fp-CheckboxCustomInput {
-		border-color: var(--figma-color-border-disabled-strong);
-	}
-
-	:global(.fp-CheckboxHiddenInput:disabled:checked) ~ .fp-CheckboxCustomInput {
-		border-color: transparent;
-		background-color: var(--figma-color-border-disabled-strong);
-	}
-
-	.fp-CheckboxIndicator {
-		display: block;
-		pointer-events: none;
-		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
-		bottom: 0;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-
-		// Make sure SVG icons are hidden by default
-		// Setting display none to be able to display the indeterminate
-		:global(svg) {
-			display: none;
+		.fp-CheckboxRoot:hover:not(:has(.fp-CheckboxHiddenInput:disabled))
+			.fp-CheckboxHiddenInput:checked
+			~ .fp-CheckboxCustomInput {
+			background-color: var(--figma-color-bg-brand-hover);
+			border-color: var(--figma-color-bg-brand-hover);
 		}
 	}
 
-	// Show checkmark when checked
-	:global(.fp-CheckboxHiddenInput:checked) ~ .fp-CheckboxCustomInput .fp-CheckboxIndicator :global(svg) {
-		--color-icon: var(--figma-color-icon-onbrand);
-		display: block;
-	}
+	.fp-CheckboxIndicator {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		position: absolute;
+		inset: 0;
+		color: var(--figma-color-icon-onbrand);
+		pointer-events: none;
 
-	// Show indeterminate icon when in indeterminate state
-	:global(.fp-CheckboxHiddenInput:indeterminate) ~ .fp-CheckboxCustomInput .fp-CheckboxIndicator :global(svg) {
-		--color-icon: var(--figma-color-icon-onbrand);
-		display: block;
-	}
-
-	// Style for disabled state
-	:global(.fp-CheckboxHiddenInput:disabled:checked) ~ .fp-CheckboxCustomInput .fp-CheckboxIndicator :global(svg),
-	:global(.fp-CheckboxHiddenInput:disabled:indeterminate) ~ .fp-CheckboxCustomInput .fp-CheckboxIndicator :global(svg) {
-		--color-icon: var(--figma-color-icon-disabled);
+		svg {
+			opacity: 0;
+			transform: scale(0.8);
+			transition: all 100ms ease-out;
+		}
 	}
 
 	.fp-CheckboxLabel {
 		margin-top: var(--space-1);
-	}
-
-	.fp-CheckboxInput:disabled ~ .fp-CheckboxLabel {
-		color: var(--figma-color-text-disabled);
+		cursor: inherit;
 	}
 
 	.fp-CheckboxDescription {
 		color: var(--figma-color-text-secondary);
 		grid-area: 2 / 2;
+		cursor: inherit;
 	}
 </style>
