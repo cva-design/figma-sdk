@@ -14,6 +14,9 @@
 	export let expandedNodes: Set<string>;
 	export let singleSelect: boolean = false;
 	export let clickable: boolean = true;
+	export let collapsable: boolean = true;
+	export let collapsableRoot: boolean = true;
+	export let isRoot: boolean = false;
 	let selected: boolean = false;
 
 	if (singleSelect) {
@@ -21,6 +24,8 @@
 			selected = selectedId === data.id;
 		});
 	}
+
+	$: showChevron = data.children?.length > 0 && (isRoot ? collapsableRoot : collapsable);
 
 	function toggleExpand(node: LayerTreeData) {
 		if (expandedNodes.has(node.id)) {
@@ -57,18 +62,20 @@
 		style:opacity={data.opacity || 1}
 	>
 		{#if data.children?.length > 0}
-			<button
-				class="layerTree--caret"
-				on:click|stopPropagation={() => !data.disabled && toggleExpand(data)}
-				class:expanded={expandedNodes.has(data.id)}
-				class:searching={data.matches || data.children.some((child) => child.matches)}
-			>
-				{#if expandedNodes.has(data.id)}
-					<Icon icon="ChevronDownSvg_16" />
-				{:else}
-					<Icon icon="ChevronRightSvg_16" />
-				{/if}
-			</button>
+			{#if showChevron}
+				<button
+					class="layerTree--caret"
+					on:click|stopPropagation={() => !data.disabled && toggleExpand(data)}
+					class:expanded={expandedNodes.has(data.id)}
+					class:searching={data.matches || data.children.some((child) => child.matches)}
+				>
+					{#if expandedNodes.has(data.id)}
+						<Icon icon="ChevronDownSvg_16" />
+					{:else}
+						<Icon icon="ChevronRightSvg_16" />
+					{/if}
+				</button>
+			{/if}
 		{/if}
 
 		<Layer
@@ -79,14 +86,23 @@
 			{selected}
 			actions={data.actions}
 			disabled={!clickable}
-
 		/>
 	</div>
 
 	{#if expandedNodes.has(data.id) && data.children?.length}
 		<div class="layerTree--children">
 			{#each data.children as child}
-				<svelte:self {expandedNodes} data={child} {singleSelect} {clickable} on:select on:toggle />
+				<svelte:self
+					{expandedNodes}
+					data={child}
+					{singleSelect}
+					{clickable}
+					{collapsable}
+					{collapsableRoot}
+					isRoot={false}
+					on:select
+					on:toggle
+				/>
 			{/each}
 		</div>
 	{/if}
@@ -133,7 +149,7 @@
 		}
 
 		:global(svg) {
-			transform: rotate(-90deg);
+			transform: rotate(0deg);
 			transition: transform 0.2s ease;
 		}
 

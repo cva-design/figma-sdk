@@ -41,10 +41,12 @@
 >
 	{#if disableTooltip}
 		<slot />
-	{:else}
+	{:else if tooltipContent || $$props['aria-label']}
 		<Tooltip content={tooltipContent ?? $$props['aria-label']}>
 			<slot />
 		</Tooltip>
+	{:else}
+		<slot />
 	{/if}
 </svelte:element>
 
@@ -85,7 +87,7 @@
 				fill: var(--figma-color-icon-disabled);
 				color: var(--figma-color-icon-disabled); // TODO: check if this is correct
 			}
-	}
+		}
 	}
 
 	.fps-IconButton:focus-visible {

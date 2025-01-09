@@ -31,6 +31,8 @@
 	export let initiallyExpanded: boolean = false;
 	export let singleSelect: boolean = false;
 	export let clickable: boolean = false;
+	export let collapsable: boolean = true;
+	export let collapsableRoot: boolean = true;
 
 	function expandAll(node: LayerTreeData) {
 		expandedNodes.add(node.id);
@@ -105,6 +107,9 @@
 			{expandedNodes}
 			{singleSelect}
 			{clickable}
+			{collapsable}
+			{collapsableRoot}
+			isRoot={true}
 			on:select
 			on:toggle
 		/>
