@@ -24,31 +24,31 @@
 
 <Story name="Default">
 	<IconButton aria-label="Star" on:click={() => alert('clicked')}>
-		<Icon icon="AlertSvg" />
+		<Icon iconName="AlertSvg" />
 	</IconButton>
 </Story>
 
 <Story name="Medium">
 	<IconButton aria-label="Star" size="medium" on:click={() => alert('clicked')}>
-		<Icon icon="StylesSvg" />
+		<Icon iconName="StylesSvg" />
 	</IconButton>
 </Story>
 
 <Story name="Solid">
 	<IconButton aria-label="Star" activeAppearance="solid" on:click={() => alert('clicked')}>
-		<Icon icon="StylesSvg" />
+		<Icon iconName="StylesSvg" />
 	</IconButton>
 </Story>
 
 <Story name="Custom Tooltip">
 	<IconButton aria-label="Star" tooltipContent="Add to favorites" on:click={() => alert('clicked')}>
-		<Icon icon="StylesSvg" />
+		<Icon iconName="StylesSvg" />
 	</IconButton>
 </Story>
 
 <Story name="Disabled">
 	<IconButton aria-label="Star" disabled on:click={() => alert('clicked')}>
-		<Icon icon="StylesSvg" />
+		<Icon iconName="StylesSvg" />
 	</IconButton>
 </Story>
 
@@ -63,5 +63,4 @@
 	.section {
 		padding: var(--space-2);
 	}
-
 </style>

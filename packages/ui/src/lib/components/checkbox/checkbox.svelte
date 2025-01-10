@@ -58,9 +58,9 @@
 	<div class="fp-CheckboxCustomInput" aria-hidden="true">
 		<span class="fp-CheckboxIndicator">
 			{#if $isIndeterminate}
-				<Icon icon="CheckboxMixedSvg_12" color="var(--figma-color-icon-onbrand)" />
+				<Icon iconName="CheckboxMixedSvg_12" color="var(--figma-color-icon-onbrand)" />
 			{:else if $isChecked}
-				<Icon icon="CheckboxCheckedSvg_12" color="var(--figma-color-icon-onbrand)" />
+				<Icon iconName="CheckboxCheckedSvg_12" color="var(--figma-color-icon-onbrand)" />
 			{/if}
 		</span>
 	</div>

@@ -1,11 +1,11 @@
 <script context="module" lang="ts">
 	import { Story } from '@storybook/addon-svelte-csf';
 	import type { Meta } from '@storybook/svelte';
+	import type { SvelteComponent } from 'svelte';
 	import { Button } from '../button';
 	import { Icon } from '../icon';
 	import { IconButton } from '../icon-button';
 	import ActionGroup from './action-group.svelte';
-	import type { SvelteComponent } from 'svelte';
 
 	export const meta = {
 		title: 'ActionGroup',
@@ -27,19 +27,19 @@
 <Story name="With Icon Buttons">
 	<ActionGroup>
 		<IconButton>
-			<Icon icon="AdjustSvg" />
+			<Icon iconName="AdjustSvg" />
 		</IconButton>
 		<IconButton>
-			<Icon icon="BackSvg" />
+			<Icon iconName="BackSvg" />
 		</IconButton>
 		<IconButton>
-			<Icon icon="DraftSvg" />
+			<Icon iconName="DraftSvg" />
 		</IconButton>
 		<IconButton>
-			<Icon icon="TimerSvg" />
+			<Icon iconName="TimerSvg" />
 		</IconButton>
 		<IconButton>
-			<Icon icon="StarOnSvg" />
+			<Icon iconName="StarOnSvg" />
 		</IconButton>
 	</ActionGroup>
 </Story>
@@ -48,7 +48,7 @@
 	<ActionGroup>
 		<Button>Edit</Button>
 		<IconButton>
-			<Icon icon="StarOnSvg" />
+			<Icon iconName="StarOnSvg" />
 		</IconButton>
 		<Button>Save</Button>
 	</ActionGroup>

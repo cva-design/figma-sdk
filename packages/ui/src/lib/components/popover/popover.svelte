@@ -4,7 +4,6 @@
 </script>
 
 <script lang="ts">
-	import { Icon } from '#ui';
 	import { createPopover, type CreatePopoverProps, melt } from '@melt-ui/svelte';
 
 	type $$Props = CreatePopoverProps;
@@ -36,8 +35,18 @@
 			<slot name="header" class="fps-popover__title" />
 			<button class="fps-popover__controls" use:melt={$close}>
 				<slot name="close-icon">
-					<!-- <Icon icon="CloseSvg" /> -->
-					<svg fill="none" height="32" viewBox="0 0 32 32" width="32" xmlns="http://www.w3.org/2000/svg"><path d="m16 15.293 4.6465-4.6464.7071.7071-4.6465 4.6464 4.6465 4.6465-.7071.7071-4.6465-4.6464-4.6464 4.6464-.7071-.7071 4.6464-4.6465-4.6464-4.6463.7071-.7071z" fill="currentColor"></path></svg>
+					<!-- <Icon iconName="CloseSvg" /> -->
+					<svg
+						fill="none"
+						height="32"
+						viewBox="0 0 32 32"
+						width="32"
+						xmlns="http://www.w3.org/2000/svg"
+						><path
+							d="m16 15.293 4.6465-4.6464.7071.7071-4.6465 4.6464 4.6465 4.6465-.7071.7071-4.6465-4.6464-4.6464 4.6464-.7071-.7071 4.6464-4.6465-4.6464-4.6463.7071-.7071z"
+							fill="currentColor"
+						></path></svg
+					>
 				</slot>
 			</button>
 		</div>
@@ -108,5 +117,4 @@
 		inset: 0;
 		background-color: var(--color-overlay-dialog);
 	}
-
 </style>

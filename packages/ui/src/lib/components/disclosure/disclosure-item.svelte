@@ -35,7 +35,7 @@
 		class="header"
 	>
 		<div class="icon">
-				<Icon icon="CaretDownSvg" />
+			<Icon iconName="CaretDownSvg" />
 		</div>
 		<div class="title">{title}</div>
 	</div>
@@ -81,12 +81,12 @@
 	.icon {
 		margin-left: -4px;
 		opacity: 0.3;
-		transition: transform .1s;
+		transition: transform 0.1s;
 	}
 	.expanded .icon {
 		opacity: 0.8;
 		transform: rotate(-90deg);
-		transition: transform .1s;
+		transition: transform 0.1s;
 	}
 
 	.figma-dark {

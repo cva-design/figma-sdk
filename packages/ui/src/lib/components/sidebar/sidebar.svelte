@@ -23,7 +23,7 @@
 		on:click={() => (collapsed = !collapsed)}
 		aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
 	>
-		<Icon icon={collapsed ? 'CaretRightSvg' : 'CaretLeftSvg'} color="--figma-color-icon" />
+		<Icon iconName={collapsed ? 'CaretRightSvg' : 'CaretLeftSvg'} color="--figma-color-icon" />
 	</IconButton>
 	<div class="sidebar-content">
 		<slot />

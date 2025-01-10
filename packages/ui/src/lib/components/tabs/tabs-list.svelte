@@ -35,7 +35,7 @@
 {#if collapsible}
 	<div class="tabs-wrapper">
 		<Button variant="secondary" on:click={toggleExpand} class="toggle-button">
-			<Icon icon={isExpanded ? 'CaretDownSvg' : 'CaretRightSvg'} />
+			<Icon iconName={isExpanded ? 'CaretDownSvg' : 'CaretRightSvg'} />
 			<span class="toggle-text">Show Options</span>
 		</Button>
 

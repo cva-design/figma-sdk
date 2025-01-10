@@ -20,10 +20,10 @@
 	<Badge text="Tag Name" color="#7B61FF">
 		<svelte:fragment slot="actions">
 			<IconButton>
-				<Icon icon="AdjustSvg" />
+				<Icon iconName="AdjustSvg" />
 			</IconButton>
 			<IconButton>
-				<Icon icon="HyperlinkBreakSvg_32" />
+				<Icon iconName="HyperlinkBreakSvg_32" />
 			</IconButton>
 		</svelte:fragment>
 	</Badge>
@@ -37,10 +37,10 @@
 	<Badge text="Disabled Tag" color="#1BC47D">
 		<svelte:fragment slot="actions">
 			<IconButton>
-				<Icon icon="AdjustSvg" />
+				<Icon iconName="AdjustSvg" />
 			</IconButton>
 			<IconButton>
-				<Icon icon="HyperlinkBreakSvg_32" />
+				<Icon iconName="HyperlinkBreakSvg_32" />
 			</IconButton>
 		</svelte:fragment>
 	</Badge>

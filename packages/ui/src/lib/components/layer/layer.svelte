@@ -128,7 +128,7 @@
 	>
 		{#if $$slots.default}
 			<span class="layer-chevron">
-				<Icon icon={expanded ? 'ChevronDownSvg_16' : 'ChevronRightSvg_16'} />
+				<Icon iconName={expanded ? 'ChevronDownSvg_16' : 'ChevronRightSvg_16'} />
 			</span>
 		{/if}
 		<input

@@ -4,6 +4,7 @@
 	type $$Props = IconProps;
 
 	const icon = $$props.icon;
+	const iconName = $$props.iconName;
 	const iconText = $$props.iconText;
 	const color = $$props.color ?? '--figma-color-icon';
 	const spin = $$props.spin ?? false;
@@ -11,7 +12,7 @@
 
 <div class="onboarding-tip {$$props.class}">
 	<div class="icon">
-		<Icon {icon} {iconText} {color} {spin} />
+		<Icon {iconName} {icon} {iconText} {color} {spin} />
 	</div>
 	<p>
 		<slot></slot>

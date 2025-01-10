@@ -110,12 +110,11 @@
 		state: !action.enabled
 			? 'disabled'
 			: action.kind === 'toggle' && action.isActive
-					? 'active'
-					: 'inactive'
+				? 'active'
+				: 'inactive'
 	}) as keyof typeof import('#icons');
 
 	$: dataId = action.id;
-
 </script>
 
 <button
@@ -127,14 +126,14 @@
 	data-id={dataId}
 	{...$$restProps}
 >
-	{#if action.kind === 'color' && (action).colors}
+	{#if action.kind === 'color' && action.colors}
 		<div class="color-indicators">
-			{#each (action).colors as color}
+			{#each action.colors as color}
 				<div class="color-circle" style="background-color: {color}"></div>
 			{/each}
 		</div>
 	{:else}
-		<Icon icon={iconKey} />
+		<Icon iconName={iconKey} />
 	{/if}
 </button>
 

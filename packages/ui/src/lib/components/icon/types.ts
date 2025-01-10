@@ -1,11 +1,9 @@
-import type { AutocompleteString } from '#lib/util';
-
 type IconBaseProps = {
   /**
    * color: The color of the icon. This should be a CSS color variable.
    * @default "--figma-color-icon"
    */
-  color?: '--figma-color-icon' | AutocompleteString;
+  color?: string;
 
   /**
    * spin: Whether the icon should spin
@@ -16,9 +14,14 @@ type IconBaseProps = {
 
 type NamedIconProps = IconBaseProps & {
   /**
-   * icon: The icon identifier from the icons collection
+   * iconName: The icon name from the icons collection
    */
-  icon: keyof typeof import('#icons');
+  iconName: keyof typeof import('#icons');
+
+  /**
+   * icon: The icon svg cannot be set when iconText is provided.
+   */
+  icon?: never;
 
   /**
    * iconText: The iconText cannot be set when icon is provided
@@ -28,9 +31,14 @@ type NamedIconProps = IconBaseProps & {
 
 type TextIconProps = IconBaseProps & {
   /**
-   * icon: The icon identifier cannot be set when iconText is provided
+   * icon: The icon svg cannot be set when iconText is provided.
    */
   icon?: never;
+
+  /**
+   * iconName: The icon name cannot be set when iconText is provided
+   */
+  iconName?: never;
 
   /**
    * A string that will be displayed as the icon.
@@ -40,4 +48,21 @@ type TextIconProps = IconBaseProps & {
   iconText: string;
 };
 
-export type IconProps = NamedIconProps | TextIconProps;
+type SvgIconProps = IconBaseProps & {
+  /**
+   * icon: An SVG string that will be used as the icon.
+   */
+  icon: string;
+
+  /**
+   * iconName: The iconName cannot be set when icon is provided
+   */
+  iconName?: never;
+
+  /**
+   * iconText: The iconText cannot be set when icon is provided
+   */
+  iconText?: never;
+};
+
+export type IconProps = NamedIconProps | TextIconProps | SvgIconProps;

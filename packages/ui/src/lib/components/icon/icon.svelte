@@ -1,36 +1,73 @@
+<script context="module" lang="ts">
+	import type { IconProps } from './types';
+
+	/**
+	 * Extracts and validates icon props from a props object, ensuring only one icon type is used.
+	 *
+	 * @param props - Object containing potential icon props (icon, iconName, or iconText) and optional color
+	 * @returns A type-safe IconProps object with only one icon type set, or undefined if no valid icon props
+	 *
+	 * @example
+	 * ```ts
+	 * // With SVG icon
+	 * getIconProps({ icon: '<svg>...</svg>', color: 'red' }) // => { icon: '<svg>...</svg>', color: 'red' }
+	 *
+	 * // With named icon
+	 * getIconProps({ iconName: 'CheckboxCheckedSvg_12', color: 'blue' }) // => { iconName: 'CheckboxCheckedSvg_12', color: 'blue' }
+	 *
+	 * // With text icon
+	 * getIconProps({ iconText: '👍', color: 'green' }) // => { iconText: '👍', color: 'green' }
+	 *
+	 * // With no icon props
+	 * getIconProps({}) // => undefined
+	 * ```
+	 */
+	function getIconProps(props: Partial<IconProps> & { color?: string }): IconProps | undefined {
+		return props.icon
+			? { icon: props.icon, color: props.color }
+			: props.iconName
+				? { iconName: props.iconName, color: props.color }
+				: props.iconText
+					? { iconText: props.iconText, color: props.color }
+					: undefined;
+	}
+
+	export { getIconProps };
+</script>
+
 <script lang="ts">
 	import * as icons from '#icons';
-	import type { IconProps } from './types';
 
 	type $$Props = IconProps;
 
-	const icon = $$props.icon;
-	const iconText = $$props.iconText;
-	const color = $$props.color ?? '--figma-color-icon';
-	const spin = $$props.spin ?? false;
-
-	$: colorStyle = color?.startsWith('--') ? `var(${color})` : (color ?? 'var(--figma-color-icon)');
-
-	$: if (icon && iconText) {
-		throw new Error('Cannot set both icon and iconText at the same time');
-	}
+	$: colorStyle = $$props.color?.startsWith('--')
+		? `var(${$$props.color})`
+		: ($$props.color ?? 'var(--figma-color-icon)');
 </script>
 
-{#if iconText}
+{#if $$props.iconName}
 	<div
 		class="icon-component {$$props.class}"
-		class:spin
+		class:spin={$$props.spin}
 		style="color: {colorStyle}; fill: {colorStyle}"
 	>
-		{iconText}
+		{@html icons[$$props.iconName]}
 	</div>
-{:else if icon}
+{:else if $$props.iconText}
 	<div
 		class="icon-component {$$props.class}"
-		class:spin
+		class:spin={$$props.spin}
 		style="color: {colorStyle}; fill: {colorStyle}"
 	>
-		{@html icons[icon]}
+		{$$props.iconText}
+	</div>
+{:else}
+	<div
+		class="icon-component {$$props.class}"
+		class:spin={$$props.spin}
+		style="color: {colorStyle}; fill: {colorStyle}"
+	>
+		{@html $$props.icon}
 	</div>
 {/if}
 

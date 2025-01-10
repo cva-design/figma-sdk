@@ -30,7 +30,7 @@
 </Story>
 
 <Story name="WithIcon">
-	<Input icon="SearchSvg" placeholder="Search..." />
+	<Input iconName="SearchSvg" placeholder="Search..." />
 </Story>
 
 <Story name="WithIconText">
@@ -54,7 +54,7 @@
 </Story>
 
 <Story name="SpinningIcon">
-	<Input icon="SpinnerSvg" spin placeholder="Loading..." />
+	<Input iconName="SpinnerSvg" spin placeholder="Loading..." />
 </Story>
 
 <Story name="FullWidth">

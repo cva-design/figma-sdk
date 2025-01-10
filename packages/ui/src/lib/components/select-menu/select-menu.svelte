@@ -1,32 +1,40 @@
 <script lang="ts">
 	import { clickOutside } from '#actions/click-outside';
-	import type * as icons from '#icons';
-	import { Icon, Text } from '#ui';
+	import { getIconProps, Icon, Text, type IconProps } from '#ui';
 	import { createEventDispatcher, onMount } from 'svelte';
 	import SelectDivider from './select-divider.svelte';
 	import SelectItem from './select-item.svelte';
 	import type { SelectMenuItem } from './types';
 
-	export let icon: keyof typeof icons | undefined = undefined;
-	export let iconText: string | undefined = undefined;
-	export let disabled: boolean = false;
-	export let macOSBlink: boolean = false;
-	export let menuItems: SelectMenuItem[] = [];
-	export let placeholder: string = 'Please make a selection.';
-	export let value: SelectMenuItem | null | undefined = null;
-	export let showGroupLabels: boolean = false;
-	export let className = '';
-	export let anchor:
-		| 'top'
-		| 'right'
-		| 'bottom'
-		| 'left'
-		| 'top-left'
-		| 'top-right'
-		| 'bottom-left'
-		| 'bottom-right' = 'bottom-left';
+	type $$Props = IconProps & {
+		disabled?: boolean;
+		macOSBlink?: boolean;
+		menuItems?: SelectMenuItem[];
+		placeholder?: string;
+		value?: SelectMenuItem | null;
+		showGroupLabels?: boolean;
+		anchor?:
+			| 'top'
+			| 'right'
+			| 'bottom'
+			| 'left'
+			| 'top-left'
+			| 'top-right'
+			| 'bottom-left'
+			| 'bottom-right';
+	};
+
+	let disabled: $$Props['disabled'] = $$props.disabled ?? false;
+	let value: $$Props['value'] = $$props.value ?? null;
+	const anchor: NonNullable<$$Props['anchor']> = $$props.anchor ?? 'bottom-left';
+	const macOSBlink: $$Props['macOSBlink'] = $$props.macOSBlink ?? false;
+	const menuItems: NonNullable<$$Props['menuItems']> = $$props.menuItems ?? [];
+	const placeholder: $$Props['placeholder'] = $$props.placeholder ?? 'Please make a selection.';
+	const showGroupLabels: $$Props['showGroupLabels'] = $$props.showGroupLabels ?? false;
+	const className: $$Props['class'] = $$props.class ?? undefined;
 
 	const dispatch = createEventDispatcher();
+
 	const groups = checkGroups();
 	let menuWrapper: HTMLDivElement, menuButton: HTMLButtonElement, menuList: HTMLUListElement;
 	$: updateSelectedAndIds();
@@ -51,14 +59,15 @@
 					value = item;
 				}
 			});
-		}
-		//set placeholder
-		if (menuItems.length <= 0) {
-			// placeholder = 'There are no items to select';
-			disabled = true;
-		} else if (!disabled) {
-			// placeholder = 'Please make a selection';
-			disabled = false;
+
+			//set placeholder
+			if (menuItems.length <= 0) {
+				// placeholder = 'There are no items to select';
+				disabled = true;
+			} else if (!disabled) {
+				// placeholder = 'Please make a selection';
+				disabled = false;
+			}
 		}
 	}
 
@@ -242,6 +251,8 @@
 		menuList.style.top = '0px';
 		menuList.style.bottom = '';
 	}
+
+	$: iconProps = getIconProps({ ...$$props, color: 'black3' });
 </script>
 
 <div
@@ -254,10 +265,8 @@
 	class="wrapper {className}"
 >
 	<button bind:this={menuButton} on:click={menuClick} {disabled}>
-		{#if icon}
-			<span class="icon"><Icon {icon} color="black3" /></span>
-		{:else if iconText}
-			<span class="icon"><Icon {iconText} color="black3" /></span>
+		{#if iconProps}
+			<Icon {...iconProps} />
 		{/if}
 
 		{#if value}

@@ -1,23 +1,22 @@
 <script context="module" lang="ts">
-export type ToggleState = {
-	icon: keyof typeof import("#icons");
-	tooltip?: string;
-};
+	export type ToggleState = IconProps & {
+		tooltip?: string;
+	};
 
-export type ToggleStates = {
-	on: ToggleState;
-	off: ToggleState;
-	disabled?:
-		| Partial<ToggleState>
-		| {
-				on: ToggleState;
-				off: ToggleState;
-		  };
-};
+	export type ToggleStates = {
+		on: ToggleState;
+		off: ToggleState;
+		disabled?:
+			| Partial<ToggleState>
+			| {
+					on: ToggleState;
+					off: ToggleState;
+			  };
+	};
 </script>
 
 <script lang="ts">
-	import { Icon } from '#ui/icon';
+	import { Icon, type IconProps } from '#ui/icon';
 	import { Tooltip } from '#ui/tooltip';
 	import { cva } from 'class-variance-authority';
 	import { createEventDispatcher } from 'svelte';
@@ -37,6 +36,8 @@ export type ToggleStates = {
 	export let on: boolean = false;
 	export let disabled: boolean = false;
 
+	let tooltip: string | undefined;
+
 	const toggleVariants = cva('', {
 		variants: {
 			state: {
@@ -55,13 +56,13 @@ export type ToggleStates = {
 		? 'on' in states.disabled
 			? states.disabled
 			: {
-					on: { icon: states.on.icon, ...states.disabled },
-					off: { icon: states.off.icon, ...states.disabled }
+					on: { icon: states.on.icon, iconName: states.on.iconName, ...states.disabled },
+					off: { icon: states.off.icon, iconName: states.off.iconName, ...states.disabled }
 				}
 		: // no disabled state config provided...
 			{
-				on: { icon: states.on.icon },
-				off: { icon: states.off.icon }
+				on: { icon: states.on.icon, iconName: states.on.iconName },
+				off: { icon: states.off.icon, iconName: states.off.iconName }
 			};
 
 	$: currentState = disabled
@@ -72,7 +73,10 @@ export type ToggleStates = {
 			? states.on
 			: states.off;
 
-	$: icon = currentState.icon;
+	$: iconProps = currentState.icon
+		? { icon: currentState.icon }
+		: { iconName: currentState.iconName as keyof typeof import('#icons') };
+
 	$: tooltip = currentState.tooltip;
 
 	function handleClick() {
@@ -93,7 +97,7 @@ export type ToggleStates = {
 			on:click={handleClick}
 			{...$$restProps}
 		>
-			<Icon {icon} />
+			<Icon {...iconProps} />
 		</button>
 	</Tooltip>
 {:else}
@@ -105,31 +109,30 @@ export type ToggleStates = {
 		on:click={handleClick}
 		{...$$restProps}
 	>
-		<Icon {icon} />
+		<Icon {...iconProps} />
 	</button>
 {/if}
 
 <style lang="scss">
-button {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 2px;
-  margin: 0 2px;
-  color: var(--figma-color-icon-secondary);
-}
+	button {
+		background: none;
+		border: none;
+		cursor: pointer;
+		padding: 2px;
+		margin: 0 2px;
+		color: var(--figma-color-icon-secondary);
+	}
 
-button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
+	button:disabled {
+		opacity: 0.5;
+		cursor: not-allowed;
+	}
 
-button:global(.on) {
-  color: var(--figma-color-icon);
-}
+	button:global(.on) {
+		color: var(--figma-color-icon);
+	}
 
-button:hover:not(:disabled) {
-  color: var(--figma-color-icon);
-}
-
+	button:hover:not(:disabled) {
+		color: var(--figma-color-icon);
+	}
 </style>

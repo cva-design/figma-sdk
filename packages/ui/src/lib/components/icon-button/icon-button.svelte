@@ -1,4 +1,6 @@
 <script lang="ts">
+	import type { IconProps } from '#ui/icon';
+	import { Icon } from '#ui/icon';
 	import { Tooltip } from '#ui/tooltip';
 	import { type VariantProps, cva } from 'class-variance-authority';
 	import type { HTMLButtonAttributes } from 'svelte/elements';
@@ -23,12 +25,18 @@
 	interface $$Props extends HTMLButtonAttributes, VariantProps<typeof iconButton> {
 		tooltipContent?: string;
 		disableTooltip?: boolean;
+		icon?: IconProps['icon'];
+		iconName?: IconProps['iconName'];
+		spin?: boolean;
 	}
 
-	export const size: $$Props['size'] = undefined;
-	export const activeAppearance: $$Props['activeAppearance'] = undefined;
-	export const tooltipContent: string | undefined = undefined;
-	export const disableTooltip: boolean = false;
+	export let size: $$Props['size'] = undefined;
+	export let activeAppearance: $$Props['activeAppearance'] = undefined;
+	export let tooltipContent: string | undefined = undefined;
+	export let disableTooltip: boolean = false;
+	export let icon: IconProps['icon'] = undefined;
+	export let iconName: IconProps['iconName'] = undefined;
+	export let spin = false;
 </script>
 
 <svelte:element
@@ -40,13 +48,31 @@
 	{...$$restProps}
 >
 	{#if disableTooltip}
-		<slot />
+		<slot>
+			{#if icon}
+				<Icon {icon} {spin} color="--figma-color-icon" />
+			{:else if iconName}
+				<Icon {iconName} {spin} color="--figma-color-icon" />
+			{/if}
+		</slot>
 	{:else if tooltipContent || $$props['aria-label']}
 		<Tooltip content={tooltipContent ?? $$props['aria-label']}>
-			<slot />
+			<slot>
+				{#if icon}
+					<Icon {icon} {spin} color="--figma-color-icon" />
+				{:else if iconName}
+					<Icon {iconName} {spin} color="--figma-color-icon" />
+				{/if}
+			</slot>
 		</Tooltip>
 	{:else}
-		<slot />
+		<slot>
+			{#if icon}
+				<Icon {icon} {spin} color="--figma-color-icon" />
+			{:else if iconName}
+				<Icon {iconName} {spin} color="--figma-color-icon" />
+			{/if}
+		</slot>
 	{/if}
 </svelte:element>
 

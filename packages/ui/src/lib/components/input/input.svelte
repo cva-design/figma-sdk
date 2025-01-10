@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { Icon } from '#ui';
 	import type { IconProps } from '#ui/icon';
+	import { getIconProps, Icon } from '#ui/icon';
 	import { cva, type VariantProps } from 'class-variance-authority';
 	import { createEventDispatcher } from 'svelte';
 
@@ -45,14 +45,12 @@
 		errorMessage?: string;
 		placeholder?: string;
 		quiet?: boolean;
-		icon?: IconProps['icon'];
-		iconText?: string;
 		spin?: boolean;
 		class?: string;
 		'aria-label'?: string;
 		'aria-describedby'?: string;
 		textStyle?: 'strong' | 'large';
-	};
+	} & Partial<IconProps>;
 
 	export let value: string | null = null;
 	export let id: string | null = null;
@@ -62,9 +60,10 @@
 	export let invalid: boolean = false;
 	export let errorMessage: string = 'Error message';
 	export let placeholder: string = 'Input something here...';
-	export let icon: IconProps['icon'] = undefined;
-	export let iconText: string | undefined = undefined;
 	export let spin = false;
+
+	$: iconProps = getIconProps({ ...$$props, color: '--figma-color-icon' });
+	const hasIcon = !!iconProps;
 
 	const dispatch = createEventDispatcher();
 
@@ -101,18 +100,14 @@
 	$: inputClass = input({
 		...$$props,
 		state,
-		hasIcon: !!icon || !!iconText || undefined
+		hasIcon
 	});
 </script>
 
 <div class="input-wrapper {$$props.class}">
-	{#if icon}
+	{#if hasIcon}
 		<div class="icon">
-			<Icon {icon} {spin} color="--figma-color-icon" />
-		</div>
-	{:else if iconText}
-		<div class="icon">
-			<Icon {iconText} {spin} color="--figma-color-icon" />
+			<Icon {...iconProps} {spin} />
 		</div>
 	{/if}
 	<input

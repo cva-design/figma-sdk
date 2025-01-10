@@ -70,9 +70,9 @@
 					class:searching={data.matches || data.children.some((child) => child.matches)}
 				>
 					{#if expandedNodes.has(data.id)}
-						<Icon icon="ChevronDownSvg_16" />
+						<Icon iconName="ChevronDownSvg_16" />
 					{:else}
-						<Icon icon="ChevronRightSvg_16" />
+						<Icon iconName="ChevronRightSvg_16" />
 					{/if}
 				</button>
 			{/if}

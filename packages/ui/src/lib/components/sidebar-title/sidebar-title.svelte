@@ -18,7 +18,7 @@
 			class:disabled
 			{disabled}
 		>
-			<span>{text}</span><Icon icon="ChevronDownSvg_16" />
+			<span>{text}</span><Icon iconName="ChevronDownSvg_16" />
 		</button>
 	</div>
 {:else if variant === 'border'}

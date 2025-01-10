@@ -94,7 +94,7 @@
 <div class={cx('layerTree-wrapper', $$props.class)}>
 	<div class="panel-section search-container">
 		<Input
-			icon="SearchSvg_32"
+			iconName="SearchSvg_32"
 			class="search-input"
 			bind:value={searchQuery}
 			placeholder="Search layers..."
