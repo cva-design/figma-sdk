@@ -10,13 +10,16 @@ type IconBaseProps = {
    */
   spin?: boolean;
   class?: string;
+  tooltip?: string;
 };
+
+export type IconName = keyof typeof import('#icons');
 
 type NamedIconProps = IconBaseProps & {
   /**
    * iconName: The icon name from the icons collection
    */
-  iconName: keyof typeof import('#icons');
+  iconName: IconName;
 
   /**
    * icon: The icon svg cannot be set when iconText is provided.

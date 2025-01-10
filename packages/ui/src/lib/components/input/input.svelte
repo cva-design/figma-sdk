@@ -1,13 +1,26 @@
 <script lang="ts">
-	import type { IconProps } from '#ui/icon';
-	import { getIconProps, Icon } from '#ui/icon';
+	import { getIconProps, Icon, type IconProps } from '#ui/icon';
 	import { cva, type VariantProps } from 'class-variance-authority';
 	import { createEventDispatcher } from 'svelte';
+
+	const inputWrapper = cva('', {
+		variants: {
+			quiet: {
+				true: 'quiet'
+			},
+			invisible: {
+				true: 'invisible'
+			}
+		}
+	});
 
 	const input = cva('input-base', {
 		variants: {
 			quiet: {
 				true: 'quiet'
+			},
+			invisible: {
+				true: 'invisible'
 			},
 			bordered: {
 				true: 'bordered'
@@ -45,6 +58,7 @@
 		errorMessage?: string;
 		placeholder?: string;
 		quiet?: boolean;
+		invisible?: boolean;
 		spin?: boolean;
 		class?: string;
 		'aria-label'?: string;
@@ -61,9 +75,6 @@
 	export let errorMessage: string = 'Error message';
 	export let placeholder: string = 'Input something here...';
 	export let spin = false;
-
-	$: iconProps = getIconProps({ ...$$props, color: '--figma-color-icon' });
-	const hasIcon = !!iconProps;
 
 	const dispatch = createEventDispatcher();
 
@@ -97,15 +108,21 @@
 			? ('disabled' as InputState)
 			: undefined;
 
+	$: iconProps = getIconProps({ ...$$props, color: '--figma-color-icon' });
+
 	$: inputClass = input({
 		...$$props,
 		state,
-		hasIcon
+		hasIcon: !!iconProps
+	});
+
+	$: inputWrapperClass = inputWrapper({
+		...$$props
 	});
 </script>
 
-<div class="input-wrapper {$$props.class}">
-	{#if hasIcon}
+<div class="input-wrapper {$$props.class} {inputWrapperClass}">
+	{#if !!iconProps}
 		<div class="icon">
 			<Icon {...iconProps} {spin} />
 		</div>
@@ -138,8 +155,26 @@
 <style lang="scss">
 	.input-wrapper {
 		position: relative;
-		transition: flex 0s 0.2s;
 		width: 100%;
+		display: flex;
+		align-items: center;
+	}
+
+	.icon {
+		position: absolute;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		pointer-events: none;
+		color: var(--figma-color-icon-tertiary);
+		z-index: 1;
+		width: 16px;
+		height: 16px;
+
+		&:not(:where(.quiet)),
+		&:not(:where(.invisible)) {
+			left: var(--spacer-2);
+		}
 	}
 
 	.input-base {
@@ -168,6 +203,10 @@
 			color: var(--figma-color-text-hover);
 			border: 1px solid var(--figma-color-border);
 			background-image: none;
+
+			&:where(.invisible) {
+				border: none;
+			}
 		}
 
 		&::selection {
@@ -188,6 +227,10 @@
 		&:focus:placeholder-shown {
 			border: 1px solid var(--figma-color-border-selected);
 			outline-offset: -2px;
+
+			&:where(.invisible) {
+				border: none;
+			}
 		}
 
 		&:active,
@@ -195,6 +238,10 @@
 			color: var(--figma-color-text);
 			border: 1px solid var(--figma-color-border-selected);
 			outline-offset: -2px;
+
+			&:where(.invisible) {
+				border: none;
+			}
 		}
 
 		&:where(.disabled) {
@@ -244,12 +291,16 @@
 
 		&:where(.quiet) {
 			background-color: transparent;
-			padding-left: calc(var(--spacer-2) - 1px);
-			margin-left: calc(0px - var(--spacer-2));
+			padding-left: var(--spacer-2);
 
 			&:not(:where(.disabled)):hover {
 				border: 1px solid var(--figma-color-border);
 			}
+		}
+
+		&:where(.invisible) {
+			background-color: transparent;
+			border: none;
 		}
 
 		&:where(.indent) {
@@ -261,18 +312,6 @@
 		&:where(.invalid:focus) {
 			border: 1px solid var(--figma-color-border-danger-strong);
 		}
-	}
-
-	.icon {
-		position: absolute;
-		top: 50%;
-		left: var(--spacer-2);
-		transform: translateY(-50%);
-		z-index: 1;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		pointer-events: none;
 	}
 
 	.error {

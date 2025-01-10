@@ -3,6 +3,8 @@ export { default as Icon } from './icon.svelte';
 export { default as Svg } from './svg.svelte';
 //@endindex
 
-//@index(['./types.ts'], (f) => `export * from '${f.path}';`)
+//@index(['./*.ts'], (f) => `export * from '${f.path}';`)
+export * from './create-icon';
+export * from './get-icon-props';
 export * from './types';
 //@endindex

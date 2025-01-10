@@ -96,7 +96,8 @@
 <div class={cx('layerTree-wrapper', $$props.class)}>
 	<div class="panel-section search-container">
 		<Input
-			iconName="SearchSvg_32"
+			invisible
+			iconName="SearchSvg"
 			class="search-input"
 			bind:value={searchQuery}
 			placeholder="Search layers..."
@@ -144,25 +145,19 @@
 		position: sticky;
 		top: 0;
 		z-index: 1;
-
-		:global(.icon) {
-			color: var(--figma-color-icon-secondary);
-			width: 16px;
-			height: 16px;
-		}
 	}
 
-	.search-input {
-		flex: 1;
-		min-width: 0;
-		background: transparent;
-		border: none;
-		font-size: 11px;
-		width: 100%;
-		&:focus {
-			outline: none;
-		}
-	}
+	// .search-input {
+	// 	flex: 1;
+	// 	min-width: 0;
+	// 	background: transparent;
+	// 	border: none;
+	// 	font-size: 11px;
+	// 	width: 100%;
+	// 	&:focus {
+	// 		outline: none;
+	// 	}
+	// }
 
 	.tree-actions {
 		display: flex;

@@ -1,7 +1,5 @@
 <script context="module" lang="ts">
-	export type ToggleState = IconProps & {
-		tooltip?: string;
-	};
+	export type ToggleState = IconProps;
 
 	export type ToggleStates = {
 		on: ToggleState;
@@ -16,7 +14,7 @@
 </script>
 
 <script lang="ts">
-	import { Icon, type IconProps } from '#ui/icon';
+	import { Icon, type IconName, type IconProps } from '#ui/icon';
 	import { Tooltip } from '#ui/tooltip';
 	import { cva } from 'class-variance-authority';
 	import { createEventDispatcher } from 'svelte';
@@ -75,7 +73,7 @@
 
 	$: iconProps = currentState.icon
 		? { icon: currentState.icon }
-		: { iconName: currentState.iconName as keyof typeof import('#icons') };
+		: { iconName: currentState.iconName as IconName };
 
 	$: tooltip = currentState.tooltip;
 
