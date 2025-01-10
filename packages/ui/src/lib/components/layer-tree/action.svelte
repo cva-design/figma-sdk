@@ -1,46 +1,16 @@
-<script context="module" lang="ts">
-	export type ActionKind = 'toggle' | 'button' | 'color';
-
-	type ActionBase<RequiredIcons extends string, OptionalIcons extends string> = {
-		id: string;
-		kind: ActionKind;
-		tooltip: string;
-		enabled?: boolean;
-		click?: (params: { action: Action; event: Event; layer: LayerProps }) => void;
-		icons: Record<RequiredIcons, keyof typeof import('#icons')> & {
-			[K in OptionalIcons]?: keyof typeof import('#icons');
-		};
-	};
-
-	export type ActionToggle = ActionBase<'on' | 'off', 'disabled'> & {
-		kind: 'toggle';
-		isActive?: boolean;
-	};
-
-	export type ActionButton = ActionBase<'default', 'disabled'> & {
-		kind: 'button';
-	};
-
-	export type ActionColor = ActionBase<'default', 'disabled'> & {
-		kind: 'color';
-		colors?: string[];
-	};
-
-	export type Action = ActionToggle | ActionButton | ActionColor;
-</script>
-
 <script lang="ts">
-	import { Icon } from '#ui/icon';
+	import { IconToggle } from '#ui';
 	import { cva } from 'class-variance-authority';
 	import type { HTMLAttributes } from 'svelte/elements';
-	import type { LayerProps } from '../layer/layer.svelte';
+	import type { IconName } from '../icon/types';
+	import type { ActionButton, ActionColor, ActionToggle, IAction } from './types';
 
 	interface $$Props extends HTMLAttributes<HTMLButtonElement> {
-		action: Action;
-		layer: LayerProps;
+		action: IAction;
+		data: Record<string, any>;
 	}
+
 	export let action: $$Props['action'];
-	export let layer: LayerProps;
 
 	const actionIcon = cva('', {
 		variants: {
@@ -101,7 +71,7 @@
 	function handleActionClick(event: MouseEvent) {
 		event.stopPropagation();
 		if (action?.click) {
-			action.click({ action, event, layer });
+			action.click({ action, event, data: $$props.data });
 		}
 	}
 
@@ -112,7 +82,7 @@
 			: action.kind === 'toggle' && action.isActive
 				? 'active'
 				: 'inactive'
-	}) as keyof typeof import('#icons');
+	}) as IconName;
 
 	$: dataId = action.id;
 </script>
@@ -132,8 +102,10 @@
 				<div class="color-circle" style="background-color: {color}"></div>
 			{/each}
 		</div>
+	{:else if action.kind === 'toggle'}
+		<IconToggle states={action.icons} on={action.isActive} disabled={!action.enabled} />
 	{:else}
-		<Icon iconName={iconKey} />
+		{console.error(`Unsupported action kind: ${action.kind}`, { action })}
 	{/if}
 </button>
 

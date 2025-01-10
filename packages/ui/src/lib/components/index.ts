@@ -50,7 +50,6 @@ export * from './switch/index';
 export * from './tabs/index';
 export * from './textarea/index';
 export * from './tooltip/index';
-export * from './tree/index';
 export * from './typography/index';
 //@endindex
 
@@ -60,8 +59,8 @@ export * from './typography/index';
 
 //@index(['*/types.ts'], f => `export * from '${f.path}';`)
 export * from './icon/types';
+export * from './layer-tree/types';
 export * from './layer/types';
 export * from './select-menu/types';
 export * from './tooltip/types';
-export * from './tree/types';
 //@endindex

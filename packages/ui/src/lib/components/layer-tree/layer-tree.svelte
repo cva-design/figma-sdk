@@ -1,7 +1,7 @@
 <script lang="ts" context="module">
 	import { Input } from '#ui';
 	import { cx } from 'class-variance-authority';
-	import type { Action as ActionType } from './action.svelte';
+	import type { IAction } from './types';
 	export type LayerTreeData = {
 		id: string;
 		children: LayerTreeData[];
@@ -11,7 +11,7 @@
 		component?: boolean;
 		selected?: boolean;
 		expanded?: boolean;
-		actions?: ActionType[];
+		actions?: IAction[];
 		depth?: number;
 		mixed?: boolean;
 		disabled?: boolean;
@@ -24,6 +24,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import type { LayerType } from '../../components/layer/types';
+	import Action from './action.svelte';
 	import LayerTreeNode from './layer-tree-node.svelte';
 
 	export let data: LayerTreeData;
@@ -33,6 +34,7 @@
 	export let clickable: boolean = false;
 	export let collapsable: boolean = true;
 	export let collapsableRoot: boolean = true;
+	export let treeActions: IAction[] = [];
 
 	function expandAll(node: LayerTreeData) {
 		expandedNodes.add(node.id);
@@ -99,6 +101,13 @@
 			bind:value={searchQuery}
 			placeholder="Search layers..."
 		/>
+		{#if treeActions.length > 0}
+			<div class="tree-actions">
+				{#each treeActions as action}
+					<Action {action} data={{ type: 'FRAME', name: '' }} />
+				{/each}
+			</div>
+		{/if}
 	</div>
 
 	<div class="panel-section layerTree-container">
@@ -153,6 +162,12 @@
 		&:focus {
 			outline: none;
 		}
+	}
+
+	.tree-actions {
+		display: flex;
+		align-items: center;
+		gap: 4px;
 	}
 
 	.layerTree-container {

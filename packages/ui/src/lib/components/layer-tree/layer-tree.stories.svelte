@@ -86,21 +86,29 @@
 	const actionsData: LayerTreeData = {
 		...sampleData,
 		actions: [
-			{ 
-				id: 'visible', 
-				icons: { 
-					on: 'VisibleSvg', 
-					off: 'HiddenSvg' 
-				}, 
-				enabled: true, 
-				kind: 'toggle', 
+			{
+				id: 'visible',
+				icons: {
+					on: { iconName: 'VisibleSvg' },
+					off: { iconName: 'HiddenSvg' }
+				},
+				enabled: true,
+				kind: 'toggle',
 				tooltip: 'Show/Hide',
-				click: () => console.log('visibility click') 
+				click: () => console.log('visibility click')
 			},
-			{ id: 'lock', icons: { on: 'LockOffSvg', off: 'LockOnSvg' }, enabled: true, kind: 'toggle', tooltip: 'Lock', click: () => console.log('lock click') }
+			{
+				id: 'lock',
+				icons: { on: { iconName: 'LockOffSvg' }, off: { iconName: 'LockOnSvg' } },
+				enabled: true,
+				kind: 'toggle',
+				tooltip: 'Lock',
+				click: () => console.log('lock click')
+			}
 		]
 	};
 </script>
+
 <Story name="Default">
 	<div style="width: 240px;">
 		<LayerTree data={sampleData} expandedNodes={new Set()} />
@@ -143,14 +151,11 @@
 	</div>
 </Story>
 
-
-
 <style>
 	div {
 		padding: 1rem;
 		background: var(--figma-color-bg);
 	}
-
 
 	:global(.action) {
 		visibility: hidden;
@@ -162,7 +167,7 @@
 		visibility: visible;
 	}
 
-	:global(.action[data-id="visible"]) {
+	:global(.action[data-id='visible']) {
 		margin-right: 12px;
 	}
 

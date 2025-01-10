@@ -1,5 +1,5 @@
 <script lang="ts" context="module">
-	import type { Action as ActionType } from '../layer-tree/action.svelte';
+	import type { IAction } from '../layer-tree/types';
 	import type { LayerType } from './types';
 	const layer = cva(styles.layer, {
 		variants: {
@@ -26,7 +26,7 @@
 		value: boolean;
 		propagateEscapeKeyDown?: boolean;
 		onClick?: (event: MouseEvent) => void;
-		actions?: Array<ActionType>;
+		actions?: Array<IAction>;
 		disabled: boolean;
 	}
 </script>
@@ -45,7 +45,7 @@
 		value: boolean;
 		propagateEscapeKeyDown?: boolean;
 		onClick?: (event: MouseEvent) => void;
-		actions?: Array<ActionType>;
+		actions?: Array<IAction>;
 		disabled: boolean;
 	}
 
@@ -153,7 +153,7 @@
 	<!-- If the actions stay inside the div, there is no way to click on it because it always clicks on the input again -->
 	{#if actions && actions.length > 0}
 		{#each actions as action}
-			<Action {action} layer={allProps} />
+			<Action {action} data={allProps} />
 		{/each}
 	{/if}
 	{#if $$slots.default}
