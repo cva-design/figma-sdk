@@ -22,19 +22,29 @@ export function clickOutside(
   let callback = callbackFunction;
 
   const onClick = (event: MouseEvent) => {
-    if (!element.contains(event.target as Node)) {
+    const target = event.target as Element;
+
+    // For modals: trigger if click is on the dialog backdrop
+    if (element.nodeName === 'DIALOG' && target === element) {
+      callback(event);
+      return;
+    }
+
+    // For other elements: trigger if click is outside the element
+    if (!element.contains(target) && target !== element) {
       callback(event);
     }
   };
 
-  document.body.addEventListener('click', onClick);
+  // Use window for event listening to catch all clicks
+  window.addEventListener('click', onClick, true);
 
   return {
     update(newCallbackFunction: (event: MouseEvent) => void) {
       callback = newCallbackFunction;
     },
     destroy() {
-      document.body.removeEventListener('click', onClick);
+      window.removeEventListener('click', onClick, true);
     },
   };
 }
