@@ -26,7 +26,7 @@
 	export let showHeader = false;
 
 	const {
-		elements: { trigger, content, arrow, close },
+		elements: { trigger, content, arrow, close, overlay },
 		states: { open }
 	} = createPopover({
 		positioning,
@@ -40,6 +40,10 @@
 </button>
 
 {#if $open}
+	<!-- 
+    Use this to add a background overlay, like in a modal, to the popover
+    <div use:melt={$overlay} class="fps-popover__overlay" />
+  -->
 	<div use:melt={$content} class={`fps-popover__container ${className}`}>
 		{#if showArrow}<div use:melt={$arrow} />{/if}
 		{#if showHeader}
@@ -65,9 +69,9 @@
 		--arrow-size: var(--space-3);
 		font-family: var(--font-family-default);
 		color: var(--color-text-menu);
-		background-color: var(--color-bg-menu);
+		background-color: var(--color-bg);
 		border-radius: var(--radius-large);
-		box-shadow: var(--elevation-400-menu-panel);
+		box-shadow: var(--elevation-500-modal-window);
 		outline: 0;
 		padding: var(--spacer-2);
 		border-radius: var(--radius-large);
@@ -119,6 +123,6 @@
 	.fps-popover__overlay {
 		position: fixed;
 		inset: 0;
-		background-color: var(--color-overlay-dialog);
+		background-color: var(--color-bg);
 	}
 </style>

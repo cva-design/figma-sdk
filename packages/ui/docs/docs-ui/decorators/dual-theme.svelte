@@ -1,8 +1,8 @@
 <div class="theme-split">
-	<div class="themed figma-light">
+	<div class="themed figma-light" data-preferred-theme="light">
 		<slot />
 	</div>
-	<div class="themed figma-dark">
+	<div class="themed figma-dark" data-preferred-theme="dark">
 		<slot />
 	</div>
 </div>

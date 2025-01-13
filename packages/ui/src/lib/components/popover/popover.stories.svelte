@@ -1,5 +1,5 @@
 <script context="module" lang="ts">
-	import { Popover } from '#ui';
+	import { Button, Heading, Popover } from '#ui';
 	import { Story } from '@storybook/addon-svelte-csf';
 
 	export const meta = {
@@ -122,5 +122,33 @@
 		<div style="grid-area: center; font-size: 0.875em; color: var(--color-text-secondary);">
 			Try different placements
 		</div>
+	</div>
+</Story>
+
+<Story name="Stacking Popovers">
+	<div style="padding: 100px;">
+		<Popover showHeader showArrow>
+			<Button slot="trigger">Open First Popover</Button>
+
+			<Heading slot="title">First Level</Heading>
+
+			<div style="width: 200px; padding: var(--space-4);">
+				<p style="margin-bottom: var(--space-4);">This is the first level popover.</p>
+				<Popover positioning={{ placement: 'right-start' }} showArrow>
+					<Button slot="trigger" variant="inverse">Open Second Popover →</Button>
+
+					<div style="width: 200px; padding: var(--space-4);">
+						<p style="margin-bottom: var(--space-4);">This is the second level popover.</p>
+						<Popover positioning={{ placement: 'right-start' }} showArrow>
+							<Button slot="trigger" variant="inverse">Open Third Popover →</Button>
+
+							<div style="width: 200px; padding: var(--space-4);">
+								<p>This is the third level popover.</p>
+							</div>
+						</Popover>
+					</div>
+				</Popover>
+			</div>
+		</Popover>
 	</div>
 </Story>

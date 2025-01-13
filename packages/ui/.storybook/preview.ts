@@ -1,4 +1,5 @@
-import type { Preview } from '@storybook/svelte';
+import { withThemeByDataAttribute } from '@storybook/addon-themes';
+import type { Preview, SvelteRenderer } from '@storybook/svelte';
 import { themes } from '@storybook/theming';
 
 import '../docs/assets/storybook/index.scss';
@@ -11,6 +12,19 @@ const preview: Preview = {
       },
     },
   },
+  decorators: [
+    // // Add to the top: import DualTheme from '../docs/docs-ui/decorators/dual-theme.svelte';
+    // (story, { parameters }) =>
+    //   parameters.dualTheme !== false ? (DualTheme as any) : story(),
+    withThemeByDataAttribute<SvelteRenderer>({
+      themes: {
+        light: 'light',
+        dark: 'dark',
+      },
+      defaultTheme: 'dark',
+      attributeName: 'data-preferred-theme',
+    }),
+  ],
   parameters: {
     layout: 'centered',
     controls: {
@@ -18,14 +32,6 @@ const preview: Preview = {
         color: /(background|color)$/i,
         date: /Date$/i,
       },
-    },
-    darkMode: {
-      current: 'dark',
-      darkClass: 'figma-dark',
-      lightClass: 'figma-light',
-      figJamClass: 'figjam',
-      classTarget: 'html',
-      stylePreview: true,
     },
     docs: {
       theme: themes.dark,
@@ -80,10 +86,6 @@ const preview: Preview = {
       },
     },
   },
-  decorators: [
-    // (story, { parameters }) =>
-    //   parameters.dualTheme !== false ? (DualTheme as any) : story(),
-  ],
   tags: ['autodocs'],
 };
 
