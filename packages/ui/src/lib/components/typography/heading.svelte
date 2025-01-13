@@ -1,12 +1,21 @@
 <script lang="ts">
-	import { cva } from 'class-variance-authority';
+	import { cva, cx } from 'class-variance-authority';
 	import Input from '../input/input.svelte';
-	// Adjust the path as necessary
 
-	export let level: 1 | 2 | 3 = 1;
-	export let disabled: boolean = false;
-	export let editable: boolean = false;
-	export let text: string = '';
+	type $$Props = {
+		id?: string;
+		level?: 1 | 2 | 3;
+		disabled?: boolean;
+		editable?: boolean;
+		text?: string;
+		class?: string;
+	};
+
+	let id: string | undefined = $$props.id;
+	let level: 1 | 2 | 3 = $$props.level ?? 1;
+	let disabled: boolean = $$props.disabled ?? false;
+	let editable: boolean = $$props.editable ?? false;
+	let text: string = $$props.text ?? '';
 
 	const headingClasses = cva('fps-Heading', {
 		variants: {
@@ -24,11 +33,17 @@
 </script>
 
 {#if editable}
-	<Input quiet bind:value={text} {disabled} class={headingClasses({ level, disabled })} />
+	<Input
+		quiet
+		bind:value={text}
+		{disabled}
+		class={cx(headingClasses({ level, disabled }), $$props.class)}
+	/>
 {:else}
 	<svelte:element
 		this={`h${level}`}
-		class={headingClasses({ level, disabled })}
+		{id}
+		class={cx(headingClasses({ level, disabled }), $$props.class)}
 		aria-disabled={disabled}
 	>
 		{text}
