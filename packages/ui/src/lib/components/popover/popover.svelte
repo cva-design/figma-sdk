@@ -6,8 +6,10 @@
 <script lang="ts">
 	import { createPopover, type CreatePopoverProps, melt } from '@melt-ui/svelte';
 	import { Icon } from '../icon';
+	import { Heading } from '../typography';
 
 	interface PopoverProps extends CreatePopoverProps {
+		title?: string;
 		className?: string;
 		ariaLabel?: string;
 		showArrow?: boolean;
@@ -48,61 +50,63 @@
 		{#if showArrow}<div use:melt={$arrow} />{/if}
 		{#if showHeader}
 			<div class="fps-popover__header">
-				<slot name="title" class="fps-popover__title" />
-				{#if showCloseButton}
-					<slot name="close-button">
-						<button class="fps-popover__controls" use:melt={$close}>
-							<Icon iconName="CloseSvg" />
-						</button>
-					</slot>
+				{#if $$props.title}
+					<Heading class="fps-popover__title">{$$props.title}</Heading>
 				{/if}
+				<div class="fps-popover__actions">
+					{#if showCloseButton}
+						<slot name="close-button">
+							<button class="fps-popover__actions" use:melt={$close}>
+								<Icon iconName="CloseSvg" />
+							</button>
+						</slot>
+					{/if}
+				</div>
 			</div>
 		{/if}
-		<div class="fps-popover__section">
+		<div class="fps-popover__content">
 			<slot />
 		</div>
+		{#if $$slots.footer}
+			<div class="fps-popover__footer">
+				<slot name="footer" />
+			</div>
+		{/if}
 	</div>
 {/if}
 
 <style lang="scss">
 	.fps-popover__container {
 		--arrow-size: var(--space-3);
-		font-family: var(--font-family-default);
-		color: var(--color-text-menu);
 		background-color: var(--color-bg);
 		border-radius: var(--radius-large);
 		box-shadow: var(--elevation-500-modal-window);
 		outline: 0;
-		padding: var(--spacer-2);
-		border-radius: var(--radius-large);
 	}
 
 	.fps-popover__header {
-		box-sizing: border-box;
 		display: flex;
 		align-items: center;
-		height: var(--space-10);
-		padding: var(--space-1) var(--space-2);
-		border-bottom: 1px solid var(--color-border-menu);
+		padding: var(--space-4);
+		border-bottom: 1px solid var(--color-border);
 	}
 
 	.fps-popover__title {
 		padding-left: var(--space-2);
 	}
 
-	.fps-popover__controls {
+	.fps-popover__actions {
 		display: flex;
 		align-items: center;
 		margin-left: auto;
-		color: var(--color-text-menu);
 
 		&:hover {
-			background-color: var(--color-bg-menu-hover);
+			background-color: var(--color-bg);
 			border-radius: var(--radius-medium);
 		}
 	}
 
-	.fps-popover__section {
+	.fps-popover__content {
 		box-sizing: border-box;
 		padding: var(--space-4);
 		border-bottom: 1px solid var(--figma-color-border);
@@ -111,11 +115,11 @@
 			border-bottom: 0;
 		}
 
-		&:where(.fps-popover__section--base) {
+		&:where(.fps-popover__content--base) {
 			padding: var(--space-4);
 		}
 
-		&:where(.fps-popover__section--small) {
+		&:where(.fps-popover__content--small) {
 			padding: var(--space-2) var(--space-4);
 		}
 	}
@@ -124,5 +128,10 @@
 		position: fixed;
 		inset: 0;
 		background-color: var(--color-bg);
+	}
+
+	:global(.fps-popover__footer) {
+		padding: var(--space-4);
+		border-top: 1px solid var(--color-border);
 	}
 </style>

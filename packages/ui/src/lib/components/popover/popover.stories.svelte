@@ -1,6 +1,7 @@
 <script context="module" lang="ts">
-	import { Button, Heading, Popover } from '#ui';
+	import { Button, Popover } from '#ui';
 	import { Story } from '@storybook/addon-svelte-csf';
+	import Text from '../typography/text.svelte';
 
 	export const meta = {
 		title: 'Popover',
@@ -55,11 +56,10 @@
 
 <Story name="With Header and Close Button">
 	<div style="padding: 100px;">
-		<Popover showHeader showCloseButton>
+		<Popover title="Popover Title" showHeader showCloseButton>
 			<div slot="trigger">
 				<button>With Header</button>
 			</div>
-			<div slot="title">Popover Title</div>
 			<div style="padding: 16px;">
 				<p>This popover has a header with title and close button.</p>
 			</div>
@@ -82,11 +82,10 @@
 
 <Story name="Full Featured">
 	<div style="padding: 100px;">
-		<Popover showHeader showCloseButton showArrow className="custom-class">
+		<Popover title="Popover Title" showHeader showCloseButton showArrow className="custom-class">
 			<div slot="trigger">
 				<button>Full Featured</button>
 			</div>
-			<div slot="title">Popover Title</div>
 			<div style="padding: 16px;">
 				<p>This popover has all features enabled: header, title, close button, and arrow.</p>
 			</div>
@@ -126,27 +125,23 @@
 </Story>
 
 <Story name="Stacking Popovers">
-	<div style="padding: 100px;">
-		<Popover showHeader showArrow>
+	<div>
+		<Popover title="First Level" showHeader showArrow>
 			<Button slot="trigger">Open First Popover</Button>
 
-			<Heading slot="title">First Level</Heading>
+			<Text block>This is the first level popover.</Text>
 
-			<div style="width: 200px; padding: var(--space-4);">
-				<p style="margin-bottom: var(--space-4);">This is the first level popover.</p>
+			<div slot="footer">
 				<Popover positioning={{ placement: 'right-start' }} showArrow>
 					<Button slot="trigger" variant="inverse">Open Second Popover →</Button>
 
-					<div style="width: 200px; padding: var(--space-4);">
-						<p style="margin-bottom: var(--space-4);">This is the second level popover.</p>
-						<Popover positioning={{ placement: 'right-start' }} showArrow>
-							<Button slot="trigger" variant="inverse">Open Third Popover →</Button>
+					<Text block>This is the second level popover.</Text>
 
-							<div style="width: 200px; padding: var(--space-4);">
-								<p>This is the third level popover.</p>
-							</div>
-						</Popover>
-					</div>
+					<Popover slot="footer" positioning={{ placement: 'right-start' }} showArrow>
+						<Button slot="trigger" variant="inverse">Open Third Popover →</Button>
+
+						<Text block>This is the third level popover.</Text>
+					</Popover>
 				</Popover>
 			</div>
 		</Popover>
