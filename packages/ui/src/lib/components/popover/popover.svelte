@@ -5,14 +5,25 @@
 
 <script lang="ts">
 	import { createPopover, type CreatePopoverProps, melt } from '@melt-ui/svelte';
+	import { Icon } from '../icon';
 
-	type $$Props = CreatePopoverProps;
+	interface PopoverProps extends CreatePopoverProps {
+		className?: string;
+		ariaLabel?: string;
+		showArrow?: boolean;
+		showCloseButton?: boolean;
+		showHeader?: boolean;
+	}
+
+	type $$Props = PopoverProps;
 
 	export let className = '';
 	export let preventScroll = false;
 	export let ariaLabel: string | undefined = undefined;
 	export let positioning: CreatePopoverProps['positioning'] = {};
 	export let showArrow = false;
+	export let showCloseButton = false;
+	export let showHeader = false;
 
 	const {
 		elements: { trigger, content, arrow, close },
@@ -31,25 +42,18 @@
 {#if $open}
 	<div use:melt={$content} class={`fps-popover__container ${className}`}>
 		{#if showArrow}<div use:melt={$arrow} />{/if}
-		<div class="fps-popover__header">
-			<slot name="header" class="fps-popover__title" />
-			<button class="fps-popover__controls" use:melt={$close}>
-				<slot name="close-icon">
-					<!-- <Icon iconName="CloseSvg" /> -->
-					<svg
-						fill="none"
-						height="32"
-						viewBox="0 0 32 32"
-						width="32"
-						xmlns="http://www.w3.org/2000/svg"
-						><path
-							d="m16 15.293 4.6465-4.6464.7071.7071-4.6465 4.6464 4.6465 4.6465-.7071.7071-4.6465-4.6464-4.6464 4.6464-.7071-.7071 4.6464-4.6465-4.6464-4.6463.7071-.7071z"
-							fill="currentColor"
-						></path></svg
-					>
-				</slot>
-			</button>
-		</div>
+		{#if showHeader}
+			<div class="fps-popover__header">
+				<slot name="title" class="fps-popover__title" />
+				{#if showCloseButton}
+					<slot name="close-button">
+						<button class="fps-popover__controls" use:melt={$close}>
+							<Icon iconName="CloseSvg" />
+						</button>
+					</slot>
+				{/if}
+			</div>
+		{/if}
 		<div class="fps-popover__section">
 			<slot />
 		</div>
