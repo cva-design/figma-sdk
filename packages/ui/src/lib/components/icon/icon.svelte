@@ -1,105 +1,87 @@
 <script lang="ts">
 	import * as icons from '#icons';
+	import { cva, type VariantProps } from 'class-variance-authority';
 	import type { IconProps } from './types';
 
-	type $$Props = IconProps;
+	/**
+	 * Icon component variants using CVA
+	 */
+	const iconVariants = cva('icon-component', {
+		variants: {
+			size: {
+				small: 'fps-size-small', // 12px
+				medium: 'fps-size-medium', // 16px
+				large: 'fps-size-large', // 24px
+				giant: 'fps-size-giant' // 32px
+			},
+			spin: {
+				true: 'spin'
+			}
+		},
+		defaultVariants: {
+			size: 'medium',
+			spin: false
+		}
+	});
+
+	type IconVariants = VariantProps<typeof iconVariants>;
+
+	type $$Props = IconProps & IconVariants;
 
 	$: colorStyle = $$props.color?.startsWith('--')
 		? `var(${$$props.color})`
 		: ($$props.color ?? 'var(--figma-color-icon)');
+
+	$: classes = iconVariants({
+		size: $$props.size,
+		spin: $$props.spin,
+		class: $$props.class
+	});
 </script>
 
 {#if $$props.iconName}
-	<div
-		class="icon-component {$$props.class}"
-		class:spin={$$props.spin}
-		style="color: {colorStyle}; fill: {colorStyle}"
-	>
+	<div class={classes} style="color: {colorStyle}; fill: {colorStyle}">
 		{@html icons[$$props.iconName]}
 	</div>
 {:else if $$props.iconText}
-	<div
-		class="icon-component {$$props.class}"
-		class:spin={$$props.spin}
-		style="color: {colorStyle}; fill: {colorStyle}"
-	>
+	<div class={classes} style="color: {colorStyle}; fill: {colorStyle}">
 		{$$props.iconText}
 	</div>
 {:else}
-	<div
-		class="icon-component {$$props.class}"
-		class:spin={$$props.spin}
-		style="color: {colorStyle}; fill: {colorStyle}"
-	>
+	<div class={classes} style="color: {colorStyle}; fill: {colorStyle}">
 		{@html $$props.icon}
 	</div>
 {/if}
 
 <style lang="scss">
-	.fk-icon {
-		display: block;
-		flex-shrink: 0;
-		pointer-events: none;
-
-		&:where(.fps-size-1) {
-			width: var(--space-1);
-		}
-
-		&:where(.fps-size-2) {
-			width: var(--space-2);
-		}
-
-		&:where(.fps-size-2_5) {
-			width: var(--space-2_5);
-		}
-
-		&:where(.fps-size-3) {
-			width: var(--space-3);
-		}
-
-		&:where(.fps-size-3_5) {
-			width: var(--space-3_5);
-		}
-
-		&:where(.fps-size-4) {
-			width: var(--space-4);
-		}
-
-		&:where(.fps-size-5) {
-			width: var(--space-5);
-		}
-
-		&:where(.fps-size-6) {
-			width: var(--space-6);
-		}
-
-		&:where(.fps-size-7) {
-			width: var(--space-7);
-		}
-
-		&:where(.fps-size-8) {
-			width: var(--space-8);
-		}
-
-		&:where(.fps-size-9) {
-			width: var(--space-9);
-		}
-
-		&:where(.fps-size-10) {
-			width: var(--space-10);
-		}
-	}
-
 	.icon-component {
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		cursor: default;
-		// width: var(--spacer-5);
-		// height: var(--spacer-5);
 		font-family: var(--font-family-default);
 		font-size: var(--text-body-medium-font-size);
 		user-select: none;
+	}
+
+	:global(.fps-size-small) {
+		width: var(--space-3);
+		height: var(--space-3);
+	}
+
+	:global(.fps-size-medium) {
+		width: var(--space-4);
+		height: var(--space-4);
+	}
+
+	:global(.fps-size-large) {
+		width: var(--space-6);
+		height: var(--space-6);
+	}
+
+	:global(.fps-size-giant) {
+		width: var(--space-8);
+		height: var(--space-8);
 	}
 
 	.spin {
@@ -116,13 +98,6 @@
 	}
 
 	:global(.icon-component *) {
-		//fill: inherit; // TODO: If you set this the side-panel icon is filled in
 		color: inherit;
-	}
-
-	:global(.icon-component svg) {
-		// TODO: If you set the height and width to 100%, the icon becomes too large in the layer tree.
-		// width: 100%;
-		// height: 100%;
 	}
 </style>

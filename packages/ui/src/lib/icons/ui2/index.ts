@@ -1,4 +1,4 @@
-//@index('./*.{png,jpg,jpeg,svg,gif}', (f, _) => `export { default as ${_.pascalCase(f.name)}Svg } from '${f.path}${f.ext}?raw'`)
+//@index('./*.{png,jpg,jpeg,svg,gif}', (f, _) => `export { default as ${_.pascalCase(f.name)}Svg } from '${f.path}${f.ext}?raw';`)
 export { default as AdjustSvg } from './adjust.svg?raw';
 export { default as AlertSvg } from './alert.svg?raw';
 export { default as AngleSvg } from './angle.svg?raw';
@@ -9,6 +9,9 @@ export { default as AutoLayoutVerticalSvg } from './auto-layout-vertical.svg?raw
 export { default as BackSvg } from './back.svg?raw';
 export { default as BlendEmptySvg } from './blend-empty.svg?raw';
 export { default as BlendSvg } from './blend.svg?raw';
+export { default as Break_12Svg } from './break-12.svg?raw';
+export { default as Break_16Svg } from './break-16.svg?raw';
+export { default as Break_24Svg } from './break-24.svg?raw';
 export { default as BreakSvg } from './break.svg?raw';
 export { default as CaretDownSvg } from './caret-down.svg?raw';
 export { default as CaretLeftSvg } from './caret-left.svg?raw';
@@ -99,6 +102,9 @@ export default [
   '#icons/ui2/back.svg',
   '#icons/ui2/blend-empty.svg',
   '#icons/ui2/blend.svg',
+  '#icons/ui2/break-12.svg',
+  '#icons/ui2/break-16.svg',
+  '#icons/ui2/break-24.svg',
   '#icons/ui2/break.svg',
   '#icons/ui2/caret-down.svg',
   '#icons/ui2/caret-left.svg',

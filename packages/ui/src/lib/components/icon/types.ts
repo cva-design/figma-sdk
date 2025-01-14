@@ -6,6 +6,12 @@ type IconBaseProps = {
   color?: string;
 
   /**
+   * size: The size of the icon
+   * @default "medium"
+   */
+  size?: 'small' | 'medium' | 'large' | 'giant';
+
+  /**
    * spin: Whether the icon should spin
    */
   spin?: boolean;
