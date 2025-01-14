@@ -28,15 +28,23 @@
 	</IconButton>
 </Story>
 
-<Story name="Medium">
-	<IconButton aria-label="Star" size="medium" on:click={() => alert('clicked')}>
-		<Icon iconName="StylesSvg" />
-	</IconButton>
+<Story name="Sizes">
+	<div style="display: flex; gap: 8px;">
+		<IconButton aria-label="Star" size="small" on:click={() => alert('clicked')}>
+			<Icon iconName="Break_12Svg" size="small" />
+		</IconButton>
+		<IconButton aria-label="Star" size="medium" on:click={() => alert('clicked')}>
+			<Icon iconName="Break_16Svg" size="medium" />
+		</IconButton>
+		<IconButton aria-label="Star" size="large" on:click={() => alert('clicked')}>
+			<Icon iconName="Break_24Svg" size="large" />
+		</IconButton>
+	</div>
 </Story>
 
 <Story name="Solid">
 	<IconButton aria-label="Star" activeAppearance="solid" on:click={() => alert('clicked')}>
-		<Icon iconName="StylesSvg" />
+		<Icon iconName="StylesSvg_32" />
 	</IconButton>
 </Story>
 

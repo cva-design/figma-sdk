@@ -9,7 +9,8 @@
 		variants: {
 			size: {
 				small: 'fps-size-small',
-				medium: 'fps-size-medium'
+				medium: 'fps-size-medium',
+				large: 'fps-size-large'
 			},
 			activeAppearance: {
 				subtle: 'fps-active-appearance-subtle',
@@ -17,7 +18,7 @@
 			}
 		},
 		defaultVariants: {
-			size: 'small',
+			size: 'medium',
 			activeAppearance: 'subtle'
 		}
 	});
@@ -123,11 +124,16 @@
 	}
 
 	.fps-size-small {
+		width: var(--space-4);
+		height: var(--space-4);
+	}
+
+	.fps-size-medium {
 		width: var(--space-6);
 		height: var(--space-6);
 	}
 
-	.fps-size-medium {
+	.fps-size-large {
 		width: var(--space-8);
 		height: var(--space-8);
 	}
