@@ -3,7 +3,7 @@
 	import { clickOutside } from './click-outside';
 
 	export const meta = {
-		title: 'clickOutside',
+		title: 'ClickOutside',
 		parameters: {
 			docs: {
 				description: {
@@ -40,8 +40,9 @@
 	}
 	.target {
 		padding: 2rem;
-		background: #eee;
+		background: var(--color-bg);
 		border-radius: 8px;
 		text-align: center;
+		color: var(--color-text);
 	}
 </style>
