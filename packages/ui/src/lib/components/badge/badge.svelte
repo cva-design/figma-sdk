@@ -5,14 +5,14 @@
 	import { cva, type VariantProps } from 'class-variance-authority';
 	import type { HTMLAttributes } from 'svelte/elements';
 
-	const badge = cva('fps-Badge', {
+	const badge = cva('fps-badge', {
 		variants: {
 			hasActions: {
 				true: 'fps-has-actions'
 			},
 			size: {
-				small: 'fps-size-small',
-				medium: 'fps-size-medium'
+				small: 'fps-badge-small',
+				medium: 'fps-badge-medium'
 			},
 			noDot: {
 				true: 'fps-no-dot'
@@ -77,7 +77,7 @@
 	}
 </script>
 
-<div class="fps-Badge-wrapper">
+<div class="fps-badge-wrapper">
 	<div
 		class={badge({ hasActions: showActions, size, noDot, class: $$props.class })}
 		style:background-color={colorConfig.bg}
@@ -86,7 +86,7 @@
 	>
 		{#if !$$props['no-dot']}
 			{#if iconProps}
-				<div class="fps-Badge-icon">
+				<div class="fps-badge-icon">
 					<Icon {...iconProps} />
 				</div>
 			{:else}
@@ -96,7 +96,7 @@
 					viewBox="0 0 16 16"
 					fill="none"
 					xmlns="http://www.w3.org/2000/svg"
-					class="fps-Badge-dot"
+					class="fps-badge-dot"
 				>
 					<path
 						d="M12 8C12 10.2091 10.2091 12 8 12C5.79086 12 4 10.2091 4 8C4 5.79086 5.79086 4 8 4C10.2091 4 12 5.79086 12 8Z"
@@ -109,7 +109,7 @@
 			<span style:color={colorConfig.text}>{text}</span>
 		</Text>
 		{#if showActions}
-			<div class="fps-Badge-actions">
+			<div class="fps-badge-actions">
 				<slot name="actions">
 					<slot />
 				</slot>
@@ -119,7 +119,7 @@
 </div>
 
 <style lang="scss">
-	.fps-Badge-wrapper {
+	.fps-badge-wrapper {
 		display: flex;
 		flex: none;
 		order: 0;
@@ -128,12 +128,12 @@
 		color: var(--color-text);
 		height: var(--space-6);
 
-		&:where(.fps-size-small) {
+		&:where(.fps-badge-small) {
 			height: 20px;
 		}
 	}
 
-	.fps-Badge {
+	.fps-badge {
 		display: flex;
 		flex-direction: row;
 		align-items: center;
@@ -144,17 +144,17 @@
 		height: var(--space-6);
 		box-sizing: border-box;
 
-		&:where(.fps-size-small) {
+		&:where(.fps-badge-small) {
 			font-size: var(--font-size-1);
 			padding: 0 4px;
 			height: 20px;
 
-			.fps-Badge-icon {
+			.fps-badge-icon {
 				width: 16px;
 				height: 16px;
 			}
 
-			.fps-Badge-actions {
+			.fps-badge-actions {
 				height: 16px;
 				overflow: hidden;
 
@@ -166,7 +166,7 @@
 			}
 		}
 
-		&:where(.fps-size-medium) {
+		&:where(.fps-badge-medium) {
 			font-size: var(--font-size-2);
 			padding: 0 6px;
 		}
@@ -179,7 +179,7 @@
 			padding-left: var(--space-2);
 		}
 
-		.fps-Badge-actions {
+		.fps-badge-actions {
 			display: flex;
 			align-items: center;
 			gap: var(--space-1);
@@ -187,13 +187,13 @@
 		}
 	}
 
-	.fps-Badge-dot {
+	.fps-badge-dot {
 		flex-shrink: 0;
 		width: 16px;
 		height: 16px;
 	}
 
-	.fps-Badge-icon {
+	.fps-badge-icon {
 		flex-shrink: 0;
 		width: 16px;
 		height: 16px;
@@ -207,7 +207,7 @@
 		}
 	}
 
-	:global(.fps-Badge [slot='actions']) {
+	:global(.fps-badge [slot='actions']) {
 		display: flex;
 		align-items: center;
 		gap: var(--space-1);

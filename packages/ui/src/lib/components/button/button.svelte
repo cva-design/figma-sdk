@@ -18,8 +18,8 @@
 				text: 'fps-variant-text'
 			},
 			size: {
-				small: 'fps-size-small',
-				medium: 'fps-size-medium'
+				small: 'fps-button-small',
+				medium: 'fps-button-medium'
 			},
 			fullWidth: {
 				true: 'fps-full-width'
@@ -204,12 +204,12 @@
 		max-width: 100%;
 	}
 
-	.fps-button:where(.fps-size-small) {
+	.fps-button:where(.fps-button-small) {
 		height: var(--space-6);
 		padding: var(--space-1) var(--space-2);
 	}
 
-	.fps-button:where(.fps-size-medium) {
+	.fps-button:where(.fps-button-medium) {
 		height: var(--space-8);
 		padding: var(--space-2) var(--space-3);
 	}

@@ -1,7 +1,7 @@
 <script context="module" lang="ts">
-export type Size = "small" | "medium" | "large";
-export type Weight = "default" | "strong";
-export type Align = "start" | "center" | "end";
+	export type Size = 'small' | 'medium' | 'large';
+	export type Weight = 'default' | 'strong';
+	export type Align = 'start' | 'center' | 'end';
 </script>
 
 <script lang="ts">
@@ -16,9 +16,9 @@ export type Align = "start" | "center" | "end";
 	const label = cva(['fps-Text', 'fps-Label', $$props.class], {
 		variants: {
 			size: {
-				small: 'fps-size-small',
-				medium: 'fps-size-medium',
-				large: 'fps-size-large'
+				small: 'fps-label-small',
+				medium: 'fps-label-medium',
+				large: 'fps-label-large'
 			},
 			weight: {
 				default: 'fps-weight-default',
@@ -68,19 +68,19 @@ export type Align = "start" | "center" | "end";
   Use custom properties to avoid specificy issues when nesting Text.
   Nested Text components inherit properties of the parent Text, unless customized.
   At the same time, Text falls back to default values without requiring :root level styling. */
-		&:where(.fps-size-small) {
+		&:where(.fps-label-small) {
 			--font-size: var(--font-size-1);
 			--line-height: var(--line-height-1);
 			--letter-spacing: var(--letter-spacing-1);
 		}
 
-		&:where(.fps-size-medium) {
+		&:where(.fps-label-medium) {
 			--font-size: var(--font-size-3);
 			--line-height: var(--line-height-3);
 			--letter-spacing: --letter-spacing-3;
 		}
 
-		&:where(.fps-size-large) {
+		&:where(.fps-label-large) {
 			--font-size: var(--font-size-5);
 			--line-height: var(--line-height-5);
 			--letter-spacing: var(--letter-spacing-5);

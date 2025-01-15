@@ -5,9 +5,9 @@
 	const text = cva('fps-Text', {
 		variants: {
 			size: {
-				small: 'fps-size-small',
-				medium: 'fps-size-medium',
-				large: 'fps-size-large'
+				small: 'fps-text-small',
+				medium: 'fps-text-medium',
+				large: 'fps-text-large'
 			},
 			weight: {
 				default: 'fps-weight-default',
@@ -108,19 +108,19 @@
   Use custom properties to avoid specificy issues when nesting Text.
   Nested Text components inherit properties of the parent Text, unless customized.
   At the same time, Text falls back to default values without requiring :root level styling. */
-		&:where(.fps-size-small) {
+		&:where(.fps-text-small) {
 			--font-size: var(--font-size-1);
 			--line-height: var(--line-height-1);
 			--letter-spacing: var(--letter-spacing-1);
 		}
 
-		&:where(.fps-size-medium) {
+		&:where(.fps-text-medium) {
 			--font-size: var(--font-size-3);
 			--line-height: var(--line-height-3);
 			--letter-spacing: --letter-spacing-3;
 		}
 
-		&:where(.fps-size-large) {
+		&:where(.fps-text-large) {
 			--font-size: var(--font-size-5);
 			--line-height: var(--line-height-5);
 			--letter-spacing: var(--letter-spacing-5);

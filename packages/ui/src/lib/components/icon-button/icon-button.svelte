@@ -8,9 +8,9 @@
 	const iconButton = cva('fps-IconButton', {
 		variants: {
 			size: {
-				small: 'fps-size-small',
-				medium: 'fps-size-medium',
-				large: 'fps-size-large'
+				small: 'fps-button-small',
+				medium: 'fps-button-medium',
+				large: 'fps-button-large'
 			},
 			activeAppearance: {
 				subtle: 'fps-active-appearance-subtle',
@@ -123,17 +123,17 @@
 		border-radius: var(--border-radius-small);
 	}
 
-	.fps-size-small {
+	.fps-button-small {
 		width: var(--space-4);
 		height: var(--space-4);
 	}
 
-	.fps-size-medium {
+	.fps-button-medium {
 		width: var(--space-6);
 		height: var(--space-6);
 	}
 
-	.fps-size-large {
+	.fps-button-large {
 		width: var(--space-8);
 		height: var(--space-8);
 	}

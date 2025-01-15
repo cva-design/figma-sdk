@@ -1,42 +1,42 @@
 <script lang="ts">
-import { type VariantProps, cva } from "class-variance-authority";
-import type { HTMLAnchorAttributes } from "svelte/elements";
+	import { type VariantProps, cva } from 'class-variance-authority';
+	import type { HTMLAnchorAttributes } from 'svelte/elements';
 
-const link = cva("fps-Text fps-Link", {
-	variants: {
-		size: {
-			small: "fps-size-small",
-			medium: "fps-size-medium",
-			large: "fps-size-large",
+	const link = cva('fps-Text fps-Link', {
+		variants: {
+			size: {
+				small: 'fps-link-small',
+				medium: 'fps-link-medium',
+				large: 'fps-link-large'
+			},
+			weight: {
+				default: 'fps-weight-default',
+				strong: 'fps-weight-strong'
+			},
+			align: {
+				left: 'fps-align-start',
+				center: 'fps-align-center',
+				right: 'fps-align-end'
+			},
+			block: {
+				true: 'fps-block'
+			}
 		},
-		weight: {
-			default: "fps-weight-default",
-			strong: "fps-weight-strong",
-		},
-		align: {
-			left: "fps-align-start",
-			center: "fps-align-center",
-			right: "fps-align-end",
-		},
-		block: {
-			true: "fps-block",
-		},
-	},
-	defaultVariants: {
-		size: "medium",
-		weight: "default",
-		align: "left",
-	},
-});
+		defaultVariants: {
+			size: 'medium',
+			weight: 'default',
+			align: 'left'
+		}
+	});
 
-interface $$Props extends HTMLAnchorAttributes, VariantProps<typeof link> {
-	block?: boolean;
-}
+	interface $$Props extends HTMLAnchorAttributes, VariantProps<typeof link> {
+		block?: boolean;
+	}
 
-export const size: $$Props["size"] = undefined;
-export const weight: $$Props["weight"] = undefined;
-export const align: $$Props["align"] = undefined;
-export const block: boolean = false;
+	export const size: $$Props['size'] = undefined;
+	export const weight: $$Props['weight'] = undefined;
+	export const align: $$Props['align'] = undefined;
+	export const block: boolean = false;
 </script>
 
 <a class={link({ size, weight, align, block, class: $$props.class })} {...$$restProps}>
@@ -61,19 +61,19 @@ export const block: boolean = false;
   Use custom properties to avoid specificy issues when nesting Text.
   Nested Text components inherit properties of the parent Text, unless customized.
   At the same time, Text falls back to default values without requiring :root level styling. */
-		&:where(.fps-size-small) {
+		&:where(.fps-link-small) {
 			--font-size: var(--font-size-1);
 			--line-height: var(--line-height-1);
 			--letter-spacing: var(--letter-spacing-1);
 		}
 
-		&:where(.fps-size-medium) {
+		&:where(.fps-link-medium) {
 			--font-size: var(--font-size-3);
 			--line-height: var(--line-height-3);
 			--letter-spacing: --letter-spacing-3;
 		}
 
-		&:where(.fps-size-large) {
+		&:where(.fps-link-large) {
 			--font-size: var(--font-size-5);
 			--line-height: var(--line-height-5);
 			--letter-spacing: var(--letter-spacing-5);

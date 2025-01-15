@@ -1,44 +1,42 @@
 <script lang="ts">
-import { type VariantProps, cva } from "class-variance-authority";
-import type { HTMLAttributes } from "svelte/elements";
+	import { type VariantProps, cva } from 'class-variance-authority';
+	import type { HTMLAttributes } from 'svelte/elements';
 
-const paragraph = cva("fps-Text", {
-	variants: {
-		size: {
-			small: "fps-size-small",
-			medium: "fps-size-medium",
-			large: "fps-size-large",
+	const paragraph = cva('fps-Text', {
+		variants: {
+			size: {
+				small: 'fps-paragraph-small',
+				medium: 'fps-paragraph-medium',
+				large: 'fps-paragraph-large'
+			},
+			weight: {
+				default: 'fps-weight-default',
+				strong: 'fps-weight-strong'
+			},
+			align: {
+				left: 'fps-align-start',
+				center: 'fps-align-center',
+				right: 'fps-align-end'
+			},
+			block: {
+				true: 'fps-block'
+			}
 		},
-		weight: {
-			default: "fps-weight-default",
-			strong: "fps-weight-strong",
-		},
-		align: {
-			left: "fps-align-start",
-			center: "fps-align-center",
-			right: "fps-align-end",
-		},
-		block: {
-			true: "fps-block",
-		},
-	},
-	defaultVariants: {
-		size: "medium",
-		weight: "default",
-		align: "left",
-	},
-});
+		defaultVariants: {
+			size: 'medium',
+			weight: 'default',
+			align: 'left'
+		}
+	});
 
-interface $$Props
-	extends HTMLAttributes<HTMLParagraphElement>,
-		VariantProps<typeof paragraph> {
-	block?: boolean;
-}
+	interface $$Props extends HTMLAttributes<HTMLParagraphElement>, VariantProps<typeof paragraph> {
+		block?: boolean;
+	}
 
-export const size: $$Props["size"] = undefined;
-export const weight: $$Props["weight"] = undefined;
-export const align: $$Props["align"] = undefined;
-export const block: $$Props["block"] = false;
+	export const size: $$Props['size'] = undefined;
+	export const weight: $$Props['weight'] = undefined;
+	export const align: $$Props['align'] = undefined;
+	export const block: $$Props['block'] = false;
 </script>
 
 <p class={paragraph({ size, weight, align, block, class: $$props.class })} {...$$restProps}>
@@ -63,19 +61,19 @@ export const block: $$Props["block"] = false;
   Use custom properties to avoid specificy issues when nesting Text.
   Nested Text components inherit properties of the parent Text, unless customized.
   At the same time, Text falls back to default values without requiring :root level styling. */
-		&:where(.fps-size-small) {
+		&:where(.fps-paragraph-small) {
 			--font-size: var(--font-size-1);
 			--line-height: var(--line-height-1);
 			--letter-spacing: var(--letter-spacing-1);
 		}
 
-		&:where(.fps-size-medium) {
+		&:where(.fps-paragraph-medium) {
 			--font-size: var(--font-size-3);
 			--line-height: var(--line-height-3);
 			--letter-spacing: --letter-spacing-3;
 		}
 
-		&:where(.fps-size-large) {
+		&:where(.fps-paragraph-large) {
 			--font-size: var(--font-size-5);
 			--line-height: var(--line-height-5);
 			--letter-spacing: var(--letter-spacing-5);

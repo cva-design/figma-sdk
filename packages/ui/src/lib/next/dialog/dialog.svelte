@@ -1,8 +1,7 @@
 <script lang="ts">
+	import { Icon, IconButton } from '#ui';
 	import { createEventDispatcher } from 'svelte';
 	import { fade } from 'svelte/transition';
-	import IconButton from '../icon-button/icon-button.svelte';
-	import Icon from '../icon/icon.svelte';
 
 	export let open: boolean = false;
 
@@ -87,18 +86,6 @@
 			top: min(10vh, 80px);
 			left: 50%;
 			transform: translateX(-50%);
-		}
-
-		&:global(.fps-size-1) {
-			width: 288px;
-		}
-
-		&:global(.fps-size-2) {
-			width: 352px;
-		}
-
-		&:global(.fps-size-3) {
-			width: 448px;
 		}
 
 		&:global(.fps-size-fullscreen) {
