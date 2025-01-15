@@ -73,14 +73,14 @@
 		z-index: 1000;
 		box-sizing: border-box;
 		padding: var(--space-1) var(--space-2);
-		background-color: var(--color-bg-tooltip);
+		background-color: var(--color-bg);
 		font-family: var(--font-family-default);
 		font-size: var(--font-size-default);
 		font-weight: var(--font-weight-default);
 		letter-spacing: var(--letter-spacing-default);
 		line-height: var(--line-height-default);
 		min-height: var(--space-6);
-		color: var(--color-text-tooltip);
+		color: var(--color-text);
 		white-space: pre-wrap;
 		word-break: break-word;
 		border-radius: var(--radius-medium);
@@ -88,7 +88,7 @@
 	}
 
 	.fps-tooltip-arrow {
-		fill: var(--color-bg-tooltip);
+		fill: var(--color-bg);
 		width: var(--space-3_5);
 		height: var(--space-1_5);
 		position: relative;

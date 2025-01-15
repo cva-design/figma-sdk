@@ -33,7 +33,7 @@
 <style lang="scss">
 	li {
 		align-items: center;
-		color: var(--figma-color-text-onbrand);
+		color: var(--color-text);
 		cursor: default;
 		display: flex;
 		font-family: var(--font-family-default);
@@ -49,6 +49,7 @@
 		transition-duration: 30ms;
 		text-wrap: nowrap;
 		white-space: nowrap;
+		background-color: var(--color-bg);
 	}
 
 	.label {

@@ -5,6 +5,7 @@
 	import LayerTree from './layer-tree.svelte';
 
 	export const meta = {
+		title: 'LayerTree',
 		component: LayerTree,
 		argTypes: {
 			initiallyExpanded: { control: 'boolean' },

@@ -334,18 +334,18 @@
 		padding: 4px var(--spacer-2) 0px var(--spacer-2);
 		overflow-y: hidden;
 		border-radius: var(--radius-medium);
-		background-color: var(--figma-color-bg);
+		background-color: var(--color-bg);
 	}
 	button:hover,
 	button:active {
 		border-color: var(--figma-color-border-onselected-strong);
 	}
 	button:hover .placeholder {
-		color: var(--figma-color-text);
+		color: var(--color-text);
 	}
 	button:hover .caret svg path,
 	button:focus .caret svg path {
-		fill: var(--figma-color-text);
+		fill: var(--color-text);
 	}
 	button:hover .caret,
 	button:focus .caret {
@@ -358,7 +358,7 @@
 		padding-left: calc(var(--spacer-2) + 1px);
 	}
 	button:focus .placeholder {
-		color: var(--figma-color-text);
+		color: var(--color-text);
 	}
 	button:disabled .selected-value {
 		color: var(--figma-color-text-secondary);
@@ -384,7 +384,7 @@
 		font-weight: var(--font-weight-default);
 		letter-spacing: var(--font-letter-spacing-neg-xsmall);
 		line-height: var(--line-height);
-		color: var(--figma-color-text);
+		color: var(--color-text);
 		margin-right: var(--space-2);
 		margin-top: -3px;
 		white-space: nowrap;
@@ -422,7 +422,7 @@
 		-moz-osx-font-smoothing: grayscale;
 		cursor: default;
 		padding: var(--space-2);
-		background-color: var(--color-bg-menu);
+		background-color: var(--color-bg);
 		border-radius: var(--radius-large);
 		font-size: var(--font-size-menu);
 		font-family: var(--font-family-default);

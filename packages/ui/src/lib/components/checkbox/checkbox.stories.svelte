@@ -5,6 +5,7 @@
 	import Checkbox from './checkbox.svelte';
 
 	export const meta = {
+		title: 'Checkbox',
 		component: Checkbox
 	} satisfies Meta<SvelteComponent>;
 </script>
