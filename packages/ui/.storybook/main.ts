@@ -25,7 +25,7 @@ const groups = [
   'Actions',
   ['button', 'icon-button', 'icon-toggle', 'action-group', 'link'],
   'Communication',
-  ['tooltip', 'popover'],
+  ['badge', 'popover', 'tooltip'],
   'Data Display',
   ['tree', 'layer-tree', 'layer', 'disclosure'],
   'Forms',
@@ -37,7 +37,7 @@ const groups = [
   'Visual',
   ['icon', 'onboarding-tip'],
   '🚧 Next',
-  ['sidebar', 'badge'],
+  ['sidebar'],
 ];
 
 const config: StorybookConfig = {
