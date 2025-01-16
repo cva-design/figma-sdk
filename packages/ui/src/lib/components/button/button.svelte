@@ -205,17 +205,17 @@
 	}
 
 	.fps-button:where(.fps-button-small) {
-		height: var(--space-6);
-		padding: var(--space-1) var(--space-2);
+		height: var(--spacer-4);
+		padding: var(--spacer-1) var(--spacer-2);
 	}
 
 	.fps-button:where(.fps-button-medium) {
-		height: var(--space-8);
-		padding: var(--space-2) var(--space-3);
+		height: var(--spacer-5);
+		padding: var(--spacer-2) var(--spacer-3);
 	}
 
 	.fps-button:where(.fps-variant-text) {
 		height: var(--text-body-large-strong-line-height);
-		padding: var(--space-2);
+		padding: var(--spacer-2);
 	}
 </style>

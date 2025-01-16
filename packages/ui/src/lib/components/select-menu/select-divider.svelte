@@ -1,5 +1,5 @@
 <script lang="ts">
-export const label: boolean = false;
+	export const label: boolean = false;
 </script>
 
 {#if label}
@@ -16,9 +16,9 @@ export const label: boolean = false;
 		line-height: var(--line-height);
 		display: flex;
 		align-items: center;
-		height: var(--spacer-4);
+		height: var(--spacer-3);
 		margin-top: var(--spacer-2);
-		padding: 0 var(--spacer-2) 0 var(--spacer-5);
+		padding: 0 var(--spacer-2) 0 var(--spacer-6);
 		color: var(--color-text-menu-secondary);
 	}
 	.label:first-child {
@@ -32,5 +32,4 @@ export const label: boolean = false;
 		height: 1px;
 		outline: 0;
 	}
-
-	</style>
+</style>

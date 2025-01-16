@@ -3,7 +3,6 @@
 	import type { Meta } from '@storybook/svelte';
 	import type { SvelteComponent } from 'svelte';
 	import { Button } from '../button';
-	import { Icon } from '../icon';
 	import { IconButton } from '../icon-button';
 	import ActionGroup from './action-group.svelte';
 
@@ -26,30 +25,18 @@
 
 <Story name="With Icon Buttons">
 	<ActionGroup>
-		<IconButton>
-			<Icon iconName="AdjustSvg" />
-		</IconButton>
-		<IconButton>
-			<Icon iconName="BackSvg" />
-		</IconButton>
-		<IconButton>
-			<Icon iconName="DraftSvg" />
-		</IconButton>
-		<IconButton>
-			<Icon iconName="TimerSvg" />
-		</IconButton>
-		<IconButton>
-			<Icon iconName="StarOnSvg" />
-		</IconButton>
+		<IconButton iconName="AdjustSvg" />
+		<IconButton iconName="BackSvg" />
+		<IconButton iconName="DraftSvg" />
+		<IconButton iconName="TimerSvg" />
+		<IconButton iconName="StarOnSvg" />
 	</ActionGroup>
 </Story>
 
 <Story name="Mixed">
 	<ActionGroup>
 		<Button>Edit</Button>
-		<IconButton>
-			<Icon iconName="StarOnSvg" />
-		</IconButton>
+		<IconButton iconName="StarOnSvg" />
 		<Button>Save</Button>
 	</ActionGroup>
 </Story>

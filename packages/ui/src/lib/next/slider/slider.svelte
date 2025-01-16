@@ -1,32 +1,32 @@
 <script lang="ts">
-import { type SliderOrientation, createSlider } from "@melt-ui/svelte";
+	import { type SliderOrientation, createSlider } from '@melt-ui/svelte';
 
-export const min: number = 0;
-export const max: number = 100;
-export const step: number = 1;
-export let defaultValue = 0;
-export const onChange: ((value: number) => void) | undefined = undefined;
-export const orientation: SliderOrientation = "horizontal";
-export const disabled: boolean = false;
+	export const min: number = 0;
+	export const max: number = 100;
+	export const step: number = 1;
+	export let defaultValue = 0;
+	export const onChange: ((value: number) => void) | undefined = undefined;
+	export const orientation: SliderOrientation = 'horizontal';
+	export const disabled: boolean = false;
 
-const {
-	elements: { root, range, thumbs },
-	states: { value: sliderValue },
-} = createSlider({
-	min,
-	max,
-	step,
-	defaultValue: [defaultValue],
-	orientation,
-	disabled,
-});
+	const {
+		elements: { root, range, thumbs },
+		states: { value: sliderValue }
+	} = createSlider({
+		min,
+		max,
+		step,
+		defaultValue: [defaultValue],
+		orientation,
+		disabled
+	});
 
-$: {
-	if ($sliderValue[0] !== defaultValue) {
-		defaultValue = $sliderValue[0];
-		if (onChange) onChange(defaultValue);
+	$: {
+		if ($sliderValue[0] !== defaultValue) {
+			defaultValue = $sliderValue[0];
+			if (onChange) onChange(defaultValue);
+		}
 	}
-}
 </script>
 
 <span use:root class="fps-SliderRoot" data-orientation={orientation}>
@@ -40,9 +40,9 @@ $: {
 	:root,
 	.light,
 	.light-theme {
-		--slider-root-size: var(--space-6);
-		--slider-track-size: var(--space-4);
-		--slider-thumb-width: var(--space-4);
+		--slider-root-size: var(--spacer-4);
+		--slider-track-size: var(--spacer-3);
+		--slider-thumb-width: var(--spacer-3);
 		--slider-track-border-color: #0000001a;
 		--slider-track-bg: var(--figma-color-bg-secondary);
 		--slider-thumb-bg: transparent;
@@ -148,8 +148,8 @@ $: {
 	.fps-SliderHint {
 		position: absolute;
 		display: block;
-		width: var(--space-1);
-		height: var(--space-1);
+		width: var(--spacer-1);
+		height: var(--spacer-1);
 		background-color: var(--figma-color-icon-tertiary);
 		border-radius: var(--radius-full);
 

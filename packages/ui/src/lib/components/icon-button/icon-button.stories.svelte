@@ -1,5 +1,4 @@
 <script context="module" lang="ts">
-	import { Icon } from '#ui/icon';
 	import { Story } from '@storybook/addon-svelte-csf';
 	import IconButton from './icon-button.svelte';
 
@@ -23,41 +22,32 @@
 </script>
 
 <Story name="Default">
-	<IconButton aria-label="Star" on:click={() => alert('clicked')}>
-		<Icon iconName="AlertSvg" />
-	</IconButton>
+	<IconButton iconName="AlertSvg" on:click={() => alert('clicked')} />
 </Story>
 
 <Story name="Sizes">
 	<div style="display: flex; gap: 8px;">
-		<IconButton aria-label="Star" size="small" on:click={() => alert('clicked')}>
-			<Icon iconName="Break_12Svg" size="small" />
-		</IconButton>
-		<IconButton aria-label="Star" size="medium" on:click={() => alert('clicked')}>
-			<Icon iconName="Break_16Svg" size="medium" />
-		</IconButton>
-		<IconButton aria-label="Star" size="large" on:click={() => alert('clicked')}>
-			<Icon iconName="Break_24Svg" size="large" />
-		</IconButton>
+		<IconButton iconName="Break_12Svg" size="tiny" on:click={() => alert('clicked')} />
+		<IconButton iconName="Break_16Svg" size="small" on:click={() => alert('clicked')} />
+		<IconButton iconName="Break_24Svg" size="medium" on:click={() => alert('clicked')} />
+		<IconButton iconName="BellSvg_32" size="large" on:click={() => alert('clicked')} />
 	</div>
 </Story>
 
 <Story name="Solid">
-	<IconButton aria-label="Star" activeAppearance="solid" on:click={() => alert('clicked')}>
-		<Icon iconName="StylesSvg_32" />
-	</IconButton>
+	<IconButton iconName="StylesSvg_32" activeAppearance="solid" on:click={() => alert('clicked')} />
 </Story>
 
 <Story name="Custom Tooltip">
-	<IconButton aria-label="Star" tooltipContent="Add to favorites" on:click={() => alert('clicked')}>
-		<Icon iconName="StylesSvg" />
-	</IconButton>
+	<IconButton
+		iconName="StylesSvg"
+		tooltipContent="Add to favorites"
+		on:click={() => alert('clicked')}
+	/>
 </Story>
 
 <Story name="Disabled">
-	<IconButton aria-label="Star" disabled on:click={() => alert('clicked')}>
-		<Icon iconName="StylesSvg" />
-	</IconButton>
+	<IconButton iconName="StylesSvg" disabled on:click={() => alert('clicked')} />
 </Story>
 
 <style>
@@ -65,10 +55,10 @@
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		padding: var(--space-2);
+		padding: var(--spacer-2);
 	}
 
 	.section {
-		padding: var(--space-2);
+		padding: var(--spacer-2);
 	}
 </style>

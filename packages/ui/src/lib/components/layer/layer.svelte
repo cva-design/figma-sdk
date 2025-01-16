@@ -170,7 +170,7 @@
 	// 	display: flex;
 	// 	height: 32px;
 	// 	align-items: center;
-	// 	padding: 0 var(--space-small);
+	// 	padding: 0 var(--spacer-small);
 	// }
 
 	// .input,
@@ -220,7 +220,7 @@
 	// }
 
 	// .children {
-	// 	padding-left: var(--space-extra-small);
+	// 	padding-left: var(--spacer-extra-small);
 	// 	color: var(--figma-color-text);
 	// }
 	// :global(.component) .children {
@@ -246,18 +246,18 @@
 	// .layer-indent {
 	// 	display: flex;
 	// 	align-items: center;
-	// 	padding-left: var(--space-small);
+	// 	padding-left: var(--spacer-small);
 	// }
 
 	// .layer-indent-selected {
-	// 	padding-left: var(--space-medium);
+	// 	padding-left: var(--spacer-medium);
 	// }
 
 	:global(.actions) {
 		display: none;
 		position: relative;
 		margin-left: auto;
-		gap: var(--space-extra-small);
+		gap: var(--spacer-extra-small);
 	}
 
 	:global(.layer:hover .actions) {

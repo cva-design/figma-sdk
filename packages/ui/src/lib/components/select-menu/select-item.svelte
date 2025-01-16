@@ -41,7 +41,7 @@
 		font-weight: var(--font-weight-default);
 		letter-spacing: var(--font-letter-spacing-neg-xsmall);
 		line-height: var(--font-line-height);
-		height: var(--spacer-4);
+		height: var(--spacer-3);
 		padding: 0px var(--spacer-3) 0px var(--spacer-2);
 		user-select: none;
 		outline: none;

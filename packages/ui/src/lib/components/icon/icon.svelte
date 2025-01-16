@@ -9,10 +9,10 @@
 	const iconVariants = cva('icon-component', {
 		variants: {
 			size: {
-				small: 'fps-icon-small', // 12px
-				medium: 'fps-icon-medium', // 16px
-				large: 'fps-icon-large', // 24px
-				giant: 'fps-icon-giant' // 32px
+				tiny: 'fps-icon-tiny', // 12px
+				small: 'fps-icon-small', // 16px
+				medium: 'fps-icon-medium', // 24px
+				large: 'fps-icon-large' // 32px
 			},
 			spin: {
 				true: 'spin'
@@ -64,24 +64,24 @@
 		user-select: none;
 	}
 
+	.fps-icon-tiny {
+		width: var(--spacer-3);
+		height: var(--spacer-3);
+	}
+
 	.fps-icon-small {
-		width: var(--space-3);
-		height: var(--space-3);
+		width: var(--spacer-3);
+		height: var(--spacer-3);
 	}
 
 	.fps-icon-medium {
-		width: var(--space-4);
-		height: var(--space-4);
+		width: var(--spacer-4);
+		height: var(--spacer-4);
 	}
 
 	.fps-icon-large {
-		width: var(--space-6);
-		height: var(--space-6);
-	}
-
-	.fps-icon-giant {
-		width: var(--space-8);
-		height: var(--space-8);
+		width: var(--spacer-5);
+		height: var(--spacer-5);
 	}
 
 	.spin {

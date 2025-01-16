@@ -27,8 +27,8 @@
 	}
 
 	.icon {
-		width: var(--spacer-5);
-		height: var(--spacer-5);
+		width: var(--spacer-6);
+		height: var(--spacer-6);
 		margin-right: var(--spacer-2);
 	}
 

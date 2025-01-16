@@ -1,6 +1,5 @@
 <script lang="ts">
-	import type { IconProps } from '#ui/icon';
-	import { Icon } from '#ui/icon';
+	import { Icon, type IconProps } from '#ui/icon';
 	import { Tooltip } from '#ui/tooltip';
 	import { type VariantProps, cva } from 'class-variance-authority';
 	import type { HTMLButtonAttributes } from 'svelte/elements';
@@ -8,6 +7,7 @@
 	const iconButton = cva('fps-IconButton', {
 		variants: {
 			size: {
+				tiny: 'fps-button-tiny',
 				small: 'fps-button-small',
 				medium: 'fps-button-medium',
 				large: 'fps-button-large'
@@ -23,15 +23,15 @@
 		}
 	});
 
-	interface $$Props extends HTMLButtonAttributes, VariantProps<typeof iconButton> {
-		tooltipContent?: string;
-		disableTooltip?: boolean;
-		icon?: IconProps['icon'];
-		iconName?: IconProps['iconName'];
-		spin?: boolean;
-	}
+	type $$Props = IconProps &
+		HTMLButtonAttributes &
+		VariantProps<typeof iconButton> & {
+			tooltipContent?: string;
+			disableTooltip?: boolean;
+			spin?: boolean;
+		};
 
-	export let size: $$Props['size'] = undefined;
+	export let size: IconProps['size'] = undefined;
 	export let activeAppearance: $$Props['activeAppearance'] = undefined;
 	export let tooltipContent: string | undefined = undefined;
 	export let disableTooltip: boolean = false;
@@ -51,27 +51,27 @@
 	{#if disableTooltip}
 		<slot>
 			{#if icon}
-				<Icon {icon} {spin} color="--figma-color-icon" />
+				<Icon {icon} {spin} {size} color="--figma-color-icon" />
 			{:else if iconName}
-				<Icon {iconName} {spin} color="--figma-color-icon" />
+				<Icon {iconName} {spin} {size} color="--figma-color-icon" />
 			{/if}
 		</slot>
 	{:else if tooltipContent || $$props['aria-label']}
 		<Tooltip content={tooltipContent ?? $$props['aria-label']}>
 			<slot>
 				{#if icon}
-					<Icon {icon} {spin} color="--figma-color-icon" />
+					<Icon {icon} {spin} {size} color="--figma-color-icon" />
 				{:else if iconName}
-					<Icon {iconName} {spin} color="--figma-color-icon" />
+					<Icon {iconName} {spin} {size} color="--figma-color-icon" />
 				{/if}
 			</slot>
 		</Tooltip>
 	{:else}
 		<slot>
 			{#if icon}
-				<Icon {icon} {spin} color="--figma-color-icon" />
+				<Icon {icon} {spin} {size} color="--figma-color-icon" />
 			{:else if iconName}
-				<Icon {iconName} {spin} color="--figma-color-icon" />
+				<Icon {iconName} {spin} {size} color="--figma-color-icon" />
 			{/if}
 		</slot>
 	{/if}
@@ -123,19 +123,24 @@
 		border-radius: var(--border-radius-small);
 	}
 
+	.fps-button-tiny {
+		width: var(--spacer-2);
+		height: var(--spacer-2);
+	}
+
 	.fps-button-small {
-		width: var(--space-4);
-		height: var(--space-4);
+		width: var(--spacer-3);
+		height: var(--spacer-3);
 	}
 
 	.fps-button-medium {
-		width: var(--space-6);
-		height: var(--space-6);
+		width: var(--icon-button-size);
+		height: var(--spacer-4);
 	}
 
 	.fps-button-large {
-		width: var(--space-8);
-		height: var(--space-8);
+		width: var(--spacer-5);
+		height: var(--spacer-5);
 	}
 
 	.fps-active-appearance-subtle:active {

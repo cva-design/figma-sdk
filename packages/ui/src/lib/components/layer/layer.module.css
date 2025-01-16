@@ -18,7 +18,7 @@
   display: flex;
   /* height: 32px; */
   align-items: center;
-  padding: var(--space-2);
+  padding: var(--spacer-2);
   width: 100%;
 }
 

@@ -55,7 +55,7 @@
 	.fps-TabsList {
 		display: flex;
 		overflow-y: auto;
-		gap: var(--space-2);
+		gap: var(--spacer-2);
 
 		&:where(.fps-full-width) {
 			width: 100%;
@@ -74,16 +74,16 @@
 	.tabs-wrapper {
 		display: flex;
 		flex-direction: column;
-		gap: var(--space-2);
+		gap: var(--spacer-2);
 	}
 
 	.toggle-button {
 		display: flex;
 		align-items: center;
-		gap: var(--space-2);
+		gap: var(--spacer-2);
 	}
 
 	.toggle-text {
-		margin-left: var(--space-1);
+		margin-left: var(--spacer-1);
 	}
 </style>

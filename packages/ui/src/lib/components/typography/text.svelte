@@ -72,7 +72,10 @@
 		}
 	});
 
-	interface $$Props extends HTMLAttributes<HTMLSpanElement>, VariantProps<typeof text> {}
+	interface $$Props extends HTMLAttributes<HTMLSpanElement>, VariantProps<typeof text> {
+		/** Whether to disable pointer events on the text */
+		pointerEvents?: 'none' | 'auto';
+	}
 
 	export let size: $$Props['size'] = 'medium';
 	export let weight: $$Props['weight'] = 'default';
@@ -86,10 +89,13 @@
 	export let muted: $$Props['muted'] = false;
 	export let ellipsis: $$Props['ellipsis'] = false;
 	export let nowrap: $$Props['nowrap'] = false;
+	/** Whether to disable pointer events on the text */
+	export let pointerEvents: $$Props['pointerEvents'] = 'auto';
 </script>
 
 <span
 	class={`${text({ size, weight, align, intent, emphasis, surface, block, inverse, disabled, muted, ellipsis, nowrap, class: $$props.class })}`}
+	style:pointer-events={pointerEvents}
 >
 	<slot />
 </span>

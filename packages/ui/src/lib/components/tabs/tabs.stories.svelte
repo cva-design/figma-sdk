@@ -168,14 +168,14 @@
 
 <style>
 	.content {
-		padding: var(--space-4);
+		padding: var(--spacer-3);
 		background: var(--figma-color-bg);
 		border-radius: var(--radius-medium);
-		margin-top: var(--space-2);
+		margin-top: var(--spacer-2);
 	}
 
 	.icon {
-		margin-right: var(--space-2);
+		margin-right: var(--spacer-2);
 	}
 
 	/* Add padding around stories for better visibility */
@@ -184,22 +184,22 @@
 	}
 
 	h3 {
-		margin: 0 0 var(--space-2) 0;
+		margin: 0 0 var(--spacer-2) 0;
 		font-size: var(--font-size-default);
 		font-weight: var(--font-weight-strong);
 	}
 
 	p {
-		margin: 0 0 var(--space-2) 0;
+		margin: 0 0 var(--spacer-2) 0;
 		font-size: var(--font-size-default);
 	}
 
 	ul {
 		margin: 0;
-		padding-left: var(--space-4);
+		padding-left: var(--spacer-3);
 	}
 
 	li {
-		margin-bottom: var(--space-1);
+		margin-bottom: var(--spacer-1);
 	}
 </style>

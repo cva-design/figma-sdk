@@ -81,9 +81,9 @@
 	.fp-CheckboxRoot {
 		position: relative;
 		display: grid;
-		grid-template-columns: var(--space-4) auto;
+		grid-template-columns: var(--spacer-3) auto;
 		min-height: 24px;
-		gap: var(--space-1) var(--space-2);
+		gap: var(--spacer-1) var(--spacer-2);
 		cursor: pointer;
 
 		&:has(.fp-CheckboxHiddenInput:disabled) {
@@ -96,8 +96,8 @@
 		opacity: 0;
 		margin: 0;
 		// Create a larger touch target while keeping it invisible
-		width: var(--space-11); // 44px
-		height: var(--space-11); // 44px
+		width: var(--spacer-11); // 44px
+		height: var(--spacer-11); // 44px
 		top: 50%;
 		left: 50%;
 		transform: translate(-50%, -50%);
@@ -144,9 +144,9 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		width: var(--space-4);
-		height: var(--space-4);
-		margin: var(--space-1) 0;
+		width: var(--spacer-3);
+		height: var(--spacer-3);
+		margin: var(--spacer-1) 0;
 		background-color: var(--figma-color-bg);
 		border: 1px solid var(--figma-color-border-strong);
 		border-radius: var(--radius-medium);
@@ -187,7 +187,7 @@
 	}
 
 	.fp-CheckboxLabel {
-		margin-top: var(--space-1);
+		margin-top: var(--spacer-1);
 		cursor: inherit;
 	}
 

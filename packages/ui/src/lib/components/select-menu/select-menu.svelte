@@ -385,7 +385,7 @@
 		letter-spacing: var(--font-letter-spacing-neg-xsmall);
 		line-height: var(--line-height);
 		color: var(--color-text);
-		margin-right: var(--space-2);
+		margin-right: var(--spacer-2);
 		margin-top: -3px;
 		white-space: nowrap;
 		overflow-x: hidden;
@@ -421,7 +421,7 @@
 		-webkit-font-smoothing: antialiased;
 		-moz-osx-font-smoothing: grayscale;
 		cursor: default;
-		padding: var(--space-2);
+		padding: var(--spacer-2);
 		background-color: var(--color-bg);
 		border-radius: var(--radius-large);
 		font-size: var(--font-size-menu);

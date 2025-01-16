@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { Icon } from '../icon';
 	import IconButton from '../icon-button/icon-button.svelte';
 
 	export let collapsed: boolean = false;
@@ -19,12 +18,12 @@
 	style="--sidebar-width: {width}; --sidebar-collapsed-width: {collapsedWidth}"
 >
 	<IconButton
+		iconName={collapsed ? 'CaretRightSvg' : 'CaretLeftSvg'}
+		color="--figma-color-icon"
 		class="toggle-button"
 		on:click={() => (collapsed = !collapsed)}
 		aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
-	>
-		<Icon iconName={collapsed ? 'CaretRightSvg' : 'CaretLeftSvg'} color="--figma-color-icon" />
-	</IconButton>
+	/>
 	<div class="sidebar-content">
 		<slot />
 	</div>
@@ -61,8 +60,8 @@
 		position: absolute;
 		bottom: var(--spacer-2);
 		right: var(--spacer-2);
-		width: var(--spacer-5);
-		height: var(--spacer-5);
+		width: var(--spacer-6);
+		height: var(--spacer-6);
 		padding: 0;
 		display: flex;
 		align-items: center;

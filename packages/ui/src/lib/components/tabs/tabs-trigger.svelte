@@ -65,8 +65,8 @@
 		align-items: center;
 		justify-content: center;
 		flex-shrink: 0;
-		height: var(--space-6);
-		padding: 0 var(--space-2);
+		height: var(--spacer-4);
+		padding: 0 var(--spacer-2);
 		font-family: var(--font-family-default);
 		font-size: var(--font-size-default);
 		font-weight: var(--font-weight-default);

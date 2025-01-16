@@ -52,7 +52,7 @@
 <style lang="scss">
 	.fps-TabsRoot {
 		display: flex;
-		gap: var(--space-2);
+		gap: var(--spacer-2);
 		flex-shrink: 0;
 		padding-bottom: 2px;
 		// justify-content: flex-start;

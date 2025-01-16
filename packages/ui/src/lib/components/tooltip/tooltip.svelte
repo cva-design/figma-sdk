@@ -69,28 +69,22 @@
 	}
 
 	.fps-tooltip {
+		--arrow-size: var(--spacer-2);
 		position: absolute;
 		z-index: 1000;
 		box-sizing: border-box;
-		padding: var(--space-1) var(--space-2);
-		background-color: var(--color-bg);
+		padding: var(--spacer-1) var(--spacer-2);
+		background-color: var(--color-bg-menu);
 		font-family: var(--font-family-default);
 		font-size: var(--font-size-default);
 		font-weight: var(--font-weight-default);
 		letter-spacing: var(--letter-spacing-default);
 		line-height: var(--line-height-default);
-		min-height: var(--space-6);
-		color: var(--color-text);
+		min-height: var(--spacer-4);
+		color: var(--color-text-menu);
 		white-space: pre-wrap;
 		word-break: break-word;
 		border-radius: var(--radius-medium);
 		box-shadow: var(--elevation-300, 0 2px 7px rgba(0, 0, 0, 0.15));
-	}
-
-	.fps-tooltip-arrow {
-		fill: var(--color-bg);
-		width: var(--space-3_5);
-		height: var(--space-1_5);
-		position: relative;
 	}
 </style>

@@ -109,13 +109,13 @@
 	}
 
 	.header--copyableLayerName {
-		padding: var(--space-1) var(--space-2);
+		padding: var(--spacer-1) var(--spacer-2);
 		display: flex;
 		align-items: center;
 		gap: 4px;
 	}
 
 	.header--plain {
-		padding: var(--space-1) 0 var(--space-2) 0;
+		padding: var(--spacer-1) 0 var(--spacer-2) 0;
 	}
 </style>

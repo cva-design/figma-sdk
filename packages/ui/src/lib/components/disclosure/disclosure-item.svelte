@@ -62,7 +62,7 @@
 	.header {
 		display: flex;
 		align-items: center;
-		height: var(--spacer-5);
+		height: var(--spacer-6);
 		font-size: var(--text-body-medium-font-size);
 		font-weight: var(--font-weight-default);
 		letter-spacing: var(--font-letter-spacing-pos-xsmall);
@@ -107,7 +107,7 @@
 		letter-spacing: var(--font-letter-spacing-pos-xsmall);
 		line-height: var(--line-height);
 		color: var(--figma-color-text);
-		padding: var(--spacer-2) var(--spacer-2) var(--spacer-2) var(--spacer-4);
+		padding: var(--spacer-2) var(--spacer-2) var(--spacer-2) var(--spacer-3);
 		display: none;
 		user-select: none;
 		pointer-events: none;

@@ -9,7 +9,7 @@ type IconBaseProps = {
    * size: The size of the icon
    * @default "medium"
    */
-  size?: 'small' | 'medium' | 'large' | 'giant';
+  size?: 'tiny' | 'small' | 'medium' | 'large';
 
   /**
    * spin: Whether the icon should spin

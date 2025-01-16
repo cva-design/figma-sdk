@@ -47,6 +47,7 @@ export { default as LayerStarSvg_16 } from './layer-star-16.svg?raw';
 export { default as LayerWidgetSvg_16 } from './layer-widget-16.svg?raw';
 export { default as NumberPropertySvg_16 } from './number-property-16.svg?raw';
 export { default as NumberPropertySvg_24 } from './number-property-24.svg?raw';
+export { default as PlusSvg_24 } from './plus-24.svg?raw';
 export { default as SidePanelSvg_24 } from './side-panel-24.svg?raw';
 export { default as TextInputPropertySvg_16 } from './text-input-property-16.svg?raw';
 export { default as TextInputPropertySvg_24 } from './text-input-property-24.svg?raw';
@@ -101,6 +102,7 @@ export default [
   '#icons/ui3/layer-widget-16.svg',
   '#icons/ui3/number-property-16.svg',
   '#icons/ui3/number-property-24.svg',
+  '#icons/ui3/plus-24.svg',
   '#icons/ui3/side-panel-24.svg',
   '#icons/ui3/text-input-property-16.svg',
   '#icons/ui3/text-input-property-24.svg',

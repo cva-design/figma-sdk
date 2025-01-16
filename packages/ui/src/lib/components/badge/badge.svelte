@@ -3,6 +3,7 @@
 	import { getIconProps, Icon, type IconProps } from '#ui/icon';
 	import Text from '#ui/typography/text.svelte';
 	import { cva, type VariantProps } from 'class-variance-authority';
+	import { createEventDispatcher } from 'svelte';
 	import type { HTMLAttributes } from 'svelte/elements';
 
 	const badge = cva('fps-badge', {
@@ -38,7 +39,7 @@
 	}
 
 	type $$Props = Partial<IconProps> &
-		HTMLAttributes<HTMLDivElement> &
+		HTMLAttributes<HTMLButtonElement> &
 		VariantProps<typeof badge> & {
 			/** Text content of the badge */
 			text?: string;
@@ -75,14 +76,67 @@
 	$: if (iconProps && $$props.spin) {
 		iconProps = { ...iconProps, spin: $$props.spin };
 	}
+
+	const dispatch = createEventDispatcher<{
+		click: MouseEvent;
+	}>();
+
+	/** @internal */
+	function handleClick(event: MouseEvent) {
+		// Only stop propagation if click was on action buttons
+		const actionButton = (event.target as HTMLElement).closest('.fps-badge-actions');
+		if (actionButton) {
+			event.stopPropagation();
+			return;
+		}
+
+		// Forward the click event
+		dispatch('click', event);
+	}
+
+	/** @internal */
+	function handleKeyDown(event: KeyboardEvent) {
+		// Only handle keyboard events on the badge itself, not on action buttons
+		if ((event.target as HTMLElement).closest('.fps-badge-actions')) {
+			return;
+		}
+
+		if (event.key === 'Enter' || event.key === ' ') {
+			event.preventDefault();
+		}
+	}
 </script>
 
 <div class="fps-badge-wrapper">
-	<div
+	<button
 		class={badge({ hasActions: showActions, size, noDot, class: $$props.class })}
 		style:background-color={colorConfig.bg}
 		style:color={colorConfig.text}
 		style:border-color={colorConfig.border}
+		on:click={handleClick}
+		on:keydown={handleKeyDown}
+		on:mouseenter
+		on:mouseleave
+		on:focus
+		on:blur
+		on:keyup
+		on:keypress
+		on:mousedown
+		on:mouseup
+		on:mousemove
+		on:mouseover
+		on:mouseout
+		on:pointerdown
+		on:pointerup
+		on:pointermove
+		on:pointerenter
+		on:pointerleave
+		on:pointerover
+		on:pointerout
+		on:pointercancel
+		on:contextmenu
+		on:dblclick
+		type="button"
 	>
 		{#if !$$props['no-dot']}
 			{#if iconProps}
@@ -105,8 +159,8 @@
 				</svg>
 			{/if}
 		{/if}
-		<Text emphasis="secondary" {size}>
-			<span style:color={colorConfig.text}>{text}</span>
+		<Text emphasis="secondary" {size} pointerEvents="none">
+			<span style:color={colorConfig.text} style:pointer-events="none">{text}</span>
 		</Text>
 		{#if showActions}
 			<div class="fps-badge-actions">
@@ -115,7 +169,7 @@
 				</slot>
 			</div>
 		{/if}
-	</div>
+	</button>
 </div>
 
 <style lang="scss">
@@ -124,12 +178,21 @@
 		flex: none;
 		order: 0;
 		flex-grow: 0;
-		margin-left: var(--space-2);
+		margin-left: var(--spacer-2);
 		color: var(--color-text);
-		height: var(--space-6);
+		height: var(--spacer-4);
 
 		&:where(.fps-badge-small) {
 			height: 20px;
+		}
+
+		:global(button) {
+			background: none;
+			padding: 0;
+			border: none;
+			font: inherit;
+			outline: inherit;
+			cursor: pointer;
 		}
 	}
 
@@ -137,15 +200,13 @@
 		display: flex;
 		flex-direction: row;
 		align-items: center;
-		gap: var(--space-1);
+		gap: var(--spacer-1);
 		border: 1px solid var(--figma-color-border);
 		border-radius: var(--radius-medium);
-		font-family: var(--font-family-default);
-		height: var(--space-6);
+		height: var(--spacer-4);
 		box-sizing: border-box;
 
 		&:where(.fps-badge-small) {
-			font-size: var(--font-size-1);
 			padding: 0 4px;
 			height: 20px;
 
@@ -155,10 +216,10 @@
 			}
 
 			.fps-badge-actions {
-				height: 16px;
 				overflow: hidden;
 
 				:global(button) {
+					width: 16px;
 					height: 16px;
 					display: flex;
 					align-items: center;
@@ -167,22 +228,22 @@
 		}
 
 		&:where(.fps-badge-medium) {
-			font-size: var(--font-size-2);
+			// font-size: var(-text-body-medium-font-size);
 			padding: 0 6px;
 		}
 
 		&:where(.fps-has-actions) {
-			padding-right: var(--space-1);
+			padding-right: var(--spacer-1);
 		}
 
 		&:where(.fps-no-dot) {
-			padding-left: var(--space-2);
+			padding-left: var(--spacer-2);
 		}
 
 		.fps-badge-actions {
 			display: flex;
 			align-items: center;
-			gap: var(--space-1);
+			gap: var(--spacer-1);
 			height: 100%;
 		}
 	}
@@ -210,7 +271,7 @@
 	:global(.fps-badge [slot='actions']) {
 		display: flex;
 		align-items: center;
-		gap: var(--space-1);
+		gap: var(--spacer-1);
 		height: 100%;
 	}
 </style>
