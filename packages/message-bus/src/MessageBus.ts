@@ -1,5 +1,10 @@
 import type { CommandRegistry } from './commands';
-import { type EventRegistry, isFigmaEvent } from './events';
+import {
+  type EventRegistry,
+  type FigmaEventDefinition,
+  type FigmaEventRegistry,
+  isFigmaEvent,
+} from './events';
 import * as evtHandler from './handler';
 import type { CommandHandlers, DeregisterFn, EventListeners } from './types';
 
@@ -79,9 +84,17 @@ export class MessageBusSingleton<TCommands = unknown, TEvents = unknown> {
     });
   }
 
-  public publishEvent<Id extends keyof EventRegistry<TEvents>>(
+  public publishEvent<
+    Id extends keyof EventRegistry<TEvents> | keyof FigmaEventRegistry,
+  >(
     event: Id,
-    data: EventRegistry<TEvents>[Id]['message'],
+    data: Id extends keyof EventRegistry<TEvents>
+      ? EventRegistry<TEvents>[Id]['message']
+      : Id extends keyof FigmaEventRegistry
+        ? FigmaEventRegistry[Id] extends FigmaEventDefinition<infer T, infer U>
+          ? U
+          : never
+        : never,
   ): void {
     evtHandler.emit(String(event), data);
   }
