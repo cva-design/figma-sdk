@@ -66,3 +66,25 @@
 <Story name="WithValue">
 	<Input value="Prefilled value" />
 </Story>
+
+<Story name="ColorWithOpacity">
+	<div class="input-connected-container">
+		<div class="color-chit" aria-label="Solid color hex: 000000">
+		</div>
+		<Input
+			value="000000"
+			placeholder="000000"
+			connected="left"
+			class="connected-left"
+		/>
+		<div class="input-separator"></div>
+		<Input
+			value="100"
+			placeholder="100"
+			type="number"
+			connected="right"
+			class="connected-right"
+		/>
+		<div class="unit-label">%</div>
+	</div>
+</Story>

@@ -22,7 +22,7 @@ const groups = [
 	'Actions',
 	['button', 'icon-button', 'icon-toggle', 'action-group', 'link'],
 	'Communication',
-	['badge', 'popover', 'tooltip'],
+	['alert', 'badge', 'popover', 'tooltip'],
 	'Data Display',
 	['tree', 'layer-tree', 'layer', 'disclosure'],
 	'Forms',

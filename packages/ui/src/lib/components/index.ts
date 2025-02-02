@@ -30,6 +30,7 @@
 
 //@index(['*/index.ts'], (f, {pascalCase}) => `export * from '${f.path}';`)
 export * from './action-group/index';
+export * from './alert/index';
 export * from './badge/index';
 export * from './button/index';
 export * from './checkbox/index';
@@ -63,6 +64,7 @@ export * from './typography/index';
 
 //@index(['*/types.ts'], f => `export * from '${f.path}';`)
 export * from './criteria/types';
+export * from './alert/types';
 export * from './icon/types';
 export * from './layer-tree/types';
 export * from './layer/types';
