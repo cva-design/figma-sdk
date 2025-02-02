@@ -1,12 +1,11 @@
 <script lang="ts">
   import type { AlertType } from './types';
-  import { getIconProps, Icon, type IconProps } from '../icon';
+  import { getIconProps, Icon, type IconProps, type IconName } from '../icon';
 
   export let text: string;
   export let type: AlertType = 'hint';
-  export let iconName: string;
 
-  const iconMap = {
+  const iconMap: Record<AlertType, IconName> = {
     success: 'StarOnSvg',
     warning: 'WarningLargeSvg',
     error: 'WarningLargeSvg',

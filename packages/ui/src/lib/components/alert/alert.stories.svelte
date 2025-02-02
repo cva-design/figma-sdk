@@ -1,20 +1,22 @@
-<script lang="ts">
-  import { Meta, Story } from '@storybook/addon-svelte-csf';
+<script context="module" lang="ts">
+  import { Story } from '@storybook/addon-svelte-csf';
+  import type { Meta } from '@storybook/svelte';
   import Alert from './alert.svelte';
-  import type { AlertProps } from './types';
-</script>
+  import type { SvelteComponent } from 'svelte';
 
-<Meta
-  title="Alert"
-  component={Alert}
-  argTypes={{
+
+export const meta = {
+  title: 'Alert',
+  component: Alert,
+  argTypes: {
     text: { control: 'text' },
     type: {
-      control: { type: 'select' },
+      control: 'select',
       options: ['success', 'warning', 'error', 'hint']
     }
-  }}
-/>
+  }
+} satisfies Meta<SvelteComponent>;
+</script>
 
 <Story
   name="Success"
