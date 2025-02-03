@@ -12,7 +12,7 @@ export const meta = {
     text: { control: 'text' },
     type: {
       control: 'select',
-      options: ['success', 'warning', 'error', 'hint']
+      options: ['success', 'warning', 'danger', 'hint']
     }
   }
 } satisfies Meta<SvelteComponent>;
@@ -39,13 +39,13 @@ export const meta = {
 </Story>
 
 <Story
-  name="Error"
+  name="Danger"
   args={{
-    text: 'This is an error message',
-    type: 'error',
+    text: 'This is an danger message',
+    type: 'danger',
   }}
 >
-  <Alert text="This is an error message" type="error" />
+  <Alert text="This is an danger message" type="danger" />
 </Story>
 
 <Story

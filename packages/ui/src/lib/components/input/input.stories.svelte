@@ -67,7 +67,7 @@
 	<Input value="Prefilled value" />
 </Story>
 
-<Story name="ColorWithOpacity">
+<Story name="ColorField">
 	<div class="input-connected-container">
 		<div class="color-chit" aria-label="Solid color hex: 000000">
 		</div>

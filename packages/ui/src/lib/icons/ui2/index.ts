@@ -22,6 +22,7 @@ export { default as CloseSvg } from './close.svg?raw';
 export { default as ComponentSvg } from './component.svg?raw';
 export { default as CornerRadiusSvg } from './corner-radius.svg?raw';
 export { default as CornersSvg } from './corners.svg?raw';
+export { default as CrossbonesSvg } from './crossbones.svg?raw';
 export { default as DistributeHorizontalSpacingSvg } from './distribute-horizontal-spacing.svg?raw';
 export { default as DistributeVerticalSpacingSvg } from './distribute-vertical-spacing.svg?raw';
 export { default as DraftSvg } from './draft.svg?raw';
@@ -115,6 +116,7 @@ export default [
   '#icons/ui2/component.svg',
   '#icons/ui2/corner-radius.svg',
   '#icons/ui2/corners.svg',
+  '#icons/ui2/crossbones.svg',
   '#icons/ui2/distribute-horizontal-spacing.svg',
   '#icons/ui2/distribute-vertical-spacing.svg',
   '#icons/ui2/draft.svg',

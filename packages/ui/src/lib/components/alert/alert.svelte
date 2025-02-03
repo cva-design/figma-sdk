@@ -6,10 +6,10 @@
   export let type: AlertType = 'hint';
 
   const iconMap: Record<AlertType, IconName> = {
-    success: 'StarOnSvg',
+    success: 'CheckCircleSvg_32',
     warning: 'WarningLargeSvg',
-    error: 'WarningLargeSvg',
-    hint: 'StarOnSvg'
+    danger: 'CrossbonesSvg',
+    hint: 'InfoSvg_32'
   };
 
   $: alertClass = `alert-${type}`;
@@ -39,22 +39,22 @@
 
   .alert-success {
     background-color: var(--figma-color-bg-success-tertiary);
-    color: var(--figma-color-text-success);
+    color: var(--figma-color-text-on-success);
   }
 
   .alert-warning {
     background-color: var(--figma-color-bg-warning-tertiary);
-    color: var(--figma-color-text-warning);
+    color: var(--figma-color-text-on-warning);
   }
 
-  .alert-error {
-    background-color: var(--figma-color-bg-danger-tertiary);
-    color: var(--figma-color-text-danger);
+  .alert-danger {
+    background-color: var(--figma-color-bg-danger);
+    color: var(--figma-color-text-ondanger);
   }
 
   .alert-hint {
     background-color: var(--figma-color-bg-brand-tertiary);
-    color: var(--figma-color-text-brand);
+    color: var(--figma-color-text-on-brand);
   }
 
 </style> 
