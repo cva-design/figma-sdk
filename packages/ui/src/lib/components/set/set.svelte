@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { SelectMenu, Input } from '#ui';
+	import { SelectMenu, Input, Text } from '#ui';
 	import type { SelectMenuItem } from '#ui';
 	import { createEventDispatcher } from 'svelte';
 
@@ -10,7 +10,14 @@
 		change: { property: SelectMenuItem | null; value: string };
 	}>();
 
-	const propertyOptions: SelectMenuItem[] = [
+	const frameOptions: SelectMenuItem[] = [
+		{ label: 'Frame 123', value: 'frame123' },
+		{ label: 'Frame 35', value: 'frame35' },
+		{ label: 'Frame 235', value: 'frame235' },
+		{ label: 'Frame 50', value: 'frame50' }
+	];
+
+  const propertyOptions: SelectMenuItem[] = [
 		{ label: 'Fill', value: 'fill' },
 		{ label: 'Stroke', value: 'stroke' },
 		{ label: 'Background', value: 'background' },
@@ -33,8 +40,16 @@
 </script>
 
 <div class="set">
-	<span class="label">property</span>
-	<div class="select-container">
+  <div class="select-container">
+    <SelectMenu
+			menuItems={frameOptions}
+			placeholder="Frame 123"
+			icon=""
+			value={property}
+			on:change={handlePropertyChange}
+		/>
+	</div>
+  <div class="select-container">
 		<SelectMenu
 			menuItems={propertyOptions}
 			placeholder="Fill"
@@ -43,7 +58,7 @@
 			on:change={handlePropertyChange}
 		/>
 	</div>
-	<span class="label">to</span>
+	<Text>to</Text>
 	<div class="input-container">
 		<Input
 			value={value}
@@ -58,11 +73,6 @@
 		display: flex;
 		align-items: center;
 		gap: 8px;
-	}
-
-	.label {
-		color: var(--figma-color-text);
-		font-size: 14px;
 	}
 
 	.select-container {
