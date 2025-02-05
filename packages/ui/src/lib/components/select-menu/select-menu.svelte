@@ -7,6 +7,7 @@
 	import type { SelectMenuItem } from './types';
 
 	type $$Props = IconProps & {
+		border?: boolean;
 		disabled?: boolean;
 		macOSBlink?: boolean;
 		menuItems?: SelectMenuItem[];
@@ -32,6 +33,7 @@
 	const placeholder: $$Props['placeholder'] = $$props.placeholder ?? 'Please make a selection.';
 	const showGroupLabels: $$Props['showGroupLabels'] = $$props.showGroupLabels ?? false;
 	const className: $$Props['class'] = $$props.class ?? undefined;
+	const border: $$Props['border'] = $$props.border ?? false;
 
 	const dispatch = createEventDispatcher();
 
@@ -264,7 +266,7 @@
 	{placeholder}
 	class="wrapper {className}"
 >
-	<button bind:this={menuButton} on:click={menuClick} {disabled}>
+	<button bind:this={menuButton} on:click={menuClick} {disabled} class:bordered={border}>
 		{#if iconProps}
 			<Icon {...iconProps} />
 		{/if}
@@ -335,6 +337,10 @@
 		overflow-y: hidden;
 		border-radius: var(--radius-medium);
 		background-color: var(--color-bg);
+
+		&.bordered {
+			border-color: var(--figma-color-border);
+		}
 	}
 	button:hover,
 	button:active {
@@ -400,6 +406,7 @@
 	.caret {
 		display: block;
 		margin-top: -1px;
+		margin-left: auto;
 	}
 
 	.caret svg path {
