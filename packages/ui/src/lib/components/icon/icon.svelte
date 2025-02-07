@@ -40,15 +40,15 @@
 </script>
 
 {#if $$props.iconName}
-	<div class={classes} style="color: {colorStyle}; fill: {colorStyle}">
+	<div class={classes}>
 		{@html icons[$$props.iconName]}
 	</div>
 {:else if $$props.iconText}
-	<div class={classes} style="color: {colorStyle}; fill: {colorStyle}">
+	<div class={classes}>
 		{$$props.iconText}
 	</div>
 {:else}
-	<div class={classes} style="color: {colorStyle}; fill: {colorStyle}">
+	<div class={classes}>
 		{@html $$props.icon}
 	</div>
 {/if}
