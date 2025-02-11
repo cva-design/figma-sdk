@@ -33,15 +33,14 @@
 <style lang="scss">
 	li {
 		align-items: center;
-		color: var(--color-text);
+		color: var(--color-text-menu);
 		cursor: default;
 		display: flex;
 		font-family: var(--font-family-default);
 		font-size: var(--text-body-medium-font-size);
 		font-weight: var(--font-weight-default);
 		letter-spacing: var(--font-letter-spacing-neg-xsmall);
-		line-height: var(--font-line-height);
-		height: var(--spacer-3);
+		line-height: var(--font-line-height-large);
 		padding: 0px var(--spacer-3) 0px var(--spacer-2);
 		user-select: none;
 		outline: none;
@@ -49,7 +48,6 @@
 		transition-duration: 30ms;
 		text-wrap: nowrap;
 		white-space: nowrap;
-		background-color: var(--color-bg);
 	}
 
 	.label {

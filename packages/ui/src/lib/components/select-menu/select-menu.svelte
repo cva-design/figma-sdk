@@ -429,7 +429,7 @@
 		-moz-osx-font-smoothing: grayscale;
 		cursor: default;
 		padding: var(--spacer-2);
-		background-color: var(--color-bg);
+		background-color: var(--color-bg-menu);
 		border-radius: var(--radius-large);
 		font-size: var(--font-size-menu);
 		font-family: var(--font-family-default);
