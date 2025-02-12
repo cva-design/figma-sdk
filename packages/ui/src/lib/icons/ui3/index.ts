@@ -29,7 +29,6 @@
  */
 
 //@index('./*.{png,jpg,jpeg,svg,gif}', (f, _) => `export { default as ${_.pascalCase(f.name).replace(/(_[0-9]+|$)/, 'Svg$1')} } from '${f.path}${f.ext}?raw';`)
-export { default as BooleanPropertySvg_16 } from './boolean-property-16.svg?raw';
 export { default as BooleanPropertySvg_24 } from './boolean-property-24.svg?raw';
 export { default as ColorPalettePropertySvg_16 } from './color-palette-property-16.svg?raw';
 export { default as ColorPalettePropertySvg_24 } from './color-palette-property-24.svg?raw';
@@ -84,7 +83,6 @@ export { default as VariantPropertySvg_24 } from './variant-property-24.svg?raw'
 
 export default [
   //@index('./**/*.{png,jpg,jpeg,svg,gif}', (f, _) => `'#icons/ui3/${f.path.replace(/^\.\//, '')}${f.ext}',`)
-  '#icons/ui3/boolean-property-16.svg',
   '#icons/ui3/boolean-property-24.svg',
   '#icons/ui3/color-palette-property-16.svg',
   '#icons/ui3/color-palette-property-24.svg',

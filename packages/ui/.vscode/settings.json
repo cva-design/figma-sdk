@@ -68,5 +68,8 @@
     "a11y-mouse-events-have-key-events": "ignore",
     "a11y-missing-content": "ignore",
     "css-unused-selector": "ignore"
+  },
+  "[svg]": {
+    "editor.defaultFormatter": "jock.svg"
   }
 }
