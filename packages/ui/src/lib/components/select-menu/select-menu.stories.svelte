@@ -83,3 +83,12 @@
 		macOSBlink: true
 	}}
 />
+
+<Story
+	name="Border"
+	args={{
+		menuItems: defaultMenuItems,
+		placeholder: 'Select an option',
+		border: true
+	}}
+/>

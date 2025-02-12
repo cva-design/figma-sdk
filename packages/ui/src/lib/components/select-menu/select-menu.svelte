@@ -330,10 +330,10 @@
 		display: flex;
 		align-items: center;
 		border: 1px solid transparent;
-		height: 30px;
+		height: var(--spacer-4);
 		width: 100%;
 		margin: 1px 0 1px 0;
-		padding: 4px var(--spacer-2) 0px var(--spacer-2);
+		padding: var(--spacer-2);
 		overflow-y: hidden;
 		border-radius: var(--radius-medium);
 		background-color: var(--color-bg);
@@ -372,6 +372,10 @@
 	button:disabled:hover {
 		justify-content: flex-start;
 		border-color: transparent;
+
+		&.bordered {
+			border-color: var(--figma-color-border);
+		}
 	}
 	button:disabled:hover .placeholder {
 		color: var(--figma-color-text-secondary);
@@ -405,8 +409,9 @@
 
 	.caret {
 		display: block;
-		margin-top: -1px;
 		margin-left: auto;
+    margin-top: 2px;
+    padding-left: 10px;
 	}
 
 	.caret svg path {

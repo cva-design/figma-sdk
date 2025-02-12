@@ -255,7 +255,7 @@
 		align-items: center;
 		width: 100%;
 		height: var(--spacer-4);
-		padding: var(--spacer-2) var(--spacer-1) var(--spacer-2) var(--spacer-2);
+		padding: var(--spacer-2);
 		color: var(--figma-color-text);
 		border: 1px solid transparent;
 		border-radius: var(--radius-medium);
