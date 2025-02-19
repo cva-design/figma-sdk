@@ -109,8 +109,8 @@
 		menuList.style.bottom = '';
 	}
 
-	//run for all menu click events
-	//this opens/closes the menu
+	// Run for all menu click events
+	// This opens/closes the menu
 	function menuClick(event: Event) {
 		resetMenuProperties();
 
@@ -229,7 +229,16 @@
 		// Scroll to selected item
 		if (targetItem) {
 			setTimeout(() => {
-				menuList.scrollTop = targetItem.offsetTop;
+				// First reset the scroll
+				menuList.scrollTop = 0;
+				
+				// Only scroll to selected item if it's not visible
+				const targetOffset = targetItem.offsetTop;
+				const menuHeight = menuList.clientHeight;
+				
+				if (targetOffset > menuHeight) {
+					menuList.scrollTop = targetOffset - (menuHeight / 2);
+				}
 			}, 0);
 		}
 	}
@@ -257,7 +266,6 @@
 
 	function resetMenuProperties() {
 		menuList.style.height = 'auto';
-		menuList.style.top = '0px';
 		menuList.style.bottom = '';
 	}
 
