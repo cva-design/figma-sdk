@@ -22,7 +22,13 @@
 		{ label: 'Option 1', group: 'Group 1' },
 		{ label: 'Option 2', group: 'Group 1' },
 		{ label: 'Option 3', group: 'Group 2' },
-		{ label: 'Option 4', group: 'Group 2' }
+		{ label: 'Option 4', group: 'Group 2' },
+		{ label: 'Option 5', group: 'Group 2' },
+		{ label: 'Option 6', group: 'Group 2' },
+		{ label: 'Option 7', group: 'Group 2' },
+		{ label: 'Option 8', group: 'Group 2' },
+		{ label: 'Option 9', group: 'Group 2' },
+		{ label: 'Option 10', group: 'Group 2' }
 	];
 </script>
 

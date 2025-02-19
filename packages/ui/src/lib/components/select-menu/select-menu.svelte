@@ -105,9 +105,8 @@
 		menuButton.classList.remove('selected');
 		// Clear inline styles
 		menuList.style.height = '';
-		menuList.style.maxHeight = '472px';
 		menuList.style.top = '';
-		menuList.style.bottom = '34px';
+		menuList.style.bottom = '';
 	}
 
 	//run for all menu click events
@@ -184,16 +183,25 @@
 		menuList.style.right = '';
 		menuList.style.top = '';
 		menuList.style.bottom = '';
-		menuList.style.maxHeight = '472px';
 		menuList.style.transform = '';
 
-		// Handle vertical positioning
-		if (anchor.includes('top') || anchor === 'top') {
-			menuList.style.top = `${buttonRect.top - menuRect.height - 4}px`;
-			menuList.style.maxHeight = `${Math.min(472, spaceAbove - 10)}px`;
-		} else if (anchor.includes('bottom') || anchor === 'bottom') {
-			menuList.style.top = `${buttonRect.bottom + 4}px`;
-			menuList.style.maxHeight = `${Math.min(472, spaceBelow - 10)}px`;
+		// Calculate item height and set max-height for 7 items
+		const menuItem = menuList.querySelector('li'); // Get first menu item
+		if (menuItem) {
+			const itemHeight = menuItem.offsetHeight;
+			const paddingSpace = 16; // Account for padding (8px top + 8px bottom)
+			const maxMenuHeight = (itemHeight * 7) + paddingSpace;
+			
+			// Handle vertical positioning with the new maxHeight
+			if (anchor.includes('top') || anchor === 'top') {
+				menuList.style.top = `${buttonRect.top - Math.min(maxMenuHeight, menuRect.height) - 4}px`;
+				menuList.style.maxHeight = `${Math.min(maxMenuHeight, spaceAbove - 10)}px`;
+			} else if (anchor.includes('bottom') || anchor === 'bottom') {
+				menuList.style.top = `${buttonRect.bottom + 4}px`;
+				menuList.style.maxHeight = `${Math.min(maxMenuHeight, spaceBelow - 10)}px`;
+			} else {
+				menuList.style.maxHeight = `${maxMenuHeight}px`;
+			}
 		}
 
 		// Handle horizontal positioning
@@ -249,7 +257,6 @@
 
 	function resetMenuProperties() {
 		menuList.style.height = 'auto';
-		menuList.style.maxHeight = '';
 		menuList.style.top = '0px';
 		menuList.style.bottom = '';
 	}
@@ -410,8 +417,8 @@
 	.caret {
 		display: block;
 		margin-left: auto;
-    margin-top: 2px;
-    padding-left: 10px;
+		margin-top: 2px;
+		padding-left: 10px;
 	}
 
 	.caret svg path {
@@ -443,24 +450,21 @@
 		color: var(--color-text-menu);
 		box-shadow: var(--elevation-400);
 		z-index: 2147483647;
-		text-transform: lowercase;
+		overflow-y: auto;
+		scrollbar-width: thin;
+		scrollbar-color: rgba(255, 255, 255, 0.4) transparent;
 	}
 	.menu::-webkit-scrollbar {
-		width: 12px;
+		width: 8px;
 		background-color: transparent;
-		background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=);
-		background-repeat: repeat;
-		background-size: 100% auto;
 	}
 	.menu::-webkit-scrollbar-track {
-		border: solid 3px transparent;
-		-webkit-box-shadow: inset 0 0 10px 10px transparent;
-		box-shadow: inset 0 0 10px 10px transparent;
+		background-color: transparent;
 	}
 	.menu::-webkit-scrollbar-thumb {
-		border: solid 3px transparent;
-		border-radius: 6px;
-		-webkit-box-shadow: inset 0 0 10px 10px rgba(255, 255, 255, 0.4);
-		box-shadow: inset 0 0 10px 10px rgba(255, 255, 255, 0.4);
+		background-color: rgba(255, 255, 255, 0.4);
+		border-radius: 4px;
+		border: 2px solid transparent;
+		background-clip: padding-box;
 	}
 </style>
