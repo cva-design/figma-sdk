@@ -14,14 +14,15 @@
 			placeholder: { control: 'text' },
 			value: { control: 'object' },
 			showGroupLabels: { control: 'boolean' },
-			class: { control: 'text' }
+			class: { control: 'text' },
+			disableHoverBorder: { control: 'boolean' }
 		}
 	};
 
 	const defaultMenuItems = [
 		{ label: 'Option 1', group: 'Group 1' },
 		{ label: 'Option 2', group: 'Group 1' },
-		{ label: 'Option 3', group: 'Group 2' },
+		{ label: 'Option 3', group: 'Group 1' },
 		{ label: 'Option 4', group: 'Group 2' },
 		{ label: 'Option 5', group: 'Group 2' },
 		{ label: 'Option 6', group: 'Group 2' },
@@ -96,5 +97,14 @@
 		menuItems: defaultMenuItems,
 		placeholder: 'Select an option',
 		border: true
+	}}
+/>
+
+<Story
+	name="TableSelect"
+	args={{
+		menuItems: defaultMenuItems,
+		placeholder: 'Select an option',
+		table: true
 	}}
 />

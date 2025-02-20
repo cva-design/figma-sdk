@@ -20,7 +20,8 @@
 			},
 			iconUrl: { control: 'text' },
 			iconText: { control: 'text' },
-			spin: { control: 'boolean' }
+			spin: { control: 'boolean' },
+			table: { control: 'boolean' }
 		}
 	} satisfies Meta<SvelteComponent>;
 </script>
@@ -87,4 +88,12 @@
 		/>
 		<div class="unit-label">%</div>
 	</div>
+</Story>
+
+<Story name="TableInput">
+		<Input 
+			table={true}
+			placeholder="Type something..."
+			class="table-input"
+		/>
 </Story>

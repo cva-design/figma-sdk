@@ -14,6 +14,7 @@
 		placeholder?: string;
 		value?: SelectMenuItem | null;
 		showGroupLabels?: boolean;
+		table?: boolean;
 		anchor?:
 			| 'top'
 			| 'right'
@@ -34,6 +35,7 @@
 	const showGroupLabels: $$Props['showGroupLabels'] = $$props.showGroupLabels ?? false;
 	const className: $$Props['class'] = $$props.class ?? undefined;
 	const border: $$Props['border'] = $$props.border ?? false;
+	const table: $$Props['table'] = $$props.table ?? false;
 
 	const dispatch = createEventDispatcher();
 
@@ -281,7 +283,7 @@
 	{placeholder}
 	class="wrapper {className}"
 >
-	<button bind:this={menuButton} on:click={menuClick} {disabled} class:bordered={border}>
+	<button bind:this={menuButton} on:click={menuClick} {disabled} class:bordered={border} class:table-select={table}>
 		{#if iconProps}
 			<Icon {...iconProps} />
 		{/if}
@@ -345,7 +347,6 @@
 		display: flex;
 		align-items: center;
 		border: 1px solid transparent;
-		height: var(--spacer-4);
 		width: 100%;
 		margin: 1px 0 1px 0;
 		padding: var(--spacer-2);
@@ -356,10 +357,22 @@
 		&.bordered {
 			border-color: var(--figma-color-border);
 		}
+    &:not(.table-select) {
+      height: var(--spacer-4);
+    }
 	}
 	button:hover,
-	button:active {
-		border-color: var(--figma-color-border-onselected-strong);
+	button:active,
+	button:focus {
+		&:not(.table-select) {
+			border-color: var(--figma-color-border-onselected-strong);
+      &:focus {
+        border: 1px solid var(--figma-color-bg-brand);
+        outline: 1px solid var(--figma-color-bg-brand);
+        outline-offset: -2px;
+        padding-left: calc(var(--spacer-2) + 1px);
+      }
+		}
 	}
 	button:hover .placeholder {
 		color: var(--color-text);
@@ -372,12 +385,7 @@
 	button:focus .caret {
 		margin-left: auto;
 	}
-	button:focus {
-		border: 1px solid var(--figma-color-bg-brand);
-		outline: 1px solid var(--figma-color-bg-brand);
-		outline-offset: -2px;
-		padding-left: calc(var(--spacer-2) + 1px);
-	}
+	
 	button:focus .placeholder {
 		color: var(--color-text);
 	}

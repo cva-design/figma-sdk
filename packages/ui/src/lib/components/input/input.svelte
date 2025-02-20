@@ -64,6 +64,7 @@
 		quiet?: boolean;
 		invisible?: boolean;
 		spin?: boolean;
+		table?: boolean;
 		class?: string;
 		'aria-label'?: string;
 		'aria-describedby'?: string;
@@ -80,6 +81,7 @@
 	export let errorMessage: string = 'Error message';
 	export let placeholder: string = 'Input something here...';
 	export let spin = false;
+	export let table = false;
 
 	const dispatch = createEventDispatcher();
 
@@ -100,6 +102,8 @@
 	}
 
 	function handleFocus(event: FocusEvent) {
+		const input = event.target as HTMLInputElement;
+		input.select();
 		dispatch('focus', event);
 	}
 
@@ -119,7 +123,7 @@
 		...$$props,
 		state,
 		hasIcon: !!iconProps
-	}) + (type === 'number' ? ' no-spin-buttons' : '');
+	}) + (type === 'number' ? ' no-spin-buttons' : '') + (table ? ' table-input' : '');
 
 	$: inputWrapperClass = inputWrapper({
 		...$$props
@@ -254,19 +258,28 @@
 		overflow: visible;
 		align-items: center;
 		width: 100%;
-		height: var(--spacer-4);
 		padding: var(--spacer-2);
 		color: var(--figma-color-text);
 		border: 1px solid transparent;
-		border-radius: var(--radius-medium);
 		outline: none;
-		background-color: var(--figma-color-bg-secondary);
-
+    background-color: transparent;
+    height: 36px;
+    
+    &:not(.table-input) {
+      height: var(--spacer-4);
+      border-radius: var(--radius-medium);
+      background-color: var(--figma-color-bg-secondary);
+    }
+    
 		&:hover,
 		&:placeholder-shown:hover {
 			color: var(--figma-color-text-hover);
-			border: 1px solid var(--figma-color-border);
+			border: 1px solid transparent;
 			background-image: none;
+
+      &:not(.table-input) {
+        border: 1px solid var(--figma-color-border);
+      }
 
 			&:where(.invisible) {
 				border: none;
