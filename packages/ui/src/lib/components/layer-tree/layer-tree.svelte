@@ -1,5 +1,4 @@
 <script lang="ts" context="module">
-	import { Input } from '#ui';
 	import { cx } from 'class-variance-authority';
 	import type { IAction } from './types';
 	export type LayerTreeData = {
@@ -24,7 +23,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import type { LayerType } from '../../components/layer/types';
-	import Action from './action.svelte';
 	import LayerTreeNode from './layer-tree-node.svelte';
 
 	export let data: LayerTreeData;
@@ -34,7 +32,7 @@
 	export let clickable: boolean = false;
 	export let collapsable: boolean = true;
 	export let collapsableRoot: boolean = true;
-	export let treeActions: IAction[] = [];
+	// export let treeActions: IAction[] = [];
 
 	function expandAll(node: LayerTreeData) {
 		expandedNodes.add(node.id);
@@ -94,7 +92,7 @@
 </script>
 
 <div class={cx('layerTree-wrapper', $$props.class)}>
-	<div class="panel-section search-container">
+	<!-- <div class="panel-section search-container">
 		<Input
 			invisible
 			iconName="SearchSvg"
@@ -109,7 +107,7 @@
 				{/each}
 			</div>
 		{/if}
-	</div>
+	</div> -->
 
 	<div class="panel-section layerTree-container">
 		<LayerTreeNode

@@ -164,7 +164,6 @@
 		padding-left: 16px;
 		display: flex;
 		flex-direction: column;
-		color: red;
 		align-items: flex-start;
 		box-sizing: border-box;
 	}
