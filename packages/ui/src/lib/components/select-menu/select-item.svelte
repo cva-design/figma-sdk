@@ -1,9 +1,16 @@
+<script lang="ts" context="module">
+	export interface SelectEventDetail {
+		itemId: string | number;
+	}
+</script>
+
 <script lang="ts">
+	import { createEventDispatcher } from 'svelte';
 	import type { HTMLAttributes } from 'svelte/elements';
 
 	export let itemId: string | number;
-	export const selected: boolean = false;
-	export const class_name: string = '';
+	export let selected: boolean = false;
+	export let class_name: string = '';
 
 	interface $$Props extends HTMLAttributes<HTMLLIElement> {
 		itemId: string | number;
@@ -11,7 +18,16 @@
 		class?: string;
 	}
 
+	const dispatch = createEventDispatcher<{
+		select: SelectEventDetail;
+	}>();
 	$: className = class_name || $$props.class || '';
+
+	function handleClick(event: MouseEvent) {
+		event.preventDefault();
+		event.stopPropagation();
+		dispatch('select', { itemId });
+	}
 </script>
 
 <li
@@ -22,7 +38,7 @@
 	class:highlight={selected}
 	class={className}
 	on:mouseenter
-	on:click
+	on:click={handleClick}
 	on:keydown
 >
 	<!-- todo: add icon correctly -->

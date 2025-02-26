@@ -3,7 +3,7 @@
 	import { getIconProps, Icon, Text, type IconProps } from '#ui';
 	import { createEventDispatcher, onMount } from 'svelte';
 	import SelectDivider from './select-divider.svelte';
-	import SelectItem from './select-item.svelte';
+	import SelectItem, { type SelectEventDetail } from './select-item.svelte';
 	import type { SelectMenuItem } from './types';
 
 	type $$Props = IconProps & {
@@ -43,11 +43,32 @@
 	let menuWrapper: HTMLDivElement, menuButton: HTMLButtonElement, menuList: HTMLUListElement;
 	$: updateSelectedAndIds();
 
+	// Handle item selection from SelectItem component
+	function handleSelect(event: CustomEvent<SelectEventDetail>) {
+		const itemId = Number(event.detail.itemId);
+		if (!menuItems[itemId]) return; // Guard against invalid itemId
+
+		if (value?.id !== undefined && menuItems[value.id]) {
+			menuItems[value.id].selected = false;
+		}
+
+		menuItems[itemId].selected = true;
+		value = menuItems[itemId];
+		updateSelectedAndIds();
+		dispatch('change', menuItems[itemId]);
+
+		if (macOSBlink) {
+			handleMacOSBlink();
+		} else {
+			menuList.classList.add('hidden');
+			menuButton.classList.remove('selected');
+		}
+	}
+
 	//FUNCTIONS
 
 	//assign id's to the input array
 	onMount(async () => {
-		console.clear();
 		updateSelectedAndIds();
 	});
 
@@ -113,7 +134,7 @@
 
 	// Run for all menu click events
 	// This opens/closes the menu
-	function menuClick(event: Event) {
+	async function menuClick(event: Event) {
 		resetMenuProperties();
 
 		// If clicking outside or no target, hide menu
@@ -137,7 +158,7 @@
 
 				if (targetItem) {
 					targetItem.focus();
-					positionMenu(targetItem);
+					await positionMenu(targetItem);
 				}
 			} else {
 				menuList.classList.add('hidden');
@@ -160,7 +181,7 @@
 			dispatch('change', menuItems[itemId]);
 
 			if (macOSBlink) {
-				handleMacOSBlink(event);
+				handleMacOSBlink();
 			} else {
 				menuList.classList.add('hidden');
 				menuButton.classList.remove('selected');
@@ -168,8 +189,34 @@
 		}
 	}
 
-	// New helper function for menu positioning
-	function positionMenu(targetItem: HTMLElement) {
+	// New helper function to calculate menu height
+	function calculateMenuHeight() {
+		// Wait for next tick to ensure DOM is updated
+		return new Promise<number>((resolve) => {
+			setTimeout(() => {
+				const menuItem = menuList.querySelector('.select-item') as HTMLElement; // Get first menu item
+				const divider = menuList.querySelector('.select-divider') as HTMLElement; // Get first divider
+				if (!menuItem) return resolve(0);
+
+				const itemHeight = menuItem.offsetHeight;
+				const dividerHeight = divider ? divider.offsetHeight : itemHeight * 0.5;
+				const paddingSpace = 16; // Account for padding (8px top + 8px bottom)
+				const maxVisibleItems = 7;
+
+				// Count total visible items including dividers
+				if (showGroupLabels && groupedItems) {
+					const numDividers = groupOrder.filter((g) => g !== 'ungrouped').length;
+					const totalHeight =
+						itemHeight * maxVisibleItems + dividerHeight * numDividers + paddingSpace;
+					resolve(totalHeight);
+				} else {
+					resolve(itemHeight * maxVisibleItems + paddingSpace);
+				}
+			}, 0);
+		});
+	}
+
+	async function positionMenu(targetItem: HTMLElement) {
 		const buttonRect = menuButton.getBoundingClientRect();
 
 		// Set width to fit content but not smaller than button
@@ -187,23 +234,17 @@
 		menuList.style.bottom = '';
 		menuList.style.transform = '';
 
-		// Calculate item height and set max-height for 7 items
-		const menuItem = menuList.querySelector('li'); // Get first menu item
-		if (menuItem) {
-			const itemHeight = menuItem.offsetHeight;
-			const paddingSpace = 16; // Account for padding (8px top + 8px bottom)
-			const maxMenuHeight = (itemHeight * 7) + paddingSpace;
-			
-			// Handle vertical positioning with the new maxHeight
-			if (anchor.includes('top') || anchor === 'top') {
-				menuList.style.top = `${buttonRect.top - Math.min(maxMenuHeight, menuRect.height) - 4}px`;
-				menuList.style.maxHeight = `${Math.min(maxMenuHeight, spaceAbove - 10)}px`;
-			} else if (anchor.includes('bottom') || anchor === 'bottom') {
-				menuList.style.top = `${buttonRect.bottom + 4}px`;
-				menuList.style.maxHeight = `${Math.min(maxMenuHeight, spaceBelow - 10)}px`;
-			} else {
-				menuList.style.maxHeight = `${maxMenuHeight}px`;
-			}
+		const maxMenuHeight = await calculateMenuHeight();
+
+		// Handle vertical positioning with the new maxHeight
+		if (anchor.includes('top') || anchor === 'top') {
+			menuList.style.top = `${buttonRect.top - Math.min(maxMenuHeight, menuRect.height) - 4}px`;
+			menuList.style.maxHeight = `${Math.min(maxMenuHeight, spaceAbove - 10)}px`;
+		} else if (anchor.includes('bottom') || anchor === 'bottom') {
+			menuList.style.top = `${buttonRect.bottom + 4}px`;
+			menuList.style.maxHeight = `${Math.min(maxMenuHeight, spaceBelow - 10)}px`;
+		} else {
+			menuList.style.maxHeight = `${maxMenuHeight}px`;
 		}
 
 		// Handle horizontal positioning
@@ -233,27 +274,29 @@
 			setTimeout(() => {
 				// First reset the scroll
 				menuList.scrollTop = 0;
-				
+
 				// Only scroll to selected item if it's not visible
 				const targetOffset = targetItem.offsetTop;
 				const menuHeight = menuList.clientHeight;
-				
+
 				if (targetOffset > menuHeight) {
-					menuList.scrollTop = targetOffset - (menuHeight / 2);
+					menuList.scrollTop = targetOffset - menuHeight / 2;
 				}
 			}, 0);
 		}
 	}
 
 	// New helper function for MacOS blink effect
-	function handleMacOSBlink(event: Event) {
-		const target = event.target as HTMLElement;
+	function handleMacOSBlink() {
+		const selectedItem = menuList.querySelector(`[itemid="${value?.id}"]`) as HTMLElement;
+		if (!selectedItem) return;
+
 		const blinkCount = 4;
 		const interval = 70;
 
 		for (let i = 0; i < blinkCount; i++) {
 			setTimeout(() => {
-				target.classList.toggle('blink');
+				selectedItem.classList.toggle('blink');
 			}, i * interval);
 		}
 
@@ -271,6 +314,26 @@
 		menuList.style.bottom = '';
 	}
 
+	// Helper function to organize items by groups while maintaining order
+	function getGroupedItems() {
+		const groupedItems: Record<string, SelectMenuItem[]> = {};
+		const groupOrder: string[] = [];
+		let hasGroups = false;
+
+		for (const item of menuItems) {
+			if (item.group) hasGroups = true;
+			const group = item.group || 'ungrouped';
+			if (!groupedItems[group]) {
+				groupedItems[group] = [];
+				groupOrder.push(group);
+			}
+			groupedItems[group].push(item);
+		}
+
+		return hasGroups ? { groupedItems, groupOrder } : { ungrouped: menuItems };
+	}
+
+	$: ({ groupedItems, groupOrder = ['ungrouped'] } = getGroupedItems());
 	$: iconProps = getIconProps({ ...$$props, color: 'black3' });
 </script>
 
@@ -283,7 +346,13 @@
 	{placeholder}
 	class="wrapper {className}"
 >
-	<button bind:this={menuButton} on:click={menuClick} {disabled} class:bordered={border} class:table-select={table}>
+	<button
+		bind:this={menuButton}
+		on:click={menuClick}
+		{disabled}
+		class:bordered={border}
+		class:table-select={table}
+	>
 		{#if iconProps}
 			<Icon {...iconProps} />
 		{/if}
@@ -310,26 +379,36 @@
 
 	<ul class="menu hidden" bind:this={menuList}>
 		{#if menuItems && menuItems.length > 0}
-			{#each menuItems as item, i}
-				{#if i === 0}
-					{#if item.group && showGroupLabels}
-						<SelectDivider label>{item.group}</SelectDivider>
+			{#if !groupedItems}
+				{#each menuItems as item}
+					<SelectItem
+						on:select={handleSelect}
+						on:mouseenter={removeHighlight}
+						itemId={item.id ?? 0}
+						bind:selected={item.selected}
+						class="select-item"
+					>
+						{item.label}
+					</SelectItem>
+				{/each}
+			{:else}
+				{#each groupOrder as group}
+					{#if group !== 'ungrouped' && showGroupLabels}
+						<SelectDivider groupLabel>{groupedItems[group][0].groupLabel}</SelectDivider>
 					{/if}
-				{:else if i > 0 && item.group && menuItems[i - 1].group != item.group}
-					{#if showGroupLabels}
-						<SelectDivider />
-						<SelectDivider label>{item.group}</SelectDivider>
-					{:else}
-						<SelectDivider />
-					{/if}
-				{/if}
-				<SelectItem
-					on:click={menuClick}
-					on:mouseenter={removeHighlight}
-					itemId={item.id ?? 0}
-					bind:selected={item.selected}>{item.label}</SelectItem
-				>
-			{/each}
+					{#each groupedItems[group] as item}
+						<SelectItem
+							on:select={handleSelect}
+							on:mouseenter={removeHighlight}
+							itemId={item.id ?? 0}
+							bind:selected={item.selected}
+							class="select-item"
+						>
+							{item.label}
+						</SelectItem>
+					{/each}
+				{/each}
+			{/if}
 		{/if}
 	</ul>
 </div>
@@ -357,21 +436,21 @@
 		&.bordered {
 			border-color: var(--figma-color-border);
 		}
-    &:not(.table-select) {
-      height: var(--spacer-4);
-    }
+		&:not(.table-select) {
+			height: var(--spacer-4);
+		}
 	}
 	button:hover,
 	button:active,
 	button:focus {
 		&:not(.table-select) {
 			border-color: var(--figma-color-border-onselected-strong);
-      &:focus {
-        border: 1px solid var(--figma-color-bg-brand);
-        outline: 1px solid var(--figma-color-bg-brand);
-        outline-offset: -2px;
-        padding-left: calc(var(--spacer-2) + 1px);
-      }
+			&:focus {
+				border: 1px solid var(--figma-color-bg-brand);
+				outline: 1px solid var(--figma-color-bg-brand);
+				outline-offset: -2px;
+				padding-left: calc(var(--spacer-2) + 1px);
+			}
 		}
 	}
 	button:hover .placeholder {
@@ -385,7 +464,7 @@
 	button:focus .caret {
 		margin-left: auto;
 	}
-	
+
 	button:focus .placeholder {
 		color: var(--color-text);
 	}
@@ -469,18 +548,23 @@
 		overflow-y: auto;
 		scrollbar-width: thin;
 		scrollbar-color: rgba(255, 255, 255, 0.4) transparent;
-	}
-	.menu::-webkit-scrollbar {
-		width: 8px;
-		background-color: transparent;
-	}
-	.menu::-webkit-scrollbar-track {
-		background-color: transparent;
-	}
-	.menu::-webkit-scrollbar-thumb {
-		background-color: rgba(255, 255, 255, 0.4);
-		border-radius: 4px;
-		border: 2px solid transparent;
-		background-clip: padding-box;
+
+		:global(li) {
+			list-style: none;
+		}
+
+		&::-webkit-scrollbar {
+			width: 8px;
+			background-color: transparent;
+		}
+		&::-webkit-scrollbar-track {
+			background-color: transparent;
+		}
+		&::-webkit-scrollbar-thumb {
+			background-color: rgba(255, 255, 255, 0.4);
+			border-radius: 4px;
+			border: 2px solid transparent;
+			background-clip: padding-box;
+		}
 	}
 </style>
