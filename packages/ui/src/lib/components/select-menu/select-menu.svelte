@@ -6,7 +6,8 @@
 	import SelectItem, { type SelectEventDetail } from './select-item.svelte';
 	import type { SelectMenuItem } from './types';
 
-	type $$Props = IconProps & {
+	type $$Props = Partial<IconProps> & {
+		id?: string;
 		border?: boolean;
 		disabled?: boolean;
 		macOSBlink?: boolean;
