@@ -1,4 +1,6 @@
 <script lang="ts" context="module">
+	import styles from './layer.module.css';
+
 	import type { IAction } from '../layer-tree/types';
 	import type { LayerType } from './types';
 	const layer = cva(styles.layer, {
@@ -20,6 +22,7 @@
 			}
 		}
 	});
+
 	export interface LayerProps extends VariantProps<typeof layer> {
 		description?: string;
 		icons: ComponentType | string;
@@ -37,7 +40,6 @@
 	import type { ComponentType } from 'svelte';
 	import { createEventDispatcher } from 'svelte';
 	import Action from '../layer-tree/action.svelte';
-	import styles from './layer.module.css';
 
 	interface LayerProps extends VariantProps<typeof layer> {
 		description?: string;
@@ -117,7 +119,7 @@
 </script>
 
 <div
-	class={layer({ bold, component, expanded, selected })}
+	class={'fps-layer ' + layer({ bold, component, expanded, selected })}
 	on:click={handleLayerClick}
 	on:keydown={handleKeyDown}
 	role="button"
@@ -164,122 +166,35 @@
 </div>
 
 <style lang="scss">
-	// .layer {
-	// 	position: relative;
-	// 	z-index: var(--z-index-1);
-	// 	display: flex;
-	// 	height: 32px;
-	// 	align-items: center;
-	// 	padding: 0 var(--spacer-small);
-	// }
+	.fps-layer {
+		:global(.actions) {
+			display: none;
+			position: relative;
+			margin-left: auto;
+			gap: var(--spacer-extra-small);
+		}
 
-	// .input,
-	// .box {
-	// 	position: absolute;
-	// 	top: 0;
-	// 	right: 0;
-	// 	bottom: 0;
-	// 	left: 0;
-	// }
+		:global(.layer:hover .actions) {
+			display: flex;
+		}
 
-	// .input {
-	// 	z-index: var(--z-index-1);
-	// 	display: block;
-	// }
-	// :global(.disabled) .input {
-	// 	cursor: not-allowed;
-	// }
+		:global(.actionButton) {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 24px;
+			height: 24px;
+			padding: 0;
+			border: none;
+			background: none;
+			color: var(--figma-color-icon-secondary);
+			cursor: pointer;
+			border-radius: var(--border-radius-small);
+		}
 
-	// .input:checked ~ .box {
-	// 	background-color: var(--figma-color-bg-selected);
-	// }
-	// .input:not(:checked):hover ~ .box,
-	// .input:focus ~ .box {
-	// 	border: 1px solid var(--figma-color-border-brand-strong);
-	// }
-
-	// :global(.component) .input:checked ~ .box {
-	// 	background-color: var(--figma-color-bg-component-tertiary);
-	// }
-	// :global(.component) .input:not(:checked):hover ~ .box,
-	// :global(.component) .input:focus ~ .box {
-	// 	border-color: var(--figma-color-border-component-strong);
-	// }
-
-	// .icon,
-	// .children,
-	// .description {
-	// 	position: relative;
-	// }
-
-	// .children,
-	// .description {
-	// 	overflow: hidden;
-	// 	text-overflow: ellipsis;
-	// 	white-space: nowrap;
-	// }
-
-	// .children {
-	// 	padding-left: var(--spacer-extra-small);
-	// 	color: var(--figma-color-text);
-	// }
-	// :global(.component) .children {
-	// 	color: var(--figma-color-text-component);
-	// }
-	// :global(.bold) .children {
-	// 	font-weight: var(--font-weight-bold);
-	// }
-
-	// .icon {
-	// 	height: 16px;
-	// 	flex: 0 0 16px;
-	// 	color: var(--figma-color-icon-secondary);
-	// }
-	// .input:checked ~ .icon {
-	// 	color: var(--figma-color-icon);
-	// }
-	// :global(.component) .icon,
-	// :global(.component) .input:checked ~ .icon {
-	// 	color: var(--figma-color-icon-component);
-	// }
-
-	// .layer-indent {
-	// 	display: flex;
-	// 	align-items: center;
-	// 	padding-left: var(--spacer-small);
-	// }
-
-	// .layer-indent-selected {
-	// 	padding-left: var(--spacer-medium);
-	// }
-
-	:global(.actions) {
-		display: none;
-		position: relative;
-		margin-left: auto;
-		gap: var(--spacer-extra-small);
-	}
-
-	:global(.layer:hover .actions) {
-		display: flex;
-	}
-
-	:global(.actionButton) {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		width: 24px;
-		height: 24px;
-		padding: 0;
-		border: none;
-		background: none;
-		color: var(--figma-color-icon-secondary);
-		cursor: pointer;
-		border-radius: var(--border-radius-small);
-	}
-
-	:global(.actionButton:hover) {
-		background-color: var(--figma-color-bg-hover);
-		color: var(--figma-color-icon);
+		:global(.actionButton:hover) {
+			background-color: var(--figma-color-bg-hover);
+			color: var(--figma-color-icon);
+		}
 	}
 </style>

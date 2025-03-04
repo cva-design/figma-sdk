@@ -38,21 +38,6 @@
 		expandedNodes = new Set(expandedNodes);
 		dispatch('toggle', { node, expanded: expandedNodes.has(node.id) });
 	}
-
-	// function handleNodeClick(event: Event, node: LayerTreeData) {
-	// 	if (!node.disabled && singleSelect) {
-	// 		selectedNodeStore.update((nodeId) => {
-	// 			if (nodeId === node.id) {
-	// 				return null;
-	// 			}
-	// 			return node.id;
-	// 		});
-	// 	}
-	// 	if (node.click) {
-	// 		node.click(event, node);
-	// 	}
-	// 	dispatch('select', node);
-	// }
 </script>
 
 <div class="layerTree" class:disabled={data.disabled} class:mixed={data.mixed}>
@@ -129,8 +114,9 @@
 	.layerTree--caret {
 		flex: 0 0 16px;
 		height: 16px;
+		width: 8px;
+		margin-left: -16px;
 		padding: 0;
-		margin-right: 8px;
 		background: none;
 		border: none;
 		cursor: pointer;
