@@ -119,11 +119,14 @@
 
 	$: iconProps = getIconProps({ ...$$props, color: '--figma-color-icon' });
 
-	$: inputClass = input({
-		...$$props,
-		state,
-		hasIcon: !!iconProps
-	}) + (type === 'number' ? ' no-spin-buttons' : '') + (table ? ' table-input' : '');
+	$: inputClass =
+		input({
+			...$$props,
+			state,
+			hasIcon: !!iconProps
+		}) +
+		(type === 'number' ? ' no-spin-buttons' : '') +
+		(table ? ' table-input' : '');
 
 	$: inputWrapperClass = inputWrapper({
 		...$$props
@@ -169,6 +172,7 @@
 		align-items: center;
 	}
 
+	// TODO: refactor this into a component
 	:global(.input-connected-container) {
 		display: flex;
 		align-items: center;
@@ -262,24 +266,24 @@
 		color: var(--figma-color-text);
 		border: 1px solid transparent;
 		outline: none;
-    background-color: transparent;
-    height: 36px;
-    
-    &:not(.table-input) {
-      height: var(--spacer-4);
-      border-radius: var(--radius-medium);
-      background-color: var(--figma-color-bg-secondary);
-    }
-    
+		background-color: transparent;
+		height: 36px;
+
+		&:not(.table-input) {
+			height: var(--spacer-4);
+			border-radius: var(--radius-medium);
+			background-color: var(--figma-color-bg-secondary);
+		}
+
 		&:hover,
 		&:placeholder-shown:hover {
 			color: var(--figma-color-text-hover);
 			border: 1px solid transparent;
 			background-image: none;
 
-      &:not(.table-input) {
-        border: 1px solid var(--figma-color-border);
-      }
+			&:not(.table-input) {
+				border: 1px solid var(--figma-color-border);
+			}
 
 			&:where(.invisible) {
 				border: none;
@@ -366,7 +370,7 @@
 			background-image: none;
 		}
 
-		&:where(.quiet) {
+		&.quiet {
 			background-color: transparent;
 			padding-left: var(--spacer-2);
 
@@ -408,7 +412,7 @@
 			border-top-right-radius: 0;
 			border-bottom-right-radius: 0;
 			padding: var(--spacer-2) var(--spacer-1) var(--spacer-2) var(--spacer-1);
-      width: 100%;
+			width: 100%;
 		}
 
 		&:where(.connected-right) {
