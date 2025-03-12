@@ -78,7 +78,8 @@
 <style lang="scss">
 	.fps-popover__container {
 		--arrow-size: var(--spacer-3);
-		background-color: var(--color-bg);
+		background-color: var(--color-bg-menu);
+		color: var(--color-text-menu);
 		border-radius: var(--radius-large);
 		box-shadow: var(--elevation-500-modal-window);
 		outline: 0;
@@ -108,7 +109,7 @@
 
 	.fps-popover__content {
 		box-sizing: border-box;
-		padding: var(--spacer-3);
+		padding: var(--spacer-2);
 		border-bottom: 1px solid var(--figma-color-border);
 
 		&:where(:last-child) {
@@ -133,5 +134,43 @@
 	:global(.fps-popover__footer) {
 		padding: var(--spacer-3);
 		border-top: 1px solid var(--color-border);
+	}
+
+	:global([data-arrow]) {
+		position: absolute;
+		width: 0;
+		height: 0;
+		pointer-events: none;
+		transform: none !important;
+		background: none !important;
+    z-index: inherit;
+		
+		&[data-side="top"] {
+			top: 100% !important;
+			border-left: 12px solid transparent;
+			border-right: 12px solid transparent;
+			border-top: 12px solid var(--color-bg-menu);
+		}
+		
+		&[data-side="bottom"] {
+			top: -15px !important;
+			border-left: 12px solid transparent;
+			border-right: 12px solid transparent;
+			border-bottom: 12px solid var(--color-bg-menu);
+		}
+		
+		&[data-side="left"] {
+			left: 100% !important;
+			border-top: 12px solid transparent;
+			border-bottom: 12px solid transparent;
+			border-left: 12px solid var(--color-bg-menu);
+		}
+		
+		&[data-side="right"] {
+			left: -15px !important;
+			border-top: 12px solid transparent;
+			border-bottom: 12px solid transparent;
+			border-right: 12px solid var(--color-bg-menu);
+		}
 	}
 </style>
