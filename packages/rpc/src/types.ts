@@ -33,8 +33,19 @@ export type ApiMethodsDictionary = Record<
   (...args: JsonValue[]) => Promise<JsonValue> | JsonValue
 >;
 
+/**
+ * Options for RPC clients and API initialization
+ */
 export interface RpcClientOptions {
+  /**
+   * Request timeout in milliseconds (default: 6000)
+   */
   timeout?: number;
+
+  /**
+   * Enable debug logging (default: false)
+   */
+  debug?: boolean;
 }
 
 export type RpcClient<T> = T & RpcClientOptions;

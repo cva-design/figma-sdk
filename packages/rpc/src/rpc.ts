@@ -1,4 +1,10 @@
-import { InternalError, InvalidRequest, MethodNotFound } from './errors';
+import {
+  type ExtendedJsonRpcRequest,
+  InternalError,
+  InvalidRequest,
+  MethodNotFound,
+  RpcError,
+} from './errors';
 import type {
   ApiMethodsDictionary,
   InternalMethodError,
@@ -6,6 +12,18 @@ import type {
   JsonValue,
 } from './types';
 import { isPromise, toJsonObject } from './utils';
+
+// Debug flag - set to true to enable verbose logging
+let DEBUG_RPC = false;
+
+/**
+ * Logs debug information if DEBUG_RPC is enabled
+ */
+function debugLog(...args: any[]): void {
+  if (DEBUG_RPC) {
+    console.log('[RPC Debug]', ...args);
+  }
+}
 
 export let sendRaw: (message: JsonRpcRequest) => void;
 
@@ -30,9 +48,11 @@ const pending: {
 
 function sendJson(req: JsonRpcRequest): void {
   try {
+    debugLog('Sending JSON:', req);
     sendRaw(req);
   } catch (err) {
-    console.error(err);
+    console.error('Error sending JSON:', err);
+    console.error('Request was:', req);
   }
 }
 
@@ -44,13 +64,24 @@ function sendResult(json: JsonRpcRequest, result: JsonValue) {
 }
 
 function sendError(json: JsonRpcRequest, error: Error) {
+  const errorObj = {
+    code: error instanceof RpcError ? error.statusCode : -32000,
+    message: error.message,
+    name: error.name,
+  };
+
+  // Add detailed information for RPC errors
+  if (error instanceof RpcError) {
+    // Add data from the RPC error for debugging
+    Object.assign(errorObj, {
+      data: error.data,
+      detailedMessage: error.getDetailedMessage(),
+    });
+  }
+
   sendJson({
     ...json,
-    error: {
-      code: error instanceof MethodNotFound ? -32601 : -32000,
-      message: error.message,
-      name: error.name,
-    },
+    error: errorObj,
   });
 }
 
@@ -80,7 +111,17 @@ function handleRpc(rpcRequest: JsonRpcRequest) {
       typeof rpcRequest.method === 'undefined'
     ) {
       if (!pending[rpcRequest.id]) {
-        sendError(rpcRequest, new InvalidRequest(rpcRequest));
+        console.error(
+          `No pending request found for ID ${rpcRequest.id}`,
+          rpcRequest,
+        );
+        sendError(
+          rpcRequest,
+          new InvalidRequest({
+            ...rpcRequest,
+            details: `No pending request found for ID ${rpcRequest.id}`,
+          } as ExtendedJsonRpcRequest),
+        );
         return;
       }
       const callback = pending[rpcRequest.id];
@@ -101,9 +142,32 @@ function handleRpc(rpcRequest: JsonRpcRequest) {
 
 let methods: ApiMethodsDictionary = {};
 
+/**
+ * Checks if a method is registered
+ */
+function isMethodRegistered(methodName: string): boolean {
+  return Boolean(methods[methodName]);
+}
+
+/**
+ * Lists all registered methods
+ */
+function listRegisteredMethods(): string[] {
+  return Object.keys(methods);
+}
+
 function onRequest(method: string, params: JsonValue[]) {
-  if (!methods[method]) {
-    throw new MethodNotFound({ method, params });
+  if (!isMethodRegistered(method)) {
+    console.error(
+      `Method "${method}" not found. Available methods:`,
+      listRegisteredMethods(),
+    );
+    throw new MethodNotFound({
+      method,
+      params,
+      availableMethods: listRegisteredMethods(),
+      details: `The method "${method}" is not registered. Available methods: ${listRegisteredMethods().join(', ')}`,
+    });
   }
   return methods[method](...params);
 }
@@ -117,9 +181,14 @@ function handleNotification(json: JsonRpcRequest) {
 
 function handleRequest(rpcReq: JsonRpcRequest) {
   if (!rpcReq.method) {
+    console.error('Request missing method:', rpcReq);
     sendError(
       rpcReq,
-      new MethodNotFound({ method: rpcReq.method, params: rpcReq.params }),
+      new MethodNotFound({
+        method: rpcReq.method,
+        params: rpcReq.params,
+        details: 'Request is missing a method name',
+      }),
     );
     return;
   }
@@ -128,16 +197,36 @@ function handleRequest(rpcReq: JsonRpcRequest) {
     if (isPromise(result)) {
       result
         .then((res: JsonValue) => sendResult(rpcReq, res))
-        .catch((err: Error) => sendError(rpcReq, err));
+        .catch((err: Error) => {
+          console.error(`Error in async method "${rpcReq.method}":`, err);
+          sendError(rpcReq, err);
+        });
     } else {
       sendResult(rpcReq, result);
     }
   } catch (err) {
+    console.error(`Error executing method "${rpcReq.method}":`, err);
     sendError(rpcReq, err as Error);
   }
 }
 
-export const init = (apiInstance: ApiMethodsDictionary) => {
+/**
+ * Initialize the RPC system with the provided API methods
+ *
+ * @param apiInstance - Object containing the API methods to register
+ * @param options - Configuration options
+ * @param options.debug - Enable debug logging (default: false)
+ */
+export const init = (
+  apiInstance: ApiMethodsDictionary,
+  options?: { debug?: boolean },
+) => {
+  // Set debug mode if specified in options
+  if (options?.debug !== undefined) {
+    DEBUG_RPC = options.debug;
+  }
+
+  debugLog('Initializing RPC with methods:', Object.keys(apiInstance));
   methods = apiInstance;
 };
 
@@ -155,11 +244,59 @@ export const sendRequest = (
     const req: JsonRpcRequest = { jsonrpc: '2.0', method, params, id };
     rpcIndex += 1;
 
+    debugLog(`Sending request #${id}:`, method, params);
+
     const callback = (err?: InternalMethodError, result?: JsonValue) => {
       if (err) {
-        reject(new InternalError(toJsonObject(err)));
+        debugLog(`Error in request #${id}:`, err);
+        console.error(`RPC Error in method "${method}":`, err);
+
+        // If it's already an RPC error, pass it through
+        if (err instanceof RpcError) {
+          reject(err);
+          return;
+        }
+
+        // If it's a standard error object with a name property
+        if (err && typeof err === 'object' && 'name' in err) {
+          // Handle specific error types
+          if (err.name === 'MethodNotFound') {
+            reject(
+              new MethodNotFound({
+                method,
+                params,
+                details: `The method "${method}" is not registered on the receiving end.`,
+              }),
+            );
+            return;
+          }
+
+          if (err.name === 'InvalidRequest') {
+            reject(
+              new InvalidRequest({
+                ...req,
+                error: err,
+                details: `Invalid request for method "${method}".`,
+              } as ExtendedJsonRpcRequest),
+            );
+            return;
+          }
+        }
+
+        // For any other error, wrap it in an InternalError
+        reject(
+          new InternalError({
+            originalError: toJsonObject(err),
+            method,
+            params: params.map((p) =>
+              typeof p === 'object' ? '(complex object)' : p,
+            ),
+            message: err.message || 'Unknown error',
+          }),
+        );
         return;
       }
+      debugLog(`Request #${id} succeeded:`, result);
       resolve(result);
       return result;
     };
@@ -167,7 +304,9 @@ export const sendRequest = (
     // set a default timeout
     callback.timeout = setTimeout(() => {
       delete pending[id];
-      reject(new Error(`Request ${method} timed out.`));
+      reject(
+        new Error(`Request "${method}" timed out after ${timeout || 6000}ms.`),
+      );
     }, timeout || 6000);
 
     pending[id] = callback;

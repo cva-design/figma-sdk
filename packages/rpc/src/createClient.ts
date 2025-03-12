@@ -1,4 +1,4 @@
-import { sendRequest } from './rpc';
+import { init, sendRequest } from './rpc';
 import type {
   JsonValue,
   MakeAllFnAsync,
@@ -6,6 +6,12 @@ import type {
   RpcClientOptions,
 } from './types';
 
+/**
+ * Lists all public methods of a class
+ *
+ * @param classConstructor - The class constructor to inspect
+ * @returns Array of method names
+ */
 function listMethods(classConstructor: NewableFunction): string[] {
   const prototype = classConstructor.prototype;
   const props = Object.getOwnPropertyNames(prototype);
@@ -30,11 +36,26 @@ function listMethods(classConstructor: NewableFunction): string[] {
   return methods;
 }
 
+/**
+ * Creates an RPC client for calling methods on the other side
+ *
+ * @param stubClass - The class constructor defining the API interface
+ * @param options - Configuration options
+ * @param options.timeout - Request timeout in milliseconds (default: 6000)
+ * @param options.debug - Enable debug logging (default: false)
+ * @returns A proxy object that implements the API interface
+ */
 export function createClient<T extends new (...args: unknown[]) => unknown>(
   stubClass: T,
   options?: RpcClientOptions,
 ): MakeAllFnAsync<InstanceType<T>> {
   const timeout = options?.timeout;
+
+  // Enable debug mode if specified
+  if (options?.debug) {
+    init({}, { debug: true });
+  }
+
   const methods = listMethods(stubClass);
   const stub = {} as MakeAllFnAsync<InstanceType<T>>;
 

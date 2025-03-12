@@ -6,13 +6,21 @@ import type {
 } from './types';
 export type { RpcClientOptions as Options } from './types';
 
+/**
+ * Creates an API instance for RPC communication
+ *
+ * @param methods - Object containing the API methods to register
+ * @param options - Configuration options
+ * @param options.timeout - Request timeout in milliseconds (default: 6000)
+ * @param options.debug - Enable debug logging (default: false)
+ * @returns A proxy object that wraps the API methods
+ */
 export function createAPI<T extends ApiMethodsDictionary>(
   methods: T,
   options?: RpcClientOptions,
 ): MakeAllFnAsync<T> {
-  // const timeout = options && options.timeout;
-
-  init(methods);
+  // Initialize the RPC system with the provided methods and options
+  init(methods, { debug: options?.debug });
 
   const stub = {} as MakeAllFnAsync<T>;
 
