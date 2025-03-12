@@ -1,5 +1,5 @@
 // import { IAssertionResult } from '@code/tests';
-import type { AutocompletableString, SomeObject } from './types';
+import type { AutocompletableString } from './types';
 import { serialize } from './utils';
 
 // TODO: check why do we need $id and $type and document it here or remove them
@@ -115,9 +115,9 @@ export enum FigmaEvent {
   TimerAdjust = 'ontimeradjust',
 }
 
-export type EventRegistry<TEvent> = {
-  [K in keyof TEvent]: K extends string
-    ? EventDefinition<K, SomeObject | undefined>
+export type EventRegistry<TEventMessageMap> = {
+  [K in keyof TEventMessageMap]: K extends string
+    ? EventDefinition<K, TEventMessageMap[K]>
     : never;
 };
 

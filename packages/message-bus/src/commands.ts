@@ -1,5 +1,3 @@
-import type { SomeObject } from './types';
-
 export interface CommandDefinition<
   Id extends string,
   Message = undefined,
@@ -11,8 +9,8 @@ export interface CommandDefinition<
   result: Result;
 }
 
-export type CommandRegistry<TCommand> = {
-  [K in keyof TCommand]: K extends string
-    ? CommandDefinition<K, SomeObject | undefined>
+export type CommandRegistry<TCommandMessageMap> = {
+  [K in keyof TCommandMessageMap]: K extends string
+    ? CommandDefinition<K, TCommandMessageMap[K]>
     : never;
 };
