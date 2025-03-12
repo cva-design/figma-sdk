@@ -140,7 +140,7 @@ function handleRpc(rpcRequest: JsonRpcRequest) {
   }
 }
 
-let methods: ApiMethodsDictionary = {};
+let methods: Record<string, (...args: JsonValue[]) => JsonValue> = {};
 
 /**
  * Checks if a method is registered
@@ -217,8 +217,8 @@ function handleRequest(rpcReq: JsonRpcRequest) {
  * @param options - Configuration options
  * @param options.debug - Enable debug logging (default: false)
  */
-export const init = (
-  apiInstance: ApiMethodsDictionary,
+export const init = <T>(
+  apiInstance: ApiMethodsDictionary<T>,
   options?: { debug?: boolean },
 ) => {
   // Set debug mode if specified in options

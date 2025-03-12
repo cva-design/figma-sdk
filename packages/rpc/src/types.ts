@@ -28,10 +28,43 @@ export interface InternalMethodError {
   name?: string;
 }
 
-export type ApiMethodsDictionary = Record<
-  string,
-  (...args: JsonValue[]) => Promise<JsonValue> | JsonValue
->;
+/**
+ * Type to check if a type is serializable (can be converted to JSON)
+ * @template T - The type to check
+ * @template Depth - Recursion depth counter (internal use)
+ */
+export type IsSerializable<
+  T,
+  Depth extends number[] = [],
+> = Depth['length'] extends 10 // Stop recursion at depth 10 to prevent infinite type instantiation
+  ? true
+  : T extends string | number | boolean | null | undefined
+    ? true
+    : T extends Array<infer U>
+      ? IsSerializable<U, [...Depth, 0]>
+      : T extends object
+        ? { [K in keyof T]: IsSerializable<T[K], [...Depth, 0]> } extends {
+            [K in keyof T]: true;
+          }
+          ? true
+          : false
+        : false;
+
+/**
+ * Type for API methods dictionary that allows any serializable parameters
+ */
+export type ApiMethodsDictionary<T> = {
+  [K in keyof T]: T[K] extends (...args: infer Args) => infer R
+    ? IsSerializable<Args, []> extends true
+      ? IsSerializable<
+          R extends Promise<infer PromiseResult> ? PromiseResult : R,
+          []
+        > extends true
+        ? T[K]
+        : never
+      : never
+    : never;
+};
 
 /**
  * Options for RPC clients and API initialization
