@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { getIconProps, Icon, type IconProps } from '#ui/icon';
 	import { cva, type VariantProps } from 'class-variance-authority';
-	import { createEventDispatcher } from 'svelte';
 
 	const inputWrapper = cva('', {
 		variants: {
@@ -83,33 +82,9 @@
 	export let spin = false;
 	export let table = false;
 
-	const dispatch = createEventDispatcher();
-
 	const typeAction = (node: HTMLInputElement) => {
 		node.type = type;
 	};
-
-	function handleInput(event: Event) {
-		dispatch('input', event);
-	}
-
-	function handleChange(event: Event) {
-		dispatch('change', event);
-	}
-
-	function handleKeydown(event: KeyboardEvent) {
-		dispatch('keydown', event);
-	}
-
-	function handleFocus(event: FocusEvent) {
-		const input = event.target as HTMLInputElement;
-		input.select();
-		dispatch('focus', event);
-	}
-
-	function handleBlur(event: FocusEvent) {
-		dispatch('blur', event);
-	}
 
 	$: state = invalid
 		? ('invalid' as InputState)
@@ -141,11 +116,11 @@
 	{/if}
 	<input
 		use:typeAction
-		on:input={handleInput}
-		on:change={handleChange}
-		on:keydown={handleKeydown}
-		on:focus={handleFocus}
-		on:blur={handleBlur}
+		on:input
+		on:change
+		on:keydown
+		on:focus
+		on:blur
 		bind:value
 		{id}
 		{name}
