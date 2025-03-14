@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { createCheckbox } from '@melt-ui/svelte';
+	import { createCheckbox, type CreateCheckboxProps, melt } from '@melt-ui/svelte';
 	import { Icon } from '../icon';
 	import Text from '../typography/text.svelte';
 
@@ -12,40 +12,29 @@
 	export let value: string | undefined = undefined;
 	export let id: string | undefined = undefined;
 	export let label: string | undefined = undefined;
+	export let onCheckedChange: CreateCheckboxProps['onCheckedChange'] | undefined = undefined;
 
 	const {
 		elements: { root, input },
-		states: { checked: checkedState },
 		helpers: { isChecked, isIndeterminate }
 	} = createCheckbox({
 		defaultChecked: indeterminate ? 'indeterminate' : checked,
 		disabled,
 		required,
 		name,
-		value
+		value,
+		onCheckedChange
 	});
-
-	$: {
-		if (indeterminate) {
-			checkedState.set('indeterminate');
-		} else {
-			checkedState.set(checked);
-		}
-	}
-
-	$: checked = $isChecked;
-	$: indeterminate = $isIndeterminate;
 
 	const labelId = `checkbox-label-${id ?? ''}`;
 	const descriptionId = `checkbox-description-${id ?? ''}`;
 </script>
 
-<div class="fp-CheckboxRoot {className}" use:root {...$root}>
+<div class="fp-CheckboxRoot {className}" {...$root} use:melt={$root}>
 	<input
-		{...$$restProps}
 		class="fp-CheckboxInput fp-CheckboxHiddenInput"
-		use:input
 		{...$input}
+		use:melt={$input}
 		aria-labelledby={labelId}
 		aria-describedby={descriptionId}
 		on:change
@@ -54,7 +43,9 @@
 		on:keyup
 		on:focus
 		on:blur
+		{...$$restProps}
 	/>
+
 	<div class="fp-CheckboxCustomInput" aria-hidden="true">
 		<span class="fp-CheckboxIndicator">
 			{#if $isIndeterminate}
