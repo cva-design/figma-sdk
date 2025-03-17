@@ -44,6 +44,7 @@ export { default as LayerSectionSvg_16 } from './layer-section-16.svg?raw';
 export { default as LayerStarSvg_12 } from './layer-star-12.svg?raw';
 export { default as LayerStarSvg_16 } from './layer-star-16.svg?raw';
 export { default as LayerWidgetSvg_16 } from './layer-widget-16.svg?raw';
+export { default as NestedInstanceSvg_16 } from './nested-instance-16.svg?raw';
 export { default as NumberPropertySvg_16 } from './number-property-16.svg?raw';
 export { default as NumberPropertySvg_24 } from './number-property-24.svg?raw';
 export { default as PlusSvg_24 } from './plus-24.svg?raw';
@@ -98,6 +99,7 @@ export default [
   '#icons/ui3/layer-star-12.svg',
   '#icons/ui3/layer-star-16.svg',
   '#icons/ui3/layer-widget-16.svg',
+  '#icons/ui3/nested-instance-16.svg',
   '#icons/ui3/number-property-16.svg',
   '#icons/ui3/number-property-24.svg',
   '#icons/ui3/plus-24.svg',
