@@ -104,6 +104,7 @@
 	.fps-Text {
 		margin: 0;
 		font-family: var(--font-family-default);
+    color: var(--figma-color-text);
 		font-size: var(--font-size, var(--font-size-default));
 		line-height: var(--line-height, var(--line-height-3));
 		letter-spacing: var(--letter-spacing, var(--letter-spacing-3));

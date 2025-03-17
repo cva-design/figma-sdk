@@ -54,7 +54,7 @@
 <style lang="scss">
 	.fps-Heading {
 		margin-top: 0;
-		color: var(--color-text);
+		color: var(--figma-color-text);
 		outline: none;
 
 		&:where(.fps-Heading--level1) {
@@ -76,7 +76,7 @@
 		}
 
 		&:where(.fps-Heading--level3) {
-			color: var(--color-text-secondary);
+			color: var(--figma-color-text-secondary);
 			margin: 0;
 		}
 	}

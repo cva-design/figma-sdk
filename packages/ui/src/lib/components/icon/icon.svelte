@@ -62,6 +62,7 @@
 		font-family: var(--font-family-default);
 		font-size: var(--text-body-medium-font-size);
 		user-select: none;
+    color: var(--color-icon);
 
     :global(*) {
       color: inherit;

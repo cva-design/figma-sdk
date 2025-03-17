@@ -432,7 +432,7 @@
 		padding: var(--spacer-2);
 		overflow-y: hidden;
 		border-radius: var(--radius-medium);
-		background-color: var(--color-bg);
+		background-color: var(--figma-color-bg);
 
 		&.bordered {
 			border-color: var(--figma-color-border);
@@ -455,11 +455,11 @@
 		}
 	}
 	button:hover .placeholder {
-		color: var(--color-text);
+		color: var(--figma-color-text);
 	}
 	button:hover .caret svg path,
 	button:focus .caret svg path {
-		fill: var(--color-text);
+		fill: var(--figma-color-text);
 	}
 	button:hover .caret,
 	button:focus .caret {
@@ -467,7 +467,7 @@
 	}
 
 	button:focus .placeholder {
-		color: var(--color-text);
+		color: var(--figma-color-text);
 	}
 	button:disabled .selected-value {
 		color: var(--figma-color-text-secondary);
@@ -497,7 +497,7 @@
 		font-weight: var(--font-weight-default);
 		letter-spacing: var(--font-letter-spacing-neg-xsmall);
 		line-height: var(--line-height);
-		color: var(--color-text);
+		color: var(--figma-color-text);
 		margin-right: var(--spacer-2);
 		margin-top: -3px;
 		white-space: nowrap;
@@ -543,12 +543,12 @@
 		font-family: var(--font-family-default);
 		font-weight: var(--font-weight-default);
 		letter-spacing: var(--letter-spacing-default);
-		color: var(--color-text-menu);
+		color: var(--figma-color-text-menu);
 		box-shadow: var(--elevation-400);
 		z-index: 2147483647;
 		overflow-y: auto;
 		scrollbar-width: thin;
-		scrollbar-color: rgba(255, 255, 255, 0.4) transparent;
+		scrollbar-color: rgba(255, 255, 255, 0.4) transparent; 
 
 		:global(li) {
 			list-style: none;
