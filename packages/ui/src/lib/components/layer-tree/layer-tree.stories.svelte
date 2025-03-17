@@ -171,8 +171,4 @@
 	:global(.action[data-id='visible']) {
 		margin-right: 12px;
 	}
-
-	:global(.icon-component) {
-		stroke: none;
-	}
 </style>

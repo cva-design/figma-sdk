@@ -6,13 +6,13 @@
 	/**
 	 * Icon component variants using CVA
 	 */
-	const iconVariants = cva('icon-component', {
+	const iconVariants = cva('fps-Icon', {
 		variants: {
 			size: {
-				tiny: 'fps-icon-tiny', // 12px
-				small: 'fps-icon-small', // 16px
-				medium: 'fps-icon-medium', // 24px
-				large: 'fps-icon-large' // 32px
+				tiny: 'fps-Icon-tiny', // 12px
+				small: 'fps-Icon-small', // 16px
+				medium: 'fps-Icon-medium', // 24px
+				large: 'fps-Icon-large' // 32px
 			},
 			spin: {
 				true: 'spin'
@@ -54,7 +54,7 @@
 {/if}
 
 <style lang="scss">
-	.icon-component {
+	.fps-Icon {
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -62,24 +62,28 @@
 		font-family: var(--font-family-default);
 		font-size: var(--text-body-medium-font-size);
 		user-select: none;
+
+    :global(*) {
+      color: inherit;
+    }
 	}
 
-	.fps-icon-tiny {
+	.fps-Icon-tiny {
 		width: var(--spacer-3);
 		height: var(--spacer-3);
 	}
 
-	.fps-icon-small {
+	.fps-Icon-small {
 		width: var(--spacer-3);
 		height: var(--spacer-3);
 	}
 
-	.fps-icon-medium {
+	.fps-Icon-medium {
 		width: var(--spacer-4);
 		height: var(--spacer-4);
 	}
 
-	.fps-icon-large {
+	.fps-Icon-large {
 		width: var(--spacer-5);
 		height: var(--spacer-5);
 	}
@@ -95,9 +99,5 @@
 		to {
 			transform: rotate(360deg);
 		}
-	}
-
-	:global(.icon-component *) {
-		color: inherit;
 	}
 </style>

@@ -22,7 +22,7 @@ import type { IconProps } from './types';
  * ```
  */
 export function getIconProps(
-  props: Partial<IconProps> & { color?: string },
+  props: any,
 ): IconProps | undefined {
   return props.icon
     ? { icon: props.icon, color: props.color }

@@ -20,7 +20,7 @@ const DEFAULTS = {
 // But Storybook 8 does NOT allow us to do it any other way.
 const groups = [
 	'Actions',
-	['button', 'icon-button', 'icon-toggle', 'action-group', 'link'],
+	['action-group', 'button', 'icon-button', 'icon-toggle', 'link', 'segmented-control'],
 	'Communication',
 	['alert', 'badge', 'popover', 'tooltip'],
 	'Data Display',

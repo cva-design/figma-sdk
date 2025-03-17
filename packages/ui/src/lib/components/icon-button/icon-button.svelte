@@ -109,11 +109,9 @@
 		cursor: not-allowed !important;
 		pointer-events: none;
 
-		&.icon-component {
-			svg {
-				fill: var(--figma-color-icon-disabled);
-				color: var(--figma-color-icon-disabled); // TODO: check if this is correct
-			}
+		:global(.fps-Icon svg) {
+      fill: var(--figma-color-icon-disabled);
+      color: var(--figma-color-icon-disabled);
 		}
 	}
 

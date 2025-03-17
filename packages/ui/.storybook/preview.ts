@@ -45,7 +45,7 @@ const preview: Preview = {
             // if you change this, you MUST COPY AND PASTE it
             // to the `groups` array in `main.ts`
             'Actions',
-            ['button', 'icon-button', 'icon-toggle', 'action-group', 'link'],
+            ['action-group', 'button', 'icon-button', 'icon-toggle', 'link', 'segmented-control'],
             'Communication',
             ['badge', 'popover', 'tooltip'],
             'Data Display',
