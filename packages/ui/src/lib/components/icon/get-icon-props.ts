@@ -21,9 +21,7 @@ import type { IconProps } from './types';
  * getIconProps({}) // => undefined
  * ```
  */
-export function getIconProps(
-  props: any,
-): IconProps | undefined {
+export function getIconProps(props: any): IconProps | undefined {
   return props.icon
     ? { icon: props.icon, color: props.color }
     : props.iconName

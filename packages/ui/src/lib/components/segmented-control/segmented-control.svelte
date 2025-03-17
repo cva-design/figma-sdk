@@ -64,7 +64,12 @@
 	}
 </script>
 
-<div class={segmentedControl({ class: $$props.class })} use:melt={$root} role="radiogroup" {...$$restProps}>
+<div
+	class={segmentedControl({ class: $$props.class })}
+	use:melt={$root}
+	role="radiogroup"
+	{...$$restProps}
+>
 	{#each segments as segment}
 		{@const iconProps = getIconProps(segment)}
 		<button
@@ -75,7 +80,7 @@
 			title={segment.tooltip}
 		>
 			{#if iconProps}
-				<Icon size="small" {...iconProps} />
+				<Icon size={iconProps.size} {...iconProps} />
 			{:else if segment.text}
 				<span class="fps-SegmentedControl-item-text">{segment.text}</span>
 			{/if}
@@ -132,10 +137,10 @@
 			--color-icon: var(--figma-color-icon-disabled);
 			cursor: not-allowed;
 
-      :global(.fps-Icon) {
-        color: var(--figma-color-icon-disabled);
-        fill: var(--figma-color-icon-disabled);
-      }
+			:global(.fps-Icon) {
+				color: var(--figma-color-icon-disabled);
+				fill: var(--figma-color-icon-disabled);
+			}
 		}
 	}
 
@@ -145,4 +150,4 @@
 		padding: var(--space-2);
 		gap: var(--space-1_5);
 	}
-</style> 
+</style>

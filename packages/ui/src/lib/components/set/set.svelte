@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { SelectMenu, Input, Text } from '#ui';
 	import type { SelectMenuItem } from '#ui';
+	import { Input, SelectMenu, Text } from '#ui';
 	import { createEventDispatcher } from 'svelte';
 
 	export let property: SelectMenuItem | null = null;
@@ -29,8 +29,8 @@
 		dispatchChange();
 	}
 
-	function handleValueChange(event: CustomEvent<string>) {
-		value = event.detail;
+	function handleValueChange(event: Event) {
+		value = (event.target as HTMLInputElement).value;
 		dispatchChange();
 	}
 
@@ -63,7 +63,7 @@
 		<Input
 			value={value}
 			placeholder="#fff"
-			on:change={(e) => handleValueChange(e)}
+			on:change={handleValueChange}
 		/>
 	</div>
 </div>
