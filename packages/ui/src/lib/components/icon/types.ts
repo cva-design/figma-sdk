@@ -1,4 +1,4 @@
-type IconBaseProps = {
+type BaseProps = {
   /**
    * color: The color of the icon. This should be a CSS color variable.
    * @default "--figma-color-icon"
@@ -21,7 +21,7 @@ type IconBaseProps = {
 
 export type IconName = keyof typeof import('#icons');
 
-type NamedIconProps = IconBaseProps & {
+type NamedIconProps = BaseProps & {
   /**
    * iconName: The icon name from the icons collection
    */
@@ -38,7 +38,7 @@ type NamedIconProps = IconBaseProps & {
   iconText?: never;
 };
 
-type TextIconProps = IconBaseProps & {
+type TextIconProps = BaseProps & {
   /**
    * icon: The icon svg cannot be set when iconText is provided.
    */
@@ -57,7 +57,7 @@ type TextIconProps = IconBaseProps & {
   iconText: string;
 };
 
-type SvgIconProps = IconBaseProps & {
+type SvgIconProps = BaseProps & {
   /**
    * icon: An SVG string that will be used as the icon.
    */

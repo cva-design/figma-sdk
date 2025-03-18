@@ -398,6 +398,7 @@
 						<SelectDivider groupLabel>{groupedItems[group][0].groupLabel}</SelectDivider>
 					{/if}
 					{#each groupedItems[group] as item}
+            {@const iconProps = getIconProps(item)}
 						<SelectItem
 							on:select={handleSelect}
 							on:mouseenter={removeHighlight}
@@ -405,7 +406,12 @@
 							bind:selected={item.selected}
 							class="select-item"
 						>
-							{item.label}
+              <div class="select-item-content">
+                {#if iconProps}
+                  <Icon {...iconProps} />
+                {/if}
+                {item.label}
+              </div>
 						</SelectItem>
 					{/each}
 				{/each}
@@ -568,4 +574,10 @@
 			background-clip: padding-box;
 		}
 	}
+
+  .select-item-content {
+    display: flex;
+    flex-direction: row;
+    align-items: start;
+  }
 </style>
