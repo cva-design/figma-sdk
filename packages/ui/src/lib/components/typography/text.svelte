@@ -23,7 +23,8 @@
 				brand: 'fps-intent-brand',
 				success: 'fps-intent-success',
 				warning: 'fps-intent-warning',
-				danger: 'fps-intent-danger'
+				danger: 'fps-intent-danger',
+				error: 'fps-intent-danger'
 			},
 			emphasis: {
 				default: '',
@@ -104,7 +105,7 @@
 	.fps-Text {
 		margin: 0;
 		font-family: var(--font-family-default);
-    color: var(--figma-color-text);
+		color: var(--figma-color-text);
 		font-size: var(--font-size, var(--font-size-default));
 		line-height: var(--line-height, var(--line-height-3));
 		letter-spacing: var(--letter-spacing, var(--letter-spacing-3));
