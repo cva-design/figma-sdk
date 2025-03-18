@@ -2,7 +2,7 @@
 	import { type VariantProps, cva } from 'class-variance-authority';
 	import type { HTMLAttributes } from 'svelte/elements';
 
-	const paragraph = cva('fps-Text', {
+	const paragraph = cva(`fps-Paragraph fps-Text`, {
 		variants: {
 			size: {
 				small: 'fps-paragraph-small',
@@ -31,15 +31,16 @@
 
 	interface $$Props extends HTMLAttributes<HTMLParagraphElement>, VariantProps<typeof paragraph> {
 		block?: boolean;
+		class?: string;
 	}
 
-	export const size: $$Props['size'] = undefined;
-	export const weight: $$Props['weight'] = undefined;
-	export const align: $$Props['align'] = undefined;
-	export const block: $$Props['block'] = false;
+	export let size: $$Props['size'] = undefined;
+	export let weight: $$Props['weight'] = undefined;
+	export let align: $$Props['align'] = undefined;
+	export let block: $$Props['block'] = false;
 </script>
 
-<p class={paragraph({ size, weight, align, block, class: $$props.class })} {...$$restProps}>
+<p {...$$restProps} class={paragraph({ size, weight, align, block, class: $$props.class })}>
 	<slot />
 </p>
 
