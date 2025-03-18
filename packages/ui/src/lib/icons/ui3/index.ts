@@ -38,6 +38,7 @@ export { default as EffectPropertySvg_16 } from './effect-property-16.svg?raw';
 export { default as EffectPropertySvg_24 } from './effect-property-24.svg?raw';
 export { default as GridPropertySvg_16 } from './grid-property-16.svg?raw';
 export { default as GridPropertySvg_24 } from './grid-property-24.svg?raw';
+export { default as InstanceSwapSvg_24 } from './instance-swap-24.svg?raw';
 export { default as LayerPolygonSvg_12 } from './layer-polygon-12.svg?raw';
 export { default as LayerPolygonSvg_16 } from './layer-polygon-16.svg?raw';
 export { default as LayerSectionSvg_16 } from './layer-section-16.svg?raw';
@@ -93,6 +94,7 @@ export default [
   '#icons/ui3/effect-property-24.svg',
   '#icons/ui3/grid-property-16.svg',
   '#icons/ui3/grid-property-24.svg',
+  '#icons/ui3/instance-swap-24.svg',
   '#icons/ui3/layer-polygon-12.svg',
   '#icons/ui3/layer-polygon-16.svg',
   '#icons/ui3/layer-section-16.svg',
