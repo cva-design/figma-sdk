@@ -16,11 +16,16 @@
 			},
 			spin: {
 				true: 'spin'
+			},
+			surface: {
+				default: '',
+				menu: 'fps-Icon-menu'
 			}
 		},
 		defaultVariants: {
 			size: 'medium',
-			spin: false
+			spin: false,
+			surface: 'default'
 		}
 	});
 
@@ -35,6 +40,7 @@
 	$: classes = iconVariants({
 		size: $$props.size,
 		spin: $$props.spin,
+		surface: $$props.surface,
 		class: $$props.class
 	});
 </script>
@@ -62,11 +68,11 @@
 		font-family: var(--font-family-default);
 		font-size: var(--text-body-medium-font-size);
 		user-select: none;
-    color: var(--color-icon);
+		color: var(--color-icon);
 
-    :global(*) {
-      color: inherit;
-    }
+		:global(*) {
+			color: inherit;
+		}
 	}
 
 	.fps-Icon-tiny {
@@ -100,5 +106,10 @@
 		to {
 			transform: rotate(360deg);
 		}
+	}
+
+	.fps-Icon-menu {
+		fill: var(--color-icon-menu);
+		color: var(--color-icon-menu);
 	}
 </style>

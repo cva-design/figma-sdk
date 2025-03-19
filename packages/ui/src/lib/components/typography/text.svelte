@@ -36,7 +36,8 @@
 				brand: 'fps-surface-brand',
 				component: 'fps-surface-component',
 				selected: 'fps-surface-selected',
-				inverse: 'fps-surface-inverse'
+				inverse: 'fps-surface-inverse',
+				menu: 'fps-surface-menu'
 			},
 			block: {
 				true: 'fps-block'
@@ -228,6 +229,10 @@
 		}
 		&:where(.fps-surface-inverse) {
 			color: var(--figma-color-text-oninverse);
+		}
+		&:where(.fps-surface-menu) {
+			color: var(--color-icon-menu);
+			fill: var(--color-text-menu);
 		}
 
 		&:where(.fps-color-brand) {

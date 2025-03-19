@@ -382,6 +382,7 @@
 		{#if menuItems && menuItems.length > 0}
 			{#if !groupedItems}
 				{#each menuItems as item}
+          {@const iconProps = getIconProps(item)}
 					<SelectItem
 						on:select={handleSelect}
 						on:mouseenter={removeHighlight}
@@ -389,6 +390,9 @@
 						bind:selected={item.selected}
 						class="select-item"
 					>
+            {#if iconProps}
+              <Icon surface="menu" {...iconProps} />
+            {/if}
 						{item.label}
 					</SelectItem>
 				{/each}
@@ -408,7 +412,7 @@
 						>
               <div class="select-item-content">
                 {#if iconProps}
-                  <Icon {...iconProps} />
+                  <Icon surface="menu" {...iconProps} />
                 {/if}
                 {item.label}
               </div>
