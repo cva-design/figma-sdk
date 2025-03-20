@@ -1,3 +1,6 @@
+/**
+ * Represents a JSON-compatible value
+ */
 export type JsonValue =
   | string
   | number
@@ -7,12 +10,21 @@ export type JsonValue =
   | null
   | undefined;
 
+/**
+ * Represents a JSON-compatible object
+ */
 export interface JsonObject {
   [x: string]: JsonValue;
 }
 
+/**
+ * Represents a JSON-compatible array
+ */
 export interface JsonArray extends Array<JsonValue> {}
 
+/**
+ * Represents a JSON-RPC request/response object
+ */
 export interface JsonRpcRequest {
   jsonrpc: string;
   method: string;
@@ -22,49 +34,14 @@ export interface JsonRpcRequest {
   error?: InternalMethodError;
 }
 
+/**
+ * Represents an error object in a JSON-RPC response
+ */
 export interface InternalMethodError {
   code: number;
   message: string;
   name?: string;
 }
-
-/**
- * Type to check if a type is serializable (can be converted to JSON)
- * @template T - The type to check
- * @template Depth - Recursion depth counter (internal use)
- */
-export type IsSerializable<
-  T,
-  Depth extends number[] = [],
-> = Depth['length'] extends 10 // Stop recursion at depth 10 to prevent infinite type instantiation
-  ? true
-  : T extends string | number | boolean | null | undefined
-    ? true
-    : T extends Array<infer U>
-      ? IsSerializable<U, [...Depth, 0]>
-      : T extends object
-        ? { [K in keyof T]: IsSerializable<T[K], [...Depth, 0]> } extends {
-            [K in keyof T]: true;
-          }
-          ? true
-          : false
-        : false;
-
-/**
- * Type for API methods dictionary that allows any serializable parameters
- */
-export type ApiMethodsDictionary<T> = {
-  [K in keyof T]: T[K] extends (...args: infer Args) => infer R
-    ? IsSerializable<Args, []> extends true
-      ? IsSerializable<
-          R extends Promise<infer PromiseResult> ? PromiseResult : R,
-          []
-        > extends true
-        ? T[K]
-        : never
-      : never
-    : never;
-};
 
 /**
  * Options for RPC clients and API initialization
@@ -81,6 +58,9 @@ export interface RpcClientOptions {
   debug?: boolean;
 }
 
+/**
+ * Combines a type T with RPC client options
+ */
 export type RpcClient<T> = T & RpcClientOptions;
 
 /**
@@ -92,6 +72,9 @@ export type Promisify<T> = T extends Promise<unknown> ? T : Promise<T>;
 
 // @TODO: understand why the code below does not work
 //
+/**
+ * Wraps a function's return type with a Promise if it's not already a Promise
+ */
 export type MakeFnAsync<T> = T extends (
   ...args: infer TParams
 ) => infer TMaybePromise
@@ -115,6 +98,9 @@ export type MakeAllFnAsync<T> = {
  */
 export type MakeSync<T> = T extends Promise<infer R> ? R : T;
 
+/**
+ * Unwraps a function that returns a Promise to return the direct value
+ */
 export type MakeFnSync<T> = T extends (
   ...args: infer TParams
 ) => Promise<infer R>
@@ -132,28 +118,6 @@ export type MakeFnSync<T> = T extends (
 export type MakeAllFnSync<T> = { [K in keyof T]: MakeFnSync<T[K]> };
 
 /**
- * Alias for {@link MAkeSync}
+ * Alias for {@link MakeSync}
  */
 export type Synchronize<T> = MakeSync<T>;
-
-// //////////////////////
-// // Tests
-// //////////////////////
-
-// declare const instant: MakeSync<Promise<number>>;
-// declare const nochange: MakeSync<number>;
-
-// type api = {
-//   test(a: string): number;
-//   promised(): Promise<number>;
-// };
-
-// declare const syncM: MakeAllFnSync<api>;
-
-// syncM.test;
-// syncM.promised;
-
-// declare const asyncM: MakeAllFnAsync<api>;
-
-// asyncM.test;
-// asyncM.promised;

@@ -15,7 +15,7 @@
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
     "@figma/plugin-typings": "^1.103.0",
-    "@moonrepo/cli": "^1.20.1",
+    "@moonrepo/cli": "^1.33.2",
     "@playwright/test": "^1.49.0",
     "@swc/core": "^1.3.107",
     "@types/node": "^20.11.16",

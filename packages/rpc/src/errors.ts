@@ -2,6 +2,11 @@
 import type { JsonObject, JsonRpcRequest } from './types';
 import { isFunction, toJsonObject } from './utils';
 
+/**
+ * Base class for all RPC errors
+ *
+ * Extends the Error class with additional properties for JSON-RPC error handling
+ */
 export abstract class RpcError extends Error {
   data: JsonObject;
   abstract statusCode: number;
@@ -38,6 +43,11 @@ export interface ExtendedJsonRpcRequest extends JsonRpcRequest {
   error?: any;
 }
 
+/**
+ * Error for JSON parsing failures
+ *
+ * Standard JSON-RPC error code: -32700
+ */
 export class ParseError extends RpcError {
   override statusCode = -32700;
   constructor(data: JsonObject) {
@@ -45,6 +55,11 @@ export class ParseError extends RpcError {
   }
 }
 
+/**
+ * Error for invalid JSON-RPC requests
+ *
+ * Standard JSON-RPC error code: -32600
+ */
 export class InvalidRequest extends RpcError {
   override statusCode = -32600;
   constructor(data: ExtendedJsonRpcRequest) {
@@ -62,6 +77,11 @@ export class InvalidRequest extends RpcError {
   }
 }
 
+/**
+ * Error for method not found in the RPC server
+ *
+ * Standard JSON-RPC error code: -32601
+ */
 export class MethodNotFound extends RpcError {
   statusCode = -32601;
   constructor(
@@ -73,6 +93,11 @@ export class MethodNotFound extends RpcError {
   }
 }
 
+/**
+ * Error for invalid parameters passed to a method
+ *
+ * Standard JSON-RPC error code: -32602
+ */
 export class InvalidParams extends RpcError {
   override statusCode = -32602;
   constructor(data: JsonObject) {
@@ -81,6 +106,11 @@ export class InvalidParams extends RpcError {
   }
 }
 
+/**
+ * Error for internal server errors during method execution
+ *
+ * Standard JSON-RPC error code: -32603
+ */
 export class InternalError extends RpcError {
   override statusCode = -32603;
   constructor(data: JsonObject) {

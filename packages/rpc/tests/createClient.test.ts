@@ -1,46 +1,29 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { createClient } from '../src/createClient'
 import * as rpc from '../src/rpc'
 import type { JsonValue } from '../src/types'
 
 describe('createClient', () => {
-  class TestAPI {
-    public method1(): string { return 'result1' }
-    public method2(arg: string): string { return arg }
-    private secretMethod(): string { return 'secret' }
+  // Define an interface instead of a class
+  interface TestAPI {
+    method1(): string;
+    method2(arg: string): string;
   }
-
-  // Make public methods enumerable
-  Object.defineProperties(TestAPI.prototype, {
-    method1: {
-      value: TestAPI.prototype.method1,
-      enumerable: true,
-      configurable: true,
-      writable: true
-    },
-    method2: {
-      value: TestAPI.prototype.method2,
-      enumerable: true,
-      configurable: true,
-      writable: true
-    }
-  });
 
   beforeEach(() => {
     vi.clearAllMocks()
     vi.spyOn(rpc, 'sendRequest').mockImplementation(async () => 'response' as JsonValue)
   })
 
-  it('should create client with all public methods', async () => {
-    const client = createClient(TestAPI)
+  it('should create client with dynamic method access', async () => {
+    const client = createClient<TestAPI>()
     
     expect(typeof client.method1).toBe('function')
     expect(typeof client.method2).toBe('function')
-    expect('secretMethod' in client).toBe(false)
   })
 
   it('should send RPC requests when methods are called', async () => {
-    const client = createClient(TestAPI)
+    const client = createClient<TestAPI>()
     
     await client.method1()
     expect(rpc.sendRequest).toHaveBeenCalledWith('method1', [], undefined)
@@ -50,9 +33,19 @@ describe('createClient', () => {
   })
 
   it('should respect timeout option', async () => {
-    const client = createClient(TestAPI, { timeout: 5000 })
+    const client = createClient<TestAPI>({ timeout: 5000 })
     
     await client.method1()
     expect(rpc.sendRequest).toHaveBeenCalledWith('method1', [], 5000)
+  })
+
+  it('should handle methods not defined in the interface', async () => {
+    const client = createClient<TestAPI>()
+    
+    // @ts-expect-error - This method doesn't exist on TestAPI
+    await client.nonExistentMethod('test')
+    
+    // Should still send the request despite not being in the interface
+    expect(rpc.sendRequest).toHaveBeenCalledWith('nonExistentMethod', ['test'], undefined)
   })
 }) 

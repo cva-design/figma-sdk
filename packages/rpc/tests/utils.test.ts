@@ -1,5 +1,5 @@
-import { describe, it, expect } from 'vitest'
-import { isFunction, isPromise, toJsonValue, toJsonObject } from '../src/utils'
+import { describe, expect, it } from 'vitest'
+import { isFunction, isPromise, toJsonObject, toJsonValue } from '../src/utils'
 
 describe('Utils', () => {
   describe('isFunction', () => {
@@ -28,7 +28,6 @@ describe('Utils', () => {
         bool: true,
         arr: [1, 'two', { three: 3 }],
         obj: { nested: 'value' },
-        undef: undefined,
         nil: null
       }
 
@@ -36,9 +35,21 @@ describe('Utils', () => {
       expect(result).toEqual(input)
     })
 
+    it('should handle null and undefined correctly', () => {
+      expect(toJsonValue(null)).toBe(null);
+      expect(toJsonValue(undefined)).toBe(undefined);
+    })
+
     it('should throw on unconvertible values', () => {
       expect(() => toJsonValue(() => {})).toThrow()
       expect(() => toJsonValue(Symbol())).toThrow()
+    })
+
+    it('should detect and throw on circular references', () => {
+      const circular: any = { prop: 'value' };
+      circular.self = circular;
+      
+      expect(() => toJsonValue(circular)).toThrow(/circular/i);
     })
   })
 

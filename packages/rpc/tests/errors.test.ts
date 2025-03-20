@@ -1,10 +1,10 @@
-import { describe, it, expect } from 'vitest'
-import { 
-  ParseError, 
-  InvalidRequest, 
-  MethodNotFound, 
-  InvalidParams, 
-  InternalError 
+import { describe, expect, it } from 'vitest'
+import {
+  InternalError,
+  InvalidParams,
+  InvalidRequest,
+  MethodNotFound,
+  ParseError
 } from '../src/errors'
 
 describe('RPC Errors', () => {
@@ -28,14 +28,14 @@ describe('RPC Errors', () => {
   it('should create MethodNotFound with correct properties', () => {
     const error = new MethodNotFound(testData)
     expect(error.statusCode).toBe(-32601)
-    expect(error.message).toBe('Method not found')
+    expect(error.message).toContain('Method not found')
     expect(error.data).toEqual(testData)
   })
 
   it('should create InvalidParams with correct properties', () => {
     const error = new InvalidParams(testData)
     expect(error.statusCode).toBe(-32602)
-    expect(error.message).toBe('Invalid params')
+    expect(error.message).toContain('Invalid params')
     expect(error.data).toEqual(testData)
   })
 

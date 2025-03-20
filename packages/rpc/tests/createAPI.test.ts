@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { createAPI } from '../src/createAPI'
 import * as rpc from '../src/rpc'
 
@@ -15,7 +15,7 @@ describe('createAPI', () => {
 
   it('should initialize RPC with provided methods', () => {
     createAPI(mockMethods)
-    expect(rpc.init).toHaveBeenCalledWith(mockMethods)
+    expect(rpc.init).toHaveBeenCalledWith(mockMethods, { debug: undefined })
   })
 
   it('should create stub methods that call original methods', async () => {

@@ -1,9 +1,5 @@
 import { init } from './rpc';
-import type {
-  ApiMethodsDictionary,
-  MakeAllFnAsync,
-  RpcClientOptions,
-} from './types';
+import type { MakeAllFnAsync, RpcClientOptions } from './types';
 export type { RpcClientOptions } from './types';
 
 /**
@@ -15,8 +11,8 @@ export type { RpcClientOptions } from './types';
  * @param options.debug - Enable debug logging (default: false)
  * @returns A proxy object that wraps the API methods
  */
-export function createAPI<T>(
-  methods: ApiMethodsDictionary<T>,
+export function createAPI<T extends Record<string, (...args: any[]) => any>>(
+  methods: T,
   options?: RpcClientOptions,
 ): MakeAllFnAsync<T> {
   // Initialize the RPC system with the provided methods and options

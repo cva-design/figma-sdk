@@ -5,12 +5,7 @@ import {
   MethodNotFound,
   RpcError,
 } from './errors';
-import type {
-  ApiMethodsDictionary,
-  InternalMethodError,
-  JsonRpcRequest,
-  JsonValue,
-} from './types';
+import type { InternalMethodError, JsonRpcRequest, JsonValue } from './types';
 import { isPromise, toJsonObject } from './utils';
 
 // Debug flag - set to true to enable verbose logging
@@ -25,8 +20,13 @@ function debugLog(...args: any[]): void {
   }
 }
 
+/**
+ * Function for sending raw JSON-RPC messages
+ * This is platform-specific and initialized during setup
+ */
 export let sendRaw: (message: JsonRpcRequest) => void;
 
+// Platform detection and initialization
 if (typeof figma !== 'undefined') {
   figma.ui.on('message', (message: JsonRpcRequest) => handleRaw(message));
   sendRaw = (message) => {
@@ -38,7 +38,11 @@ if (typeof figma !== 'undefined') {
   );
   sendRaw = (message) => parent.postMessage({ pluginMessage: message }, '*');
 }
+
+// Request counter for generating unique IDs
 let rpcIndex = 0;
+
+// Storage for pending requests and their callbacks
 const pending: {
   [key: string]: {
     (err?: InternalMethodError, result?: JsonValue): JsonValue;
@@ -46,6 +50,11 @@ const pending: {
   };
 } = {};
 
+/**
+ * Sends a JSON-RPC request
+ *
+ * @param req - The JSON-RPC request object to send
+ */
 function sendJson(req: JsonRpcRequest): void {
   try {
     debugLog('Sending JSON:', req);
@@ -56,6 +65,12 @@ function sendJson(req: JsonRpcRequest): void {
   }
 }
 
+/**
+ * Sends a successful result for a JSON-RPC request
+ *
+ * @param json - The original request
+ * @param result - The result to send back
+ */
 function sendResult(json: JsonRpcRequest, result: JsonValue) {
   sendJson({
     ...json,
@@ -63,6 +78,12 @@ function sendResult(json: JsonRpcRequest, result: JsonValue) {
   });
 }
 
+/**
+ * Sends an error response for a JSON-RPC request
+ *
+ * @param json - The original request
+ * @param error - The error that occurred
+ */
 function sendError(json: JsonRpcRequest, error: Error) {
   const errorObj = {
     code: error instanceof RpcError ? error.statusCode : -32000,
@@ -85,17 +106,17 @@ function sendError(json: JsonRpcRequest, error: Error) {
   });
 }
 
+/**
+ * Handles a raw incoming message
+ *
+ * @param data - The raw message data
+ */
 export function handleRaw(data: JsonRpcRequest) {
   try {
     if (!data) {
       return;
     }
 
-    // if (Array.isArray(data)) {
-    //   const [name, ...args] = data as unknown as [string, Array<unknown>];
-    //   invokeEventHandler(name, args);
-    //   return;
-    // }
     handleRpc(data);
   } catch (err) {
     console.error(err);
@@ -103,6 +124,11 @@ export function handleRaw(data: JsonRpcRequest) {
   }
 }
 
+/**
+ * Processes a JSON-RPC message
+ *
+ * @param rpcRequest - The JSON-RPC request object
+ */
 function handleRpc(rpcRequest: JsonRpcRequest) {
   if (typeof rpcRequest.id !== 'undefined') {
     if (
@@ -140,10 +166,14 @@ function handleRpc(rpcRequest: JsonRpcRequest) {
   }
 }
 
+// Registry of available methods
 let methods: Record<string, (...args: JsonValue[]) => JsonValue> = {};
 
 /**
  * Checks if a method is registered
+ *
+ * @param methodName - The name of the method to check
+ * @returns True if the method is registered, false otherwise
  */
 function isMethodRegistered(methodName: string): boolean {
   return Boolean(methods[methodName]);
@@ -151,11 +181,21 @@ function isMethodRegistered(methodName: string): boolean {
 
 /**
  * Lists all registered methods
+ *
+ * @returns Array of method names
  */
 function listRegisteredMethods(): string[] {
   return Object.keys(methods);
 }
 
+/**
+ * Executes a method with the given parameters
+ *
+ * @param method - The name of the method to call
+ * @param params - The parameters to pass to the method
+ * @returns The result of the method call
+ * @throws {MethodNotFound} If the method is not registered
+ */
 function onRequest(method: string, params: JsonValue[]) {
   if (!isMethodRegistered(method)) {
     console.error(
@@ -172,6 +212,11 @@ function onRequest(method: string, params: JsonValue[]) {
   return methods[method](...params);
 }
 
+/**
+ * Handles a notification (a request without an ID)
+ *
+ * @param json - The notification request
+ */
 function handleNotification(json: JsonRpcRequest) {
   if (!json.method) {
     return;
@@ -179,6 +224,11 @@ function handleNotification(json: JsonRpcRequest) {
   onRequest(json.method, json.params ?? []);
 }
 
+/**
+ * Handles a request with an ID (expecting a response)
+ *
+ * @param rpcReq - The request object
+ */
 function handleRequest(rpcReq: JsonRpcRequest) {
   if (!rpcReq.method) {
     console.error('Request missing method:', rpcReq);
@@ -217,8 +267,8 @@ function handleRequest(rpcReq: JsonRpcRequest) {
  * @param options - Configuration options
  * @param options.debug - Enable debug logging (default: false)
  */
-export const init = <T>(
-  apiInstance: ApiMethodsDictionary<T>,
+export const init = <T extends Record<string, (...args: any[]) => any>>(
+  apiInstance: T,
   options?: { debug?: boolean },
 ) => {
   // Set debug mode if specified in options
@@ -227,13 +277,17 @@ export const init = <T>(
   }
 
   debugLog('Initializing RPC with methods:', Object.keys(apiInstance));
-  methods = apiInstance;
+  methods = apiInstance as Record<string, (...args: JsonValue[]) => JsonValue>;
 };
 
-// export const sendNotification = (method: string, params: any) => {
-//   sendJson({ jsonrpc: '2.0', method, params });
-// };
-
+/**
+ * Sends a JSON-RPC request and returns a promise for the result
+ *
+ * @param method - The name of the method to call
+ * @param params - The parameters to pass to the method
+ * @param timeout - Optional timeout in milliseconds
+ * @returns A promise that resolves with the result or rejects with an error
+ */
 export const sendRequest = (
   method: string,
   params: JsonValue[] = [],
