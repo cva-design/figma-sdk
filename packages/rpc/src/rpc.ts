@@ -5,11 +5,44 @@ import {
   MethodNotFound,
   RpcError,
 } from './errors';
-import type { InternalMethodError, JsonRpcRequest, JsonValue } from './types';
+import type {
+  InternalMethodError,
+  JsonRpcRequest,
+  JsonValue,
+  MethodDictionary,
+} from './types';
 import { isPromise, toJsonObject } from './utils';
 
 // Debug flag - set to true to enable verbose logging
 let DEBUG_RPC = false;
+
+// Track initialization status
+let IS_INITIALIZED = false;
+
+// Maps of request IDs to pending callbacks
+const pendingRequestMap = new Map<number, string>();
+
+// Set to track IDs we've already processed to prevent loops
+const processedResponseIds = new Set<number>();
+
+// Queue for requests that arrive before initialization
+const pendingMethodCalls: {
+  method: string;
+  params: JsonValue[];
+  reqId: number;
+}[] = [];
+
+// Track the last message received to prevent duplicate processing
+let lastMessageReceived: string = '';
+
+// Track if event listeners are initialized
+let isEventListenersInitialized = false;
+
+// Client ID counter for distinguishing between clients
+let clientIdCounter = 0;
+
+// Current client ID
+let currentClientId = 0;
 
 /**
  * Logs debug information if DEBUG_RPC is enabled
@@ -26,17 +59,82 @@ function debugLog(...args: any[]): void {
  */
 export let sendRaw: (message: JsonRpcRequest) => void;
 
-// Platform detection and initialization
-if (typeof figma !== 'undefined') {
-  figma.ui.on('message', (message: JsonRpcRequest) => handleRaw(message));
-  sendRaw = (message) => {
-    figma.ui.postMessage(message);
-  };
-} else if (typeof parent !== 'undefined') {
-  window.addEventListener('message', (event) =>
-    handleRaw(event.data.pluginMessage),
-  );
-  sendRaw = (message) => parent.postMessage({ pluginMessage: message }, '*');
+/**
+ * Sets up event listeners for messages based on the environment
+ */
+function setupEventListeners() {
+  if (isEventListenersInitialized) {
+    return; // Only set up event listeners once
+  }
+
+  if (typeof figma !== 'undefined') {
+    // Figma plugin side
+    figma.ui.on('message', (message: JsonRpcRequest) => {
+      try {
+        // Add client ID to processed message check
+        const clientId = message.clientId || 0;
+
+        // Process only if it's for this client or no client specified
+        if (clientId === 0 || clientId === currentClientId) {
+          // Prevent duplicate message processing
+          const msgStr = JSON.stringify(message);
+          if (msgStr === lastMessageReceived) {
+            debugLog('Ignoring duplicate message from UI');
+            return;
+          }
+          lastMessageReceived = msgStr;
+
+          handleRaw(message);
+        }
+      } catch (err) {
+        console.error('Error handling message from UI:', err);
+      }
+    });
+
+    sendRaw = (message) => {
+      // Add current client ID to outgoing messages
+      message.clientId = currentClientId;
+      figma.ui.postMessage(message);
+    };
+  } else if (typeof parent !== 'undefined') {
+    // UI side
+    window.addEventListener('message', (event) => {
+      try {
+        if (!event.data || !event.data.pluginMessage) {
+          return; // Not a message from the plugin
+        }
+
+        const message = event.data.pluginMessage;
+        const clientId = message.clientId || 0;
+
+        // Process only if it's for this client or no client specified
+        if (clientId === 0 || clientId === currentClientId) {
+          // Prevent duplicate message processing
+          const msgStr = JSON.stringify(message);
+          if (msgStr === lastMessageReceived) {
+            debugLog('Ignoring duplicate message from plugin');
+            return;
+          }
+          lastMessageReceived = msgStr;
+
+          debugLog('📩 Received from plugin:', message);
+
+          handleRaw(message);
+        }
+      } catch (err) {
+        console.error('Error handling message from plugin:', err);
+      }
+    });
+
+    sendRaw = (message) => {
+      // Add current client ID to outgoing messages
+      message.clientId = currentClientId;
+      debugLog('📤 Sending to plugin:', message);
+      parent.postMessage({ pluginMessage: message }, '*');
+    };
+  }
+
+  isEventListenersInitialized = true;
 }
 
 // Request counter for generating unique IDs
@@ -56,6 +154,13 @@ const pending: {
  * @param req - The JSON-RPC request object to send
  */
 function sendJson(req: JsonRpcRequest): void {
+  // Prevent sending errors for already processed IDs
+  // This is a key defense against infinite loops
+  if (req.error && processedResponseIds.has(req.id)) {
+    console.warn(`Prevented error response loop for ID ${req.id}`);
+    return;
+  }
+
   try {
     debugLog('Sending JSON:', req);
     sendRaw(req);
@@ -85,6 +190,13 @@ function sendResult(json: JsonRpcRequest, result: JsonValue) {
  * @param error - The error that occurred
  */
 function sendError(json: JsonRpcRequest, error: Error) {
+  // CRITICAL: Never send error responses for unknown requests
+  // This prevents infinite loops
+  if (!pending[json.id] && json.id !== undefined) {
+    console.warn(`Prevented error response for unknown request ID ${json.id}`);
+    return;
+  }
+
   const errorObj = {
     code: error instanceof RpcError ? error.statusCode : -32000,
     message: error.message,
@@ -117,6 +229,16 @@ export function handleRaw(data: JsonRpcRequest) {
       return;
     }
 
+    // Skip processing if we've already processed this exact response
+    if (
+      data.id !== undefined &&
+      (data.result !== undefined || data.error) &&
+      processedResponseIds.has(data.id)
+    ) {
+      debugLog(`Skipping already processed response for ID ${data.id}`);
+      return;
+    }
+
     handleRpc(data);
   } catch (err) {
     console.error(err);
@@ -130,35 +252,87 @@ export function handleRaw(data: JsonRpcRequest) {
  * @param rpcRequest - The JSON-RPC request object
  */
 function handleRpc(rpcRequest: JsonRpcRequest) {
+  // Handle duplicate responses only once
+  if (
+    typeof rpcRequest.id !== 'undefined' &&
+    (typeof rpcRequest.result !== 'undefined' || rpcRequest.error) &&
+    processedResponseIds.has(rpcRequest.id)
+  ) {
+    console.warn(`Ignoring duplicate response for ID ${rpcRequest.id}`);
+    return;
+  }
+
   if (typeof rpcRequest.id !== 'undefined') {
     if (
       typeof rpcRequest.result !== 'undefined' ||
       rpcRequest.error ||
       typeof rpcRequest.method === 'undefined'
     ) {
-      if (!pending[rpcRequest.id]) {
-        console.error(
-          `No pending request found for ID ${rpcRequest.id}`,
-          rpcRequest,
-        );
-        sendError(
-          rpcRequest,
-          new InvalidRequest({
-            ...rpcRequest,
-            details: `No pending request found for ID ${rpcRequest.id}`,
-          } as ExtendedJsonRpcRequest),
-        );
-        return;
+      // Mark this ID as processed to prevent loops
+      if (rpcRequest.id !== undefined) {
+        processedResponseIds.add(rpcRequest.id);
+
+        // Cleanup processed IDs after a while (prevent memory leak)
+        setTimeout(() => {
+          processedResponseIds.delete(rpcRequest.id);
+        }, 10000);
       }
+
+      // Handle response to a request
+      if (!pending[rpcRequest.id]) {
+        // NEVER send an error back for unknown requests - just log it
+        const methodInfo = pendingRequestMap.get(rpcRequest.id) || 'unknown';
+
+        // In debug mode, provide more information
+        if (DEBUG_RPC) {
+          console.warn(
+            `No pending request found for ID ${rpcRequest.id} (method: ${methodInfo})`,
+          );
+          console.warn(
+            'This often happens when responses are processed twice.',
+          );
+          console.warn(
+            `Current pending requests: ${Object.keys(pending).join(', ') || 'none'}`,
+          );
+        } else {
+          // In production, just log a simple warning
+          console.warn(`No pending request found for ID ${rpcRequest.id}`);
+        }
+
+        return; // Critical: Stop processing here
+      }
+
       const callback = pending[rpcRequest.id];
       // @ts-ignore
       if (callback.timeout) {
         // @ts-ignore
         clearTimeout(callback.timeout);
       }
+
+      // Clean up pending requests
       delete pending[rpcRequest.id];
+      pendingRequestMap.delete(rpcRequest.id);
+
       callback(rpcRequest.error, rpcRequest.result);
     } else {
+      // If method call comes before initialization, queue it
+      if (!IS_INITIALIZED && rpcRequest.method) {
+        if (DEBUG_RPC) {
+          console.log(
+            `Queueing method call "${rpcRequest.method}" until initialization`,
+          );
+        }
+
+        // Store the request to process later
+        pendingMethodCalls.push({
+          method: rpcRequest.method,
+          params: rpcRequest.params || [],
+          reqId: rpcRequest.id,
+        });
+
+        return;
+      }
+
       handleRequest(rpcRequest);
     }
   } else {
@@ -213,6 +387,30 @@ function onRequest(method: string, params: JsonValue[]) {
 }
 
 /**
+ * Processes any queued method calls that arrived before initialization
+ */
+function processQueuedMethodCalls() {
+  if (pendingMethodCalls.length > 0) {
+    debugLog(`Processing ${pendingMethodCalls.length} queued method calls`);
+
+    // Process each queued call
+    for (const { method, params, reqId } of pendingMethodCalls) {
+      const rpcReq: JsonRpcRequest = {
+        jsonrpc: '2.0',
+        method,
+        params,
+        id: reqId,
+      };
+
+      handleRequest(rpcReq);
+    }
+
+    // Clear the queue
+    pendingMethodCalls.length = 0;
+  }
+}
+
+/**
  * Handles a notification (a request without an ID)
  *
  * @param json - The notification request
@@ -221,6 +419,24 @@ function handleNotification(json: JsonRpcRequest) {
   if (!json.method) {
     return;
   }
+
+  // Queue notifications if not initialized
+  if (!IS_INITIALIZED) {
+    if (DEBUG_RPC) {
+      console.log(
+        `Queueing notification "${json.method}" until initialization`,
+      );
+    }
+
+    pendingMethodCalls.push({
+      method: json.method,
+      params: json.params || [],
+      reqId: -1, // Use -1 for notifications
+    });
+
+    return;
+  }
+
   onRequest(json.method, json.params ?? []);
 }
 
@@ -267,7 +483,7 @@ function handleRequest(rpcReq: JsonRpcRequest) {
  * @param options - Configuration options
  * @param options.debug - Enable debug logging (default: false)
  */
-export const init = <T extends Record<string, (...args: any[]) => any>>(
+export const init = <T extends MethodDictionary<T>>(
   apiInstance: T,
   options?: { debug?: boolean },
 ) => {
@@ -276,8 +492,25 @@ export const init = <T extends Record<string, (...args: any[]) => any>>(
     DEBUG_RPC = options.debug;
   }
 
-  debugLog('Initializing RPC with methods:', Object.keys(apiInstance));
+  // Generate a new client ID for each initialization
+  currentClientId = ++clientIdCounter;
+
+  // Set up event listeners if not already done
+  setupEventListeners();
+
+  debugLog(
+    `Initializing RPC client #${currentClientId} with methods:`,
+    Object.keys(apiInstance),
+  );
+
+  // Register the methods
   methods = apiInstance as Record<string, (...args: JsonValue[]) => JsonValue>;
+
+  // Mark as initialized
+  IS_INITIALIZED = true;
+
+  // Process any queued method calls
+  processQueuedMethodCalls();
 };
 
 /**
@@ -295,10 +528,23 @@ export const sendRequest = (
 ): Promise<JsonValue> =>
   new Promise((resolve, reject) => {
     const id = rpcIndex;
-    const req: JsonRpcRequest = { jsonrpc: '2.0', method, params, id };
+    const req: JsonRpcRequest = {
+      jsonrpc: '2.0',
+      method,
+      params,
+      id,
+      clientId: currentClientId,
+    };
     rpcIndex += 1;
 
-    debugLog(`Sending request #${id}:`, method, params);
+    // Track method name for better error messages
+    pendingRequestMap.set(id, method);
+
+    debugLog(
+      `Sending request #${id} (client #${currentClientId}):`,
+      method,
+      params,
+    );
 
     const callback = (err?: InternalMethodError, result?: JsonValue) => {
       if (err) {
@@ -358,6 +604,7 @@ export const sendRequest = (
     // set a default timeout
     callback.timeout = setTimeout(() => {
       delete pending[id];
+      pendingRequestMap.delete(id);
       reject(
         new Error(`Request "${method}" timed out after ${timeout || 6000}ms.`),
       );

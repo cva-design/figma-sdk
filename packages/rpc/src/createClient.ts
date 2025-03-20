@@ -12,18 +12,26 @@ import type { JsonValue, MakeAllFnAsync, RpcClientOptions } from './types';
 export function createClient<T extends object>(
   options?: RpcClientOptions,
 ): MakeAllFnAsync<T> {
-  // Enable debug mode if specified
-  if (options?.debug) {
-    init({}, { debug: true });
-  }
+  // Initialize the RPC system with empty methods
+  // This ensures the communication channel is set up properly
+  init({}, { debug: options?.debug });
+
+  // Default timeout
+  const defaultTimeout = options?.timeout || 6000;
 
   // Create a proxy that dynamically handles method calls
   return new Proxy({} as MakeAllFnAsync<T>, {
     get: (_target, prop) => {
       // Skip the "then" method to ensure the proxy is not treated as a thenable
       if (typeof prop === 'string' && prop !== 'then') {
-        return (...params: JsonValue[]) =>
-          sendRequest(prop, params, options?.timeout);
+        return (...params: JsonValue[]) => {
+          try {
+            return sendRequest(prop, params, defaultTimeout);
+          } catch (err) {
+            console.error(`Error in RPC client call to "${prop}":`, err);
+            throw err;
+          }
+        };
       }
       return undefined;
     },

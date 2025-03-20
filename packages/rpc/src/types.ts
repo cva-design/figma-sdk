@@ -32,6 +32,10 @@ export interface JsonRpcRequest {
   result?: JsonValue;
   id: number;
   error?: InternalMethodError;
+  /**
+   * Client ID for distinguishing between multiple RPC clients
+   */
+  clientId?: number;
 }
 
 /**
@@ -62,6 +66,11 @@ export interface RpcClientOptions {
  * Combines a type T with RPC client options
  */
 export type RpcClient<T> = T & RpcClientOptions;
+
+/**
+ * Dictionary of methods that can be registered with the RPC system
+ */
+export type MethodDictionary<T> = { [K in keyof T]: (...args: any[]) => any };
 
 /**
  * Turns a `Promise<R>` type into simply `R`.

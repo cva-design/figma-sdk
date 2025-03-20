@@ -1,5 +1,9 @@
 import { init } from './rpc';
-import type { MakeAllFnAsync, RpcClientOptions } from './types';
+import type {
+  MakeAllFnAsync,
+  MethodDictionary,
+  RpcClientOptions,
+} from './types';
 export type { RpcClientOptions } from './types';
 
 /**
@@ -11,18 +15,31 @@ export type { RpcClientOptions } from './types';
  * @param options.debug - Enable debug logging (default: false)
  * @returns A proxy object that wraps the API methods
  */
-export function createAPI<T extends Record<string, (...args: any[]) => any>>(
+export function createAPI<T extends MethodDictionary<T>>(
   methods: T,
   options?: RpcClientOptions,
 ): MakeAllFnAsync<T> {
   // Initialize the RPC system with the provided methods and options
+  // This step is crucial - all method calls will be queued until this happens
   init(methods, { debug: options?.debug });
 
   const stub = {} as MakeAllFnAsync<T>;
 
+  // Create wrapper functions that exactly match the original function signatures
   for (const p in methods) {
-    // @ts-ignore
-    stub[p] = (...params) => methods[p](...params);
+    if (methods[p] !== undefined) {
+      stub[p as keyof T] = ((...params: any[]) => {
+        try {
+          // Call the original method and preserve its promise chain
+          // biome-ignore lint/style/noNonNullAssertion: <explanation>
+          const result = methods[p]!(...params);
+          return result; // Will automatically be Promise<T> if method returns Promise<T>
+        } catch (err) {
+          console.error(`Error in API method "${p}":`, err);
+          throw err; // Rethrow to maintain error behavior
+        }
+      }) as any;
+    }
   }
 
   return stub;
