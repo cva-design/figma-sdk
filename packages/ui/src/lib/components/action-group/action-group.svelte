@@ -25,14 +25,4 @@
 	:global(.action-group > :not(:last-child)) {
 		margin-right: -1px;
 	}
-
-	:global(.action-group > *:first-child) {
-		// border-top-right-radius: 0;
-		// border-bottom-right-radius: 0;
-	}
-
-	:global(.action-group > *:last-child) {
-		// border-top-left-radius: 0;
-		// border-bottom-left-radius: 0;
-	}
 </style>

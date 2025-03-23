@@ -33,13 +33,13 @@
 		block?: boolean;
 	}
 
-	export const size: $$Props['size'] = undefined;
-	export const weight: $$Props['weight'] = undefined;
-	export const align: $$Props['align'] = undefined;
-	export const block: boolean = false;
+	export let size: $$Props['size'] = undefined;
+	export let weight: $$Props['weight'] = undefined;
+	export let align: $$Props['align'] = undefined;
+	export let block: boolean = false;
 </script>
 
-<a class={link({ size, weight, align, block, class: $$props.class })} {...$$restProps}>
+<a class={link({ size, weight, align, block, class: $$props.class })} href={$$props.href} {...$$restProps}>
 	<slot />
 </a>
 
