@@ -7,6 +7,7 @@ import {
 } from './events';
 import * as evtHandler from './handler';
 import type { CommandHandlers, DeregisterFn, EventListeners } from './types';
+import { JsonReviver, serializeForMessageBus } from './utils';
 
 /**
  * A simple message bus implementation which magically works in both the main thread and the plugin UI.
@@ -48,7 +49,11 @@ export class MessageBusSingleton<TCommands = unknown, TEvents = unknown> {
       CommandHandlers<TCommands>
     >[Id];
     return evtHandler.on(String(command), (data: unknown) => {
-      return handler(data as CommandRegistry<TCommands>[Id]['message']);
+      // Parse received data through JSON to reconstruct Map objects
+      const parsedData =
+        typeof data === 'string' ? JSON.parse(data, JsonReviver) : data;
+
+      return handler(parsedData as CommandRegistry<TCommands>[Id]['message']);
     });
   }
 
@@ -56,7 +61,10 @@ export class MessageBusSingleton<TCommands = unknown, TEvents = unknown> {
     command: Id,
     data: CommandRegistry<TCommands>[Id]['message'],
   ): CommandRegistry<TCommands>[Id]['result'] | undefined {
-    evtHandler.emit(String(command), data);
+    // Serialize data to handle Maps and complex objects
+    const serializedData = serializeForMessageBus(data);
+
+    evtHandler.emit(String(command), serializedData);
     return undefined;
   }
 
@@ -80,7 +88,11 @@ export class MessageBusSingleton<TCommands = unknown, TEvents = unknown> {
     }
 
     return evtHandler.on(String(event), (data: unknown) => {
-      listener(data as EventRegistry<TEvents>[Id]['message']);
+      // Parse received data through JSON to reconstruct Map objects
+      const parsedData =
+        typeof data === 'string' ? JSON.parse(data, JsonReviver) : data;
+
+      listener(parsedData as EventRegistry<TEvents>[Id]['message']);
     });
   }
 
@@ -96,7 +108,10 @@ export class MessageBusSingleton<TCommands = unknown, TEvents = unknown> {
           : never
         : never,
   ): void {
-    evtHandler.emit(String(event), data);
+    // Serialize data to handle Maps and complex objects
+    const serializedData = serializeForMessageBus(data);
+
+    evtHandler.emit(String(event), serializedData);
   }
 }
 
