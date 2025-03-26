@@ -16,6 +16,7 @@
 		value?: SelectMenuItem | null;
 		showGroupLabels?: boolean;
 		table?: boolean;
+		appearance?: 'select' | 'button';
 		anchor?:
 			| 'top'
 			| 'right'
@@ -30,6 +31,7 @@
 	let disabled: $$Props['disabled'] = $$props.disabled ?? false;
 	let value: $$Props['value'] = $$props.value ?? null;
 	const anchor: NonNullable<$$Props['anchor']> = $$props.anchor ?? 'bottom-left';
+	const appearance: NonNullable<$$Props['appearance']> = $$props.appearance ?? 'select';
 	const macOSBlink: $$Props['macOSBlink'] = $$props.macOSBlink ?? false;
 	const menuItems: NonNullable<$$Props['menuItems']> = $$props.menuItems ?? [];
 	const placeholder: $$Props['placeholder'] = $$props.placeholder ?? 'Please make a selection.';
@@ -40,7 +42,6 @@
 
 	const dispatch = createEventDispatcher();
 
-	const groups = checkGroups();
 	let menuWrapper: HTMLDivElement, menuButton: HTMLButtonElement, menuList: HTMLUListElement;
 	$: updateSelectedAndIds();
 
@@ -95,24 +96,6 @@
 				disabled = false;
 			}
 		}
-	}
-
-	//determine if option groups are present
-	function checkGroups() {
-		let groupCount = 0;
-		if (menuItems) {
-			menuItems.forEach((item) => {
-				if (item.group != null) {
-					groupCount++;
-				}
-			});
-			if (groupCount === menuItems.length) {
-				return true;
-			} else {
-				return false;
-			}
-		}
-		return false;
 	}
 
 	//menu highlight function on the selected menu item
@@ -358,13 +341,13 @@
 			<Icon {...iconProps} />
 		{/if}
 
-		{#if value}
+		{#if value && appearance === 'select'}
 			<Text class="selected-value">{value.label}</Text>
 		{:else}
 			<Text emphasis="tertiary" class="placeholder">{placeholder}</Text>
 		{/if}
 
-		{#if !disabled}
+		{#if !disabled && appearance === 'select'}
 			<div class="caret">
 				<svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
 					<path
@@ -382,7 +365,7 @@
 		{#if menuItems && menuItems.length > 0}
 			{#if !groupedItems}
 				{#each menuItems as item}
-          {@const iconProps = getIconProps(item)}
+					{@const iconProps = getIconProps(item)}
 					<SelectItem
 						on:select={handleSelect}
 						on:mouseenter={removeHighlight}
@@ -390,9 +373,9 @@
 						bind:selected={item.selected}
 						class="select-item"
 					>
-            {#if iconProps}
-              <Icon surface="menu" {...iconProps} />
-            {/if}
+						{#if iconProps}
+							<Icon surface="menu" {...iconProps} />
+						{/if}
 						{item.label}
 					</SelectItem>
 				{/each}
@@ -402,7 +385,7 @@
 						<SelectDivider groupLabel>{groupedItems[group][0].groupLabel}</SelectDivider>
 					{/if}
 					{#each groupedItems[group] as item}
-            {@const iconProps = getIconProps(item)}
+						{@const iconProps = getIconProps(item)}
 						<SelectItem
 							on:select={handleSelect}
 							on:mouseenter={removeHighlight}
@@ -410,12 +393,12 @@
 							bind:selected={item.selected}
 							class="select-item"
 						>
-              <div class="select-item-content">
-                {#if iconProps}
-                  <Icon surface="menu" {...iconProps} />
-                {/if}
-                {item.label}
-              </div>
+							<div class="select-item-content">
+								{#if iconProps}
+									<Icon surface="menu" {...iconProps} />
+								{/if}
+								{item.label}
+							</div>
 						</SelectItem>
 					{/each}
 				{/each}
@@ -558,7 +541,7 @@
 		z-index: 2147483647;
 		overflow-y: auto;
 		scrollbar-width: thin;
-		scrollbar-color: rgba(255, 255, 255, 0.4) transparent; 
+		scrollbar-color: rgba(255, 255, 255, 0.4) transparent;
 
 		:global(li) {
 			list-style: none;
@@ -579,9 +562,9 @@
 		}
 	}
 
-  .select-item-content {
-    display: flex;
-    flex-direction: row;
-    align-items: start;
-  }
+	.select-item-content {
+		display: flex;
+		flex-direction: row;
+		align-items: start;
+	}
 </style>
