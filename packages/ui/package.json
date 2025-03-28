@@ -108,7 +108,12 @@
       "default": "./src/lib/types/*"
     }
   },
-  "files": ["dist", "!dist/**/*.test.*", "!dist/**/*.spec.*", "src/**/*"],
+  "files": [
+    "dist",
+    "!dist/**/*.test.*",
+    "!dist/**/*.spec.*",
+    "src/**/*"
+  ],
   "devDependencies": {
     "@antfu/ni": "^0.23.0",
     "@chromatic-com/storybook": "^3.2.2",
@@ -163,13 +168,14 @@
     "ts-node": "^10.9.2",
     "typescript": "^5.6.3",
     "typescript-eslint": "^8.12.2",
-    "vite": "5",
-    "vite-tsconfig-paths": "^5.0.1"
+    "vite": "5"
   },
   "svelte": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "eslintConfig": {
-    "extends": ["plugin:storybook/recommended"]
+    "extends": [
+      "plugin:storybook/recommended"
+    ]
   },
   "dependencies": {
     "@melt-ui/svelte": "^0.85.0",
