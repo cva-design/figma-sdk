@@ -1,4 +1,4 @@
-import { init, sendRequest } from './rpc';
+import { sendRequest } from './rpc';
 import type { JsonValue, MakeAllFnAsync, RpcClientOptions } from './types';
 
 /**
@@ -12,10 +12,6 @@ import type { JsonValue, MakeAllFnAsync, RpcClientOptions } from './types';
 export function createClient<T extends object>(
   options?: RpcClientOptions,
 ): MakeAllFnAsync<T> {
-  // Initialize the RPC system with empty methods
-  // This ensures the communication channel is set up properly
-  init({}, { debug: options?.debug });
-
   // Default timeout
   const defaultTimeout = options?.timeout || 6000;
 

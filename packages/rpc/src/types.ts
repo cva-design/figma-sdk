@@ -35,7 +35,7 @@ export interface JsonRpcRequest {
   /**
    * Client ID for distinguishing between multiple RPC clients
    */
-  clientId?: number;
+  clientId?: string;
 }
 
 /**

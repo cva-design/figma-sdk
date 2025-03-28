@@ -42,7 +42,14 @@ let isEventListenersInitialized = false;
 let clientIdCounter = 0;
 
 // Current client ID
-let currentClientId = 0;
+let currentClientId: string;
+
+function getNewClientId() {
+  clientIdCounter += 1;
+  return typeof figma === 'undefined'
+    ? `app-${clientIdCounter}`
+    : `code-${clientIdCounter}`;
+}
 
 /**
  * Logs debug information if DEBUG_RPC is enabled
@@ -71,29 +78,31 @@ function setupEventListeners() {
     // Figma plugin side
     figma.ui.on('message', (message: JsonRpcRequest) => {
       try {
-        // Add client ID to processed message check
-        const clientId = message.clientId || 0;
-
-        // Process only if it's for this client or no client specified
-        if (clientId === 0 || clientId === currentClientId) {
+        // Prevent the sender from processing its own messages
+        if (message.clientId !== currentClientId) {
           // Prevent duplicate message processing
           const msgStr = JSON.stringify(message);
           if (msgStr === lastMessageReceived) {
-            debugLog('Ignoring duplicate message from UI');
+            debugLog('Ignoring duplicate message from App');
             return;
           }
           lastMessageReceived = msgStr;
 
+          debugLog(`📩 Received from ${message?.clientId || 'App'}:`, message);
           handleRaw(message);
         }
       } catch (err) {
-        console.error('Error handling message from UI:', err);
+        console.error(
+          `Error handling message from ${message?.clientId || 'App'}:`,
+          err,
+        );
       }
     });
 
     sendRaw = (message) => {
       // Add current client ID to outgoing messages
       message.clientId = currentClientId;
+      debugLog('📤 Sending to App:', message);
       figma.ui.postMessage(message);
     };
   } else if (typeof parent !== 'undefined') {
@@ -105,31 +114,33 @@ function setupEventListeners() {
         }
 
         const message = event.data.pluginMessage;
-        const clientId = message.clientId || 0;
 
-        // Process only if it's for this client or no client specified
-        if (clientId === 0 || clientId === currentClientId) {
+        // Prevent the sender from processing its own messages
+        if (message.clientId !== currentClientId) {
           // Prevent duplicate message processing
           const msgStr = JSON.stringify(message);
           if (msgStr === lastMessageReceived) {
-            debugLog('Ignoring duplicate message from plugin');
+            debugLog('Ignoring duplicate message from Plugin');
             return;
           }
           lastMessageReceived = msgStr;
 
-          debugLog('📩 Received from plugin:', message);
+          debugLog(`📩 Received from ${message.clientId}:`, message);
 
           handleRaw(message);
         }
       } catch (err) {
-        console.error('Error handling message from plugin:', err);
+        console.error(
+          `Error handling message from ${event?.data?.pluginMessage?.clientId || 'Plugin'}:`,
+          err,
+        );
       }
     });
 
     sendRaw = (message) => {
       // Add current client ID to outgoing messages
       message.clientId = currentClientId;
-      debugLog('📤 Sending to plugin:', message);
+      debugLog('📤 Sending to Plugin:', message);
       parent.postMessage({ pluginMessage: message }, '*');
     };
   }
@@ -493,7 +504,7 @@ export const init = <T extends MethodDictionary<T>>(
   }
 
   // Generate a new client ID for each initialization
-  currentClientId = ++clientIdCounter;
+  currentClientId = getNewClientId();
 
   // Set up event listeners if not already done
   setupEventListeners();
