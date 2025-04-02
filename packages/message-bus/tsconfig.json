@@ -1,6 +1,7 @@
 {
 	"extends": "../../tsconfig.options.json",
 	"compilerOptions": {
+		"module": "ESNext",
 		"noEmit": true,
 		"emitDeclarationOnly": false,
 		"verbatimModuleSyntax": false,

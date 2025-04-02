@@ -65,15 +65,17 @@ export function emit<Handler extends EventHandler>(
   name: Handler['name'],
   ...args: Parameters<Handler['handler']>
 ): void {
-  if (typeof window === 'undefined') {
+  if (typeof figma !== 'undefined') {
     figma.ui.postMessage([name, ...args]);
-  } else {
+  } else if (typeof window !== 'undefined') {
     window.parent.postMessage(
       {
         pluginMessage: [name, ...args],
       },
       '*',
     );
+  } else if (typeof global?.TESTING === 'undefined') {
+    throw new Error('emit is not supported in the main context');
   }
 }
 
@@ -85,14 +87,14 @@ export function invokeEventHandler(name: string, args: Array<unknown>): void {
   }
 }
 
-if (typeof window === 'undefined') {
+if (typeof figma !== 'undefined') {
   figma.ui.on('message', (data: unknown): void => {
     if (Array.isArray(data)) {
       const [name, ...args] = data as [string, unknown[]];
       invokeEventHandler(name, args);
     }
   });
-} else {
+} else if (typeof window !== 'undefined') {
   window.addEventListener('message', (event: MessageEvent): void => {
     if (typeof event.data.pluginMessage === 'undefined') {
       return;
@@ -103,4 +105,6 @@ if (typeof window === 'undefined') {
       invokeEventHandler(name, args);
     }
   });
+} else if (typeof global?.TESTING === 'undefined') {
+  throw new Error('TESTING is not defined');
 }
