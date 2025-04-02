@@ -14,6 +14,10 @@ export type LayerType =
       | 'STICKY'
       | 'TABLE'
       | 'WASHI_TAPE'
+      | 'SLIDE'
+      | 'SLIDE_ROW'
+      | 'SLIDE_GRID'
+      | 'INTERACTIVE_SLIDE_ELEMENT'
     >
   | AutocompleteString;
 
