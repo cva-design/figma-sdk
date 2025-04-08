@@ -10,8 +10,11 @@ import type {
   JsonRpcRequest,
   JsonValue,
   MethodDictionary,
+  RpcOptions,
+  SendRawFunc,
+  Serializer,
 } from './types';
-import { isPromise, toJsonObject } from './utils';
+import { toJsonObject } from './utils';
 
 // Debug flag - set to true to enable verbose logging
 let DEBUG_RPC = false;
@@ -20,13 +23,13 @@ let DEBUG_RPC = false;
 let IS_INITIALIZED = false;
 
 // Maps of request IDs to pending callbacks
-const pendingRequestMap = new Map<number, string>();
+let pendingRequestMap = new Map<number, string>();
 
 // Set to track IDs we've already processed to prevent loops
-const processedResponseIds = new Set<number>();
+let processedResponseIds = new Set<number>();
 
 // Queue for requests that arrive before initialization
-const pendingMethodCalls: {
+let pendingMethodCalls: {
   method: string;
   params: JsonValue[];
   reqId: number;
@@ -43,6 +46,9 @@ let clientIdCounter = 0;
 
 // Current client ID
 let currentClientId: string;
+
+// Store the serializer provided during init
+let apiSerializer: Serializer | undefined;
 
 function getNewClientId() {
   clientIdCounter += 1;
@@ -71,8 +77,12 @@ export let sendRaw: (message: JsonRpcRequest) => void;
  */
 function setupEventListeners() {
   if (isEventListenersInitialized) {
-    return; // Only set up event listeners once
+    debugLog(
+      '[RPC Internal Log] setupEventListeners: Already initialized, skipping.',
+    );
+    return;
   }
+  debugLog('[RPC Internal Log] setupEventListeners: Proceeding with setup...');
 
   if (typeof figma !== 'undefined') {
     // Figma plugin side
@@ -99,13 +109,20 @@ function setupEventListeners() {
       }
     });
 
+    // Always define sendRaw here
+    const currentUi = figma.ui; // Capture the reference
     sendRaw = (message) => {
-      // Add current client ID to outgoing messages
       message.clientId = currentClientId;
-      debugLog('📤 Sending to App:', message);
-      figma.ui.postMessage(message);
+      debugLog('📤 Sending to Figma UI via currentUi.postMessage:', message);
+      // Use the captured reference
+      if (currentUi) {
+        // Simple check if needed, though it should exist here
+        currentUi.postMessage(message); // This should call postMessageMock
+      } else {
+        console.error('Cannot send message: currentUi reference was lost.');
+      }
     };
-  } else if (typeof parent !== 'undefined') {
+  } else if (typeof parent !== 'undefined' && typeof window !== 'undefined') {
     // UI side
     window.addEventListener('message', (event) => {
       try {
@@ -137,12 +154,14 @@ function setupEventListeners() {
       }
     });
 
+    // Always define sendRaw here
     sendRaw = (message) => {
-      // Add current client ID to outgoing messages
       message.clientId = currentClientId;
-      debugLog('📤 Sending to Plugin:', message);
+      debugLog('📤 Sending to Plugin via parent.postMessage:', message);
       parent.postMessage({ pluginMessage: message }, '*');
     };
+  } else {
+    // debugLog('[RPC Test Log] setupEventListeners: No environment detected.');
   }
 
   isEventListenersInitialized = true;
@@ -154,7 +173,7 @@ let rpcIndex = 0;
 // Storage for pending requests and their callbacks
 const pending: {
   [key: string]: {
-    (err?: InternalMethodError, result?: JsonValue): JsonValue;
+    (err?: InternalMethodError, result?: JsonValue): void;
     timeout: NodeJS.Timeout;
   };
 } = {};
@@ -166,7 +185,6 @@ const pending: {
  */
 function sendJson(req: JsonRpcRequest): void {
   // Prevent sending errors for already processed IDs
-  // This is a key defense against infinite loops
   if (req.error && processedResponseIds.has(req.id)) {
     console.warn(`Prevented error response loop for ID ${req.id}`);
     return;
@@ -188,10 +206,14 @@ function sendJson(req: JsonRpcRequest): void {
  * @param result - The result to send back
  */
 function sendResult(json: JsonRpcRequest, result: JsonValue) {
-  sendJson({
-    ...json,
+  // Construct the response explicitly, using currentClientId
+  const response: JsonRpcRequest = {
+    jsonrpc: '2.0',
+    id: json.id, // Use the ID from the original request
     result,
-  });
+    clientId: currentClientId, // Use the instance's client ID
+  };
+  sendJson(response);
 }
 
 /**
@@ -200,11 +222,14 @@ function sendResult(json: JsonRpcRequest, result: JsonValue) {
  * @param json - The original request
  * @param error - The error that occurred
  */
-function sendError(json: JsonRpcRequest, error: Error) {
-  // CRITICAL: Never send error responses for unknown requests
-  // This prevents infinite loops
-  if (!pending[json.id] && json.id !== undefined) {
-    console.warn(`Prevented error response for unknown request ID ${json.id}`);
+// Export for testing purposes
+export function sendError(json: JsonRpcRequest, error: Error) {
+  // CRITICAL: Only prevent sending errors for notifications (requests without an ID)
+  // This prevents infinite loops if a notification itself causes an error.
+  if (json.id === undefined || json.id === null) {
+    console.warn(
+      `Prevented sending error for notification (no ID): ${error.message}`,
+    );
     return;
   }
 
@@ -223,10 +248,14 @@ function sendError(json: JsonRpcRequest, error: Error) {
     });
   }
 
-  sendJson({
-    ...json,
+  // Construct the response explicitly, using currentClientId
+  const response: JsonRpcRequest = {
+    jsonrpc: '2.0',
+    id: json.id, // Use the ID from the original request
     error: errorObj,
-  });
+    clientId: currentClientId, // Use the instance's client ID
+  };
+  sendJson(response);
 }
 
 /**
@@ -234,26 +263,51 @@ function sendError(json: JsonRpcRequest, error: Error) {
  *
  * @param data - The raw message data
  */
-export function handleRaw(data: JsonRpcRequest) {
+export function handleRaw(data: JsonRpcRequest | string) {
   try {
     if (!data) {
       return;
     }
 
-    // Skip processing if we've already processed this exact response
-    if (
-      data.id !== undefined &&
-      (data.result !== undefined || data.error) &&
-      processedResponseIds.has(data.id)
-    ) {
-      debugLog(`Skipping already processed response for ID ${data.id}`);
+    let rpcRequest: JsonRpcRequest;
+
+    try {
+      // Check if data is already an object (likely if it came directly from figma.ui.on)
+      // or needs parsing (if it came from window.postMessage event.data)
+      if (typeof data === 'string') {
+        // Use deserializer *reviver* if available // <-- REMOVED Serializer from here
+        rpcRequest = JSON.parse(data); // Just parse, deserialization happens in onRequest
+      } else if (typeof data === 'object' && data !== null) {
+        // If it's an object, assume it's already the parsed request
+        rpcRequest = data as JsonRpcRequest; // Cast to JsonRpcRequest
+      } else {
+        console.error('Received invalid message data type:', typeof data);
+        // Maybe send InvalidRequest error? Depends on requirements. For now, just return.
+        return;
+      }
+    } catch (err) {
+      console.error('Error parsing incoming message:', err);
       return;
     }
 
-    handleRpc(data);
+    // Skip processing if we've already processed this exact response
+    if (
+      rpcRequest.id !== undefined &&
+      (rpcRequest.result !== undefined || rpcRequest.error) &&
+      processedResponseIds.has(rpcRequest.id)
+    ) {
+      debugLog(`Skipping already processed response for ID ${rpcRequest.id}`);
+      return;
+    }
+
+    handleRpc(rpcRequest);
   } catch (err) {
-    console.error(err);
-    console.error(data);
+    if (!DEBUG_RPC && err instanceof Error) {
+      console.error(`Error in handleRaw: ${err.message}`);
+    } else {
+      console.error('Error in handleRaw:', err);
+      console.error('Original data:', data);
+    }
   }
 }
 
@@ -360,7 +414,7 @@ let methods: Record<string, (...args: JsonValue[]) => JsonValue> = {};
  * @param methodName - The name of the method to check
  * @returns True if the method is registered, false otherwise
  */
-function isMethodRegistered(methodName: string): boolean {
+export function isMethodRegistered(methodName: string): boolean {
   return Boolean(methods[methodName]);
 }
 
@@ -374,19 +428,20 @@ function listRegisteredMethods(): string[] {
 }
 
 /**
- * Executes a method with the given parameters
- *
- * @param method - The name of the method to call
- * @param params - The parameters to pass to the method
+ * Handles an incoming request
+ * @param method The method name
+ * @param params The parameters (potentially serialized as a single string)
+ * @param rpcRequest The full incoming RPC request object
  * @returns The result of the method call
- * @throws {MethodNotFound} If the method is not registered
  */
-function onRequest(method: string, params: JsonValue[]) {
-  if (!isMethodRegistered(method)) {
-    console.error(
-      `Method "${method}" not found. Available methods:`,
-      listRegisteredMethods(),
-    );
+function onRequest(
+  method: string,
+  params: JsonValue[] | JsonValue,
+  rpcRequest: JsonRpcRequest,
+): JsonValue | Promise<JsonValue> {
+  const handler = methods[method];
+
+  if (!handler) {
     throw new MethodNotFound({
       method,
       params,
@@ -394,7 +449,76 @@ function onRequest(method: string, params: JsonValue[]) {
       details: `The method "${method}" is not registered. Available methods: ${listRegisteredMethods().join(', ')}`,
     });
   }
-  return methods[method](...params);
+
+  let finalParams: JsonValue[];
+
+  if (apiSerializer) {
+    try {
+      // Pass the raw params (string, object, array etc.) directly to the deserializer.
+      // The serializer itself is responsible for handling its expected input format (e.g., parsing a string if necessary).
+      const deserializedData = apiSerializer.deserialize(params);
+
+      // Ensure the result of deserialization is an array for spreading.
+      // Handle cases where deserialize might return a single value or undefined/null.
+      if (Array.isArray(deserializedData)) {
+        finalParams = deserializedData;
+      } else if (deserializedData !== undefined && deserializedData !== null) {
+        // If a single value was returned, wrap it in an array.
+        finalParams = [deserializedData];
+        debugLog(
+          `Deserializer returned non-array for ${method}, wrapped:`,
+          finalParams,
+        );
+      } else {
+        // If deserialize returned undefined/null, use an empty array.
+        finalParams = [];
+        debugLog(
+          `Deserializer returned undefined/null for ${method}, using empty params.`,
+        );
+      }
+    } catch (e: any) {
+      const errorMsg = e instanceof Error ? e.message : String(e);
+      console.error(
+        `Deserialization error for method "${method}":`,
+        errorMsg,
+        'Input params:',
+        params,
+      );
+      // If deserialization fails, throw an error that can be sent back to the client.
+      throw new InternalError({
+        method,
+        params,
+        message: `Failed to deserialize parameters for method "${method}": ${errorMsg}`,
+        originalError: toJsonObject(e),
+      });
+    }
+  } else {
+    // No serializer, ensure params is an array.
+    finalParams = Array.isArray(params)
+      ? params
+      : params !== undefined
+        ? [params]
+        : [];
+  }
+
+  // Double check finalParams is an array before spreading (should be guaranteed by logic above)
+  if (!Array.isArray(finalParams)) {
+    console.error(
+      `Internal Error: finalParams is not an array before calling handler for method "${method}". Value:`,
+      finalParams,
+    );
+    // Fallback to empty array to prevent crash, but log error.
+    finalParams = [];
+  }
+
+  // Call handler, always spreading the finalParams array
+  debugLog(
+    `Calling handler for method "${method}" with final params:`,
+    finalParams,
+  );
+  const result = handler(...finalParams);
+  // Ensure undefined results are sent as null per JSON-RPC spec
+  return result === undefined ? null : result;
 }
 
 /**
@@ -448,7 +572,7 @@ function handleNotification(json: JsonRpcRequest) {
     return;
   }
 
-  onRequest(json.method, json.params ?? []);
+  onRequest(json.method, json.params ?? [], json);
 }
 
 /**
@@ -456,33 +580,62 @@ function handleNotification(json: JsonRpcRequest) {
  *
  * @param rpcReq - The request object
  */
-function handleRequest(rpcReq: JsonRpcRequest) {
-  if (!rpcReq.method) {
+async function handleRequest(rpcReq: JsonRpcRequest) {
+  const { method, params } = rpcReq;
+  if (!method) {
     console.error('Request missing method:', rpcReq);
     sendError(
       rpcReq,
       new MethodNotFound({
-        method: rpcReq.method,
-        params: rpcReq.params,
+        method: method,
+        params: params,
         details: 'Request is missing a method name',
       }),
     );
     return;
   }
   try {
-    const result = onRequest(rpcReq.method, rpcReq.params ?? []);
-    if (isPromise(result)) {
-      result
-        .then((res: JsonValue) => sendResult(rpcReq, res))
-        .catch((err: Error) => {
-          console.error(`Error in async method "${rpcReq.method}":`, err);
-          sendError(rpcReq, err);
-        });
+    // Pass the full request object to onRequest
+    const result = onRequest(method, params ?? [], rpcReq);
+
+    // Handle potential promise returned by onRequest
+    if (result instanceof Promise) {
+      // Handle promise result
+      result.then(
+        (resolvedResult) => {
+          // Serialize result using server serializer before sending
+          const serializedResult = (res: JsonValue) =>
+            apiSerializer ? apiSerializer.serialize(res) : res;
+          sendResult(rpcReq, serializedResult(resolvedResult));
+        },
+        (error) => {
+          if (!DEBUG_RPC) {
+            console.error(
+              `Async RPC Error in method "${method}": ${error?.message || error}`,
+            );
+          } else {
+            console.error(
+              `Async RPC Error executing method "${method}":`,
+              error,
+            );
+          }
+          sendError(rpcReq, error as Error);
+        },
+      );
     } else {
-      sendResult(rpcReq, result);
+      // Serialize result using server serializer before sending
+      const serializedResult = (res: JsonValue) =>
+        apiSerializer ? apiSerializer.serialize(res) : res;
+      sendResult(rpcReq, serializedResult(result));
     }
-  } catch (err) {
-    console.error(`Error executing method "${rpcReq.method}":`, err);
+  } catch (err: any) {
+    if (!DEBUG_RPC) {
+      console.error(
+        `Sync RPC Error in method "${method}": ${err?.message || err}`,
+      );
+    } else {
+      console.error(`Sync RPC Error executing method "${method}":`, err);
+    }
     sendError(rpcReq, err as Error);
   }
 }
@@ -493,35 +646,46 @@ function handleRequest(rpcReq: JsonRpcRequest) {
  * @param apiInstance - Object containing the API methods to register
  * @param options - Configuration options
  * @param options.debug - Enable debug logging (default: false)
+ * @param options.serializer - Optional custom serializer/deserializer
  */
 export const init = <T extends MethodDictionary<T>>(
   apiInstance: T,
-  options?: { debug?: boolean },
+  options?: RpcOptions,
 ) => {
-  // Set debug mode if specified in options
-  if (options?.debug !== undefined) {
-    DEBUG_RPC = options.debug;
-  }
+  DEBUG_RPC = options?.debug ?? false;
 
-  // Generate a new client ID for each initialization
+  // Reset state before initializing - REMOVED from here, should be handled by caller if needed (e.g., test setup)
+  // resetInternalState();
+
+  // Generate a unique client ID for this instance
   currentClientId = getNewClientId();
-
-  // Set up event listeners if not already done
-  setupEventListeners();
-
   debugLog(
     `Initializing RPC client #${currentClientId} with methods:`,
     Object.keys(apiInstance),
   );
 
-  // Register the methods
-  methods = apiInstance as Record<string, (...args: JsonValue[]) => JsonValue>;
+  if (IS_INITIALIZED && !DEBUG_RPC) {
+    console.warn(
+      `[RPC] Re-initializing client #${currentClientId}. State has been reset.`,
+    );
+    // Note: Resetting state might be desirable in some cases, but could cause issues
+    // if multiple independent APIs are intended. Consider context.
+    // For tests, resetting is often necessary.
+  }
 
-  // Mark as initialized
-  IS_INITIALIZED = true;
+  // Store the serializer if provided
+  apiSerializer = options?.serializer;
+
+  // Register the provided API methods
+  methods = apiInstance as Record<string, (...args: JsonValue[]) => JsonValue>;
 
   // Process any queued method calls
   processQueuedMethodCalls();
+
+  // Use sendRawOverride if provided, otherwise setup default listeners
+  setupEventListeners();
+
+  IS_INITIALIZED = true;
 };
 
 /**
@@ -530,19 +694,28 @@ export const init = <T extends MethodDictionary<T>>(
  * @param method - The name of the method to call
  * @param params - The parameters to pass to the method
  * @param timeout - Optional timeout in milliseconds
+ * @param options - Optional object with client serializer or sendRawOverride
  * @returns A promise that resolves with the result or rejects with an error
  */
 export const sendRequest = (
   method: string,
-  params: JsonValue[] = [],
+  params: any[] = [],
   timeout?: number,
+  options?: { serializer?: Serializer; sendRawOverride?: SendRawFunc }, // Use options object
 ): Promise<JsonValue> =>
   new Promise((resolve, reject) => {
     const id = rpcIndex;
+
+    // Use serializer from options if provided, otherwise default to no serialization
+    const clientSerializer = options?.serializer;
+    const serializedParams = clientSerializer
+      ? params.map(clientSerializer.serialize)
+      : (params as JsonValue[]);
+
     const req: JsonRpcRequest = {
       jsonrpc: '2.0',
       method,
-      params,
+      params: serializedParams,
       id,
       clientId: currentClientId,
     };
@@ -554,75 +727,171 @@ export const sendRequest = (
     debugLog(
       `Sending request #${id} (client #${currentClientId}):`,
       method,
-      params,
+      params, // Log original params for clarity
     );
 
     const callback = (err?: InternalMethodError, result?: JsonValue) => {
+      // Clear timeout regardless of outcome
+      if (callback.timeout) {
+        clearTimeout(callback.timeout);
+      }
+      // Clean up pending requests
+      delete pending[id];
+      pendingRequestMap.delete(id);
+
       if (err) {
         debugLog(`Error in request #${id}:`, err);
-        console.error(`RPC Error in method "${method}":`, err);
+
+        // Construct the error object to be rejected
+        let rejectError: Error;
 
         // If it's already an RPC error, pass it through
         if (err instanceof RpcError) {
-          reject(err);
-          return;
+          rejectError = err;
         }
 
         // If it's a standard error object with a name property
-        if (err && typeof err === 'object' && 'name' in err) {
+        else if (err && typeof err === 'object' && 'name' in err) {
           // Handle specific error types
           if (err.name === 'MethodNotFound') {
-            reject(
-              new MethodNotFound({
-                method,
-                params,
-                details: `The method "${method}" is not registered on the receiving end.`,
-              }),
-            );
-            return;
+            rejectError = new MethodNotFound({
+              method,
+              params,
+              details: `The method "${method}" is not registered on the receiving end.`,
+            });
+          } else if (err.name === 'InvalidRequest') {
+            rejectError = new InvalidRequest({
+              ...req,
+              error: err,
+              details: `Invalid request for method "${method}".`,
+            } as ExtendedJsonRpcRequest);
+          } else {
+            // For any other named error, wrap it
+            rejectError = new InternalError({
+              originalError: toJsonObject(err),
+              method,
+              params: params.map((p) =>
+                typeof p === 'object' ? '(complex object)' : p,
+              ),
+              message: (err as any)?.message || 'Unknown error',
+            });
           }
-
-          if (err.name === 'InvalidRequest') {
-            reject(
-              new InvalidRequest({
-                ...req,
-                error: err,
-                details: `Invalid request for method "${method}".`,
-              } as ExtendedJsonRpcRequest),
-            );
-            return;
-          }
-        }
-
-        // For any other error, wrap it in an InternalError
-        reject(
-          new InternalError({
+        } else {
+          // For any other error, wrap it in an InternalError
+          rejectError = new InternalError({
             originalError: toJsonObject(err),
             method,
             params: params.map((p) =>
               typeof p === 'object' ? '(complex object)' : p,
             ),
-            message: err.message || 'Unknown error',
-          }),
-        );
-        return;
+            message: (err as any)?.message || 'Unknown error',
+          });
+        }
+
+        if (!DEBUG_RPC) {
+          console.error(
+            `RPC Error in method "${method}": ${rejectError?.message || rejectError}`,
+          );
+        } else {
+          console.error(
+            `RPC Error details for method "${method}":`,
+            rejectError,
+          );
+        }
+        reject(rejectError);
+      } else {
+        // Deserialize result using client serializer *before* resolving
+        const deserializedResult =
+          clientSerializer && result !== undefined
+            ? clientSerializer.deserialize(result)
+            : result;
+
+        debugLog(`Request #${id} succeeded:`, deserializedResult);
+        resolve(deserializedResult);
       }
-      debugLog(`Request #${id} succeeded:`, result);
-      resolve(result);
-      return result;
     };
 
-    // set a default timeout
+    // Use options.timeout or default timeout
+    const requestTimeout = timeout || 6000;
     callback.timeout = setTimeout(() => {
       delete pending[id];
       pendingRequestMap.delete(id);
       reject(
-        new Error(`Request "${method}" timed out after ${timeout || 6000}ms.`),
+        new Error(`Request "${method}" timed out after ${requestTimeout}ms.`),
       );
-    }, timeout || 6000);
+    }, requestTimeout);
 
     pending[id] = callback;
-    sendJson(req);
+
+    // Use sendRawOverride if provided in options, otherwise use the globally configured sendRaw
+    const sender = options?.sendRawOverride || sendRaw;
+    if (!sender) {
+      // Reject immediately if no sender function is available
+      console.error(
+        `No send function available for request #${id} (method: ${method}). RPC not initialized or sender misconfigured.`,
+      );
+      reject(
+        new Error(`RPC send function not available for method "${method}".`),
+      );
+      clearTimeout(callback.timeout); // Clear timeout as we are rejecting now
+      delete pending[id]; // Clean up pending state
+      pendingRequestMap.delete(id);
+      return; // Stop execution here
+    }
+
+    // Send the request using the determined sender function
+    try {
+      debugLog(
+        `Using sender function (Override: ${!!options?.sendRawOverride}) for request #${id}`,
+      );
+      sender(req);
+    } catch (error: any) {
+      if (!DEBUG_RPC) {
+        console.error(
+          `Error sending request #${id} (method: ${method}): ${error?.message || error}`,
+        );
+      } else {
+        console.error(
+          `Error sending request #${id} (method: ${method}):`,
+          error,
+        );
+      }
+      reject(error); // Reject the promise if sending fails
+      clearTimeout(callback.timeout); // Clear timeout as we are rejecting now
+      delete pending[id]; // Clean up pending state
+      pendingRequestMap.delete(id);
+    }
   });
 
-// export { RPCError };
+/**
+ * Resets the internal state of the RPC module
+ * USE WITH CAUTION - Primarily for testing purposes
+ */
+export function resetInternalState() {
+  debugLog('[RPC Internal Log] resetInternalState called.');
+  DEBUG_RPC = false;
+  IS_INITIALIZED = false;
+  pendingRequestMap = new Map<number, string>();
+  processedResponseIds = new Set<number>();
+  pendingMethodCalls = [];
+  lastMessageReceived = '';
+  isEventListenersInitialized = false;
+  // Explicitly reset clientIdCounter and currentClientId? Maybe not needed if init always sets new one.
+  apiSerializer = undefined;
+  methods = {};
+  rpcIndex = 0;
+  for (const key of Object.keys(pending)) {
+    delete pending[key];
+  }
+  // Reset the sender function!!
+  sendRaw = undefined as any;
+  // Reset pending timeouts
+  // Use for...of with Object.entries
+  for (const [key, request] of Object.entries(pending)) {
+    if (request?.timeout) {
+      clearTimeout(request.timeout);
+    }
+    delete pending[key];
+  }
+  debugLog('RPC internal state reset complete.');
+}

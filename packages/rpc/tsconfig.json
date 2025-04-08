@@ -5,22 +5,13 @@
     "emitDeclarationOnly": false,
     "verbatimModuleSyntax": false,
     "baseUrl": "./",
-    "typeRoots": [
-      "./node_modules/@types",
-      "./node_modules/@figma"
-    ],
+    "types": ["../../node_modules/bun-types"],
+    "typeRoots": ["../../node_modules/@types", "../../node_modules/@figma"],
     "paths": {
-      "@figma-plugin-sdk/message-bus": [
-        "./src/index.ts"
-      ],
-      "@figma-plugin-sdk/message-bus/*": [
-        "./src/*"
-      ]
+      "@figma-plugin-sdk/message-bus": ["./src/index.ts"],
+      "@figma-plugin-sdk/message-bus/*": ["./src/*"]
     },
     "outDir": "../../.moon/cache/types/packages/rpc"
   },
-  "include": [
-    "./src/**/*",
-    "./tests/**/*"
-  ]
+  "include": ["./src/**/*", "./tests/**/*"]
 }

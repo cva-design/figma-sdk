@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it } from 'bun:test'
 import { isFunction, isPromise, toJsonObject, toJsonValue } from '../src/utils'
 
 describe('Utils', () => {
@@ -36,8 +36,8 @@ describe('Utils', () => {
     })
 
     it('should handle null and undefined correctly', () => {
-      expect(toJsonValue(null)).toBe(null);
-      expect(toJsonValue(undefined)).toBe(undefined);
+      expect(toJsonValue(null)).toBeNull();
+      expect(toJsonValue(undefined)).toBeUndefined();
     })
 
     it('should throw on unconvertible values', () => {

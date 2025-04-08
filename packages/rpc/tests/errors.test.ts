@@ -1,10 +1,10 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it } from 'bun:test'
 import {
-  InternalError,
-  InvalidParams,
-  InvalidRequest,
-  MethodNotFound,
-  ParseError
+    InternalError,
+    InvalidParams,
+    InvalidRequest,
+    MethodNotFound,
+    ParseError
 } from '../src/errors'
 
 describe('RPC Errors', () => {

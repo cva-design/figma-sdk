@@ -18,9 +18,8 @@
     "check": "nr check:biome && nr check:types",
     "check:biome": "biome check --fix ./src",
     "check:types": "tsc --build tsconfig.project.json --pretty --verbose",
-    "test": "vitest --run",
-    "test:coverage": "vitest --run --coverage",
-    "test:ui": "vitest --ui"
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage"
   },
   "packemon": {
     "format": [
@@ -48,7 +47,13 @@
   },
   "dependencies": {},
   "devDependencies": {
+    "@figma/plugin-typings": "^1.109.0",
+    "@types/bun": "^1.2.8",
+    "bun-types": "^1.2.8",
     "packemon": "^4.1.1",
     "type-fest": "^4.30.1"
+  },
+  "vitest": {
+    "fakeTimers": {}
   }
 }

@@ -1,10 +1,6 @@
 import { init } from './rpc';
-import type {
-  MakeAllFnAsync,
-  MethodDictionary,
-  RpcClientOptions,
-} from './types';
-export type { RpcClientOptions } from './types';
+import type { MakeAllFnAsync, MethodDictionary, RpcOptions } from './types';
+export type { RpcOptions as RpcClientOptions } from './types';
 
 /**
  * Creates an API instance for RPC communication
@@ -13,15 +9,16 @@ export type { RpcClientOptions } from './types';
  * @param options - Configuration options
  * @param options.timeout - Request timeout in milliseconds (default: 6000)
  * @param options.debug - Enable debug logging (default: false)
+ * @param options.serializer - Optional custom serializer/deserializer
  * @returns A proxy object that wraps the API methods
  */
 export function createAPI<T extends MethodDictionary<T>>(
   methods: T,
-  options?: RpcClientOptions,
+  options?: RpcOptions,
 ): MakeAllFnAsync<T> {
   // Initialize the RPC system with the provided methods and options
   // This step is crucial - all method calls will be queued until this happens
-  init(methods, { debug: options?.debug });
+  init(methods, options);
 
   const stub = {} as MakeAllFnAsync<T>;
 

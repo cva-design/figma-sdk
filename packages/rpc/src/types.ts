@@ -23,11 +23,29 @@ export interface JsonObject {
 export interface JsonArray extends Array<JsonValue> {}
 
 /**
+ * Defines methods for custom serialization and deserialization in RPC calls.
+ */
+export interface Serializer {
+  /**
+   * Converts a value into a JSON-compatible format.
+   * @param value - The value to serialize.
+   * @returns The serialized JSON value.
+   */
+  serialize: (value: any) => JsonValue;
+  /**
+   * Converts a JSON value back into its original type.
+   * @param value - The JSON value to deserialize.
+   * @returns The deserialized value.
+   */
+  deserialize: (value: JsonValue) => any;
+}
+
+/**
  * Represents a JSON-RPC request/response object
  */
 export interface JsonRpcRequest {
   jsonrpc: string;
-  method: string;
+  method?: string;
   params?: JsonArray;
   result?: JsonValue;
   id: number;
@@ -45,12 +63,19 @@ export interface InternalMethodError {
   code: number;
   message: string;
   name?: string;
+  /** Optional data field for JSON-RPC errors */
+  data?: JsonValue;
 }
+
+/**
+ * Define the sendRaw function signature
+ */
+export type SendRawFunc = (message: JsonRpcRequest) => void;
 
 /**
  * Options for RPC clients and API initialization
  */
-export interface RpcClientOptions {
+export interface RpcOptions {
   /**
    * Request timeout in milliseconds (default: 6000)
    */
@@ -60,12 +85,22 @@ export interface RpcClientOptions {
    * Enable debug logging (default: false)
    */
   debug?: boolean;
+
+  /**
+   * Custom serializer for request/response data
+   */
+  serializer?: Serializer;
+
+  /**
+   * SendRaw override function
+   */
+  sendRawOverride?: SendRawFunc;
 }
 
 /**
  * Combines a type T with RPC client options
  */
-export type RpcClient<T> = T & RpcClientOptions;
+export type RpcClient<T> = T & RpcOptions;
 
 /**
  * Dictionary of methods that can be registered with the RPC system
