@@ -1,20 +1,25 @@
+/** Represents the serialized structure of a Map object. */
 interface MapObject {
+  /** Discriminator property to identify Map objects during deserialization. */
   dataType: 'Map';
+  /** The key-value pairs of the Map, stored as an array of tuples. */
   value: [unknown, unknown][];
 }
 
 /**
  * JSON replacer function for handling complex objects like Maps during serialization.
- * @param key Property key
- * @param value Property value
- * @returns Serializable value
+ * Converts `Map` instances into a specific object structure (`MapObject`).
+ * Also handles nested Maps within objects that have a `valueSpace` property.
+ * @param _key - The property key (unused in this replacer).
+ * @param value - The property value to be potentially replaced.
+ * @returns The original value or a serializable representation if it's a Map or contains a Map in `valueSpace`.
  */
-export function JsonReplacer(_: string, value: unknown) {
+export function JsonReplacer(_key: string, value: unknown) {
   if (value instanceof Map) {
     return {
       dataType: 'Map',
       value: Array.from(value.entries()),
-    };
+    } as MapObject; // Explicitly cast to MapObject
   }
 
   // Handle objects with valueSpace containing Maps
@@ -40,11 +45,12 @@ export function JsonReplacer(_: string, value: unknown) {
 
 /**
  * JSON reviver function for reconstructing complex objects like Maps during deserialization.
- * @param key Property key
- * @param value Property value
- * @returns Deserialized value
+ * Converts objects matching the `MapObject` structure back into `Map` instances.
+ * @param _key - The property key (unused in this reviver).
+ * @param value - The property value being processed.
+ * @returns The original value or a reconstructed `Map` instance.
  */
-export function JsonReviver(_: string, value: unknown) {
+export function JsonReviver(_key: string, value: unknown) {
   if (typeof value === 'object' && value !== null) {
     const mapObj = value as MapObject;
     if (mapObj.dataType === 'Map') {
@@ -56,8 +62,8 @@ export function JsonReviver(_: string, value: unknown) {
 
 /**
  * Serializes an object to a JSON string with special handling for Maps and complex objects.
- * @param obj Object to serialize
- * @returns JSON string
+ * @param obj - Object to serialize.
+ * @returns JSON string representation of the object.
  */
 export function serialize(obj: unknown): string {
   if (obj === undefined || obj === null) {
@@ -68,28 +74,32 @@ export function serialize(obj: unknown): string {
 
 /**
  * Deserializes a JSON string back to an object with special handling for Maps.
- * @param obj JSON string to deserialize
- * @returns Deserialized object
- * @throws Error if input is not a string
+ * Uses the `JsonReviver` to reconstruct `Map` instances.
+ * @template T - The expected type of the deserialized object.
+ * @param jsonString - JSON string to deserialize.
+ * @returns The deserialized object.
+ * @throws Error if input is not a string.
  */
-export function deserialize<T>(obj: unknown): T {
-  if (typeof obj !== 'string') {
+export function deserialize<T>(jsonString: unknown): T {
+  if (typeof jsonString !== 'string') {
     throw new Error('Input must be a string');
   }
-  return JSON.parse(obj, JsonReviver);
+  return JSON.parse(jsonString, JsonReviver);
 }
 
 /**
  * Creates a deep clone of an object using serialization/deserialization.
- * @param obj Object to clone
- * @returns Deep clone of the object
+ * This method handles complex types supported by `JsonReplacer` and `JsonReviver` (like `Map`).
+ * @template T - The type of the object being cloned.
+ * @param obj - Object to clone.
+ * @returns A deep clone of the object.
  */
 export function deepClone<T>(obj: T): T {
-  return deserialize(serialize(obj)) as T;
+  return deserialize(serialize(obj)); // No need for explicit cast, deserialize returns T
 }
 
 /**
- * Helper function to serialize data for the MessageBus.
+ * Helper function to serialize data specifically for the MessageBus.
  * This handles serialization without requiring string output,
  * making it suitable for direct object serialization.
  *

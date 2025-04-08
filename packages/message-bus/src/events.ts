@@ -2,21 +2,39 @@
 import type { AutocompletableString } from './types';
 import { serialize } from './utils';
 
-// TODO: check why do we need $id and $type and document it here or remove them
+/**
+ * Defines the structure for a custom event within the message bus system.
+ * @template T - A unique string identifier for the event.
+ * @template Message - The type of the message payload associated with the event.
+ */
 export interface EventDefinition<T extends AutocompletableString, Message> {
+  /** The unique identifier for the event. */
   $id: T;
+  /** Indicates the type of this definition (always 'event'). */
   $type: 'event';
+  /** The type of the message payload for this event. */
   message: Message;
 }
 
+/**
+ * Defines the structure for a Figma-specific event.
+ * @template T - The specific Figma event type.
+ * @template Message - The type of the message payload associated with the Figma event.
+ */
 export interface FigmaEventDefinition<T extends FigmaEvent, Message> {
+  /** The specific Figma event identifier. */
   $id: T;
+  /** Indicates the type of this definition (always 'figma-event'). */
   $type: 'figma-event';
+  /** The type of the message payload for this Figma event. */
   message: Message;
 }
 
 // this enum will be filled in by
 // @code/events.ts and @ui/events.ts
+/**
+ * Enumerates standard Figma plugin API events that the message bus can handle directly.
+ */
 export enum FigmaEvent {
   /**
    * This event will trigger when the selection of the current page changes.
@@ -115,16 +133,40 @@ export enum FigmaEvent {
   TimerAdjust = 'ontimeradjust',
 }
 
+/**
+ * Represents the subset of `FigmaEvent` string literal names that do not have specific arguments
+ * in their event handlers (i.e., their handlers are of type `() => void`).
+ */
+export type ArgFreeEventType =
+  | 'selectionchange'
+  | 'currentpagechange'
+  | 'close'
+  | 'timerstart'
+  | 'timerpause'
+  | 'timerstop'
+  | 'timerdone'
+  | 'timerresume'
+  | 'timeradjust';
+
+/**
+ * Represents a registry mapping custom event IDs to their definitions.
+ * @template TEventMessageMap - An object type where keys are event IDs (strings)
+ *                              and values are the corresponding message payloads.
+ */
 export type EventRegistry<TEventMessageMap> = {
+  // Maps each key K from TEventMessageMap to an EventDefinition.
+  // Ensures that the key K is a string.
   [K in keyof TEventMessageMap]: K extends string
     ? EventDefinition<K, TEventMessageMap[K]>
     : never;
 };
 
-// this enum will be filled in by
-// @code/events.ts and @ui/events.ts
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
+/**
+ * Represents a registry mapping standard Figma event IDs (from `FigmaEvent`) to their `FigmaEventDefinition`.
+ * This type extends the basic `EventRegistry` specifically for Figma events.
+ */
 export type FigmaEventRegistry = EventRegistry<FigmaEvent> & {
+  /** Handler for the `selectionchange` Figma event. */
   [FigmaEvent.SelectionChanged]: FigmaEventDefinition<
     FigmaEvent.SelectionChanged,
     () => void
@@ -168,18 +210,22 @@ export type FigmaEventRegistry = EventRegistry<FigmaEvent> & {
   >;
 };
 
-export type FigmaEventName =
-  | ArgFreeEventType
-  | 'run'
-  | 'drop'
-  | 'documentchange';
+/** Union type representing the values of the FigmaEvent enum. */
+export type FigmaEventName = (typeof FigmaEvent)[keyof typeof FigmaEvent];
 
-export function isFigmaEvent(eventName: string): eventName is FigmaEventName {
+/**
+ * Checks if a given event name corresponds to a standard Figma event.
+ * @param eventName The name of the event to check.
+ * @returns `true` if the event name is a standard Figma event name, `false` otherwise.
+ * @throws Error if `eventName` is empty or undefined.
+ */
+export function isFigmaEvent(eventName: string): eventName is FigmaEvent {
   if (!eventName) {
     throw new Error(
       `eventName must be one of the Event enum values:${serialize(FigmaEvent)}`,
     );
   }
 
+  // Figma events don't contain ':event' which is used to namespace custom events.
   return !eventName.includes(':event');
 }

@@ -1,11 +1,18 @@
 // Copied from: https://github.com/yuanqing/create-figma-plugin/blob/main/packages/utilities/src/events.ts
+/**
+ * Represents the structure of an event handler entry used internally.
+ */
 export type EventHandler = {
+  /** The name of the event this handler listens to. */
   name: string;
+  /** The function to execute when the event is triggered. */
   handler: (...args: unknown[]) => void;
 };
 
+/** Internal registry for storing active event handlers. */
 export const eventHandlers: Record<string, EventHandler> = {};
 
+/** Internal counter for generating unique handler IDs. */
 let currentId = 0;
 
 /**
@@ -77,6 +84,12 @@ export function emit<Handler extends EventHandler>(
   }
 }
 
+/**
+ * Invokes all registered handlers for a given event name with the provided arguments.
+ * This function is intended for internal use by the message handling logic.
+ * @param name The name of the event to invoke handlers for.
+ * @param args An array of arguments to pass to the handlers.
+ */
 export function invokeEventHandler(name: string, args: Array<unknown>): void {
   for (const id in eventHandlers) {
     if (eventHandlers[id].name === name) {
@@ -93,7 +106,9 @@ if (typeof figma !== 'undefined') {
     }
   });
 } else if (typeof window !== 'undefined') {
+  // Listen for messages from the main plugin context when running in the UI context.
   window.addEventListener('message', (event: MessageEvent): void => {
+    // Check if the message is from the plugin
     if (typeof event.data.pluginMessage === 'undefined') {
       return;
     }
