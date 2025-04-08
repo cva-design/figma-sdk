@@ -74,8 +74,6 @@ export function emit<Handler extends EventHandler>(
       },
       '*',
     );
-  } else if (typeof global?.TESTING === 'undefined') {
-    throw new Error('emit is not supported in the main context');
   }
 }
 
@@ -105,6 +103,4 @@ if (typeof figma !== 'undefined') {
       invokeEventHandler(name, args);
     }
   });
-} else if (typeof global?.TESTING === 'undefined') {
-  throw new Error('TESTING is not defined');
 }

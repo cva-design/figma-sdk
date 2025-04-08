@@ -1,44 +1,22 @@
-import { vi } from 'vitest'
+import { mock } from 'bun:test';
 
-declare global {
-  interface Window {
-    parent: {
-      postMessage: (msg: unknown, targetOrigin: string) => void;
-    };
-  }
-  
-  var figma: {
-    ui: {
-      postMessage: (msg: unknown) => void;
-      on: (event: string, callback: (msg: unknown) => void) => void;
-      off: (event: string, callback: (msg: unknown) => void) => void;
-    };
-    on: (event: string, callback: (...args: unknown[]) => void) => void;
-    off: (event: string, callback: (...args: unknown[]) => void) => void;
-    currentPage: {
-      selection: unknown[];
-    };
-  };
-}
+// Keep type declarations for reference if needed, but don't rely on global assignment
+// declare global { ... }
 
-// Mock figma global
-global.figma = {
+// Create and export mocks instead of assigning to globalThis
+export const figmaMock = {
   ui: {
-    postMessage: vi.fn(),
-    on: vi.fn(),
-    off: vi.fn()
+    postMessage: mock<(...args: any[]) => void>(),
+    on: mock<(...args: any[]) => void>(),
   },
-  on: vi.fn(),
-  off: vi.fn(),
-  currentPage: {
-    selection: []
-  }
-}
+  on: mock<(...args: any[]) => void>(),
+  off: mock<(...args: any[]) => void>(),
+};
 
-// Mock window.parent
-window.parent = {
-  postMessage: vi.fn()
-}
+export const parentMock = {
+  postMessage: mock<(...args: any[]) => any>(),
+};
 
-// Mock window.addEventListener
-window.addEventListener = vi.fn() 
+// No longer assign to globalThis
+// (globalThis as any).figma = figmaMock;
+// (globalThis as any).parent = parentMock;

@@ -1,22 +1,16 @@
 {
-	"extends": "../../tsconfig.options.json",
-	"compilerOptions": {
-		"module": "ESNext",
-		"noEmit": true,
-		"emitDeclarationOnly": false,
-		"verbatimModuleSyntax": false,
-		"baseUrl": "./",
-		"paths": {
-			"@figma-plugin-sdk/message-bus": [
-				"./src/index.ts"
-			],
-			"@figma-plugin-sdk/message-bus/*": [
-				"./src/*"
-			]
-		}
-	},
-	"include": [
-		"./src/**/*",
-		"./tests/**/*"
-	]
+  "extends": "../../tsconfig.options.json",
+  "compilerOptions": {
+    "module": "ESNext",
+    "noEmit": true,
+    "emitDeclarationOnly": false,
+    "verbatimModuleSyntax": false,
+    "baseUrl": "./",
+    "types": ["@figma/plugin-typings", "bun-types"],
+    "paths": {
+      "@figma-plugin-sdk/message-bus": ["./src/index.ts"],
+      "@figma-plugin-sdk/message-bus/*": ["./src/*"]
+    }
+  },
+  "include": ["./src/**/*", "./tests/**/*"]
 }

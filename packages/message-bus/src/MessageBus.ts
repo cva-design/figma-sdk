@@ -75,16 +75,31 @@ export class MessageBusSingleton<TCommands = unknown, TEvents = unknown> {
     this.$listeners[event] = listener as Partial<EventListeners<TEvents>>[Id];
 
     if (isFigmaEvent(event as string)) {
-      figma.on(
-        event as ArgFreeEventType,
-        listener as (...args: unknown[]) => void,
-      );
-      return (): void => {
-        figma.off(
+      // Only attempt to use Figma API if the global `figma` object exists
+      if (typeof figma !== 'undefined') {
+        figma.on(
           event as ArgFreeEventType,
           listener as (...args: unknown[]) => void,
         );
-      };
+        return (): void => {
+          // Also check before using figma.off
+          if (typeof figma !== 'undefined') {
+            figma.off(
+              event as ArgFreeEventType,
+              listener as (...args: unknown[]) => void,
+            );
+          }
+        };
+      }
+
+      // If figma is not defined, warn and return a no-op deregister function
+      // This code is only reached if `typeof figma === 'undefined'`
+      console.warn(
+        `Attempted to listen to Figma event '${String(
+          event,
+        )}' in a non-Figma environment.`,
+      );
+      return () => {}; // Return a no-op function
     }
 
     return evtHandler.on(String(event), (data: unknown) => {
